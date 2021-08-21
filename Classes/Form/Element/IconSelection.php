@@ -33,14 +33,19 @@ class IconSelection extends AbstractFormElement
         $mainFieldHtml[] = '<div class="form-wizards-element">';
         $mainFieldHtml[] = '<div class="input-group">';
 
-        $mainFieldHtml[] = '<span style="background:#FFF; border:1px solid #CCC; display:block; padding: 6px 12px">';
+        $mainFieldHtml[] = '<span class="form-control-clearable" style="background:#FFF; border-radius: 2px 0 0 2px; border:1px solid #CCC; display:block; padding: 6px 12px">';
         $mainFieldHtml[] = 'icon here';
+
+
+        $mainFieldHtml[] = '<button class="close" tabindex="-1" type="button" style="visibility: visible;">';
+        $mainFieldHtml[] = $this->iconFactory->getIcon('actions-close', Icon::SIZE_SMALL)->render();
+        $mainFieldHtml[] = '</button>';
+
         $mainFieldHtml[] = '</span>';
 
         $mainFieldHtml[] = '<span class="input-group-btn">';
         $mainFieldHtml[] = '<button class="btn btn-default t3js-form-field-inputlink-explanation-toggle" type="button" title="TITLE">';
-        $mainFieldHtml[] = $this->iconFactory->getIcon('actions-version-workspaces-preview-link',
-            Icon::SIZE_SMALL)->render();
+        $mainFieldHtml[] = $this->iconFactory->getIcon('actions-search', Icon::SIZE_SMALL)->render();
         $mainFieldHtml[] = '</button>';
         $mainFieldHtml[] = '</span>';
 
