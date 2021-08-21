@@ -2,15 +2,10 @@
 
 namespace Blueways\BwIcons\Provider;
 
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 
 class FileIconProvider extends AbstractIconProvider
 {
-
-    public $test = 'few';
-
     public function getIcons(): array
     {
         $icons = [];

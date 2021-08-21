@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\Controller;
 
+use Blueways\BwIcons\Utility\HelperUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\Response;
@@ -24,25 +25,8 @@ class IconSelectionController extends ActionController
             $response = new Response();
         }
 
-        // @TODO
-        $currentPageId = 1;
-        $pageTsConfig = BackendUtility::getPagesTSconfig($currentPageId);
-        /** @var TypoScriptService $typoscriptService */
-        $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-        $extensionSettings = $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
-        $tabs = [];
-
-        foreach ($extensionSettings as $key => $providerSettings) {
-            $options = $providerSettings;
-            unset($options['_typoScriptNodeValue']);
-            $provider = GeneralUtility::makeInstance($providerSettings['_typoScriptNodeValue'], $options);
-
-            $tab = [];
-            $tab['id'] = $key;
-            $tab['title'] = $providerSettings['title'];
-            $tab['icons'] = $provider->getIcons();
-            $tabs[] = $tab;
-        }
+        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
+        $tabs = $helperUtility->getModalTabs();
 
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $templateView */
         $templateView = GeneralUtility::makeInstance(StandaloneView::class);

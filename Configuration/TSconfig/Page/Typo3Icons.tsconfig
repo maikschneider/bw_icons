@@ -8,8 +8,9 @@ mod.tx_bwicons {
 
 #	fontawesome = CssProvider
 #	fontawesome {
-#		title = Font Awesome
+#		title = FontAwesome
 #		file = EXT:bw_icons/Resources/Public/Css/fontawesome.css
+#		wrap = <i class="fa |"></i>
 #	}
 
 }

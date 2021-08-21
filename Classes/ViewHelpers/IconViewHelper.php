@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\ViewHelpers;
 
+use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -12,13 +13,20 @@ class IconViewHelper extends AbstractTagBasedViewHelper
 
     protected $tagName = 'img';
 
-    public function render()
+    public function render(): string
     {
-        if (strpos($this->arguments['icon'], 'EXT:') === 0) {
+        $this->tag->addAttribute('data-icon-name', $this->arguments['icon']);
+        /** @var HelperUtility $helperUtility */
+        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
+
+        if ($helperUtility->isFileIconProvider($this->arguments['provider'])) {
             $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
             $this->tag->addAttribute('src', $webPath);
+            return $this->tag->render();
         }
+
+        $this->tagName = $helperUtility->getTagName($this->arguments['provider']);
 
         return $this->tag->render();
     }
@@ -27,5 +35,6 @@ class IconViewHelper extends AbstractTagBasedViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('icon', 'string', 'The icon name', true);
+        $this->registerArgument('provider', 'string', 'PageTS did of the used IconProvider', true);
     }
 }
