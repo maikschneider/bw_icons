@@ -1,4 +1,4 @@
-tx_bwicons {
+mod.tx_bwicons {
 
 	typo3icons = Blueways\BwIcons\Provider\FileIconProvider
 	typo3icons {
@@ -6,10 +6,10 @@ tx_bwicons {
 		folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
 	}
 
-	fontawesome = CssProvider
-	fontawesome {
-		title = Font Awesome
-		file = EXT:bw_icons/Resources/Public/Css/fontawesome.css
-	}
+#	fontawesome = CssProvider
+#	fontawesome {
+#		title = Font Awesome
+#		file = EXT:bw_icons/Resources/Public/Css/fontawesome.css
+#	}
 
 }
