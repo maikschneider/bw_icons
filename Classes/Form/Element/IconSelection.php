@@ -3,6 +3,8 @@
 namespace Blueways\BwIcons\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class IconSelection extends AbstractFormElement
 {
@@ -14,12 +16,35 @@ class IconSelection extends AbstractFormElement
         $fieldWizardResult = $this->renderFieldWizard();
         $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
+        $parameterArray = $this->data['parameterArray'];
+        $config = $parameterArray['fieldConf']['config'];
+
+        $parameterArray = $this->data['parameterArray'];
+        $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
+
+        $defaultInputWidth = 10;
+        $size = MathUtility::forceIntegerInRange($config['size'] ?? $defaultInputWidth, $this->minimumInputWidth,
+            $this->maxInputWidth);
+        $width = (int)$this->formMaxWidth($size);
 
         $mainFieldHtml = [];
-        $mainFieldHtml[] = '<div class="form-control-wrap">';
+        $mainFieldHtml[] = '<div class="form-control-wrap" style="max-width: ' . $width . 'px">';
         $mainFieldHtml[] = '<div class="form-wizards-wrap">';
         $mainFieldHtml[] = '<div class="form-wizards-element">';
-        $mainFieldHtml[] = 'HELLO!';
+        $mainFieldHtml[] = '<div class="input-group">';
+
+        $mainFieldHtml[] = '<span style="background:#FFF; border:1px solid #CCC; display:block; padding: 6px 12px">';
+        $mainFieldHtml[] = 'icon here';
+        $mainFieldHtml[] = '</span>';
+
+        $mainFieldHtml[] = '<span class="input-group-btn">';
+        $mainFieldHtml[] = '<button class="btn btn-default t3js-form-field-inputlink-explanation-toggle" type="button" title="TITLE">';
+        $mainFieldHtml[] = $this->iconFactory->getIcon('actions-version-workspaces-preview-link',
+            Icon::SIZE_SMALL)->render();
+        $mainFieldHtml[] = '</button>';
+        $mainFieldHtml[] = '</span>';
+
+        $mainFieldHtml[] = '</div>';
         $mainFieldHtml[] = '</div>';
         $mainFieldHtml[] = '<div class="form-wizards-items-bottom">';
         $mainFieldHtml[] = $fieldWizardHtml;

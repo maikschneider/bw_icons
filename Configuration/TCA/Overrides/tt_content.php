@@ -7,8 +7,7 @@ $GLOBALS['TCA']['tt_content']['columns']['tx_bwicons_icon'] = [
     'label' => 'Icon',
     'config' => [
         'type' => 'input',
-        'renderType' => 'iconSelection',
-        'size' => 15,
+        'renderType' => 'iconSelection'
     ],
 ];
 
