@@ -13,7 +13,11 @@
 						</f:if>
 					</span>
 
-					<button class="close" tabindex="-1" type="button" style="visibility: visible;">
+
+					<button class="close"
+							tabindex="-1"
+							type="button"
+							style="visibility: {f:if(condition:itemFormElValue, then:'visible', else:'hidden')};">
 						<core:icon identifier="actions-close" size="small"/>
 					</button>
 

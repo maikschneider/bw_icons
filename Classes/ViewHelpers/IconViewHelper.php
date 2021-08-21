@@ -23,6 +23,7 @@ class IconViewHelper extends AbstractTagBasedViewHelper
             $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
             $this->tag->addAttribute('src', $webPath);
+            $this->tag->addAttribute('loading', 'lazy');
             return $this->tag->render();
         }
 

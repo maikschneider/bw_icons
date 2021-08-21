@@ -53,11 +53,16 @@ class IconSelection {
 		this.$hiddenElement.val(this.selectedIconName);
 		// @ts-ignore
 		$(this.$formElement).find('.input-icon-holder').html(icon);
+		if (this.selectedIconName) {
+			this.$formElement.find('.close').css('visibility', 'visible');
+		}
 		Modal.currentModal.trigger('modal-dismiss');
 	}
 
 	protected onClearButtonClick(e: Event) {
 		this.$formElement.find('.input-icon-holder').html('');
+		this.$formElement.find('.close').css('visibility', 'hidden');
+
 		this.$hiddenElement.val('');
 	}
 
