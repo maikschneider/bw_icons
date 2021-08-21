@@ -4,7 +4,9 @@ namespace Blueways\BwIcons\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
 {
@@ -28,39 +30,17 @@ class IconSelection extends AbstractFormElement
             $this->maxInputWidth);
         $width = (int)$this->formMaxWidth($size);
 
-        $mainFieldHtml = [];
-        $mainFieldHtml[] = '<div data-form-element="' . $parameterArray['itemFormElName'] . '" class="form-control-wrap" style="max-width: ' . $width . 'px">';
-        $mainFieldHtml[] = '<div class="form-wizards-wrap">';
-        $mainFieldHtml[] = '<div class="form-wizards-element">';
-        $mainFieldHtml[] = '<div class="input-group">';
-
-        $mainFieldHtml[] = '<span class="form-control-clearable" style="min-height:32px; background:#FFF; border-radius: 2px 0 0 2px; border:1px solid #CCC; display:grid; padding: 1px 12px; align-items: center;">';
-        $mainFieldHtml[] = '<span class="input-icon-holder">';
-        $mainFieldHtml[] = $parameterArray['itemFormElValue'];
-        $mainFieldHtml[] = '</span>';
-
-        $mainFieldHtml[] = '<button class="close" tabindex="-1" type="button" style="visibility: visible;">';
-        $mainFieldHtml[] = $this->iconFactory->getIcon('actions-close', Icon::SIZE_SMALL)->render();
-        $mainFieldHtml[] = '</button>';
-
-        $mainFieldHtml[] = '</span>';
-
-        $mainFieldHtml[] = '<span class="input-group-btn">';
-        $mainFieldHtml[] = '<button class="btn btn-default t3js-form-field-iconselection" type="button" title="Select Icon">';
-        $mainFieldHtml[] = $this->iconFactory->getIcon('actions-search', Icon::SIZE_SMALL)->render();
-        $mainFieldHtml[] = '</button>';
-        $mainFieldHtml[] = '</span>';
-
-        $mainFieldHtml[] = '</div>';
-        $mainFieldHtml[] = '</div>';
-        $mainFieldHtml[] = '<div class="form-wizards-items-bottom">';
-        $mainFieldHtml[] = $fieldWizardHtml;
-        $mainFieldHtml[] = '</div>';
-        $mainFieldHtml[] = '</div>';
-        $mainFieldHtml[] = '</div>';
-        $mainFieldHtml[] = '<style>.input-icon-holder * { max-height: 24px;}</style>';
-
-        $resultArray['html'] = implode(LF, $mainFieldHtml);
+        /** @var \TYPO3\CMS\Fluid\View\StandaloneView $templateView */
+        $templateView = GeneralUtility::makeInstance(StandaloneView::class);
+        $templateView->setTemplatePathAndFilename('EXT:bw_icons/Resources/Private/Template/FormElement.html');
+        $templateView->assignMultiple([
+            'itemFormElName' => $parameterArray['itemFormElName'],
+            'itemFormElValue' => $parameterArray['itemFormElValue'],
+            'width' => $width,
+            'fieldWizardHtml' => $fieldWizardHtml
+        ]);
+        
+        $resultArray['html'] = $templateView->render();
         return $resultArray;
     }
 }

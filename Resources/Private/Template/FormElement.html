@@ -1,0 +1,35 @@
+{namespace bw=Blueways\BwIcons\ViewHelpers}
+
+<div data-form-element="{itemFormElName}" class="form-control-wrap" style="max-width: {width}px">
+	<div class="form-wizards-wrap">
+		<div class="form-wizards-element">
+			<div class="input-group">
+
+				<span class="form-control-clearable"
+					  style="min-height:32px; background:#fff; border-radius: 2px 0 0 2px; border:1px solid #ccc; display:grid; padding: 1px 12px; align-items: center;">
+					<span class="input-icon-holder">
+						<bw:icon icon="{itemFormElValue}" provider="typo3icons"/>
+					</span>
+
+					<button class="close" tabindex="-1" type="button" style="visibility: visible;">
+						<core:icon identifier="actions-close" size="small"/>
+					</button>
+
+				</span>
+
+				<span class="input-group-btn">
+					<button class="btn btn-default t3js-form-field-iconselection" type="button" title="Select Icon">
+						<core:icon identifier="actions-search" size="small"/>
+					</button>
+				</span>
+
+			</div>
+		</div>
+		<div class="form-wizards-items-bottom">
+			{fieldWizardHtml}
+		</div>
+	</div>
+</div>
+<style>.input-icon-holder * {
+	max-height: 24px;
+}</style>
