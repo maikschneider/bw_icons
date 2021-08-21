@@ -39,7 +39,7 @@ class IconSelection extends AbstractFormElement
             'width' => $width,
             'fieldWizardHtml' => $fieldWizardHtml
         ]);
-        
+
         $resultArray['html'] = $templateView->render();
         return $resultArray;
     }
