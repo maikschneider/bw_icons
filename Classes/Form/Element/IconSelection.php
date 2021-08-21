@@ -19,9 +19,8 @@ class IconSelection extends AbstractFormElement
         $parameterArray = $this->data['parameterArray'];
         $config = $parameterArray['fieldConf']['config'];
 
-        $resultArray['requireJsModules'][] = 'TYPO3/CMS/BwIcons/IconSelection';
+        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init("' . $parameterArray['itemFormElName'] . '"); }); }'];
 
-        $parameterArray = $this->data['parameterArray'];
         $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
 
         $defaultInputWidth = 10;
@@ -30,14 +29,15 @@ class IconSelection extends AbstractFormElement
         $width = (int)$this->formMaxWidth($size);
 
         $mainFieldHtml = [];
-        $mainFieldHtml[] = '<div class="form-control-wrap" style="max-width: ' . $width . 'px">';
+        $mainFieldHtml[] = '<div data-form-element="' . $parameterArray['itemFormElName'] . '" class="form-control-wrap" style="max-width: ' . $width . 'px">';
         $mainFieldHtml[] = '<div class="form-wizards-wrap">';
         $mainFieldHtml[] = '<div class="form-wizards-element">';
         $mainFieldHtml[] = '<div class="input-group">';
 
-        $mainFieldHtml[] = '<span class="form-control-clearable" style="background:#FFF; border-radius: 2px 0 0 2px; border:1px solid #CCC; display:block; padding: 6px 12px">';
+        $mainFieldHtml[] = '<span class="form-control-clearable" style="min-height:32px; background:#FFF; border-radius: 2px 0 0 2px; border:1px solid #CCC; display:block; padding: 6px 12px">';
+        $mainFieldHtml[] = '<span class="input-icon-holder">';
         $mainFieldHtml[] = 'icon here';
-
+        $mainFieldHtml[] = '</span>';
 
         $mainFieldHtml[] = '<button class="close" tabindex="-1" type="button" style="visibility: visible;">';
         $mainFieldHtml[] = $this->iconFactory->getIcon('actions-close', Icon::SIZE_SMALL)->render();
