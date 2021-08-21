@@ -1,0 +1,80 @@
+{
+  "name": "blueways/bw-icons",
+  "type": "typo3-cms-extension",
+  "description": "TYPO3-Extension that adds a icon form element",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "icons"
+  ],
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": "public",
+      "extension-key": "bw_icons"
+    }
+  },
+  "config": {
+    "vendor-dir": "vendor",
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "authors": [
+    {
+      "name": "Maik Schneider",
+      "role": "Developer",
+      "email": "m.schneider@blueways.de",
+      "homepage": "https://www.blueways.de"
+    }
+  ],
+  "license": [
+    "GPL-3.0-or-later"
+  ],
+  "require-dev": {
+    "typo3/cms-about": "^10.4",
+    "typo3/cms-backend": "^10.4",
+    "typo3/cms-belog": "^10.4",
+    "typo3/cms-beuser": "^10.4",
+    "typo3/cms-core": "^10.4",
+    "typo3/cms-dashboard": "^10.4",
+    "typo3/cms-extbase": "^10.4",
+    "typo3/cms-extensionmanager": "^10.4",
+    "typo3/cms-felogin": "^10.4",
+    "typo3/cms-filelist": "^10.4",
+    "typo3/cms-fluid": "^10.4",
+    "typo3/cms-fluid-styled-content": "^10.4",
+    "typo3/cms-form": "^10.4",
+    "typo3/cms-frontend": "^10.4",
+    "typo3/cms-impexp": "^10.4",
+    "typo3/cms-indexed-search": "^10.4",
+    "typo3/cms-info": "^10.4",
+    "typo3/cms-install": "^10.4",
+    "typo3/cms-linkvalidator": "^10.4",
+    "typo3/cms-lowlevel": "^10.4",
+    "typo3/cms-opendocs": "^10.4",
+    "typo3/cms-recordlist": "^10.4",
+    "typo3/cms-redirects": "^10.4",
+    "typo3/cms-reports": "^10.4",
+    "typo3/cms-rte-ckeditor": "^10.4",
+    "typo3/cms-scheduler": "^10.4",
+    "typo3/cms-seo": "^10.4",
+    "typo3/cms-setup": "^10.4",
+    "typo3/cms-tstemplate": "^10.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Blueways\\BwIcons\\": "Classes/"
+    }
+  },
+  "scripts": {
+    "typo3-cms-scripts": [
+      "ln -sfn ../../../ public/typo3conf/ext/bw_icons",
+      "vendor/bin/typo3cms install:fixfolderstructure",
+      "vendor/bin/typo3cms install:generatepackagestates"
+    ],
+    "post-autoload-dump": [
+      "@typo3-cms-scripts"
+    ]
+  }
+}
