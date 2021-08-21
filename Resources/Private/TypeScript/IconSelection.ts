@@ -18,6 +18,8 @@ class IconSelection {
 	protected itemFormElName: string;
 	protected $formElement: JQuery;
 	protected $hiddenElement: JQuery;
+	protected selectedIconName: string;
+	protected currentModal;
 
 	protected onModalButtonClick(e: Event) {
 		Modal.advanced({
@@ -25,6 +27,9 @@ class IconSelection {
 			content: window.TYPO3.settings.ajaxUrls.icon_selection,
 			size: Modal.sizes.large,
 			title: 'Select Icon',
+			callback: (modal) => {
+				this.currentModal = modal;
+			},
 			ajaxCallback: this.onModalLoaded.bind(this),
 			buttons: [
 				{
@@ -36,13 +41,19 @@ class IconSelection {
 					dataAttributes: {
 						action: 'save'
 					},
-					trigger: function () {
-						Modal.currentModal.trigger('modal-dismiss');
-					}
+					trigger: this.onModalSave.bind(this)
 				}
 			]
 		});
 
+	}
+
+	protected onModalSave() {
+		const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').clone();
+		this.$hiddenElement.val(this.selectedIconName);
+		// @ts-ignore
+		$(this.$formElement).find('.input-icon-holder').html(icon);
+		Modal.currentModal.trigger('modal-dismiss');
 	}
 
 	protected onClearButtonClick(e: Event) {
@@ -51,7 +62,14 @@ class IconSelection {
 	}
 
 	protected onModalLoaded() {
+		this.currentModal.find('a.thumbnail').on('click', this.onIconClick.bind(this));
+	}
 
+	protected onIconClick(e: Event) {
+		e.preventDefault();
+		this.currentModal.find('a.thumbnail').removeClass('active');
+		this.selectedIconName = $(e.currentTarget).children().first().attr('data-icon-name');
+		$(e.currentTarget).addClass('active');
 	}
 
 	public init(itemFormElName: string) {

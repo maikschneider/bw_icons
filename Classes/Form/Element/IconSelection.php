@@ -34,9 +34,9 @@ class IconSelection extends AbstractFormElement
         $mainFieldHtml[] = '<div class="form-wizards-element">';
         $mainFieldHtml[] = '<div class="input-group">';
 
-        $mainFieldHtml[] = '<span class="form-control-clearable" style="min-height:32px; background:#FFF; border-radius: 2px 0 0 2px; border:1px solid #CCC; display:block; padding: 6px 12px">';
+        $mainFieldHtml[] = '<span class="form-control-clearable" style="min-height:32px; background:#FFF; border-radius: 2px 0 0 2px; border:1px solid #CCC; display:grid; padding: 1px 12px; align-items: center;">';
         $mainFieldHtml[] = '<span class="input-icon-holder">';
-        $mainFieldHtml[] = 'icon here';
+        $mainFieldHtml[] = $parameterArray['itemFormElValue'];
         $mainFieldHtml[] = '</span>';
 
         $mainFieldHtml[] = '<button class="close" tabindex="-1" type="button" style="visibility: visible;">';
@@ -58,6 +58,7 @@ class IconSelection extends AbstractFormElement
         $mainFieldHtml[] = '</div>';
         $mainFieldHtml[] = '</div>';
         $mainFieldHtml[] = '</div>';
+        $mainFieldHtml[] = '<style>.input-icon-holder * { max-height: 24px;}</style>';
 
         $resultArray['html'] = implode(LF, $mainFieldHtml);
         return $resultArray;
