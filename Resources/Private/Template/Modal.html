@@ -1,1 +1,24 @@
-Hello WORLD
+{namespace bw=Blueways\BwIcons\ViewHelpers}
+
+
+<ul class="nav nav-tabs">
+	<f:for each="{tabs}" as="tab">
+		<li role="presentation" class="active">
+			<a href="#">{tab.title}</a>
+		</li>
+	</f:for>
+</ul>
+
+<f:for each="{tabs}" as="tab">
+	<div id="{tab.id}" style="background: #fafafa; border: 1px solid #ccc; border-top: 0; padding: 20px 13px 0;">
+		<div class="row">
+			<f:for each="{tab.icons}" as="icon">
+				<div class="col-xs-1 col-md-1">
+					<a href="#" class="thumbnail">
+						<bw:icon icon="{icon}" />
+					</a>
+				</div>
+			</f:for>
+		</div>
+	</div>
+</f:for>
