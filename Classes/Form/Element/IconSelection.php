@@ -19,6 +19,8 @@ class IconSelection extends AbstractFormElement
         $parameterArray = $this->data['parameterArray'];
         $config = $parameterArray['fieldConf']['config'];
 
+        $resultArray['requireJsModules'][] = 'TYPO3/CMS/BwIcons/IconSelection';
+
         $parameterArray = $this->data['parameterArray'];
         $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
 

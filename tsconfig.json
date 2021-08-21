@@ -1,0 +1,45 @@
+{
+	"compilerOptions": {
+		"target": "es2017",
+		"lib": [
+			"dom",
+			"scripthost",
+			"es2017",
+			"es2018",
+			"es2019"
+		],
+		"module": "amd",
+		"sourceMap": false,
+		"removeComments": false,
+		"pretty": true,
+		"baseUrl": ".",
+		"moduleResolution": "node",
+		"alwaysStrict": true,
+		"downlevelIteration": true,
+		"experimentalDecorators": true,
+		"paths": {
+			"TYPO3/CMS/BwBookingmanager/*": [
+				"Resources/Private/TypeScript/*",
+				"Resources/Public/JavaScript/*"
+			],
+			"TYPO3/CMS/Backend/*": [
+				"public/typo3/sysext/backend/Resources/Private/TypeScript/*"
+			],
+			"TYPO3/CMS/Core/*": [
+				"public/typo3/sysext/core/Resources/Private/TypeScript/*"
+			]
+		},
+		"typeRoots": [
+			"node_modules/@types",
+			"types"
+		],
+		"outDir": "Resources/Public/JavaScript"
+	},
+	"include": [
+		"Resources/Private/TypeScript/*"
+	],
+	"exclude": [
+		"node_modules",
+		"Configuration"
+	]
+}
