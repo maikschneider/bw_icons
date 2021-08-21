@@ -1,0 +1,15 @@
+tx_bwicons {
+
+	typo3icons = Blueways\BwIcons\Provider\FileIconProvider
+	typo3icons {
+		title = TYPO3 Icons
+		folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
+	}
+
+	fontawesome = CssProvider
+	fontawesome {
+		title = Font Awesome
+		file = EXT:bw_icons/Resources/Public/Css/fontawesome.css
+	}
+
+}

@@ -18,7 +18,7 @@
 		"downlevelIteration": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"TYPO3/CMS/BwBookingmanager/*": [
+			"TYPO3/CMS/BwIcons/*": [
 				"Resources/Private/TypeScript/*",
 				"Resources/Public/JavaScript/*"
 			],

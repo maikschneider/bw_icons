@@ -46,7 +46,7 @@ class IconSelection extends AbstractFormElement
         $mainFieldHtml[] = '</span>';
 
         $mainFieldHtml[] = '<span class="input-group-btn">';
-        $mainFieldHtml[] = '<button class="btn btn-default t3js-form-field-inputlink-explanation-toggle" type="button" title="TITLE">';
+        $mainFieldHtml[] = '<button class="btn btn-default t3js-form-field-iconselection" type="button" title="Select Icon">';
         $mainFieldHtml[] = $this->iconFactory->getIcon('actions-search', Icon::SIZE_SMALL)->render();
         $mainFieldHtml[] = '</button>';
         $mainFieldHtml[] = '</span>';
