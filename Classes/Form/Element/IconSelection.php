@@ -2,8 +2,8 @@
 
 namespace Blueways\BwIcons\Form\Element;
 
+use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -22,6 +22,11 @@ class IconSelection extends AbstractFormElement
         $config = $parameterArray['fieldConf']['config'];
 
         $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init("' . $parameterArray['itemFormElName'] . '"); }); }'];
+
+        /** @var HelperUtility $helperUtil */
+        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class);
+        $styleSheets = $helperUtil->getStyleSheets();
+        $resultArray['stylesheetFiles'] = $styleSheets;
 
         $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
 

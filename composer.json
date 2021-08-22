@@ -77,5 +77,8 @@
     "post-autoload-dump": [
       "@typo3-cms-scripts"
     ]
+  },
+  "require": {
+    "sabberworm/php-css-parser": "^8.3"
   }
 }

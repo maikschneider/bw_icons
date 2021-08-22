@@ -1,15 +1,16 @@
 mod.tx_bwicons {
 
-	typo3icons = Blueways\BwIcons\Provider\FileIconProvider
-	typo3icons {
-		title = TYPO3 Icons
-		folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
-	}
+#	typo3icons = Blueways\BwIcons\Provider\FileIconProvider
+#	typo3icons {
+#		title = TYPO3 Icons
+#		folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
+#	}
 
-	font = Blueways\BwIcons\Provider\FileIconProvider
+	font = Blueways\BwIcons\Provider\CssIconProvider
 	font {
 		title = Fontawsome
-		folder = fileadmin/Fontawesome/solid
+		file = fileadmin/fontawesome/css/all.css
+		wrap = <i class="fa |"></i>||<i class="fas |"></i>
 	}
 
 #	fontawesome = CssProvider

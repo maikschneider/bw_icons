@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\Utility;
 
+use Blueways\BwIcons\Provider\CssIconProvider;
 use Blueways\BwIcons\Provider\FileIconProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
@@ -38,6 +39,26 @@ class HelperUtility
         /** @var TypoScriptService $typoscriptService */
         $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
+    }
+
+    public function getStyleSheets(): array
+    {
+        $sheets = [];
+        $settings = $this->getSettings();
+        foreach ($settings as $setting) {
+            if ($setting['_typoScriptNodeValue'] !== CssIconProvider::class) {
+                continue;
+            }
+
+            // do add ../ to path if include from extension
+            if (strpos($setting['file'], 'EXT:') === 0) {
+                $sheets[] = $setting['file'];
+                continue;
+            }
+
+            $sheets[] = '../' . $setting['file'];
+        }
+        return $sheets;
     }
 
     public function getTagName(string $providerId): string
