@@ -6,27 +6,24 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FileIconProvider extends AbstractIconProvider
 {
+
     public function getIcons(): array
     {
         $icons = [];
-        $path = GeneralUtility::getFileAbsFileName($this->options['folder']);
+        $typo3Path = $this->options['folder'];
+        $path = GeneralUtility::getFileAbsFileName($typo3Path);
         $icons[] = GeneralUtility::getFilesInDir($path);
         $folders = GeneralUtility::get_dirs($path);
 
+
         foreach ($folders as $folder) {
             $folderIcons = GeneralUtility::getFilesInDir($path . '/' . $folder);
-            $folderIcons = array_map(static function ($icon) use ($folder) {
-                return $folder . '/' . $icon;
+            $folderIcons = array_map(static function ($icon) use ($folder, $typo3Path) {
+                return $typo3Path . '/' . $folder . '/' . $icon;
             }, $folderIcons);
-            $icons[] = $folderIcons;
+            $icons[ucfirst($folder)] = $folderIcons;
         }
 
-        $icons = array_merge([], ...$icons);
-        $iconFiles = [];
-        foreach ($icons as $icon) {
-            $iconFiles[] = $this->options['folder'] . '/' . $icon;
-        }
-
-        return $iconFiles;
+        return $icons;
     }
 }

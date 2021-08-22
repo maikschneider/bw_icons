@@ -23,7 +23,7 @@ class HelperUtility
             $tab = [];
             $tab['id'] = $key;
             $tab['title'] = $providerSettings['title'];
-            $tab['icons'] = $provider->getIcons();
+            $tab['folders'] = $provider->getIcons();
             $tabs[] = $tab;
         }
 

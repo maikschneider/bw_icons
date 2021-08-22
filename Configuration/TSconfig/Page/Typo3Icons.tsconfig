@@ -6,6 +6,12 @@ mod.tx_bwicons {
 		folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
 	}
 
+	typo3icons = Blueways\BwIcons\Provider\FileIconProvider
+	typo3icons {
+		title = Fontawsome
+		folder = fileadmin/Fontawesome
+	}
+
 #	fontawesome = CssProvider
 #	fontawesome {
 #		title = FontAwesome

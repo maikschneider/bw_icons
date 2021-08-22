@@ -10,27 +10,48 @@
 </ul>
 
 <f:for each="{tabs}" as="tab">
-	<div class="tab-content tab-content--subnav" id="{tab.id}">
+	<div class="tab-content {f:if(condition:'{tab.folders->f:count()}>1', then:'tab-content--subnav')}" id="{tab.id}">
 
-		<div class="list-group">
-			<a href="#" class="list-group-item active">
-				Cras justo odio
-			</a>
-			<a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-			<a href="#" class="list-group-item">Morbi leo risus</a>
-			<a href="#" class="list-group-item">Porta ac consectetur ac</a>
-			<a href="#" class="list-group-item">Vestibulum at eros</a>
-		</div>
-
-		<div class="icongrid">
-			<f:for each="{tab.icons}" as="icon">
-				<div class="griditem">
-					<a href="#" class="thumbnail">
-						<bw:icon icon="{icon}" provider="{tab.id}"/>
-					</a>
+		<f:if condition="{tab.folders->f:count()}>1">
+			<div>
+				<div class="list-group">
+					<f:for each="{tab.folders}" key="folderName" as="folder">
+						<f:if condition="{folderName}">
+							<a href="#{folderName}" class="list-group-item">
+								<span class="badge">{folder->f:count()}</span>
+								{folderName}
+							</a>
+						</f:if>
+					</f:for>
 				</div>
+			</div>
+		</f:if>
+
+		<div>
+
+			<f:for each="{tab.folders}" key="folderName" as="folder">
+
+				<f:if condition="{folderName}">
+					<h1 id="{folderName}">{folderName} </h1>
+				</f:if>
+
+				<f:if condition="{folder->f:count()}">
+
+					<div class="icongrid">
+						<f:for each="{folder}" as="icon">
+							<div class="griditem">
+								<a href="#" class="thumbnail">
+									<bw:icon icon="{icon}" provider="{tab.id}"/>
+								</a>
+							</div>
+						</f:for>
+					</div>
+				</f:if>
+
 			</f:for>
+
 		</div>
+
 	</div>
 </f:for>
 
@@ -72,5 +93,19 @@
 		margin-bottom: 0;
 		display: grid;
 		align-content: center;
+	}
+
+	h1 {
+		border-bottom: 1px solid #000;
+	}
+
+	.icongrid + h1 {
+		margin-top: 50px;
+	}
+
+	.list-group {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
 	}
 </style>
