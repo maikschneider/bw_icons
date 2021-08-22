@@ -30,10 +30,35 @@
 
 		<div>
 
+			<div class="filter">
+
+
+				<div class="input-group">
+
+					<span class="t3js-form-field-inputlink-icon input-group-addon">
+						<core:icon identifier="actions-filter" size="small"/>
+					</span>
+
+					<span class="form-control-clearable">
+
+						<input class="form-control search" placeholder="Filter..." autocomplete="off"/>
+
+
+						<button class="close" tabindex="-1" type="button" style="visibility: visible">
+							<core:icon identifier="actions-close" size="small"/>
+						</button>
+
+					</span>
+				</div>
+			</div>
+
 			<f:for each="{tab.folders}" key="folderName" as="folder">
 
 				<f:if condition="{folderName}">
 					<h1 id="{folderName}">{folderName} </h1>
+				</f:if>
+				<f:if condition="!{folderName} && {folder->f:count()}">
+					<h1>{folder->f:count()} Icons</h1>
 				</f:if>
 
 				<f:if condition="{folder->f:count()}">
@@ -102,15 +127,26 @@
 
 	h1 {
 		border-bottom: 1px solid #000;
+		padding-top: 12px;
 	}
 
 	.icongrid + h1 {
-		margin-top: 50px;
+		margin-top: 38px;
 	}
 
 	.list-group {
 		position: -webkit-sticky;
 		position: sticky;
 		top: 0;
+	}
+
+	.filter {
+		margin-bottom: -20px;
+		display: grid;
+		justify-content: end;
+	}
+
+	.filter input.search {
+		border-radius: 0 2px 2px 0;
 	}
 </style>
