@@ -69,6 +69,37 @@ class IconSelection {
 	protected onModalLoaded() {
 		this.currentModal.find('a.thumbnail').on('click', this.onIconClick.bind(this));
 		this.currentModal.find('.nav-tabs a').on('click', this.onNavTabClick.bind(this));
+		this.currentModal.find('input.search').on('input', this.onFilterInput.bind(this));
+	}
+
+	protected onFilterInput(e: Event) {
+		const searchPhrase = $(e.currentTarget).val();
+		const $tabContent = $(e.currentTarget).closest('.tab-content');
+
+		// reset all items
+		$tabContent.find('.griditem').removeClass('hidden');
+		$tabContent.find('h1').removeClass('hidden');
+		$tabContent.find('.list-group-item').removeClass('hidden');
+		$tabContent.find('.icongrid').removeClass('hidden');
+
+		// filter items
+		if (searchPhrase) {
+			$tabContent.find('*[data-icon-name]').parent().parent().addClass('hidden');
+			$tabContent.find('*[data-icon-base-name*="' + searchPhrase + '"]').parent().parent().removeClass('hidden');
+		}
+
+		// update counter
+		$('.list-group-item', $tabContent).each(function (i, el) {
+			const id = $(el).attr('href');
+			const numberOfItems = $tabContent.find('h1' + id + ' + .icongrid .griditem:not(.hidden)').length;
+			// @ts-ignore
+			$('span', el).html(numberOfItems);
+			if (numberOfItems === 0) {
+				$tabContent.find('h1' + id).addClass('hidden');
+				$tabContent.find('h1' + id + ' + .icongrid').addClass('hidden');
+				$(el).addClass('hidden');
+			}
+		});
 	}
 
 	protected onNavTabClick(e: Event) {

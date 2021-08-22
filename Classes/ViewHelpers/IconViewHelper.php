@@ -15,13 +15,21 @@ class IconViewHelper extends AbstractTagBasedViewHelper
 
     public function render(): string
     {
-        $this->tag->addAttribute('data-icon-name', $this->arguments['icon']);
+
         /** @var HelperUtility $helperUtility */
         $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
+        $this->tag->addAttribute('data-icon-name', $this->arguments['icon']);
+        $this->tag->addAttribute('data-icon-base-name', $this->arguments['icon']);
 
         if ($helperUtility->isFileIconProvider($this->arguments['provider'])) {
             $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
+
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+            $baseName = basename($path, '.' . $extension);
+
+            $this->tag->addAttribute('data-icon-base-name', $baseName);
+            $this->tag->addAttribute('src', $webPath);
             $this->tag->addAttribute('src', $webPath);
             $this->tag->addAttribute('loading', 'lazy');
             return $this->tag->render();
