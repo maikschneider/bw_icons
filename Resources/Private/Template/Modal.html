@@ -1,6 +1,5 @@
 {namespace bw=Blueways\BwIcons\ViewHelpers}
 
-
 <ul class="nav nav-tabs">
 	<f:for each="{tabs}" as="tab" iteration="i">
 		<li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
@@ -31,23 +30,15 @@
 		<div>
 
 			<div class="filter">
-
-
 				<div class="input-group">
-
 					<span class="t3js-form-field-inputlink-icon input-group-addon">
 						<core:icon identifier="actions-filter" size="small"/>
 					</span>
-
 					<span class="form-control-clearable">
-
 						<input class="form-control search" placeholder="Filter..." autocomplete="off"/>
-
-
 						<button class="close" tabindex="-1" type="button" style="visibility: visible">
 							<core:icon identifier="actions-close" size="small"/>
 						</button>
-
 					</span>
 				</div>
 			</div>
