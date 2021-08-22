@@ -70,6 +70,12 @@ class IconSelection {
 		this.currentModal.find('a.thumbnail').on('click', this.onIconClick.bind(this));
 		this.currentModal.find('.nav-tabs a').on('click', this.onNavTabClick.bind(this));
 		this.currentModal.find('input.search').on('input', this.onFilterInput.bind(this));
+		this.currentModal.find('.close').on('click', this.onFilterResetClick.bind(this));
+	}
+
+	protected onFilterResetClick(e: Event) {
+		$(e.currentTarget).parent().find('.search').val('');
+		this.currentModal.find('input.search').trigger('input');
 	}
 
 	protected onFilterInput(e: Event) {
@@ -81,11 +87,13 @@ class IconSelection {
 		$tabContent.find('h1').removeClass('hidden');
 		$tabContent.find('.list-group-item').removeClass('hidden');
 		$tabContent.find('.icongrid').removeClass('hidden');
+		$tabContent.find('.close').css('visibility', 'hidden');
 
 		// filter items
 		if (searchPhrase) {
 			$tabContent.find('*[data-icon-name]').parent().parent().addClass('hidden');
 			$tabContent.find('*[data-icon-base-name*="' + searchPhrase + '"]').parent().parent().removeClass('hidden');
+			$tabContent.find('.close').css('visibility', 'visible');
 		}
 
 		// update counter

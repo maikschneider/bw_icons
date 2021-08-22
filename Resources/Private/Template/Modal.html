@@ -29,19 +29,19 @@
 
 		<div>
 
-			<div class="filter">
+			<form class="filter">
 				<div class="input-group">
 					<span class="t3js-form-field-inputlink-icon input-group-addon">
 						<core:icon identifier="actions-filter" size="small"/>
 					</span>
 					<span class="form-control-clearable">
 						<input class="form-control search" placeholder="Filter..." autocomplete="off"/>
-						<button class="close" tabindex="-1" type="button" style="visibility: visible">
+						<button class="close" tabindex="-1" type="button" style="visibility: hidden">
 							<core:icon identifier="actions-close" size="small"/>
 						</button>
 					</span>
 				</div>
-			</div>
+			</form>
 
 			<f:for each="{tab.folders}" key="folderName" as="folder">
 
@@ -107,7 +107,8 @@
 
 	.griditem img {
 		width: 100%;
-		max-height: 50px;
+		max-height: 40px;
+		max-width: 40px;
 	}
 
 	.thumbnail {
