@@ -2,15 +2,16 @@
 
 
 <ul class="nav nav-tabs">
-	<f:for each="{tabs}" as="tab">
-		<li role="presentation" class="active">
-			<a href="#">{tab.title}</a>
+	<f:for each="{tabs}" as="tab" iteration="i">
+		<li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
+			<a href="#{tab.id}">{tab.title}</a>
 		</li>
 	</f:for>
 </ul>
 
-<f:for each="{tabs}" as="tab">
-	<div class="tab-content {f:if(condition:'{tab.folders->f:count()}>1', then:'tab-content--subnav')}" id="{tab.id}">
+<f:for each="{tabs}" as="tab" iteration="i">
+	<div class="tab-content {f:if(condition:'{tab.folders->f:count()}>1', then:'tab-content--subnav')} {f:if(condition:i.isFirst, then:'active')}"
+		 id="{tab.id}">
 
 		<f:if condition="{tab.folders->f:count()}>1">
 			<div>
@@ -61,10 +62,14 @@
 		border: 1px solid #ccc;
 		border-top: 0;
 		padding: 20px 13px 0;
+		display: none;
+	}
+
+	.tab-content.active {
+		display: grid;
 	}
 
 	.tab-content--subnav {
-		display: grid;
 		grid-template-columns: minmax(100px, 220px) auto;
 		gap: 20px;
 	}

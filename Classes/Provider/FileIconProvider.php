@@ -12,10 +12,15 @@ class FileIconProvider extends AbstractIconProvider
         $icons = [];
         $typo3Path = $this->options['folder'];
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
-        $icons[] = GeneralUtility::getFilesInDir($path);
         $folders = GeneralUtility::get_dirs($path);
 
+        // icons in root dir
+        $icons[] = GeneralUtility::getFilesInDir($path);
+        $icons[0] = array_map(static function ($icon) use ($typo3Path) {
+            return $typo3Path . '/' . $icon;
+        }, $icons[0]);
 
+        // icons in sub dirs
         foreach ($folders as $folder) {
             $folderIcons = GeneralUtility::getFilesInDir($path . '/' . $folder);
             $folderIcons = array_map(static function ($icon) use ($folder, $typo3Path) {

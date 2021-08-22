@@ -68,6 +68,16 @@ class IconSelection {
 
 	protected onModalLoaded() {
 		this.currentModal.find('a.thumbnail').on('click', this.onIconClick.bind(this));
+		this.currentModal.find('.nav-tabs a').on('click', this.onNavTabClick.bind(this));
+	}
+
+	protected onNavTabClick(e: Event) {
+		e.preventDefault();
+		const tabName = $(e.currentTarget).attr('href').substr(1);
+		this.currentModal.find('.nav-tabs li').removeClass('active');
+		this.currentModal.find('.nav-tabs a[href="#' + tabName + '"]').parent().addClass('active');
+		this.currentModal.find('.tab-content').removeClass('active');
+		this.currentModal.find('.tab-content#' + tabName).addClass('active');
 	}
 
 	protected onIconClick(e: Event) {
