@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\Provider;
 
+use Blueways\BwIcons\Utility\SvgReaderUtility;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Value\URL;
@@ -15,6 +16,8 @@ class CssIconProvider extends AbstractIconProvider
         $typo3Path = $this->options['file'];
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
         $folderDir = pathinfo($path, PATHINFO_DIRNAME);
+        /** @var SvgReaderUtility $svgReaderUtility */
+    $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
 
         $parser = new \Sabberworm\CSS\Parser(file_get_contents($path));
         $cssDocument = $parser->parse();
@@ -52,7 +55,7 @@ class CssIconProvider extends AbstractIconProvider
             return $rules[0]->getValue();
         }, $fontFaces);
 
-        // extract all css classes that display icons
+        // extract all css classes that display icons @TODO: check for content: "xyz"
         $cssGlyphs = array_filter($allRules, function ($declarationBlock) {
             if (!is_a($declarationBlock, DeclarationBlock::class) || count($declarationBlock->getSelectors()) !== 1) {
                 return false;
@@ -66,11 +69,21 @@ class CssIconProvider extends AbstractIconProvider
 
         // build tab modal markup
         $tabs = [];
-        foreach ($fontFamilies as $family) {
+        foreach ($fontFamilies as $key => $family) {
+
+            // filter glyphs for the ones in font file
+            $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
+            $availableGlyphs = array_filter($cssGlyphs, function($cssGlyph) use ($fontGlyphs) {
+                $rules = $cssGlyph->getRules('content');
+                $glyphString = $rules[0]->getValue()->getString();
+                return in_array($glyphString, $fontGlyphs, true);
+            });
+
+            // map icons to class names
             $icons = array_map(function ($declarationBlock) {
                 // @TODO check if glyph is in that font face (via svg font lookup)
                 return str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
-            }, $cssGlyphs);
+            }, $availableGlyphs);
 
             $fontName = $family->getString();
 

@@ -79,6 +79,8 @@
     ]
   },
   "require": {
-    "sabberworm/php-css-parser": "^8.3"
+    "sabberworm/php-css-parser": "^8.3",
+    "ext-simplexml": "*",
+    "ext-json": "*"
   }
 }
