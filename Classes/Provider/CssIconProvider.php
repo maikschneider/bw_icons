@@ -4,6 +4,7 @@ namespace Blueways\BwIcons\Provider;
 
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Sabberworm\CSS\Value\URL;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CssIconProvider extends AbstractIconProvider
@@ -13,52 +14,69 @@ class CssIconProvider extends AbstractIconProvider
     {
         $typo3Path = $this->options['file'];
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
+        $folderDir = pathinfo($path, PATHINFO_DIRNAME);
 
         $parser = new \Sabberworm\CSS\Parser(file_get_contents($path));
         $cssDocument = $parser->parse();
         $allRules = $cssDocument->getAllRuleSets();
 
+        // extract @font-face declaration
         $fontFaces = array_filter($allRules, function ($rule) {
             return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
         });
+
+        // get paths to the svg font files
+        $svgFonts = array_map(function ($ruleSet) use ($folderDir) {
+            $rules = $ruleSet->getRules('src');
+            foreach ($rules as $rule) {
+                $values = $rule->getValues();
+                foreach ($values as $value) {
+                    foreach ($value as $part) {
+                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.svg')) {
+                            // combine relative path with absolute path from css file
+                            // remove possible #fontawesome at end
+                            // merge paths
+                            $relativePath = $part->getURL()->getString();
+                            $absolutePath = $folderDir . '/' . $relativePath;
+                            return realpath(substr($absolutePath, 0, strpos($absolutePath, '#')));
+                        }
+                    }
+                }
+            }
+            return '';
+        }, $fontFaces);
+
+        // get different font-families
         $fontFamilies = array_map(function ($ruleSet) {
             $rules = $ruleSet->getRules('font-family');
             return $rules[0]->getValue();
         }, $fontFaces);
 
+        // extract all css classes that display icons
         $cssGlyphs = array_filter($allRules, function ($declarationBlock) {
             if (!is_a($declarationBlock, DeclarationBlock::class) || count($declarationBlock->getSelectors()) !== 1) {
                 return false;
             }
             $selector = $declarationBlock->getSelectors()[0]->getSelector();
-            if (strlen($selector) < 7) {
+            if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
                 return false;
             }
             return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
         });
 
-        return [];
+        // build tab modal markup
+        $tabs = [];
+        foreach ($fontFamilies as $family) {
+            $icons = array_map(function ($declarationBlock) {
+                // @TODO check if glyph is in that font face (via svg font lookup)
+                return str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
+            }, $cssGlyphs);
 
-        $icons = [];
-        $typo3Path = $this->options['folder'];
-        $path = GeneralUtility::getFileAbsFileName($typo3Path);
-        $folders = GeneralUtility::get_dirs($path);
+            $fontName = $family->getString();
 
-        // icons in root dir
-        $icons[] = GeneralUtility::getFilesInDir($path);
-        $icons[0] = array_map(static function ($icon) use ($typo3Path) {
-            return $typo3Path . '/' . $icon;
-        }, $icons[0]);
-
-        // icons in sub dirs
-        foreach ($folders as $folder) {
-            $folderIcons = GeneralUtility::getFilesInDir($path . '/' . $folder);
-            $folderIcons = array_map(static function ($icon) use ($folder, $typo3Path) {
-                return $typo3Path . '/' . $folder . '/' . $icon;
-            }, $folderIcons);
-            $icons[ucfirst($folder)] = $folderIcons;
+            $tabs[$fontName] = $icons;
         }
 
-        return $icons;
+        return $tabs;
     }
 }

@@ -126,7 +126,14 @@ class IconSelection {
 		$(e.currentTarget).addClass('active');
 	}
 
-	public init(itemFormElName: string) {
+	public init(itemFormElName: string, styleSheets: []) {
+
+		// add stylesheet to global frame (to display icons in modal)
+		styleSheets.forEach((sheet) => {
+			parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
+				'beforeend',
+				'<link rel="stylesheet" href="' + sheet + '" />');
+		});
 
 		// cache dom
 		this.itemFormElName = itemFormElName;

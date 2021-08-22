@@ -21,12 +21,15 @@ class IconSelection extends AbstractFormElement
         $parameterArray = $this->data['parameterArray'];
         $config = $parameterArray['fieldConf']['config'];
 
-        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init("' . $parameterArray['itemFormElName'] . '"); }); }'];
-
         /** @var HelperUtility $helperUtil */
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class);
         $styleSheets = $helperUtil->getStyleSheets();
         $resultArray['stylesheetFiles'] = $styleSheets;
+        $jsSheetArray = implode(',', array_map(function ($sheet) {
+            return '"' . $sheet . '"';
+        }, $styleSheets));
+
+        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init("' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
 
         $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
 

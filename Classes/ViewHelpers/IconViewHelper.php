@@ -11,7 +11,7 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 class IconViewHelper extends AbstractTagBasedViewHelper
 {
 
-    protected $tagName = 'img';
+    protected $tagName = 'i';
 
     public function render(): string
     {
@@ -35,7 +35,10 @@ class IconViewHelper extends AbstractTagBasedViewHelper
             return $this->tag->render();
         }
 
+        // @TODO: change viewHelper to render different tags
         $this->tagName = $helperUtility->getTagName($this->arguments['provider']);
+        $this->tag->addAttribute('class', $this->arguments['icon']);
+        $this->tag->forceClosingTag(true);
 
         return $this->tag->render();
     }
