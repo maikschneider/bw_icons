@@ -25,24 +25,18 @@ class HelperUtility
     public function getModalTabs(): array
     {
         $extensionSettings = $this->getSettings();
-        $cacheIdentifier = md5(serialize($extensionSettings));
-        $cache = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class)->getCache('bwicons_conf');
+        $tabs = [];
 
-        if (($tabs = $cache->get($cacheIdentifier)) === false) {
+        foreach ($extensionSettings as $key => $providerSettings) {
 
-            $tabs = [];
-            foreach ($extensionSettings as $key => $providerSettings) {
-                $options = $providerSettings;
-                unset($options['_typoScriptNodeValue']);
-                $provider = GeneralUtility::makeInstance($providerSettings['_typoScriptNodeValue'], $options);
-                $tab = [];
-                $tab['id'] = $key;
-                $tab['title'] = $providerSettings['title'];
-                $tab['folders'] = $provider->getIcons();
-                $tabs[] = $tab;
-            }
-            $cache->set($cacheIdentifier, $tabs, [], 0);
+            $tab = [];
+            $tab['id'] = $key;
+            $tab['title'] = $providerSettings['title'];
+            $tab['folders'] = $this->getModalConfFromSettings($key, $providerSettings);
+
+            $tabs[] = $tab;
         }
+
         return $tabs;
     }
 
@@ -52,6 +46,26 @@ class HelperUtility
         /** @var TypoScriptService $typoscriptService */
         $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
+    }
+
+    protected function getModalConfFromSettings($key, $providerSettings)
+    {
+        $cacheIdentifier = $key;
+        $cache = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class)->getCache('bwicons_conf');
+
+        if (($value = $cache->get($cacheIdentifier)) === false) {
+
+            // construct Provider and get conf
+            $options = $providerSettings;
+            unset($options['_typoScriptNodeValue']);
+            $provider = GeneralUtility::makeInstance($providerSettings['_typoScriptNodeValue'], $options);
+            $value = $provider->getIcons();
+
+            // save conf
+            $cache->set($cacheIdentifier, $value, [], 0);
+        }
+
+        return $value;
     }
 
     public function getStyleSheets(): array
