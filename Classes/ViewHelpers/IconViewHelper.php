@@ -21,6 +21,7 @@ class IconViewHelper extends AbstractTagBasedViewHelper
         $this->tag->addAttribute('data-icon-name', $this->arguments['icon']);
         $this->tag->addAttribute('data-icon-base-name', $this->arguments['icon']);
 
+        // @TODO: just check for "."
         if ($helperUtility->isFileIconProvider($this->arguments['provider'])) {
             $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);

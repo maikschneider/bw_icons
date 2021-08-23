@@ -24,12 +24,12 @@ class CssIconProvider extends AbstractIconProvider
         $allRules = $cssDocument->getAllRuleSets();
 
         // extract @font-face declaration
-        $fontFaces = array_filter($allRules, function ($rule) {
+        $fontFaces = array_filter($allRules, static function ($rule) {
             return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
         });
 
         // get paths to the svg font files
-        $svgFonts = array_map(function ($ruleSet) use ($folderDir) {
+        $svgFonts = array_map(static function ($ruleSet) use ($folderDir) {
             $rules = $ruleSet->getRules('src');
             foreach ($rules as $rule) {
                 $values = $rule->getValues();
@@ -50,13 +50,13 @@ class CssIconProvider extends AbstractIconProvider
         }, $fontFaces);
 
         // get different font-families
-        $fontFamilies = array_map(function ($ruleSet) {
+        $fontFamilies = array_map(static function ($ruleSet) {
             $rules = $ruleSet->getRules('font-family');
             return $rules[0]->getValue();
         }, $fontFaces);
 
         // extract all css classes that probably display icons
-        $cssGlyphs = array_filter($allRules, function ($declarationBlock) {
+        $cssGlyphs = array_filter($allRules, static function ($declarationBlock) {
             // validate that declaration has content property and exactly one selector
             if (!is_a($declarationBlock, DeclarationBlock::class)
                 || count($declarationBlock->getSelectors()) !== 1
@@ -81,9 +81,14 @@ class CssIconProvider extends AbstractIconProvider
         $tabs = [];
         foreach ($fontFamilies as $key => $family) {
 
+            // abort if no svg font found
+            if (!$svgFonts[$key]) {
+                continue;
+            }
+
             // filter glyphs for the ones in font file
             $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
-            $availableGlyphs = array_filter($cssGlyphs, function ($cssGlyph) use ($fontGlyphs) {
+            $availableGlyphs = array_filter($cssGlyphs, static function ($cssGlyph) use ($fontGlyphs) {
                 $rules = $cssGlyph->getRules('content');
                 $glyphString = $rules[0]->getValue()->getString();
                 return in_array($glyphString, $fontGlyphs, true);
@@ -92,7 +97,7 @@ class CssIconProvider extends AbstractIconProvider
             $fontFamilyPrefix = 'fab ';
 
             // map icons to class names
-            $icons = array_map(function ($declarationBlock) use ($fontFamilyPrefix) {
+            $icons = array_map(static function ($declarationBlock) use ($fontFamilyPrefix) {
                 return $fontFamilyPrefix . str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
             }, $availableGlyphs);
 
