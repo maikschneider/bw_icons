@@ -17,7 +17,7 @@ class CssIconProvider extends AbstractIconProvider
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
         $folderDir = pathinfo($path, PATHINFO_DIRNAME);
         /** @var SvgReaderUtility $svgReaderUtility */
-    $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
+        $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
 
         $parser = new \Sabberworm\CSS\Parser(file_get_contents($path));
         $cssDocument = $parser->parse();
@@ -55,11 +55,21 @@ class CssIconProvider extends AbstractIconProvider
             return $rules[0]->getValue();
         }, $fontFaces);
 
-        // extract all css classes that display icons @TODO: check for content: "xyz"
+        // extract all css classes that probably display icons
         $cssGlyphs = array_filter($allRules, function ($declarationBlock) {
-            if (!is_a($declarationBlock, DeclarationBlock::class) || count($declarationBlock->getSelectors()) !== 1) {
+            // validate that declaration has content property and exactly one selector
+            if (!is_a($declarationBlock, DeclarationBlock::class)
+                || count($declarationBlock->getSelectors()) !== 1
+                || count($declarationBlock->getRules('content')) !== 1
+            ) {
                 return false;
             }
+            // validate content-property (exists and is not "")
+            $contentRule = $declarationBlock->getRules('content')[0];
+            if (!$contentRule || !$contentRule->getValue() || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+                return false;
+            }
+            // validate selector (is class and has :before or :after)
             $selector = $declarationBlock->getSelectors()[0]->getSelector();
             if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
                 return false;
@@ -73,7 +83,7 @@ class CssIconProvider extends AbstractIconProvider
 
             // filter glyphs for the ones in font file
             $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
-            $availableGlyphs = array_filter($cssGlyphs, function($cssGlyph) use ($fontGlyphs) {
+            $availableGlyphs = array_filter($cssGlyphs, function ($cssGlyph) use ($fontGlyphs) {
                 $rules = $cssGlyph->getRules('content');
                 $glyphString = $rules[0]->getValue()->getString();
                 return in_array($glyphString, $fontGlyphs, true);
