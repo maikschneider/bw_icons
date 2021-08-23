@@ -15,10 +15,11 @@ or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds
    ```
 
 2. Include PageTS
-   Enable the extension in the Extension Manager and include the **static PageTS** for TYPO3 core icons or set up your
-   own icons. See [Configuration](#Configuration).
+   
+   Enable the extension in the Extension Manager and include the **static PageTS** for TYPO3 core icons or set up your own icons. See [Configuration](#Configuration).
 
 3. Enable icons for tt_content and/or pages
+   
    In the extension settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable the icon fields. If
    you want to use it for other tables, see [For developers](#For developers).
 
