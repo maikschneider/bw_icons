@@ -54,8 +54,14 @@ class CssIconProvider extends AbstractIconProvider
 
         // get different font-families
         $fontFamilies = array_map(static function ($ruleSet) {
-            $rules = $ruleSet->getRules('font-family');
-            return $rules[0]->getValue();
+            $familyRules = $ruleSet->getRules('font-family');
+            $weightRules = $ruleSet->getRules('font-weight');
+            $styleRules = $ruleSet->getRules('font-style');
+            return [
+              'font-family' => $familyRules[0]->getValue()->getString(),
+              'weight' => count($weightRules) ? $weightRules[0]->getValue() : '',
+              'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
+            ];
         }, $fontFaces);
 
         // extract all css classes that probably display icons
@@ -82,7 +88,7 @@ class CssIconProvider extends AbstractIconProvider
 
         // build tab modal markup
         $tabs = [];
-        foreach ($fontFamilies as $key => $family) {
+        foreach ($fontFamilies as $key => $font) {
 
             // abort if no svg font found
             if (!$svgFonts[$key]) {
@@ -104,9 +110,16 @@ class CssIconProvider extends AbstractIconProvider
                 return $fontFamilyPrefix . str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
             }, $availableGlyphs);
 
-            $fontName = $family->getString();
+            $fontName = $font['font-family'];
 
             $tabs[$fontName] = $icons;
+        }
+
+        // remove array offset (font-family name) if only one tab
+        if (count($fontFamilies) === 1) {
+            $singleTab = array_reverse($tabs);
+            $singleTab = array_pop($singleTab);
+            return [$singleTab];
         }
 
         return $tabs;
