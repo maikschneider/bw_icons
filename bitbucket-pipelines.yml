@@ -17,7 +17,7 @@ pipelines:
             - export TYPO3_EXT_VERSION=$(cat ext_emconf.php | grep version* | grep -Po "(\d+\.)+\d+")
             - npm install
             - npm run build
-            - rm -rf Tests .editorconfig .gitignore .ddev bitbucket-pipelines.yml composer.lock package.json tsconfig.json webpack.*.js  Gruntfile.js vendor public Build package-lock.json bin node_modules Resources/Private/TypeScript Resources/Private/Scss
+            - rm -rf Tests .editorconfig .gitignore .ddev bitbucket-pipelines.yml composer.lock package.json tsconfig.json webpack.*.js  Gruntfile.js vendor public Build package-lock.json bin node_modules Resources/Private/TypeScript Resources/Private/Scss config
             - git add */.*
             - 'if [[ $(git status --porcelain --untracked-files=no | wc -l) -gt "0" ]]; then git commit -a -m "build: $BITBUCKET_COMMIT_SHORT" --message "$GIT_LOG" || true; fi'
             - 'if [ "$TYPO3_EXT_VERSION" != "$LATEST_TAG" ]; then git tag -a "v$TYPO3_EXT_VERSION" -m ""; fi'
