@@ -1,0 +1,4 @@
+# cat=basic/enable; type=boolean; label=Icon in tt_content element
+tt_content = 0
+# cat=basic/enable; type=boolean; label=Icon in pages element
+pages = 0
