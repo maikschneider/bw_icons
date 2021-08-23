@@ -158,6 +158,7 @@ class CssIconProvider extends AbstractIconProvider
                 return $fontFamilyPrefix . str_replace([':before', ':after', '.'], '',
                         $declarationBlock->getSelectors()[0]->getSelector());
             }, $availableGlyphs);
+            $icons = array_values($icons);
 
             $tabs[$fontName] = $icons;
         }

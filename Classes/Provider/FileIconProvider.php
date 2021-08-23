@@ -19,6 +19,7 @@ class FileIconProvider extends AbstractIconProvider
         $icons[0] = array_map(static function ($icon) use ($typo3Path) {
             return $typo3Path . '/' . $icon;
         }, $icons[0]);
+        $icons[0] = array_values($icons[0]);
 
         // icons in sub dirs
         foreach ($folders as $folder) {
@@ -26,6 +27,7 @@ class FileIconProvider extends AbstractIconProvider
             $folderIcons = array_map(static function ($icon) use ($folder, $typo3Path) {
                 return $typo3Path . '/' . $folder . '/' . $icon;
             }, $folderIcons);
+            $folderIcons = array_values($folderIcons);
             $icons[ucfirst($folder)] = $folderIcons;
         }
 
