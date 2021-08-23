@@ -89,10 +89,11 @@ class CssIconProvider extends AbstractIconProvider
                 return in_array($glyphString, $fontGlyphs, true);
             });
 
+            $fontFamilyPrefix = 'fab ';
+
             // map icons to class names
-            $icons = array_map(function ($declarationBlock) {
-                // @TODO check if glyph is in that font face (via svg font lookup)
-                return str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
+            $icons = array_map(function ($declarationBlock) use ($fontFamilyPrefix) {
+                return $fontFamilyPrefix . str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
             }, $availableGlyphs);
 
             $fontName = $family->getString();
