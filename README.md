@@ -30,7 +30,7 @@ or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds
 The displayed icons are set up via PageTS. Choose a unique identifier and select `FileIconProvider` if you want to add
 image files from a directory or `CssIconProvider` if you want to display font icons from a stylesheet.
 
-```typo3_typoscript
+```
 mod.tx_bwicons {
 
     # Get icons from directory and subdirectory. Subdirectories become sidebar links.
@@ -54,7 +54,6 @@ mod.tx_bwicons {
 ### Usage in other tables
 
 1. Create database field for the icon:
-
    ```sql
    create table tx_myext_domain_model_foo (
        icon_field varchar(255) not null default '',
