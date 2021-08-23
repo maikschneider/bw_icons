@@ -4,8 +4,10 @@ namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 class HelperUtility
 {
@@ -63,13 +65,8 @@ class HelperUtility
                 continue;
             }
 
-            // do add ../ to path if include from extension
-            if (strpos($setting['file'], 'EXT:') === 0) {
-                $sheets[] = $setting['file'];
-                continue;
-            }
-
-            $sheets[] = '../' . $setting['file'];
+            $path = GeneralUtility::getFileAbsFileName($setting['file']);
+            $sheets[] = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
         }
         return $sheets;
     }
