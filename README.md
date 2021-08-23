@@ -1,11 +1,10 @@
 # Icon Selector
 
-Form element for icon selection. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet
-or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages and tt_content.
+Form element for icon selection. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages and tt_content.
 
-![Backend Form](Documentation/Images/backend1.jpg)
+![Backend Form](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/backend1.jpg)
 
-![Backend Form](Documentation/Images/gallery.jpg)
+![Video preview](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/preview.gif)
 
 ## Installation
 
@@ -14,14 +13,14 @@ or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds
    composer require blueways/bw-icons
    ```
 
-2. Include PageTS
+2. Include PageTS 
    
-   Enable the extension in the Extension Manager and include the **static PageTS** for TYPO3 core icons or set up your own icons. See [Configuration](#Configuration).
+   Enable the extension in the Extension Manager and include the **static PageTS** for TYPO3 core icons or set up your own icons. See [Configuration](#markdown-header-configuration).
 
-3. Enable icons for tt_content and/or pages
+3. Enable icons for tt_content and/or pages 
    
    In the extension settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable the icon fields. If
-   you want to use it for other tables, see [For developers](#For developers).
+   you want to use it for other tables, see [For developers](##markdown-header-for-developers).
 
 ## Configuration
 
@@ -61,13 +60,13 @@ mod.tx_bwicons {
 2. Edit TCA: Add the renderType `iconSelection` in the config array:
    ```php
    ...
-    'icon_field' => [
-         'label' => 'My Icon',
-         'config' => [
-            'type' => 'input',
-            'renderType' => 'iconSelection'
-         ]
-    ],
+   'icon_field' => [
+        'label' => 'My Icon',
+        'config' => [
+           'type' => 'input',
+           'renderType' => 'iconSelection'
+        ]
+   ],
    ...
    ```
 
