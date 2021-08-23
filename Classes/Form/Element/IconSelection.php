@@ -19,17 +19,18 @@ class IconSelection extends AbstractFormElement
         $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
+        $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
         $config = $parameterArray['fieldConf']['config'];
 
         /** @var HelperUtility $helperUtil */
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class);
+        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid);
         $styleSheets = $helperUtil->getStyleSheets();
         $resultArray['stylesheetFiles'] = $styleSheets;
         $jsSheetArray = implode(',', array_map(function ($sheet) {
             return '"' . $sheet . '"';
         }, $styleSheets));
 
-        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init("' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
+        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init(' . $pid . ', "' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
 
         $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
 

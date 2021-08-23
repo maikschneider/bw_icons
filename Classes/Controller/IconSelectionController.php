@@ -25,7 +25,8 @@ class IconSelectionController extends ActionController
             $response = new Response();
         }
 
-        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
+        $pid = (int)$request->getQueryParams()['pid'];
+        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $pid);
         $tabs = $helperUtility->getModalTabs();
 
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $templateView */

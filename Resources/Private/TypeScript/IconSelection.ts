@@ -20,11 +20,12 @@ class IconSelection {
 	protected $hiddenElement: JQuery;
 	protected selectedIconName: string;
 	protected currentModal;
+	protected pid: number;
 
 	protected onModalButtonClick(e: Event) {
 		Modal.advanced({
 			type: Modal.types.ajax,
-			content: window.TYPO3.settings.ajaxUrls.icon_selection,
+			content: window.TYPO3.settings.ajaxUrls.icon_selection + '&pid=' + this.pid,
 			size: Modal.sizes.large,
 			title: 'Select Icon',
 			callback: (modal) => {
@@ -126,9 +127,12 @@ class IconSelection {
 		$(e.currentTarget).addClass('active');
 	}
 
-	public init(itemFormElName: string, styleSheets: []) {
+	public init(pid: number, itemFormElName: string, styleSheets: []) {
+
+		this.pid = pid;
 
 		// add stylesheet to global frame (to display icons in modal)
+		// @TODO: remove on close
 		styleSheets.forEach((sheet) => {
 			parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
 				'beforeend',

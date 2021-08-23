@@ -10,6 +10,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class HelperUtility
 {
 
+    protected int $pid = 0;
+
+    /**
+     * HelperUtility constructor.
+     *
+     * @param int $pid
+     */
+    public function __construct(int $pid)
+    {
+        $this->pid = $pid;
+    }
+
     public function getModalTabs(): array
     {
         $extensionSettings = $this->getSettings();
@@ -30,9 +42,7 @@ class HelperUtility
 
     protected function getSettings(): array
     {
-        // @TODO
-        $currentPageId = 1;
-        $pageTsConfig = BackendUtility::getPagesTSconfig($currentPageId);
+        $pageTsConfig = BackendUtility::getPagesTSconfig($this->pid);
         /** @var TypoScriptService $typoscriptService */
         $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);

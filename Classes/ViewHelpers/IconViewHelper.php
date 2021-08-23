@@ -2,7 +2,6 @@
 
 namespace Blueways\BwIcons\ViewHelpers;
 
-use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -19,15 +18,10 @@ class IconViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-
-        /** @var HelperUtility $helperUtility */
-        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
-
         $attributes = [];
         $attributes['data-icon-name'] = $arguments['icon'];
         $attributes['data-icon-base-name'] = $arguments['icon'];
 
-        // @TODO: just check for "."
         if (strpos($arguments['icon'], '.')) {
             $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
