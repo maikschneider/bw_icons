@@ -48,6 +48,32 @@ mod.tx_bwicons {
 }
 ```
 
+## Usage
+
+The icons are saved as filename (e.g. `EXT:myext/Resources/Public/Images/icon.svg` or `fileadmin/icons/foo.png`) if you use the `FileIconProvider` or as css class names (e.g. `fas fa-arrow-right`) by using `CssIconProvider`.
+
+If you have configured only the selection of SVGs, you can safely use the `<f:image src="{data.tx_bwicons_icon}" />` viewHelper in your fluid template.
+
+By only using font icons, you can output like `<i class="{data.tx_bwicons_icon}"></i>`.
+
+If you have a mixture, you can use my ViewHelper that determines the type by checking for a dot in the icon name:
+
+```html
+{namespace bw=Blueways\BwIcons\ViewHelpers}
+
+<bw:icon icon="{data.tx_bwicons_icon}" /> Hello world!
+```
+
+Output:
+```
+<i class="fa fas-wave"></i> Hello world!
+```
+or
+
+```
+<img src="/fileadmin/icons/foo.svg" /> Hello world!
+```
+
 ## For developers
 
 ### Usage in other tables
