@@ -6,48 +6,59 @@ use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class IconViewHelper extends AbstractTagBasedViewHelper
+class IconViewHelper extends AbstractViewHelper
 {
 
-    protected $tagName = 'i';
+    protected $escapeOutput = false;
 
-    public function render(): string
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ) {
 
         /** @var HelperUtility $helperUtility */
         $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
-        $this->tag->addAttribute('data-icon-name', $this->arguments['icon']);
-        $this->tag->addAttribute('data-icon-base-name', $this->arguments['icon']);
+
+        $attributes = [];
+        $attributes['data-icon-name'] = $arguments['icon'];
+        $attributes['data-icon-base-name'] = $arguments['icon'];
 
         // @TODO: just check for "."
-        if ($helperUtility->isFileIconProvider($this->arguments['provider'])) {
-            $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
+        if (strpos($arguments['icon'], '.')) {
+            $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
             $baseName = basename($path, '.' . $extension);
 
-            $this->tag->addAttribute('data-icon-base-name', $baseName);
-            $this->tag->addAttribute('src', $webPath);
-            $this->tag->addAttribute('src', $webPath);
-            $this->tag->addAttribute('loading', 'lazy');
-            return $this->tag->render();
+            $attributes['data-icon-base-name'] = $baseName;
+            $attributes['src'] = $webPath;
+            $attributes['loading'] = 'lazy';
+
+            $attrString = static::concatAttributes($attributes);
+            return '<img ' . $attrString . ' />';
         }
 
-        // @TODO: change viewHelper to render different tags
-        $this->tagName = $helperUtility->getTagName($this->arguments['provider']);
-        $this->tag->addAttribute('class', $this->arguments['icon']);
-        $this->tag->forceClosingTag(true);
-
-        return $this->tag->render();
+        $attributes['class'] = $arguments['icon'];
+        $attrString = static::concatAttributes($attributes);
+        return '<i ' . $attrString . '></i>';
     }
 
-    public function initializeArguments()
+    protected static function concatAttributes(array $attributes): string
+    {
+        return implode(' ', array_map(static function ($key) use ($attributes) {
+            return $key . '="' . $attributes[$key] . '"';
+        }, array_keys($attributes)));
+    }
+
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('icon', 'string', 'The icon name', true);
-        $this->registerArgument('provider', 'string', 'PageTS did of the used IconProvider', true);
+        $this->registerArgument('provider', 'string', 'PageTS did of the used IconProvider', false);
     }
 }
