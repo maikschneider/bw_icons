@@ -5,6 +5,7 @@ namespace Blueways\BwIcons\Provider;
 use Blueways\BwIcons\Utility\SvgReaderUtility;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -42,8 +43,10 @@ class CssIconProvider extends AbstractIconProvider
                             // merge paths
                             $relativePath = $part->getURL()->getString();
                             $absolutePath = $folderDir . '/' . $relativePath;
-                            $absolutePath = strpos($absolutePath, '?') ? substr($absolutePath, 0, strpos($absolutePath, '?')) : $absolutePath;
-                            $absolutePath = strpos($absolutePath, '#') ? substr($absolutePath, 0, strpos($absolutePath, '#')) : $absolutePath;
+                            $absolutePath = strpos($absolutePath, '?') ? substr($absolutePath, 0,
+                                strpos($absolutePath, '?')) : $absolutePath;
+                            $absolutePath = strpos($absolutePath, '#') ? substr($absolutePath, 0,
+                                strpos($absolutePath, '#')) : $absolutePath;
                             return realpath($absolutePath);
                         }
                     }
@@ -56,11 +59,13 @@ class CssIconProvider extends AbstractIconProvider
         $fontFamilies = array_map(static function ($ruleSet) {
             $familyRules = $ruleSet->getRules('font-family');
             $weightRules = $ruleSet->getRules('font-weight');
+            $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
+            $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
             $styleRules = $ruleSet->getRules('font-style');
             return [
-              'font-family' => $familyRules[0]->getValue()->getString(),
-              'weight' => count($weightRules) ? $weightRules[0]->getValue() : '',
-              'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
+                'font-family' => $familyRules[0]->getValue()->getString(),
+                'weight' => $weight,
+                'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
             ];
         }, $fontFaces);
 
@@ -103,14 +108,56 @@ class CssIconProvider extends AbstractIconProvider
                 return in_array($glyphString, $fontGlyphs, true);
             });
 
-            $fontFamilyPrefix = 'fab ';
+            // rename font family for tab array in case of duplicate font names
+            $fontName = $font['font-family'];
+            if (count(array_filter($fontFamilies, static function ($fontFamily) use ($font) {
+                    return $fontFamily['font-family'] === $font['font-family'];
+                })) > 1) {
+                $fontName = $font['font-family'] . ' ' . $font['weight'];
+            }
+
+            // get statements that use the current font-family
+            $fontUser = array_filter($allRules, static function ($block) use ($font) {
+                if (!is_a($block, DeclarationBlock::class) || count($block->getRules('font-family')) !== 1) {
+                    return false;
+                }
+
+                // check font-family
+                $fontFamilyRules = $block->getRules('font-family');
+                if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
+                    return false;
+                }
+
+                // check font weight
+                $fontWeightRules = $block->getRules('font-weight');
+                if (count($fontWeightRules)) {
+                    $weight = $fontWeightRules[0]->getValue();
+                    $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
+                    if ($weight && $weight !== $font['weight']) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            // extract prefix class (e.g. "fa"). use first selector that matches
+            $fontFamilyPrefix = '';
+            if (count($fontUser) === 1 && count(current($fontUser)->getSelectors()) !== count($fontGlyphs)) {
+                $selectors = current($fontUser)->getSelectors();
+                foreach ($selectors as $selector) {
+                    if (!strpos($selector->getSelector(), '[class') && strpos($selector->getSelector(), '.') === 0) {
+                        $fontFamilyPrefix = substr($selector->getSelector(), 1) . ' ';
+                        break;
+                    }
+                }
+            }
 
             // map icons to class names
             $icons = array_map(static function ($declarationBlock) use ($fontFamilyPrefix) {
-                return $fontFamilyPrefix . str_replace([':before', ':after', '.'], '', $declarationBlock->getSelectors()[0]->getSelector());
+                return $fontFamilyPrefix . str_replace([':before', ':after', '.'], '',
+                        $declarationBlock->getSelectors()[0]->getSelector());
             }, $availableGlyphs);
-
-            $fontName = $font['font-family'];
 
             $tabs[$fontName] = $icons;
         }
