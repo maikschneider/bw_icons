@@ -49,7 +49,7 @@
 					<h1 id="{folderName}">{folderName} </h1>
 				</f:if>
 				<f:if condition="!{folderName} && {folder->f:count()}">
-					<h1>{folder->f:count()} Icons</h1>
+					<h1><span>{folder->f:count()}</span> Icons</h1>
 				</f:if>
 
 				<f:if condition="{folder->f:count()}">
@@ -79,6 +79,7 @@
 		border-top: 0;
 		padding: 20px 13px 0;
 		display: none;
+		min-height: 80px;
 	}
 
 	.tab-content.active {

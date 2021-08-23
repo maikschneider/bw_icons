@@ -99,16 +99,18 @@ class IconSelection {
 
 		// update counter
 		$('.list-group-item', $tabContent).each(function (i, el) {
-			const id = $(el).attr('href');
-			const numberOfItems = $tabContent.find('h1' + id + ' + .icongrid .griditem:not(.hidden)').length;
+			const id = $(el).attr('href').substr(1);
+			const numberOfItems = $tabContent.find('h1[id="' + id + '"] + .icongrid .griditem:not(.hidden)').length;
 			// @ts-ignore
 			$('span', el).html(numberOfItems);
 			if (numberOfItems === 0) {
-				$tabContent.find('h1' + id).addClass('hidden');
-				$tabContent.find('h1' + id + ' + .icongrid').addClass('hidden');
+				$tabContent.find('h1[id="' + id + '"]').addClass('hidden');
+				$tabContent.find('h1[id="' + id + '"] + .icongrid').addClass('hidden');
 				$(el).addClass('hidden');
 			}
 		});
+		// @ts-ignore
+		$('h1:not([id]) span', $tabContent).html($tabContent.find('.griditem:not(.hidden)').length);
 	}
 
 	protected onNavTabClick(e: Event) {
