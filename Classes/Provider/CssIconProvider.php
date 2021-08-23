@@ -38,10 +38,13 @@ class CssIconProvider extends AbstractIconProvider
                         if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.svg')) {
                             // combine relative path with absolute path from css file
                             // remove possible #fontawesome at end
+                            // remove possible ?version at end
                             // merge paths
                             $relativePath = $part->getURL()->getString();
                             $absolutePath = $folderDir . '/' . $relativePath;
-                            return realpath(substr($absolutePath, 0, strpos($absolutePath, '#')));
+                            $absolutePath = strpos($absolutePath, '?') ? substr($absolutePath, 0, strpos($absolutePath, '?')) : $absolutePath;
+                            $absolutePath = strpos($absolutePath, '#') ? substr($absolutePath, 0, strpos($absolutePath, '#')) : $absolutePath;
+                            return realpath($absolutePath);
                         }
                     }
                 }
