@@ -4,6 +4,8 @@ Form element for icon selection. Generates a browsable gallery of your icon font
 
 ![Backend Form](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/backend1.jpg)
 
+## Demo
+
 ![Video preview](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/preview.gif)
 
 ## Installation
@@ -37,7 +39,7 @@ mod.tx_bwicons {
         folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
     }
 
-    # Get icons from stylesheet
+    # Get icons from stylesheet. Multiple font-faces in one file become sidebar links.
     fontawesome = Blueways\BwIcons\Provider\CssIconProvider
     fontawesome {
         title = FontAwsome
@@ -75,3 +77,9 @@ mod.tx_bwicons {
 ### New icon sources
 
 If you want to add other icon sources (e.g. from API), you can create your own IconProvider. Just make sure to extend from `Blueways\BwIcons\Provider\AbstractIconProvider`.
+
+## Contribute
+
+This extension was made by Maik Schneider from [blueways](https://www.blueways.de/). Feel free to contribute!
+
+- [Bitbucket-Repository](https://bitbucket.org/blueways/bw_icons/)

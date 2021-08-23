@@ -81,6 +81,7 @@
   "require": {
     "sabberworm/php-css-parser": "^8.3",
     "ext-simplexml": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "typo3/cms-core": "^9.0 || ^10.0 || ^11.0"
   }
 }
