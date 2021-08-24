@@ -1,4 +1,4 @@
-# Icon Selector
+# TYPO3 Icon Picker
 
 Form element for icon selection. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages and tt_content.
 

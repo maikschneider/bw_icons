@@ -1,6 +1,6 @@
 <?php
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Icon Selector',
+    'title' => 'Icon Picker',
     'description' => 'Form element for icon selection. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet or image directory that you use in the frontend! Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages and tt_content.',
     'category' => 'be',
     'author' => 'Maik Schneider',
@@ -10,7 +10,7 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => 0,
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '0.9.0',
+    'version' => '1.0.0',
     'autoload' => [
         'psr-4' => ['Bw\\BwIcons\\' => 'Classes']
     ],
