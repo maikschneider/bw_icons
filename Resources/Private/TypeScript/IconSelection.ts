@@ -121,8 +121,8 @@ class IconSelection {
 	protected onNavTabClick(e: Event) {
 		e.preventDefault();
 		const tabName = $(e.currentTarget).attr('href').substr(1);
-		this.currentModal.find('.nav-tabs li').removeClass('active');
-		this.currentModal.find('.nav-tabs a[href="#' + tabName + '"]').parent().addClass('active');
+		this.currentModal.find('.nav-tabs li, .nav-tabs li a').removeClass('active');
+		this.currentModal.find('.nav-tabs a[href="#' + tabName + '"]').addClass('active').parent().addClass('active');
 		this.currentModal.find('.tab-content').removeClass('active');
 		this.currentModal.find('.tab-content#' + tabName).addClass('active');
 	}

@@ -3,7 +3,7 @@
 <ul class="nav nav-tabs">
 	<f:for each="{tabs}" as="tab" iteration="i">
 		<li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
-			<a href="#{tab.id}">{tab.title}</a>
+			<a class="nav-item {f:if(condition:i.isFirst, then:'active')}" href="#{tab.id}">{tab.title}</a>
 		</li>
 	</f:for>
 </ul>
