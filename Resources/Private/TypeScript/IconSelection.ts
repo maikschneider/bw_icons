@@ -23,9 +23,14 @@ class IconSelection {
 	protected pid: number;
 
 	protected onModalButtonClick(e: Event) {
+
+		let url = TYPO3.settings.ajaxUrls.icon_selection;
+		url += url.indexOf('?') > 0 ? '&' : '?';
+		url += 'pid=' + this.pid;
+
 		Modal.advanced({
 			type: Modal.types.ajax,
-			content: window.TYPO3.settings.ajaxUrls.icon_selection + '&pid=' + this.pid,
+			content: url,
 			size: Modal.sizes.large,
 			title: 'Select Icon',
 			callback: (modal) => {
