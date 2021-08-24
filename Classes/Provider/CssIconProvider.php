@@ -5,6 +5,7 @@ namespace Blueways\BwIcons\Provider;
 use Blueways\BwIcons\Utility\SvgReaderUtility;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Sabberworm\CSS\Value\CSSString;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -80,7 +81,7 @@ class CssIconProvider extends AbstractIconProvider
             }
             // validate content-property (exists and is not "")
             $contentRule = $declarationBlock->getRules('content')[0];
-            if (!$contentRule || !$contentRule->getValue() || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+            if (!$contentRule || !$contentRule->getValue() || !is_a($contentRule->getValue(), CSSString::class) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
                 return false;
             }
             // validate selector (is class and has :before or :after)
@@ -117,14 +118,15 @@ class CssIconProvider extends AbstractIconProvider
             }
 
             // get statements that use the current font-family
-            $fontUser = array_filter($allRules, static function ($block) use ($font) {
+            $fontUsers = array_filter($allRules, static function ($block) use ($font) {
                 if (!is_a($block, DeclarationBlock::class) || count($block->getRules('font-family')) !== 1) {
                     return false;
                 }
 
                 // check font-family
                 $fontFamilyRules = $block->getRules('font-family');
-                if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
+                if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || !is_a($fontFamilyRules[0]->getValue(),
+                        CSSString::class) || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
                     return false;
                 }
 
@@ -143,10 +145,14 @@ class CssIconProvider extends AbstractIconProvider
 
             // extract prefix class (e.g. "fa"). use first selector that matches
             $fontFamilyPrefix = '';
-            if (count($fontUser) === 1 && count(current($fontUser)->getSelectors()) !== count($fontGlyphs)) {
-                $selectors = current($fontUser)->getSelectors();
+            foreach ($fontUsers as $fontUser) {
+                if ($fontFamilyPrefix || count($fontUser->getSelectors()) === count($fontGlyphs)) {
+                    continue;
+                }
+                $selectors = $fontUser->getSelectors();
                 foreach ($selectors as $selector) {
-                    if (!strpos($selector->getSelector(), '[class') && strpos($selector->getSelector(), '.') === 0) {
+                    if (!strpos($selector->getSelector(), '[class') && strpos($selector->getSelector(),
+                            '.') === 0 && !strpos($selector->getSelector(), ' ')) {
                         $fontFamilyPrefix = substr($selector->getSelector(), 1) . ' ';
                         break;
                     }
