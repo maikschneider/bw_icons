@@ -3,7 +3,7 @@
 <ul class="nav nav-tabs">
 	<f:for each="{tabs}" as="tab" iteration="i">
 		<li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
-			<a href="#{tab.id}">{tab.title}</a>
+			<a class="nav-item {f:if(condition:i.isFirst, then:'active')}" href="#{tab.id}">{tab.title}</a>
 		</li>
 	</f:for>
 </ul>
@@ -18,8 +18,8 @@
 					<f:for each="{tab.folders}" key="folderName" as="folder">
 						<f:if condition="{folderName}">
 							<a href="#{folderName}" class="list-group-item">
-								<span class="badge">{folder->f:count()}</span>
 								{folderName}
+								<span class="badge">{folder->f:count()}</span>
 							</a>
 						</f:if>
 					</f:for>
@@ -49,7 +49,10 @@
 					<h1 id="{folderName}">{folderName} </h1>
 				</f:if>
 				<f:if condition="!{folderName} && {folder->f:count()}">
-					<h1><span>{folder->f:count()}</span> Icons</h1>
+					<h1>
+						<span>{folder->f:count()}</span>
+						Icons
+					</h1>
 				</f:if>
 
 				<f:if condition="{folder->f:count()}">
@@ -58,7 +61,7 @@
 						<f:for each="{folder}" as="icon">
 							<div class="griditem">
 								<a href="#" class="thumbnail">
-									<bw:icon icon="{icon}" />
+									<bw:icon icon="{icon}"/>
 								</a>
 							</div>
 						</f:for>
@@ -112,6 +115,7 @@
 
 	.griditem a:hover, .griditem a:focus {
 		text-decoration: none;
+		border-color: #212424;
 	}
 
 	.griditem a * {
@@ -127,6 +131,17 @@
 		margin-bottom: 0;
 		display: grid;
 		align-content: center;
+		line-height: 1.5;
+		background-color: #fff;
+		border: 1px solid #ddd;
+		border-radius: 2px;
+		transition: border .2s ease-in-out;
+		padding: 4px;
+	}
+
+	a.list-group-item:hover {
+		text-decoration: none;
+		background-color: #f5f5f5;
 	}
 
 	h1 {
@@ -142,6 +157,10 @@
 		position: -webkit-sticky;
 		position: sticky;
 		top: 0;
+	}
+
+	.list-group .badge {
+		float: right;
 	}
 
 	.filter {
