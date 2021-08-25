@@ -61,7 +61,8 @@ class CssIconProvider extends AbstractIconProvider
         }
 
         // get paths to the svg font files
-        $svgFonts = array_map(static function ($ruleSet) use ($folderDir) {
+        $tempPath = $this->getTempPath();
+        $svgFonts = array_map(static function ($ruleSet) use ($tempPath) {
             $rules = $ruleSet->getRules('src');
             foreach ($rules as $rule) {
                 $values = $rule->getValues();
@@ -71,7 +72,7 @@ class CssIconProvider extends AbstractIconProvider
                             // combine relative path with absolute path from css file
                             // merge paths
                             $relativePath = static::cleanFilePath($part->getURL()->getString());
-                            $absolutePath = $folderDir . '/' . $relativePath;
+                            $absolutePath = $tempPath . '/' . $relativePath;
                             return realpath($absolutePath);
                         }
                     }
