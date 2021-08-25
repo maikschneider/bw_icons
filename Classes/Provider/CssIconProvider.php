@@ -17,33 +17,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class CssIconProvider extends AbstractIconProvider
 {
 
-    /**
-     * remove possible #fontawesome and ?version at end of string
-     *
-     * @param $path
-     * @return false|string
-     */
-    public static function cleanFilePath($path)
-    {
-        $cleanPath = strpos($path, '?') ? substr($path, 0,
-            strpos($path, '?')) : $path;
-        return strpos($cleanPath, '#') ? substr($cleanPath, 0,
-            strpos($cleanPath, '#')) : $cleanPath;
-    }
-
     public function getIcons(): array
     {
         $typo3Path = $this->options['file'];
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
-        $folderDir = pathinfo($path, PATHINFO_DIRNAME);
         /** @var SvgReaderUtility $svgReaderUtility */
         $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
+        $tempFile = new Document();
 
         $parser = new \Sabberworm\CSS\Parser(file_get_contents($path));
         $cssDocument = $parser->parse();
         $allRules = $cssDocument->getAllRuleSets();
-
-        $tempFile = new Document();
 
         $fontFaces = [];
         $cssGlyphs = [];
@@ -237,16 +221,30 @@ class CssIconProvider extends AbstractIconProvider
         $url->getURL()->setString($fontFileName);
     }
 
-    public function getTempPath(): string
-    {
-        return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->options['cacheIdentifier'] . '/' . $this->options['id'];
-    }
-
     public function getCurrentPath(): string
     {
         $typo3Path = $this->options['file'];
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
         return pathinfo($path, PATHINFO_DIRNAME);
+    }
+
+    /**
+     * remove possible #fontawesome and ?version at end of string
+     *
+     * @param $path
+     * @return false|string
+     */
+    public static function cleanFilePath($path)
+    {
+        $cleanPath = strpos($path, '?') ? substr($path, 0,
+            strpos($path, '?')) : $path;
+        return strpos($cleanPath, '#') ? substr($cleanPath, 0,
+            strpos($cleanPath, '#')) : $cleanPath;
+    }
+
+    public function getTempPath(): string
+    {
+        return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->options['cacheIdentifier'] . '/' . $this->options['id'];
     }
 
     protected static function ruleIsAGlyph($declarationBlock): bool
