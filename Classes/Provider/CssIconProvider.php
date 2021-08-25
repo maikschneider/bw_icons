@@ -8,10 +8,19 @@ use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Value\CSSString;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CssIconProvider extends AbstractIconProvider
 {
+
+    protected function writeTempCss($cssDocument, $options): void
+    {
+        $cssFilePath = GeneralUtility::getFileAbsFileName($options['file']);
+        $tempPath = Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $options['cacheIdentifier'] . '/' . $options['id'];
+        $tempCssFile = $tempPath . '/' . basename($cssFilePath);
+        GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssDocument->render());
+    }
 
     public function getIcons(): array
     {
