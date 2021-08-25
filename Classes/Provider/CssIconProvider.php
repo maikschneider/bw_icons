@@ -3,6 +3,8 @@
 namespace Blueways\BwIcons\Provider;
 
 use Blueways\BwIcons\Utility\SvgReaderUtility;
+use phpDocumentor\Reflection\Types\Boolean;
+use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Value\CSSString;
@@ -22,6 +24,35 @@ class CssIconProvider extends AbstractIconProvider
         GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssDocument->render());
     }
 
+    protected static function ruleIsAGlyph($declarationBlock): bool
+    {
+        // validate that declaration has content property and exactly one selector
+        if (!is_a($declarationBlock, DeclarationBlock::class)
+            || count($declarationBlock->getSelectors()) !== 1
+            || count($declarationBlock->getRules('content')) !== 1
+        ) {
+            return false;
+        }
+        // validate content-property (exists and is not "")
+        $contentRule = $declarationBlock->getRules('content')[0];
+        if (!$contentRule || !$contentRule->getValue() || !is_a($contentRule->getValue(),
+                CSSString::class) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+            return false;
+        }
+        // validate selector (is class and has :before or :after)
+        $selector = $declarationBlock->getSelectors()[0]->getSelector();
+        if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
+            return false;
+        }
+        return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
+    }
+
+    protected static function ruleIsFontFace($rule): bool
+    {
+        return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
+    }
+
+
     public function getIcons(): array
     {
         $typo3Path = $this->options['file'];
@@ -34,10 +65,21 @@ class CssIconProvider extends AbstractIconProvider
         $cssDocument = $parser->parse();
         $allRules = $cssDocument->getAllRuleSets();
 
-        // extract @font-face declaration
-        $fontFaces = array_filter($allRules, static function ($rule) {
-            return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
-        });
+        $tempFile = new Document();
+
+        $fontFaces = [];
+        $cssGlyphs = [];
+        foreach($allRules as $rule) {
+            if(static::ruleIsFontFace($rule)) {
+                $fontFaces[] = $rule;
+                $tempFile->append($rule);
+            }
+
+            if (static::ruleIsAGlyph($rule)) {
+                $cssGlyphs[] = $rule;
+                $tempFile->append($rule);
+            }
+        }
 
         // get paths to the svg font files
         $svgFonts = array_map(static function ($ruleSet) use ($folderDir) {
@@ -79,28 +121,6 @@ class CssIconProvider extends AbstractIconProvider
             ];
         }, $fontFaces);
 
-        // extract all css classes that probably display icons
-        $cssGlyphs = array_filter($allRules, static function ($declarationBlock) {
-            // validate that declaration has content property and exactly one selector
-            if (!is_a($declarationBlock, DeclarationBlock::class)
-                || count($declarationBlock->getSelectors()) !== 1
-                || count($declarationBlock->getRules('content')) !== 1
-            ) {
-                return false;
-            }
-            // validate content-property (exists and is not "")
-            $contentRule = $declarationBlock->getRules('content')[0];
-            if (!$contentRule || !$contentRule->getValue() || !is_a($contentRule->getValue(), CSSString::class) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
-                return false;
-            }
-            // validate selector (is class and has :before or :after)
-            $selector = $declarationBlock->getSelectors()[0]->getSelector();
-            if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
-                return false;
-            }
-            return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
-        });
-
         // build tab modal markup
         $tabs = [];
         foreach ($fontFamilies as $key => $font) {
@@ -127,16 +147,17 @@ class CssIconProvider extends AbstractIconProvider
             }
 
             // get statements that use the current font-family
-            $fontUsers = array_filter($allRules, static function ($block) use ($font) {
+            $fontUsers = [];
+            foreach($allRules as $block) {
                 if (!is_a($block, DeclarationBlock::class) || count($block->getRules('font-family')) !== 1) {
-                    return false;
+                    continue;
                 }
 
                 // check font-family
                 $fontFamilyRules = $block->getRules('font-family');
                 if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || !is_a($fontFamilyRules[0]->getValue(),
                         CSSString::class) || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
-                    return false;
+                    continue;
                 }
 
                 // check font weight
@@ -145,12 +166,13 @@ class CssIconProvider extends AbstractIconProvider
                     $weight = $fontWeightRules[0]->getValue();
                     $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
                     if ($weight && $weight !== $font['weight']) {
-                        return false;
+                        continue;
                     }
                 }
 
-                return true;
-            });
+                $fontUsers[] = $block;
+                $tempFile->append($block);
+            }
 
             // extract prefix class (e.g. "fa"). use first selector that matches
             $fontFamilyPrefix = '';
@@ -184,6 +206,8 @@ class CssIconProvider extends AbstractIconProvider
             $singleTab = array_pop($singleTab);
             return [$singleTab];
         }
+
+        $this->writeTempCss($tempFile, $this->options);
 
         return $tabs;
     }
