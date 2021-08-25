@@ -35,6 +35,8 @@ class HelperUtility
             $tabs = [];
             foreach ($extensionSettings as $key => $providerSettings) {
                 $options = $providerSettings;
+                $options['cacheIdentifier'] = $cacheIdentifier;
+                $options['id'] = $key;
                 unset($options['_typoScriptNodeValue']);
                 $provider = GeneralUtility::makeInstance($providerSettings['_typoScriptNodeValue'], $options);
                 $tab = [];
