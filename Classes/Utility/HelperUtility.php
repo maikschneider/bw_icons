@@ -14,6 +14,8 @@ class HelperUtility
 
     protected int $pid = 0;
 
+    protected array $provider = [];
+
     /**
      * HelperUtility constructor.
      *
@@ -26,28 +28,31 @@ class HelperUtility
 
     public function getModalTabs(): array
     {
-        $extensionSettings = $this->getSettings();
-        $cacheIdentifier = md5(serialize($extensionSettings));
+        $cacheIdentifier = $this->getCacheIdentifier();
         $cache = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class)->getCache('bwicons_conf');
 
-        if (($tabs = $cache->get($cacheIdentifier)) === false) {
-
-            $tabs = [];
-            foreach ($extensionSettings as $key => $providerSettings) {
-                $options = $providerSettings;
-                $options['cacheIdentifier'] = $cacheIdentifier;
-                $options['id'] = $key;
-                unset($options['_typoScriptNodeValue']);
-                $provider = GeneralUtility::makeInstance($providerSettings['_typoScriptNodeValue'], $options);
-                $tab = [];
-                $tab['id'] = $key;
-                $tab['title'] = $providerSettings['title'];
-                $tab['folders'] = $provider->getIcons();
-                $tabs[] = $tab;
-            }
-            $cache->set($cacheIdentifier, $tabs, [], 0);
+        if (($tabs = $cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles()) {
+            return $tabs;
         }
+
+        $tabs = [];
+        foreach ($this->getAllProvider() as $provider) {
+            $tab = [];
+            $tab['id'] = $provider->getId();
+            $tab['title'] = $provider->getTitle();
+            $tab['folders'] = $provider->getIcons();
+
+            $tabs[] = $tab;
+        }
+
+        $cache->set($cacheIdentifier, $tabs, [], 0);
         return $tabs;
+    }
+
+    protected function getCacheIdentifier(): string
+    {
+        $extensionSettings = $this->getSettings();
+        return md5(serialize($extensionSettings));
     }
 
     protected function getSettings(): array
@@ -58,18 +63,57 @@ class HelperUtility
         return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
     }
 
+    /**
+     * @return array<\Blueways\BwIcons\Provider\AbstractIconProvider>
+     */
+    protected function getAllProvider(): array
+    {
+        if (count($this->provider)) {
+            return $this->provider;
+        }
+
+        $extensionSettings = $this->getSettings();
+        $cacheIdentifier = $this->getCacheIdentifier();
+
+        foreach ($extensionSettings as $key => $options) {
+            /** @var \Blueways\BwIcons\Provider\AbstractIconProvider $prov */
+            $prov = GeneralUtility::makeInstance($options['_typoScriptNodeValue'], $options);
+            $prov->setCacheIdentifier($cacheIdentifier);
+            $prov->setId($key);
+            $prov->setTitle($options['title']);
+
+            $this->provider[] = $prov;
+        }
+
+        return $this->provider;
+    }
+
     public function getStyleSheets(): array
     {
         $sheets = [];
-        $settings = $this->getSettings();
-        foreach ($settings as $setting) {
-            if ($setting['_typoScriptNodeValue'] !== CssIconProvider::class) {
+        foreach ($this->getAllProvider() as $provider) {
+            if (!is_a($provider, CssIconProvider::class)) {
                 continue;
             }
-
-            $path = GeneralUtility::getFileAbsFileName($setting['file']);
-            $sheets[] = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
+            $sheets[] = $provider->getStyleSheet();
         }
         return $sheets;
+    }
+
+    /**
+     * Checks if all temp dirs of css provider do exist
+     * @return bool
+     */
+    protected function isValidTempFiles(): bool
+    {
+        foreach ($this->getAllProvider() as $provider) {
+            if (!is_a($provider, CssIconProvider::class)) {
+                continue;
+            }
+            if (!$provider->tempFileExist()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

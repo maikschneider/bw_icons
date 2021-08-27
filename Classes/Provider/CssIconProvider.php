@@ -13,9 +13,30 @@ use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 class CssIconProvider extends AbstractIconProvider
 {
+
+    public function getStyleSheet(): string
+    {
+        if (!$this->tempFileExist()) {
+            @$this->getIcons();
+        }
+        $tempFile = $this->getCssTempFilePath();
+        return '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $tempFile), 0, -1);
+    }
+
+    public function tempFileExist(): bool
+    {
+        $tempCssFile = $this->getCssTempFilePath();
+        return file_exists($tempCssFile);
+    }
+
+    public function getTempPath(): string
+    {
+        return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
+    }
 
     public function getIcons(): array
     {
@@ -242,11 +263,6 @@ class CssIconProvider extends AbstractIconProvider
             strpos($cleanPath, '#')) : $cleanPath;
     }
 
-    public function getTempPath(): string
-    {
-        return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->options['cacheIdentifier'] . '/' . $this->options['id'];
-    }
-
     protected static function ruleIsAGlyph($declarationBlock): bool
     {
         // validate that declaration has content property and exactly one selector
@@ -272,10 +288,15 @@ class CssIconProvider extends AbstractIconProvider
 
     protected function writeTempCss(Document $cssDocument): void
     {
-        $cssFilePath = GeneralUtility::getFileAbsFileName($this->options['file']);
-        $tempPath = $this->getTempPath();
-        $tempCssFile = $tempPath . '/' . basename($cssFilePath);
+        $tempCssFile = $this->getCssTempFilePath();
         $cssContent = $cssDocument->render(OutputFormat::createCompact());
         GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
+    }
+
+    public function getCssTempFilePath(): string
+    {
+        $cssFilePath = GeneralUtility::getFileAbsFileName($this->options['file']);
+        $tempPath = $this->getTempPath();
+        return $tempPath . '/' . basename($cssFilePath);
     }
 }
