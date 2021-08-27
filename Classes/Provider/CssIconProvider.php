@@ -35,9 +35,8 @@ class CssIconProvider extends AbstractIconProvider
 
     public function getCssTempFilePath(): string
     {
-        $cssFilePath = GeneralUtility::getFileAbsFileName($this->options['file']);
         $tempPath = $this->getTempPath();
-        return $tempPath . '/' . basename($cssFilePath);
+        return $tempPath . '/font.css';
     }
 
     public function getTempPath(): string
@@ -47,13 +46,12 @@ class CssIconProvider extends AbstractIconProvider
 
     public function getIcons(): array
     {
-        $typo3Path = $this->options['file'];
-        $path = GeneralUtility::getFileAbsFileName($typo3Path);
         /** @var SvgReaderUtility $svgReaderUtility */
         $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
         $tempFile = new Document();
+        $styleSheetContent = $this->getStyleSheetContent();
 
-        $parser = new \Sabberworm\CSS\Parser(file_get_contents($path));
+        $parser = new \Sabberworm\CSS\Parser($styleSheetContent);
         $cssDocument = $parser->parse();
         $allRules = $cssDocument->getAllRuleSets();
 
@@ -215,6 +213,15 @@ class CssIconProvider extends AbstractIconProvider
         return $tabs;
     }
 
+    protected function getStyleSheetContent(): string
+    {
+        $path = $this->options['file'];
+        if (!GeneralUtility::isValidUrl($path)) {
+            $path = GeneralUtility::getFileAbsFileName($path);
+        }
+        return file_get_contents($path);
+    }
+
     protected static function ruleIsFontFace($rule): bool
     {
         return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
@@ -252,10 +259,19 @@ class CssIconProvider extends AbstractIconProvider
         }
 
         $currentPath = $this->getCurrentPath();
-        $fontFilePath = realpath($currentPath . '/' . static::cleanFilePath($url->getURL()->getString()));
+        $fontFileUrl = static::cleanFilePath($url->getURL()->getString());
 
-        if (!file_exists($fontFilePath)) {
-            return 0;
+        if (GeneralUtility::isValidUrl($fontFileUrl)) {
+            $file_headers = @get_headers($fontFileUrl);
+            if (strpos($file_headers[0], '404')) {
+                return 0;
+            }
+            $fontFilePath = $fontFileUrl;
+        } else {
+            $fontFilePath = realpath($currentPath . '/' . static::cleanFilePath($url->getURL()->getString()));
+            if (!file_exists($fontFilePath)) {
+                return 0;
+            }
         }
 
         $tempPath = $this->getTempPath();
@@ -268,8 +284,10 @@ class CssIconProvider extends AbstractIconProvider
 
     public function getCurrentPath(): string
     {
-        $typo3Path = $this->options['file'];
-        $path = GeneralUtility::getFileAbsFileName($typo3Path);
+        $path = $this->options['file'];
+        if (!GeneralUtility::isValidUrl($path)) {
+            $path = GeneralUtility::getFileAbsFileName($path);
+        }
         return pathinfo($path, PATHINFO_DIRNAME);
     }
 
