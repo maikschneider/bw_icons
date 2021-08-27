@@ -8,6 +8,18 @@ Form element for icon selection. Generates a browsable gallery of your icon font
 
 ![Video preview](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/preview.gif)
 
+## Features
+
+* icon picker form element
+* icon field for tt_content and pages
+* icon gallery with filter function
+* displays icons from image files or font (css)
+* extracts and caches font styles (css)
+* works with remote css files
+* can include generated stylesheet in the frontend
+
+Pro tip: Use your Icomoon development file. Your Icon Picker is always up to date, and you can serve the font files from your own remote without manually downloading and adjusting paths!
+
 ## Installation
 
 1. Install via composer
@@ -46,6 +58,13 @@ mod.tx_bwicons {
         title = FontAwsome
         file = fileadmin/fontawesome/css/all.css
     }
+    
+    # Get icons from remote stylesheet. Styles and font files are cached in /typo3temp
+    icomoon = Blueways\BwIcons\Provider\CssIconProvider
+    icomoon {
+        title = Icomoon
+        file = https://i.icomoon.io/public/b23ec64zea/Project/style.css
+    }
 }
 ```
 
@@ -75,6 +94,17 @@ or
 
 ```
 <img src="/fileadmin/icons/foo.svg" /> Hello world!
+```
+
+### CSS Frontend Include
+
+If you want to include the extracted styles in the frontend, you can use the `CssUtility` to generate the style-tags in the head of your page. Include this in your **TypoScript setup**:
+
+```
+page.headerData {
+	123 = USER
+	123.userFunc = Blueways\BwIcons\Utility\CssUtility->includeStyleSheets
+}
 ```
 
 ## For developers
