@@ -15,12 +15,12 @@ Form element for icon selection. Generates a browsable gallery of your icon font
    composer require blueways/bw-icons
    ```
 
-2. Include PageTS 
+2. Update database schema
    
+3. Include PageTS
    Enable the extension in the Extension Manager and include the **static PageTS** for TYPO3 core icons or set up your own icons. See [Configuration](#markdown-header-configuration).
-
-3. Enable icons for tt_content and/or pages 
    
+4. Enable icons for tt_content and/or pages
    In the extension settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable the icon fields. If
    you want to use it for other tables, see [For developers](##markdown-header-for-developers).
 
@@ -47,6 +47,8 @@ mod.tx_bwicons {
     }
 }
 ```
+
+After changing the settings, make sure to clear the cache.
 
 ## Usage
 
@@ -98,7 +100,6 @@ or
    ...
    ```
 
-3. Create a property and getter in your (extended) model class for frontend output
 
 ### New icon sources
 
