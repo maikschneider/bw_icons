@@ -33,6 +33,13 @@ class CssIconProvider extends AbstractIconProvider
         return file_exists($tempCssFile);
     }
 
+    public function getCssTempFilePath(): string
+    {
+        $cssFilePath = GeneralUtility::getFileAbsFileName($this->options['file']);
+        $tempPath = $this->getTempPath();
+        return $tempPath . '/' . basename($cssFilePath);
+    }
+
     public function getTempPath(): string
     {
         return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
@@ -155,6 +162,7 @@ class CssIconProvider extends AbstractIconProvider
 
             // extract prefix class (e.g. "fa"). use first selector that matches
             $fontFamilyPrefix = '';
+            $fontFamilyPrefixSelector = false;
             foreach ($fontUsers as $fontUser) {
                 if ($fontFamilyPrefix || count($fontUser->getSelectors()) === count($fontGlyphs)) {
                     continue;
@@ -164,7 +172,23 @@ class CssIconProvider extends AbstractIconProvider
                     if (!strpos($selector->getSelector(), '[class') && strpos($selector->getSelector(),
                             '.') === 0 && !strpos($selector->getSelector(), ' ')) {
                         $fontFamilyPrefix = substr($selector->getSelector(), 1) . ' ';
+                        $fontFamilyPrefixSelector = $selector;
                         break;
+                    }
+                }
+            }
+
+            // extract styles of prefix class (e.g. font-style, font-variant,..)
+            if ($fontFamilyPrefixSelector) {
+                foreach ($allRules as $block) {
+                    if (!is_a($block, DeclarationBlock::class)) {
+                        continue;
+                    }
+                    $selectors = $block->getSelectors();
+                    foreach ($selectors as $selector) {
+                        if ($selector->getSelector() === $fontFamilyPrefixSelector->getSelector()) {
+                            $tempFile->append($block);
+                        }
                     }
                 }
             }
@@ -291,12 +315,5 @@ class CssIconProvider extends AbstractIconProvider
         $tempCssFile = $this->getCssTempFilePath();
         $cssContent = $cssDocument->render(OutputFormat::createCompact());
         GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
-    }
-
-    public function getCssTempFilePath(): string
-    {
-        $cssFilePath = GeneralUtility::getFileAbsFileName($this->options['file']);
-        $tempPath = $this->getTempPath();
-        return $tempPath . '/' . basename($cssFilePath);
     }
 }
