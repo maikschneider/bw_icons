@@ -3,35 +3,71 @@
 namespace Blueways\BwIcons\Provider;
 
 use Blueways\BwIcons\Utility\SvgReaderUtility;
+use Sabberworm\CSS\CSSList\Document;
+use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\Value\CSSString;
+use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 class CssIconProvider extends AbstractIconProvider
 {
+
+    public function getStyleSheet(): string
+    {
+        if (!$this->tempFileExist()) {
+            @$this->getIcons();
+        }
+        $tempFile = $this->getCssTempFilePath();
+        return '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $tempFile), 0, -1);
+    }
+
+    public function tempFileExist(): bool
+    {
+        $tempCssFile = $this->getCssTempFilePath();
+        return file_exists($tempCssFile);
+    }
+
+    public function getTempPath(): string
+    {
+        return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
+    }
 
     public function getIcons(): array
     {
         $typo3Path = $this->options['file'];
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
-        $folderDir = pathinfo($path, PATHINFO_DIRNAME);
         /** @var SvgReaderUtility $svgReaderUtility */
         $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
+        $tempFile = new Document();
 
         $parser = new \Sabberworm\CSS\Parser(file_get_contents($path));
         $cssDocument = $parser->parse();
         $allRules = $cssDocument->getAllRuleSets();
 
-        // extract @font-face declaration
-        $fontFaces = array_filter($allRules, static function ($rule) {
-            return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
-        });
+        $fontFaces = [];
+        $cssGlyphs = [];
+        foreach ($allRules as $rule) {
+            if (static::ruleIsFontFace($rule)) {
+                $fontFaces[] = $rule;
+                $this->adjustSrcOfFontFaceRule($rule);
+                $tempFile->append($rule);
+            }
+
+            if (static::ruleIsAGlyph($rule)) {
+                $cssGlyphs[] = $rule;
+                $tempFile->append($rule);
+            }
+        }
 
         // get paths to the svg font files
-        $svgFonts = array_map(static function ($ruleSet) use ($folderDir) {
+        $tempPath = $this->getTempPath();
+        $svgFonts = array_map(static function ($ruleSet) use ($tempPath) {
             $rules = $ruleSet->getRules('src');
             foreach ($rules as $rule) {
                 $values = $rule->getValues();
@@ -39,15 +75,9 @@ class CssIconProvider extends AbstractIconProvider
                     foreach ($value as $part) {
                         if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.svg')) {
                             // combine relative path with absolute path from css file
-                            // remove possible #fontawesome at end
-                            // remove possible ?version at end
                             // merge paths
-                            $relativePath = $part->getURL()->getString();
-                            $absolutePath = $folderDir . '/' . $relativePath;
-                            $absolutePath = strpos($absolutePath, '?') ? substr($absolutePath, 0,
-                                strpos($absolutePath, '?')) : $absolutePath;
-                            $absolutePath = strpos($absolutePath, '#') ? substr($absolutePath, 0,
-                                strpos($absolutePath, '#')) : $absolutePath;
+                            $relativePath = static::cleanFilePath($part->getURL()->getString());
+                            $absolutePath = $tempPath . '/' . $relativePath;
                             return realpath($absolutePath);
                         }
                     }
@@ -69,28 +99,6 @@ class CssIconProvider extends AbstractIconProvider
                 'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
             ];
         }, $fontFaces);
-
-        // extract all css classes that probably display icons
-        $cssGlyphs = array_filter($allRules, static function ($declarationBlock) {
-            // validate that declaration has content property and exactly one selector
-            if (!is_a($declarationBlock, DeclarationBlock::class)
-                || count($declarationBlock->getSelectors()) !== 1
-                || count($declarationBlock->getRules('content')) !== 1
-            ) {
-                return false;
-            }
-            // validate content-property (exists and is not "")
-            $contentRule = $declarationBlock->getRules('content')[0];
-            if (!$contentRule || !$contentRule->getValue() || !is_a($contentRule->getValue(), CSSString::class) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
-                return false;
-            }
-            // validate selector (is class and has :before or :after)
-            $selector = $declarationBlock->getSelectors()[0]->getSelector();
-            if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
-                return false;
-            }
-            return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
-        });
 
         // build tab modal markup
         $tabs = [];
@@ -118,16 +126,17 @@ class CssIconProvider extends AbstractIconProvider
             }
 
             // get statements that use the current font-family
-            $fontUsers = array_filter($allRules, static function ($block) use ($font) {
+            $fontUsers = [];
+            foreach ($allRules as $block) {
                 if (!is_a($block, DeclarationBlock::class) || count($block->getRules('font-family')) !== 1) {
-                    return false;
+                    continue;
                 }
 
                 // check font-family
                 $fontFamilyRules = $block->getRules('font-family');
                 if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || !is_a($fontFamilyRules[0]->getValue(),
                         CSSString::class) || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
-                    return false;
+                    continue;
                 }
 
                 // check font weight
@@ -136,12 +145,13 @@ class CssIconProvider extends AbstractIconProvider
                     $weight = $fontWeightRules[0]->getValue();
                     $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
                     if ($weight && $weight !== $font['weight']) {
-                        return false;
+                        continue;
                     }
                 }
 
-                return true;
-            });
+                $fontUsers[] = $block;
+                $tempFile->append($block);
+            }
 
             // extract prefix class (e.g. "fa"). use first selector that matches
             $fontFamilyPrefix = '';
@@ -169,6 +179,8 @@ class CssIconProvider extends AbstractIconProvider
             $tabs[$fontName] = $icons;
         }
 
+        $this->writeTempCss($tempFile);
+
         // remove array offset (font-family name) if only one tab
         if (count($fontFamilies) === 1) {
             $singleTab = array_reverse($tabs);
@@ -177,5 +189,114 @@ class CssIconProvider extends AbstractIconProvider
         }
 
         return $tabs;
+    }
+
+    protected static function ruleIsFontFace($rule): bool
+    {
+        return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
+    }
+
+    protected function adjustSrcOfFontFaceRule(AtRuleSet $rule): void
+    {
+        foreach ($rule->getRules('src') as $srcRule) {
+            if (!$srcRule->getValue()) {
+                continue;
+            }
+
+            $this->crawlAndHandleUrls($srcRule->getValue());
+        }
+    }
+
+    protected function crawlAndHandleUrls($ruleValue): void
+    {
+
+        if (is_a($ruleValue, URL::class)) {
+            $this->handleCssUrl($ruleValue);
+        }
+
+        if (is_a($ruleValue, RuleValueList::class)) {
+            foreach ($ruleValue->getListComponents() as $component) {
+                $this->crawlAndHandleUrls($component);
+            }
+        }
+    }
+
+    protected function handleCssUrl(URL $url)
+    {
+        if (!is_a($url->getURL(), CSSString::class)) {
+            return $url;
+        }
+
+        $currentPath = $this->getCurrentPath();
+        $fontFilePath = realpath($currentPath . '/' . static::cleanFilePath($url->getURL()->getString()));
+
+        if (!file_exists($fontFilePath)) {
+            return 0;
+        }
+
+        $tempPath = $this->getTempPath();
+        $fontFileName = pathinfo($url->getURL()->getString(), PATHINFO_BASENAME);
+        $tempFile = $tempPath . '/' . static::cleanFilePath($fontFileName);
+        GeneralUtility::writeFileToTypo3tempDir($tempFile, file_get_contents($fontFilePath));
+
+        $url->getURL()->setString($fontFileName);
+    }
+
+    public function getCurrentPath(): string
+    {
+        $typo3Path = $this->options['file'];
+        $path = GeneralUtility::getFileAbsFileName($typo3Path);
+        return pathinfo($path, PATHINFO_DIRNAME);
+    }
+
+    /**
+     * remove possible #fontawesome and ?version at end of string
+     *
+     * @param $path
+     * @return false|string
+     */
+    public static function cleanFilePath($path)
+    {
+        $cleanPath = strpos($path, '?') ? substr($path, 0,
+            strpos($path, '?')) : $path;
+        return strpos($cleanPath, '#') ? substr($cleanPath, 0,
+            strpos($cleanPath, '#')) : $cleanPath;
+    }
+
+    protected static function ruleIsAGlyph($declarationBlock): bool
+    {
+        // validate that declaration has content property and exactly one selector
+        if (!is_a($declarationBlock, DeclarationBlock::class)
+            || count($declarationBlock->getSelectors()) !== 1
+            || count($declarationBlock->getRules('content')) !== 1
+        ) {
+            return false;
+        }
+        // validate content-property (exists and is not "")
+        $contentRule = $declarationBlock->getRules('content')[0];
+        if (!$contentRule || !$contentRule->getValue() || !is_a($contentRule->getValue(),
+                CSSString::class) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+            return false;
+        }
+        // validate selector (is class and has :before or :after)
+        $selector = $declarationBlock->getSelectors()[0]->getSelector();
+        if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
+            return false;
+        }
+        return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
+    }
+
+    protected function writeTempCss(Document $cssDocument): void
+    {
+        $tempCssFile = $this->getCssTempFilePath();
+        $cssContent = $cssDocument->render(OutputFormat::createCompact());
+        GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
+    }
+
+    public function getCssTempFilePath(): string
+    {
+        $cssFilePath = GeneralUtility::getFileAbsFileName($this->options['file']);
+        $tempPath = $this->getTempPath();
+        return $tempPath . '/' . basename($cssFilePath);
     }
 }
