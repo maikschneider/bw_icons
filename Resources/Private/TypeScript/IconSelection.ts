@@ -21,8 +21,11 @@ class IconSelection {
 	protected selectedIconName: string;
 	protected currentModal;
 	protected pid: number;
+	protected styleSheets: Array<string>;
 
 	protected onModalButtonClick(e: Event) {
+
+		this.injectStyleSheets();
 
 		let url = TYPO3.settings.ajaxUrls.icon_selection;
 		url += url.indexOf('?') > 0 ? '&' : '?';
@@ -134,17 +137,20 @@ class IconSelection {
 		$(e.currentTarget).addClass('active');
 	}
 
+	protected injectStyleSheets() {
+		this.styleSheets.forEach((sheet) => {
+			if (!parent.document.querySelector('link[href*="' + sheet + '"]')) {
+				parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
+					'beforeend',
+					'<link rel="stylesheet" href="' + sheet + '" />');
+			}
+		});
+	}
+
 	public init(pid: number, itemFormElName: string, styleSheets: []) {
 
 		this.pid = pid;
-
-		// add stylesheet to global frame (to display icons in modal)
-		// @TODO: remove on close
-		styleSheets.forEach((sheet) => {
-			parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
-				'beforeend',
-				'<link rel="stylesheet" href="' + sheet + '" />');
-		});
+		this.styleSheets = styleSheets;
 
 		// cache dom
 		this.itemFormElName = itemFormElName;
