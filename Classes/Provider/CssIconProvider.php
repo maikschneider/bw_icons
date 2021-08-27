@@ -216,7 +216,7 @@ class CssIconProvider extends AbstractIconProvider
     protected function getStyleSheetContent(): string
     {
         $path = $this->options['file'];
-        if (!GeneralUtility::isValidUrl($path)) {
+        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
             $path = GeneralUtility::getFileAbsFileName($path);
         }
         return file_get_contents($path);
@@ -258,7 +258,6 @@ class CssIconProvider extends AbstractIconProvider
             return $url;
         }
 
-        $currentPath = $this->getCurrentPath();
         $fontFileUrl = static::cleanFilePath($url->getURL()->getString());
 
         if (GeneralUtility::isValidUrl($fontFileUrl)) {
@@ -268,6 +267,7 @@ class CssIconProvider extends AbstractIconProvider
             }
             $fontFilePath = $fontFileUrl;
         } else {
+            $currentPath = $this->getCurrentPath();
             $fontFilePath = realpath($currentPath . '/' . static::cleanFilePath($url->getURL()->getString()));
             if (!file_exists($fontFilePath)) {
                 return 0;
@@ -285,7 +285,7 @@ class CssIconProvider extends AbstractIconProvider
     public function getCurrentPath(): string
     {
         $path = $this->options['file'];
-        if (!GeneralUtility::isValidUrl($path)) {
+        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
             $path = GeneralUtility::getFileAbsFileName($path);
         }
         return pathinfo($path, PATHINFO_DIRNAME);
