@@ -12,11 +12,21 @@ use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\URL;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
 class CssIconProvider extends AbstractIconProvider
 {
+
+    public function __construct($options)
+    {
+        parent::__construct($options);
+
+        if (!class_exists('\Sabberworm\CSS\CSSList\Document')) {
+            @include 'phar://' . ExtensionManagementUtility::extPath('bw_icons') . 'Libraries/sabberworm-php-css-parser.phar/vendor/autoload.php';
+        }
+    }
 
     public function getStyleSheet(): string
     {

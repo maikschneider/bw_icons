@@ -10,9 +10,9 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => 0,
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '1.2.1',
+    'version' => '1.2.2',
     'autoload' => [
-        'psr-4' => ['Bw\\BwIcons\\' => 'Classes']
+        'psr-4' => ['Blueways\\BwIcons\\' => 'Classes']
     ],
     'constraints' => [
         'depends' => [
