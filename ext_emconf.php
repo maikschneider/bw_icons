@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = [
     'clearCacheOnLoad' => 0,
     'version' => '1.2.1',
     'autoload' => [
-        'psr-4' => ['Bw\\BwIcons\\' => 'Classes']
+        'psr-4' => ['Blueways\\BwIcons\\' => 'Classes']
     ],
     'constraints' => [
         'depends' => [
