@@ -36,7 +36,6 @@
     "typo3/cms-backend": "^11.3",
     "typo3/cms-belog": "^11.3",
     "typo3/cms-beuser": "^11.3",
-    "typo3/cms-core": "^11.3",
     "typo3/cms-dashboard": "^11.3",
     "typo3/cms-extbase": "^11.3",
     "typo3/cms-extensionmanager": "^11.3",
@@ -62,7 +61,9 @@
     "typo3/cms-setup": "^11.3",
     "typo3/cms-tstemplate": "^11.3",
     "helhum/typo3-console": "^6.6",
-    "bk2k/bootstrap-package": "dev-master"
+    "bk2k/bootstrap-package": "dev-master",
+    "typo3/cms-styleguide": "^11.3",
+    "clue/phar-composer":"^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -77,6 +78,11 @@
     ],
     "post-autoload-dump": [
       "@typo3-cms-scripts"
+    ],
+    "create-libs": [
+      "mkdir -p Libraries",
+      "vendor/bin/phar-composer build 'sabberworm/php-css-parser=^8.3' Libraries/sabberworm-php-css-parser.phar",
+      "chmod -x Libraries/*"
     ]
   },
   "require": {
