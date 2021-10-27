@@ -4,11 +4,9 @@ namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 
 class HelperUtility
 {
@@ -65,6 +63,24 @@ class HelperUtility
     }
 
     /**
+     * Checks if all temp dirs of css provider do exist
+     *
+     * @return bool
+     */
+    protected function isValidTempFiles(): bool
+    {
+        foreach ($this->getAllProvider() as $provider) {
+            if (!is_a($provider, CssIconProvider::class)) {
+                continue;
+            }
+            if (!$provider->tempFileExist()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @return array<\Blueways\BwIcons\Provider\AbstractIconProvider>
      */
     protected function getAllProvider(): array
@@ -100,22 +116,5 @@ class HelperUtility
             $sheets[] = $provider->getStyleSheet();
         }
         return $sheets;
-    }
-
-    /**
-     * Checks if all temp dirs of css provider do exist
-     * @return bool
-     */
-    protected function isValidTempFiles(): bool
-    {
-        foreach ($this->getAllProvider() as $provider) {
-            if (!is_a($provider, CssIconProvider::class)) {
-                continue;
-            }
-            if (!$provider->tempFileExist()) {
-                return false;
-            }
-        }
-        return true;
     }
 }
