@@ -35,14 +35,14 @@ class IconSelection {
 			type: Modal.types.ajax,
 			content: url,
 			size: Modal.sizes.large,
-			title: 'Select Icon',
+			title: TYPO3.lang.icon_wizard_title,
 			callback: (modal) => {
 				this.currentModal = modal;
 			},
 			ajaxCallback: this.onModalLoaded.bind(this),
 			buttons: [
 				{
-					text: 'Save changes',
+					text: TYPO3.lang.icon_wizard_save,
 					name: 'save',
 					icon: 'actions-document-save',
 					active: true,

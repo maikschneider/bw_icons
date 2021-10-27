@@ -10,6 +10,12 @@
 			<trans-unit id="icon">
 				<source><![CDATA[Icon]]></source>
 			</trans-unit>
+			<trans-unit id="icon_wizard_save">
+				<source><![CDATA[Save changes]]></source>
+			</trans-unit>
+			<trans-unit id="icon_wizard_title">
+				<source><![CDATA[Select icon]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
