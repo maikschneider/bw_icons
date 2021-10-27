@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-10-27T11:56:25Z" product-name="bw_icons">
+		<header>
+			<generator>XLIFF Editor</generator>
+			<authorName>Maik Schneider</authorName>
+			<authorEmail>m.schneider@blueways.de</authorEmail>
+		</header>
+		<body>
+			<trans-unit id="icon" approved="yes">
+				<source><![CDATA[Icon]]></source>
+				<target><![CDATA[Icon]]></target>
+			</trans-unit>
+			<trans-unit id="icon_wizard_save" approved="yes">
+				<source><![CDATA[Save changes]]></source>
+				<target><![CDATA[speichern]]></target>
+			</trans-unit>
+			<trans-unit id="icon_wizard_title" approved="yes">
+				<source><![CDATA[Select icon]]></source>
+				<target><![CDATA[Icon auswählen]]></target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

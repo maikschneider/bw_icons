@@ -13,7 +13,7 @@ defined('TYPO3_MODE') or die();
 $temporaryColumns = [
     'tx_bwicons_icon' => [
         'exclude' => 1,
-        'label' => 'Icon',
+        'label' => 'LLL:EXT:bw_icons/Resources/Private/Language/locallang.xlf:icon',
         'config' => [
             'type' => 'input',
             'renderType' => 'iconSelection'
