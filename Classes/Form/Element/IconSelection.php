@@ -32,8 +32,6 @@ class IconSelection extends AbstractFormElement
 
         $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init(' . $pid . ', "' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
 
-        $resultArray['additionalHiddenFields'][] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($parameterArray['itemFormElValue']) . '" />';
-
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
         $defaultInputWidth = 10;
