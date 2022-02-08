@@ -5,7 +5,7 @@ defined('TYPO3_MODE') or die();
 // Create new field
 $temporaryColumns = [
     'tx_bwicons_icon' => [
-        'exclude' => 1,
+        'exclude' => 0,
         'label' => 'LLL:EXT:bw_icons/Resources/Private/Language/locallang.xlf:icon',
         'config' => [
             'type' => 'input',
