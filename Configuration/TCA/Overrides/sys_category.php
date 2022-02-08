@@ -9,7 +9,7 @@ $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 $bwiconsConf = $extensionConfiguration->get('bw_icons');
 
 // Add new field if enabled
-if ((int)$bwiconsConf['sys_category'] === 1) {
+if (isset($bwiconsConf['sys_category']) && (int)$bwiconsConf['sys_category'] === 1) {
     // Create new field
     $temporaryColumns = [
         'tx_bwicons_icon' => [
