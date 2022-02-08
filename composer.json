@@ -18,6 +18,11 @@
     "vendor-dir": "vendor",
     "platform": {
       "php": "7.4"
+    },
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true,
+      "helhum/typo3-console-plugin": true
     }
   },
   "authors": [
@@ -72,9 +77,7 @@
   },
   "scripts": {
     "typo3-cms-scripts": [
-      "ln -sfn ../../../ public/typo3conf/ext/bw_icons",
-      "vendor/bin/typo3cms install:fixfolderstructure",
-      "vendor/bin/typo3cms install:generatepackagestates"
+      "ln -sfn ../../../ public/typo3conf/ext/bw_icons"
     ],
     "post-autoload-dump": [
       "@typo3-cms-scripts"
@@ -86,7 +89,7 @@
     ]
   },
   "require": {
-    "sabberworm/php-css-parser": "dev-master",
+    "sabberworm/php-css-parser": "8.4.0",
     "ext-simplexml": "*",
     "ext-json": "*",
     "typo3/cms-core": "^9.0 || ^10.0 || ^11.0"
