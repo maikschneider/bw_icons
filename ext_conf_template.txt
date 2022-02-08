@@ -2,3 +2,5 @@
 tt_content = 0
 # cat=basic/enable; type=boolean; label=Icon in pages element
 pages = 0
+# cat=basic/enable; type=boolean; label=Icon in sys_category element
+sys_category = 0
