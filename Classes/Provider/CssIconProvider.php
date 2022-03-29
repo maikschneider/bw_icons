@@ -28,6 +28,20 @@ class CssIconProvider extends AbstractIconProvider
         }
     }
 
+    private static function glyphIsNotInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
+    {
+        $contentRules = $cssGlyph->getRules('content');
+        $glyphString = $contentRules[0]->getValue()->getString();
+        foreach ($cssGlyphs as $setRule) {
+            $contentRules = $setRule->getRules('content');
+            $glyphStringInSet = $contentRules[0]->getValue()->getString();
+            if ($glyphString === $glyphStringInSet) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function getStyleSheet(): string
     {
         if (!$this->tempFileExist()) {
@@ -74,7 +88,7 @@ class CssIconProvider extends AbstractIconProvider
                 $tempFile->append($rule);
             }
 
-            if (static::ruleIsAGlyph($rule)) {
+            if (static::ruleIsAGlyph($rule) && static::glyphIsNotInSet($rule, $cssGlyphs)) {
                 $cssGlyphs[] = $rule;
                 $tempFile->append($rule);
             }
