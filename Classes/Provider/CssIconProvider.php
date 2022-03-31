@@ -3,6 +3,7 @@
 namespace Blueways\BwIcons\Provider;
 
 use Blueways\BwIcons\Utility\SvgReaderUtility;
+use Blueways\BwIcons\Utility\TtfReaderUtility;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
@@ -68,10 +69,35 @@ class CssIconProvider extends AbstractIconProvider
         return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
     }
 
+    protected function extractFontFilesFromFontFaces(string $fileExtension, array $fontFaces): array
+    {
+        $tempPath = $this->getTempPath();
+        return array_map(static function ($ruleSet) use ($tempPath, $fileExtension) {
+            $rules = $ruleSet->getRules('src');
+            foreach ($rules as $rule) {
+                $values = $rule->getValues();
+                foreach ($values as $value) {
+                    foreach ($value as $part) {
+                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
+                            // combine relative path with absolute path from css file
+                            // merge paths
+                            $relativePath = static::cleanFilePath($part->getURL()->getString());
+                            $absolutePath = $tempPath . '/' . $relativePath;
+                            return realpath($absolutePath);
+                        }
+                    }
+                }
+            }
+            return '';
+        }, $fontFaces);
+    }
+
     public function getIcons(): array
     {
         /** @var SvgReaderUtility $svgReaderUtility */
         $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
+        /** @var TtfReaderUtility $ttfReaderUtility */
+        $ttfReaderUtility = GeneralUtility::makeInstance(TtfReaderUtility::class);
         $tempFile = new Document();
         $styleSheetContent = $this->getStyleSheetContent();
 
@@ -95,25 +121,8 @@ class CssIconProvider extends AbstractIconProvider
         }
 
         // get paths to the svg font files
-        $tempPath = $this->getTempPath();
-        $svgFonts = array_map(static function ($ruleSet) use ($tempPath) {
-            $rules = $ruleSet->getRules('src');
-            foreach ($rules as $rule) {
-                $values = $rule->getValues();
-                foreach ($values as $value) {
-                    foreach ($value as $part) {
-                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.svg')) {
-                            // combine relative path with absolute path from css file
-                            // merge paths
-                            $relativePath = static::cleanFilePath($part->getURL()->getString());
-                            $absolutePath = $tempPath . '/' . $relativePath;
-                            return realpath($absolutePath);
-                        }
-                    }
-                }
-            }
-            return '';
-        }, $fontFaces);
+        $svgFonts = $this->extractFontFilesFromFontFaces('svg', $fontFaces);
+        $ttfFonts = $this->extractFontFilesFromFontFaces('ttf', $fontFaces);
 
         // get different font-families
         $fontFamilies = array_map(static function ($ruleSet) {
@@ -133,13 +142,17 @@ class CssIconProvider extends AbstractIconProvider
         $tabs = [];
         foreach ($fontFamilies as $key => $font) {
 
-            // abort if no svg font found
-            if (!$svgFonts[$key]) {
+            // abort if no svg or ttf font found
+            if ($svgFonts[$key]) {
+                $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
+            } elseif ($ttfFonts[$key]) {
+                $fontGlyphs = $ttfReaderUtility->getGlyphs($ttfFonts[$key]);
+            }
+            else {
                 continue;
             }
 
             // filter glyphs for the ones in font file
-            $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
             $availableGlyphs = array_filter($cssGlyphs, static function ($cssGlyph) use ($fontGlyphs) {
                 $rules = $cssGlyph->getRules('content');
                 $glyphString = $rules[0]->getValue()->getString();
