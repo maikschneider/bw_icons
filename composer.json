@@ -92,6 +92,7 @@
     "sabberworm/php-css-parser": "8.4.0",
     "ext-simplexml": "*",
     "ext-json": "*",
-    "typo3/cms-core": "^9.0 || ^10.0 || ^11.0"
+    "typo3/cms-core": "^9.0 || ^10.0 || ^11.0",
+    "phenx/php-font-lib": "0.5.4"
   }
 }
