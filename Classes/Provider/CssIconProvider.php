@@ -230,7 +230,7 @@ class CssIconProvider extends AbstractIconProvider
 
             // map icons to class names
             $icons = array_map(static function ($declarationBlock) use ($fontFamilyPrefix) {
-                return $fontFamilyPrefix . str_replace([':before', '::before', '::after', ':after', '.'], '',
+                return $fontFamilyPrefix . str_replace(['::before', ':before', '::after', ':after', '.'], '',
                         $declarationBlock->getSelectors()[0]->getSelector());
             }, $availableGlyphs);
             $icons = array_values($icons);
