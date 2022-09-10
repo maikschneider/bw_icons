@@ -22,6 +22,12 @@ class IconViewHelper extends AbstractViewHelper
         $attributes['data-icon-name'] = $arguments['icon'];
         $attributes['data-icon-base-name'] = $arguments['icon'];
 
+        if (isset($arguments['additionalAttributes'])) {
+            foreach ($arguments['additionalAttributes'] as $additionalAttributeName => $value) {
+                $attributes['data-' . $additionalAttributeName] = $value;
+            }
+        }
+
         if (strpos($arguments['icon'], '.')) {
             $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
             $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
@@ -54,5 +60,7 @@ class IconViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('icon', 'string', 'The icon name', true);
         $this->registerArgument('provider', 'string', 'PageTS did of the used IconProvider', false);
+        $this->registerArgument('additionalAttributes', 'array',
+            'Additional tag attributes. They will be added directly to the resulting HTML tag.', false);
     }
 }
