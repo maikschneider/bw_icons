@@ -5,3 +5,4 @@ vendor
 var
 Documentation-*
 .phpdoc
+node_modules
