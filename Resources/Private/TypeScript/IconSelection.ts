@@ -147,7 +147,7 @@ class IconSelection {
 		});
 	}
 
-	public init(pid: number, itemFormElName: string, styleSheets: []) {
+	constructor(pid: number, itemFormElName: string, styleSheets: []) {
 
 		this.pid = pid;
 		this.styleSheets = styleSheets;
@@ -163,4 +163,4 @@ class IconSelection {
 	}
 }
 
-export = new IconSelection();
+export = IconSelection;
