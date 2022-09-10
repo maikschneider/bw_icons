@@ -30,7 +30,7 @@ class IconSelection extends AbstractFormElement
             return '"' . $sheet . '"';
         }, $styleSheets));
 
-        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { IconSelection.init(' . $pid . ', "' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
+        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { new IconSelection(' . $pid . ', "' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
 
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
