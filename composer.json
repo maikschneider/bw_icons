@@ -82,6 +82,7 @@
     "create-libs": [
       "mkdir -p Libraries",
       "vendor/bin/phar-composer build 'sabberworm/php-css-parser=8.4.0' Libraries/sabberworm-php-css-parser.phar",
+      "vendor/bin/phar-composer build 'phenx/php-font-lib=0.5.4' Libraries/phenx-php-font-lib.phar",
       "chmod -x Libraries/*"
     ]
   },
