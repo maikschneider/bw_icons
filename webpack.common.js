@@ -6,7 +6,8 @@ module.exports = {
     filename: 'Resources/Public/Css/backend/IconSelection.css',
   })],
   entry: {
-    IconSelection: './Resources/Private/TypeScript/IconSelection.ts'
+    IconSelection: './Resources/Private/TypeScript/IconSelection.ts',
+    Rte: './Resources/Private/TypeScript/Rte.ts'
   },
   output: {
     filename: 'Resources/Public/JavaScript/[name].js',
@@ -45,6 +46,8 @@ module.exports = {
   externals: {
     'TYPO3/CMS/Backend/Modal': 'TYPO3/CMS/Backend/Modal',
     'TYPO3/CMS/Backend/Icons': 'TYPO3/CMS/Backend/Icons',
+    'TYPO3/CMS/Core/Ajax/AjaxRequest': 'TYPO3/CMS/Core/Ajax/AjaxRequest',
+    'TYPO3/CMS/Core/Ajax/AjaxResponse': 'TYPO3/CMS/Core/Ajax/AjaxResponse',
     'jquery': 'jquery'
   }
 };

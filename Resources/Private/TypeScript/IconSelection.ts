@@ -1,6 +1,10 @@
 import $ = require('jquery');
 // @ts-ignore
 import Modal = require('TYPO3/CMS/Backend/Modal');
+// @ts-ignore
+import AjaxRequest = require('TYPO3/CMS/Core/Ajax/AjaxRequest');
+// @ts-ignore
+import AjaxResponse = require('TYPO3/CMS/Core/Ajax/AjaxResponse');
 
 declare global {
 	interface Window {
@@ -21,11 +25,8 @@ class IconSelection {
 	protected selectedIconName: string;
 	protected currentModal;
 	protected pid: number;
-	protected styleSheets: Array<string>;
 
 	protected onModalButtonClick(e: Event) {
-
-		this.injectStyleSheets();
 
 		let url = TYPO3.settings.ajaxUrls.icon_selection;
 		url += url.indexOf('?') > 0 ? '&' : '?';
@@ -137,8 +138,8 @@ class IconSelection {
 		$(e.currentTarget).addClass('active');
 	}
 
-	protected injectStyleSheets() {
-		this.styleSheets.forEach((sheet) => {
+	protected injectStyleSheets(stylesheets: Array<string>) {
+		stylesheets.forEach((sheet) => {
 			if (!parent.document.querySelector('link[href*="' + sheet + '"]')) {
 				parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
 					'beforeend',
@@ -147,10 +148,21 @@ class IconSelection {
 		});
 	}
 
-	constructor(pid: number, itemFormElName: string, styleSheets: []) {
+	protected loadAndIncludeStylesheets(pid: number) {
+		let url = TYPO3.settings.ajaxUrls.icon_stylesheets;
+		url += url.indexOf('?') > 0 ? '&' : '?';
+		url += 'pid=' + this.pid;
+
+		new AjaxRequest(url).get().then(async (response: AjaxResponse): Promise<void> => {
+			const data = await response.resolve();
+			this.injectStyleSheets(data);
+		});
+	}
+
+	constructor(pid: number, itemFormElName: string) {
 
 		this.pid = pid;
-		this.styleSheets = styleSheets;
+		this.loadAndIncludeStylesheets(pid);
 
 		// cache dom
 		this.itemFormElName = itemFormElName;
