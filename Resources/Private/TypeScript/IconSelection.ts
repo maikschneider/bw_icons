@@ -30,7 +30,7 @@ class IconSelection {
 
 		let url = TYPO3.settings.ajaxUrls.icon_selection;
 		url += url.indexOf('?') > 0 ? '&' : '?';
-		url += 'pid=' + this.pid;
+		url += 'P[pid]=' + this.pid;
 
 		Modal.advanced({
 			type: Modal.types.ajax,
@@ -173,6 +173,48 @@ class IconSelection {
 		this.$formElement.find('.t3js-form-field-iconselection').on('click', this.onModalButtonClick.bind(this));
 		this.$formElement.find('.close').on('click', this.onClearButtonClick.bind(this));
 	}
+
+	public rteButtonClick(editor) {
+
+		const url = editor.config.tx_bwicons.routeUrl;
+
+		Modal.advanced({
+			type: Modal.types.ajax,
+			content: url,
+			size: Modal.sizes.large,
+			title: editor.lang.tx_bwicons.modalTitle,
+			callback: (modal) => this.currentModal = modal,
+			ajaxCallback: this.onModalLoaded.bind(this),
+			buttons: [
+				{
+					text: editor.lang.tx_bwicons.save,
+					name: 'save',
+					icon: 'actions-document-save',
+					active: true,
+					btnClass: 'btn-primary',
+					dataAttributes: {
+						action: 'save'
+					},
+					trigger: this.onRteModalSave.bind(this, editor)
+				}
+			]
+		});
+	}
+
+	protected onRteModalSave(editor) {
+
+		if (this.selectedIconName) {
+			const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').get(0);
+			// @ts-ignore
+			const iconElement = new CKEDITOR.dom.element(icon);
+			editor.insertElement(iconElement);
+			editor.focus();
+		}
+
+		this.currentModal.trigger('modal-dismiss');
+	}
+
+
 }
 
 export = IconSelection;

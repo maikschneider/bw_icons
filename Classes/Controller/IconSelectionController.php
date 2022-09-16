@@ -26,7 +26,8 @@ class IconSelectionController extends ActionController
             $response = new Response();
         }
 
-        $pid = (int)$request->getQueryParams()['pid'];
+        $params = $request->getQueryParams();
+        $pid = (int)$params['P']['pid'];
         /** @var HelperUtility $helperUtility */
         $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $pid);
         $tabs = $helperUtility->getModalTabs();

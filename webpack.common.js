@@ -6,8 +6,7 @@ module.exports = {
     filename: 'Resources/Public/Css/backend/IconSelection.css',
   })],
   entry: {
-    IconSelection: './Resources/Private/TypeScript/IconSelection.ts',
-    Rte: './Resources/Private/TypeScript/Rte.ts'
+    IconSelection: './Resources/Private/TypeScript/IconSelection.ts'
   },
   output: {
     filename: 'Resources/Public/JavaScript/[name].js',
