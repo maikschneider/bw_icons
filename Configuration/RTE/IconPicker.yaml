@@ -6,4 +6,5 @@ editor:
       - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
       - 'EXT:bw_icons/Resources/Public/Css/Rte.css'
     extraAllowedContent:
-      - img
+      - img[!src,data-icon-name,data-icon-base-name,loading]
+      - i[class,data-icon-name,data-icon-base-name]

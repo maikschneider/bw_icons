@@ -25,6 +25,7 @@ class IconSelection {
 	protected selectedIconName: string;
 	protected currentModal;
 	protected pid: number;
+	protected editor;
 
 	protected onModalButtonClick(e: Event) {
 
@@ -140,15 +141,25 @@ class IconSelection {
 
 	protected injectStyleSheets(stylesheets: Array<string>) {
 		stylesheets.forEach((sheet) => {
+
+			// include if used in RTE editor
+			if (this.editor) {
+				this.editor.document.$.head.insertAdjacentHTML(
+					'beforeend',
+					'<link rel="stylesheet" href="' + sheet + '" />');
+			}
+
+			// include for modal
 			if (!parent.document.querySelector('link[href*="' + sheet + '"]')) {
 				parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
 					'beforeend',
 					'<link rel="stylesheet" href="' + sheet + '" />');
 			}
+
 		});
 	}
 
-	protected loadAndIncludeStylesheets(pid: number) {
+	protected loadAndIncludeStylesheets() {
 		let url = TYPO3.settings.ajaxUrls.icon_stylesheets;
 		url += url.indexOf('?') > 0 ? '&' : '?';
 		url += 'pid=' + this.pid;
@@ -159,35 +170,20 @@ class IconSelection {
 		});
 	}
 
-	constructor(pid: number, itemFormElName: string) {
+	public rteButtonClick() {
 
-		this.pid = pid;
-		this.loadAndIncludeStylesheets(pid);
-
-		// cache dom
-		this.itemFormElName = itemFormElName;
-		this.$formElement = $('div[data-form-element="' + itemFormElName + '"]');
-		this.$hiddenElement = $('input[name="' + itemFormElName + '"]');
-
-		// bind events
-		this.$formElement.find('.t3js-form-field-iconselection').on('click', this.onModalButtonClick.bind(this));
-		this.$formElement.find('.close').on('click', this.onClearButtonClick.bind(this));
-	}
-
-	public rteButtonClick(editor) {
-
-		const url = editor.config.tx_bwicons.routeUrl;
+		const url = this.editor.config.tx_bwicons.routeUrl;
 
 		Modal.advanced({
 			type: Modal.types.ajax,
 			content: url,
 			size: Modal.sizes.large,
-			title: editor.lang.tx_bwicons.modalTitle,
+			title: this.editor.lang.tx_bwicons.modalTitle,
 			callback: (modal) => this.currentModal = modal,
 			ajaxCallback: this.onModalLoaded.bind(this),
 			buttons: [
 				{
-					text: editor.lang.tx_bwicons.save,
+					text: this.editor.lang.tx_bwicons.save,
 					name: 'save',
 					icon: 'actions-document-save',
 					active: true,
@@ -195,7 +191,7 @@ class IconSelection {
 					dataAttributes: {
 						action: 'save'
 					},
-					trigger: this.onRteModalSave.bind(this, editor)
+					trigger: this.onRteModalSave.bind(this, this.editor)
 				}
 			]
 		});
@@ -212,6 +208,29 @@ class IconSelection {
 		}
 
 		this.currentModal.trigger('modal-dismiss');
+	}
+
+	public initForFormElement(itemFormElName: string) {
+
+		this.loadAndIncludeStylesheets();
+
+		// cache dom
+		this.itemFormElName = itemFormElName;
+		this.$formElement = $('div[data-form-element="' + itemFormElName + '"]');
+		this.$hiddenElement = $('input[name="' + itemFormElName + '"]');
+
+		// bind events
+		this.$formElement.find('.t3js-form-field-iconselection').on('click', this.onModalButtonClick.bind(this));
+		this.$formElement.find('.close').on('click', this.onClearButtonClick.bind(this));
+	}
+
+	public initForRteEditor(editor) {
+		this.editor = editor;
+		this.loadAndIncludeStylesheets();
+	}
+
+	constructor(pid: number, itemFormElName: string) {
+		this.pid = pid;
 	}
 
 
