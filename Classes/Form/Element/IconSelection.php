@@ -22,15 +22,11 @@ class IconSelection extends AbstractFormElement
         $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
         $config = $parameterArray['fieldConf']['config'];
 
-        /** @var HelperUtility $helperUtil */
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid);
         $styleSheets = $helperUtil->getStyleSheets();
         $resultArray['stylesheetFiles'] = $styleSheets;
-        $jsSheetArray = implode(',', array_map(function ($sheet) {
-            return '"' . $sheet . '"';
-        }, $styleSheets));
 
-        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { new IconSelection(' . $pid . ', "' . $parameterArray['itemFormElName'] . '", [' . $jsSheetArray . ']); }); }'];
+        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . '); iconPicker.initForFormElement("' . $parameterArray['itemFormElName'] . '"); }); }'];
 
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 

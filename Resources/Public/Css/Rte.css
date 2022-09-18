@@ -1,0 +1,6 @@
+img[data-icon-name] {
+    max-height: 14px;
+    margin: 0 5px;
+    position: relative;
+    bottom: -2px;
+}
