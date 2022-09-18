@@ -1,8 +1,13 @@
 # TYPO3 Icon Picker
 
-Form element for icon selection. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages and tt_content.
+Icon selection for TCA and RTE. Generates a browsable gallery of your icon fonts
+and SVGs - just link your stylesheet or image directory. Works with FontAwesome,
+Bootstrap, Icomoon.. Optionally adds icon field to pages, tt_content or
+sys_category.
 
 ![Backend Form](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/backend1.jpg)
+
+![RTE](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/RTE.jpg)
 
 ## Demo
 
@@ -11,14 +16,17 @@ Form element for icon selection. Generates a browsable gallery of your icon font
 ## Features
 
 * icon picker form element
-* icon field for tt_content and pages
+* icon field for tt_content, pages and sys_category
+* RTE plugin
 * icon gallery with filter function
 * displays icons from image files or font (css)
 * extracts and caches font styles (css)
 * works with remote css files
 * can include generated stylesheet in the frontend
 
-Pro tip: Use your Icomoon development file. Your Icon Picker is always up to date, and you can serve the font files from your own remote without manually downloading and adjusting paths!
+Pro tip: Use your Icomoon development file. Your Icon Picker is always up to
+date, and you can serve the font files from your own remote without manually
+downloading and adjusting paths!
 
 ## Installation
 
@@ -28,19 +36,37 @@ Pro tip: Use your Icomoon development file. Your Icon Picker is always up to dat
    ```
 
 2. Update database schema
-   
+
 3. Include PageTS
-   
-   Enable the extension in the Extension Manager and include the **static PageTS** for TYPO3 core icons or set up your own icons. See *Configuration* section.
-   
-4. Enable icons for tt_content and/or pages
-   
-   In the extension settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable the icon fields. If you want to use it for other tables, see *For developers* section.
+
+   Enable the extension in the Extension Manager and include the **static
+   PageTS** for TYPO3 core icons or set up your own icons. See *Configuration*
+   section.
+
+4. Enable icons for tt_content, pages and/or sys_category
+
+   In the extension
+   settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable
+   the icon fields. If you want to use it for other tables, see *For developers*
+   section.
+
+5. Include RTE configuration
+   ```yaml
+   imports:
+      - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+
+   editor:
+      config:
+        toolbar:
+          - { name: 'icon', items: [IconPicker] }
+    ```
 
 ## Configuration
 
-The displayed icons are set up via PageTS. Choose a unique identifier and select `FileIconProvider` if you want to add
-image files from a directory or `CssIconProvider` if you want to display font icons from a stylesheet.
+The displayed icons are set up via PageTS. Choose a unique identifier and
+select `FileIconProvider` if you want to add
+image files from a directory or `CssIconProvider` if you want to display font
+icons from a stylesheet.
 
 ```
 mod.tx_bwicons {
@@ -58,7 +84,7 @@ mod.tx_bwicons {
         title = FontAwsome
         file = fileadmin/fontawesome/css/all.css
     }
-    
+
     # Get icons from remote stylesheet. Styles and font files are cached in /typo3temp
     icomoon = Blueways\BwIcons\Provider\CssIconProvider
     icomoon {
@@ -70,26 +96,49 @@ mod.tx_bwicons {
 
 After changing the settings, make sure to clear the cache.
 
+### RTE Configuration
+
+After importing the yaml configuration, you can add the new button anywhere you want to your RTE present. [Read more](https://docs.typo3.org/c/typo3/cms-rte-ckeditor/main/en-us/Configuration/) about RTE configuration.
+
+```yaml
+imports:
+   - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+
+editor:
+   config:
+       toolbar:
+           - { name: 'icon', items: [IconPicker] }
+   ```
+
 ## Usage
 
-The icons are saved as filename (e.g. `EXT:myext/Resources/Public/Images/icon.svg` or `fileadmin/icons/foo.png`) if you use the `FileIconProvider` or as css class names (e.g. `fas fa-arrow-right`) by using `CssIconProvider`.
+The icons are saved as filename (
+e.g. `EXT:myext/Resources/Public/Images/icon.svg` or `fileadmin/icons/foo.png`)
+if you use the `FileIconProvider` or as css class names (
+e.g. `fas fa-arrow-right`) by using `CssIconProvider`.
 
-If you have configured only the selection of SVGs, you can safely use the `<f:image src="{data.tx_bwicons_icon}" />` viewHelper in your fluid template.
+If you have configured only the selection of SVGs, you can safely use
+the `<f:image src="{data.tx_bwicons_icon}" />` viewHelper in your fluid
+template.
 
-By only using font icons, you can output like `<i class="{data.tx_bwicons_icon}"></i>`.
+By only using font icons, you can output
+like `<i class="{data.tx_bwicons_icon}"></i>`.
 
-If you have a mixture, you can use my ViewHelper that determines the type by checking for a dot in the icon name:
+If you have a mixture, you can use my ViewHelper that determines the type by
+checking for a dot in the icon name:
 
 ```html
 {namespace bw=Blueways\BwIcons\ViewHelpers}
 
-<bw:icon icon="{data.tx_bwicons_icon}" /> Hello world!
+<bw:icon icon="{data.tx_bwicons_icon}"/> Hello world!
 ```
 
 Output:
+
 ```
 <i class="fa fas-wave"></i> Hello world!
 ```
+
 or
 
 ```
@@ -98,7 +147,9 @@ or
 
 ### CSS Frontend Include
 
-If you want to include the extracted styles in the frontend, you can use the `CssUtility` to generate the style-tags in the head of your page. Include this in your **TypoScript setup**:
+If you want to include the extracted styles in the frontend, you can use
+the `CssUtility` to generate the style-tags in the head of your page. Include
+this in your **TypoScript setup**:
 
 ```
 page.headerData {
@@ -131,13 +182,15 @@ page.headerData {
    ...
    ```
 
-
 ### New icon sources
 
-If you want to add other icon sources (e.g. from API), you can create your own IconProvider. Just make sure to extend from `Blueways\BwIcons\Provider\AbstractIconProvider`.
+If you want to add other icon sources (e.g. from API), you can create your own
+IconProvider. Just make sure to extend
+from `Blueways\BwIcons\Provider\AbstractIconProvider`.
 
 ## Contribute
 
-This extension was made by Maik Schneider from [blueways](https://www.blueways.de/). Feel free to contribute!
+This extension was made by Maik Schneider
+from [blueways](https://www.blueways.de/). Feel free to contribute!
 
 - [Bitbucket-Repository](https://bitbucket.org/blueways/bw_icons/)

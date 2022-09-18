@@ -1,17 +1,22 @@
 TYPO3 Icon Picker
 =================
 
-Form element for icon selection. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages and tt_content.
+Icon selection for TCA and RTE. Generates a browsable gallery of your icon fonts and SVGs - just link your stylesheet or image directory. Works with FontAwesome, Bootstrap, Icomoon.. Optionally adds icon field to pages, tt_content and sys_category.
 
 .. figure:: ./Images/backend1.jpg
    :alt: Backend form with Icon Picker element
+   :class: with-shadow
+
+.. figure:: ./Images/RTE.jpg
+   :alt: RTE with Icon Picker element
    :class: with-shadow
 
 Features
 --------
 
 * Icon Picker TCA form element
-* Icon field for tt_content and pages
+* Icon field for tt_content, pages and sys_category
+* RTE plugin
 * Icon gallery with filter function
 * Displays icons from image files and font (css)
 * Works with remote css files
@@ -51,11 +56,22 @@ Installation
 
    Include the **static PageTS** for TYPO3 core icons or set up your own icons. See Configuration :ref:`configuation` section.
 
-4. Enable icons for tt_content and/or pages
+4. Enable icons for tt_content, pages and/or sys_category
 
    In the extension settings (:kbd:`Admin Tools` → :kbd:`Extension Configuration` → :kbd:`bw_icons`), you can enable the icon fields.
    If you want to use it for other tables, see :ref:`for_devs` section.
 
+5. Include RTE configuration (optional)
+
+   .. code:: yaml
+
+      imports:
+         - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+
+      editor:
+         config:
+           toolbar:
+             - { name: 'icon', items: [IconPicker] }
 
 .. _configuation:
 
