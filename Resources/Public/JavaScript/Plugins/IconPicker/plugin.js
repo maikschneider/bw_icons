@@ -4,6 +4,8 @@
 
     let iconPicker = null;
 
+    CKEDITOR.dtd.$removeEmpty.i = 0;
+
     CKEDITOR.plugins.add('tx_bwicons', {
         lang: 'en',
         icons: 'box',

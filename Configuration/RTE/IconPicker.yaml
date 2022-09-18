@@ -7,4 +7,12 @@ editor:
       - 'EXT:bw_icons/Resources/Public/Css/Rte.css'
     extraAllowedContent:
       - img[!src,data-icon-name,data-icon-base-name,loading]
-      - i[class,data-icon-name,data-icon-base-name]
+      - i[*](*)
+    coreStyles_italic:
+      element: 'i'
+      overrides: 'span'
+processing:
+  allowTags:
+    - i
+  HTMLparser_db:
+    noAttrib: b,u,br,center,hr,sub,sup,strong,em,li,ul,ol,blockquote,strike
