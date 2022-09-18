@@ -30,7 +30,7 @@ class IconViewHelper extends AbstractViewHelper
 
         if (strpos($arguments['icon'], '.')) {
             $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
-            $webPath = '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $path), 0, -1);
+            $webPath = PathUtility::getAbsoluteWebPath($path);
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
             $baseName = basename($path, '.' . $extension);
