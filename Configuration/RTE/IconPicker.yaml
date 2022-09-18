@@ -3,7 +3,6 @@ editor:
     IconPicker: { resource: 'EXT:bw_icons/Resources/Public/JavaScript/Plugins/IconPicker/plugin.js', route: 'ajax_icon_selection' }
   config:
     contentsCss:
-      - 'EXT:rte_ckeditor/Resources/Public/Css/contents.css'
       - 'EXT:bw_icons/Resources/Public/Css/Rte.css'
     extraAllowedContent:
       - img[!src,data-icon-name,data-icon-base-name,loading]

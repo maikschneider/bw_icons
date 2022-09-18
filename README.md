@@ -96,6 +96,20 @@ mod.tx_bwicons {
 
 After changing the settings, make sure to clear the cache.
 
+### RTE Configuration
+
+After importing the yaml configuration, you can add the new button anywhere you want to your RTE present. [Read more](https://docs.typo3.org/c/typo3/cms-rte-ckeditor/main/en-us/Configuration/) about RTE configuration.
+
+```yaml
+imports:
+   - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+
+editor:
+   config:
+       toolbar:
+           - { name: 'icon', items: [IconPicker] }
+   ```
+
 ## Usage
 
 The icons are saved as filename (
