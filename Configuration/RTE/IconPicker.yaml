@@ -11,6 +11,8 @@ editor:
     coreStyles_italic:
       element: 'i'
       overrides: 'span'
+    extraPlugins:
+      - IconPicker
 processing:
   allowTags:
     - i
