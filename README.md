@@ -51,7 +51,7 @@ downloading and adjusting paths!
    section.
 
 5. Include RTE configuration
-   ```yaml
+   ``` {.yaml}
    imports:
       - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
 
@@ -59,7 +59,7 @@ downloading and adjusting paths!
       config:
         toolbar:
           - { name: 'icon', items: [IconPicker] }
-    ```
+   ```
 
 ## Configuration
 
@@ -100,7 +100,7 @@ After changing the settings, make sure to clear the cache.
 
 After importing the yaml configuration, you can add the new button anywhere you want to your RTE present. [Read more](https://docs.typo3.org/c/typo3/cms-rte-ckeditor/main/en-us/Configuration/) about RTE configuration.
 
-```yaml
+``` {.yaml}
 imports:
    - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
 
@@ -108,7 +108,7 @@ editor:
    config:
        toolbar:
            - { name: 'icon', items: [IconPicker] }
-   ```
+```
 
 ## Usage
 
