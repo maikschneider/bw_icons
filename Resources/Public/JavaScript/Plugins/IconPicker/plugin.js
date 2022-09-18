@@ -6,7 +6,7 @@
 
     CKEDITOR.dtd.$removeEmpty.i = 0;
 
-    CKEDITOR.plugins.add('tx_bwicons', {
+    CKEDITOR.plugins.add('IconPicker', {
         lang: 'en',
         icons: 'box',
         hidpi: true,
@@ -24,8 +24,8 @@
             });
 
             // Add Button
-            editor.ui.addButton && editor.ui.addButton('tx_bwicons', {
-                label: editor.lang.tx_bwicons.toolbar,
+            editor.ui.addButton && editor.ui.addButton('IconPicker', {
+                label: editor.lang.IconPicker.toolbar,
                 command: 'Icon',
                 toolbar: 'basicstyles',
                 icon: this.path + 'icons/box.png',
@@ -36,7 +36,7 @@
             ], function (IconSelection) {
 
                 const pattern = /(?:\&P\[pid\]\=)\d+/gi;
-                const url = decodeURIComponent(editor.config.tx_bwicons.routeUrl);
+                const url = decodeURIComponent(editor.config.IconPicker.routeUrl);
                 const pid = parseInt(url.match(pattern)[0].substring(8));
 
                 iconPicker = new IconSelection(pid);

@@ -172,18 +172,18 @@ class IconSelection {
 
 	public rteButtonClick() {
 
-		const url = this.editor.config.tx_bwicons.routeUrl;
+		const url = this.editor.config.IconPicker.routeUrl;
 
 		Modal.advanced({
 			type: Modal.types.ajax,
 			content: url,
 			size: Modal.sizes.large,
-			title: this.editor.lang.tx_bwicons.modalTitle,
+			title: this.editor.lang.IconPicker.modalTitle,
 			callback: (modal) => this.currentModal = modal,
 			ajaxCallback: this.onModalLoaded.bind(this),
 			buttons: [
 				{
-					text: this.editor.lang.tx_bwicons.save,
+					text: this.editor.lang.IconPicker.save,
 					name: 'save',
 					icon: 'actions-document-save',
 					active: true,

@@ -1,5 +1,5 @@
 CKEDITOR.plugins.setLang(
-    'tx_bwicons',
+    'IconPicker',
     'en',
     {
         toolbar: 'Icon',
