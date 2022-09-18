@@ -3,7 +3,7 @@ CKEDITOR.plugins.setLang(
     'en',
     {
         toolbar: 'Icon',
-        save: 'Insert icon',
-        modalTitle: 'Select icon'
+        save: 'einfügen',
+        modalTitle: 'Icon Auswahl'
     }
 );
