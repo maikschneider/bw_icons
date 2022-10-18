@@ -1,7 +1,5 @@
 <?php
 
-defined('TYPO3_MODE') or die();
-
 // Get extension configuration
 $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
     \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
