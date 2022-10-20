@@ -78,12 +78,6 @@
     }
   },
   "scripts": {
-    "typo3-cms-scripts": [
-      "ln -sfn ../../../ public/typo3conf/ext/bw_icons"
-    ],
-    "post-autoload-dump": [
-      "@typo3-cms-scripts"
-    ],
     "create-libs": [
       "mkdir -p Libraries",
       "vendor/bin/phar-composer build 'sabberworm/php-css-parser=8.4.0' Libraries/sabberworm-php-css-parser.phar",
@@ -95,7 +89,7 @@
     "sabberworm/php-css-parser": "8.4.0",
     "ext-simplexml": "*",
     "ext-json": "*",
-    "typo3/cms-core": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+    "typo3/cms-core": "^10.0 || ^11.0 || ^12.0",
     "phenx/php-font-lib": "0.5.4"
   }
 }
