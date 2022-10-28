@@ -1,14 +1,7 @@
 {
 	"compilerOptions": {
-		"target": "es2017",
-		"lib": [
-			"dom",
-			"scripthost",
-			"es2017",
-			"es2018",
-			"es2019"
-		],
-		"module": "amd",
+		"target": "es2020",
+		"module": "es2020",
 		"sourceMap": false,
 		"removeComments": false,
 		"pretty": true,
@@ -17,18 +10,98 @@
 		"alwaysStrict": true,
 		"downlevelIteration": true,
 		"experimentalDecorators": true,
+		"useDefineForClassFields": false,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
 		"paths": {
-			"TYPO3/CMS/BwIcons/*": [
-				"Resources/Private/TypeScript/*",
-				"Resources/Public/JavaScript/*"
+			"@typo3/adminpanel/*": [
+				"typo3_src/adminpanel/*"
 			],
-			"TYPO3/CMS/Backend/*": [
-				"public/typo3/sysext/backend/Resources/Private/TypeScript/*"
+			"@typo3/backend/*": [
+				"typo3_src/backend/*"
 			],
-			"TYPO3/CMS/Core/*": [
-				"public/typo3/sysext/core/Resources/Private/TypeScript/*"
+			"@typo3/belog/*": [
+				"typo3_src/belog/*"
+			],
+			"@typo3/beuser/*": [
+				"typo3_src/beuser/*"
+			],
+			"@typo3/core/*": [
+				"typo3_src/core/*"
+			],
+			"@typo3/dashboard/*": [
+				"typo3_src/dashboard/*"
+			],
+			"@typo3/extensionmanager/*": [
+				"typo3_src/extensionmanager/*"
+			],
+			"@typo3/filelist/*": [
+				"typo3_src/filelist/*"
+			],
+			"@typo3/form/*": [
+				"typo3_src/form/*"
+			],
+			"@typo3/impexp/*": [
+				"typo3_src/impexp/*"
+			],
+			"@typo3/info/*": [
+				"typo3_src/info/*"
+			],
+			"@typo3/install/*": [
+				"typo3_src/install/*"
+			],
+			"@typo3/linkvalidator/*": [
+				"typo3_src/linkvalidator/*"
+			],
+			"@typo3/lowlevel/*": [
+				"typo3_src/lowlevel/*"
+			],
+			"@typo3/opendocs/*": [
+				"typo3_src/opendocs/*"
+			],
+			"@typo3/recycler/*": [
+				"typo3_src/recycler/*"
+			],
+			"@typo3/redirects/*": [
+				"typo3_src/redirects/*"
+			],
+			"@typo3/rte-ckeditor/*": [
+				"typo3_src/rte_ckeditor/*"
+			],
+			"@typo3/scheduler/*": [
+				"typo3_src/scheduler/*"
+			],
+			"@typo3/setup/*": [
+				"typo3_src/setup/*"
+			],
+			"@typo3/t3editor/*": [
+				"typo3_src/t3editor/*"
+			],
+			"@typo3/tstemplate/*": [
+				"typo3_src/tstemplate/*"
+			],
+			"@typo3/viewpage/*": [
+				"typo3_src/viewpage/*"
+			],
+			"@typo3/workspaces/*": [
+				"typo3_src/workspaces/*"
 			]
 		},
+		"types": [
+			"TYPO3",
+			"chosen-js",
+			"d3-dispatch",
+			"d3-drag",
+			"d3-selection",
+			"jasmine",
+			"jquery",
+			"jqueryui",
+			"bootstrap",
+			"nprogress",
+			"requirejs",
+			"sortablejs"
+		],
 		"typeRoots": [
 			"node_modules/@types",
 			"types"
@@ -39,6 +112,7 @@
 		"Resources/Private/TypeScript/*"
 	],
 	"exclude": [
+		"typo3_src",
 		"node_modules",
 		"Configuration"
 	]

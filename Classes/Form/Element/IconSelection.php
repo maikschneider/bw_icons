@@ -6,6 +6,7 @@ use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
@@ -22,11 +23,18 @@ class IconSelection extends AbstractFormElement
         $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
         $config = $parameterArray['fieldConf']['config'];
 
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid);
-        $styleSheets = $helperUtil->getStyleSheets();
+        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class);
+        $helperUtility->setPid($pid);
+        $styleSheets = $helperUtility->getStyleSheets();
         $resultArray['stylesheetFiles'] = $styleSheets;
 
-        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . '); iconPicker.initForFormElement("' . $parameterArray['itemFormElName'] . '"); }); }'];
+        $verionNumberUtility = GeneralUtility::makeInstance(VersionNumberUtility::class);
+        $version = $verionNumberUtility->convertVersionStringToArray($verionNumberUtility->getNumericTypo3Version());
+        if ($version['version_main'] < 12) {
+            $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . '); iconPicker.initForFormElement("' . $parameterArray['itemFormElName'] . '"); }); }'];
+        } else {
+            $resultArray['requireJsModules'][] = \TYPO3\CMS\Core\Page\JavaScriptModuleInstruction::create('@blueways/bw-icons/IconSelection.js');
+        }
 
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
