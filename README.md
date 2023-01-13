@@ -5,13 +5,13 @@ and SVGs - just link your stylesheet or image directory. Works with FontAwesome,
 Bootstrap, Icomoon.. Optionally adds icon field to pages, tt_content or
 sys_category.
 
-![Backend Form](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/backend1.jpg)
+![Backend Form](Documentation/Images/backend1.jpg)
 
-![RTE](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/RTE.jpg)
+![RTE](Documentation/Images/RTE.jpg)
 
 ## Demo
 
-![Video preview](https://bytebucket.org/blueways/bw_icons/raw/master/Documentation/Images/preview.gif)
+![Video preview](Documentation/Images/preview.gif)
 
 ## Features
 
@@ -50,7 +50,7 @@ downloading and adjusting paths!
    the icon fields. If you want to use it for other tables, see *For developers*
    section.
 
-5. Include RTE configuration
+5. Include RTE configuration (optional)
    ``` {.yaml}
    imports:
       - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
@@ -190,7 +190,9 @@ from `Blueways\BwIcons\Provider\AbstractIconProvider`.
 
 ## Contribute
 
-This extension was made by Maik Schneider
-from [blueways](https://www.blueways.de/). Feel free to contribute!
+This extension was made by Maik Schneider: Feel free to contribute!
 
-- [Bitbucket-Repository](https://bitbucket.org/blueways/bw_icons/)
+* [Github-Repository](https://github.com/maikschneider/bw_icons)
+
+Thanks to [blueways](https://www.blueways.de/) and [XIMA](https://www.xima.de/)!
+

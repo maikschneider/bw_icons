@@ -66,7 +66,7 @@ class CssIconProvider extends AbstractIconProvider
 
     public function getTempPath(): string
     {
-        return Environment::getPublicPath() . '/typo3temp/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
+        return Environment::getPublicPath() . '/typo3temp/assets/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
     }
 
     protected function extractFontFilesFromFontFaces(string $fileExtension, array $fontFaces): array
