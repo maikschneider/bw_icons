@@ -4,9 +4,7 @@ namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -17,19 +15,12 @@ class HelperUtility
 
     protected array $provider = [];
 
-    protected FrontendInterface $cache;
-
-    protected TypoScriptService $typoScriptService;
-
-    public function __construct(
-        FrontendInterface $cache,
-        TypoScriptService $typoScriptService
-    ) {
-        $this->cache = $cache;
-        $this->typoScriptService = $typoScriptService;
-    }
-
-    public function setPid(int $pid): void
+    /**
+     * HelperUtility constructor.
+     *
+     * @param int $pid
+     */
+    public function __construct(int $pid)
     {
         $this->pid = $pid;
     }
@@ -37,8 +28,9 @@ class HelperUtility
     public function getModalTabs(): array
     {
         $cacheIdentifier = $this->getCacheIdentifier();
+        $cache = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class)->getCache('bwicons_conf');
 
-        if (($tabs = $this->cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles()) {
+        if (($tabs = $cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles()) {
             return $tabs;
         }
 
@@ -52,7 +44,7 @@ class HelperUtility
             $tabs[] = $tab;
         }
 
-        $this->cache->set($cacheIdentifier, $tabs, [], 0);
+        $cache->set($cacheIdentifier, $tabs, [], 0);
         return $tabs;
     }
 
@@ -65,7 +57,9 @@ class HelperUtility
     protected function getSettings(): array
     {
         $pageTsConfig = BackendUtility::getPagesTSconfig($this->pid);
-        return $this->typoScriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
+        /** @var TypoScriptService $typoscriptService */
+        $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+        return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
     }
 
     /**
@@ -97,7 +91,7 @@ class HelperUtility
 
         $extensionSettings = $this->getSettings();
         $cacheIdentifier = $this->getCacheIdentifier();
-        $languageService = $this->getLanguageService();
+        $languageService = GeneralUtility::makeInstance(LanguageService::class);
 
         foreach ($extensionSettings as $key => $options) {
             /** @var \Blueways\BwIcons\Provider\AbstractIconProvider $prov */
@@ -122,10 +116,5 @@ class HelperUtility
             $sheets[] = $provider->getStyleSheet();
         }
         return $sheets;
-    }
-
-    protected static function getLanguageService(): LanguageService
-    {
-        return $GLOBALS['LANG'] ?? GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER'] ?? null);
     }
 }
