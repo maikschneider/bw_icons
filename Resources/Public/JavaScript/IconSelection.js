@@ -15,13 +15,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
      * @exports TYPO3/CMS/BwIcons/IconSelection
      */
     class IconSelection {
-        constructor(pid, itemFormElName) {
+        constructor(pid, iconProviders) {
             this.pid = pid;
+            this.iconProviders = iconProviders;
         }
         onModalButtonClick(e) {
             let url = TYPO3.settings.ajaxUrls.icon_selection;
             url += url.indexOf('?') > 0 ? '&' : '?';
             url += 'P[pid]=' + this.pid;
+            url += '&P[iconProviders]=' + this.iconProviders;
             Modal.advanced({
                 type: Modal.types.ajax,
                 content: url,
@@ -229,7 +231,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jquery__;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -243,21 +245,21 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_jquery__;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module used 'module' so it can't be inlined
 /******/ 	var __webpack_exports__ = __webpack_require__("./Resources/Private/TypeScript/IconSelection.ts");
-/******/ 	
+/******/
 /******/ 	return __webpack_exports__;
 /******/ })()
 ;

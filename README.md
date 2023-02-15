@@ -182,6 +182,20 @@ page.headerData {
    ...
    ```
 
+   Optional: you may restrict which icon providers are available:
+   ```php
+   ...
+   'icon_field' => [
+        'label' => 'My Icon',
+        'config' => [
+           'type' => 'input',
+           'renderType' => 'iconSelection',
+           'iconProviders' => 'fontawesome,otherProviderKey'
+        ]
+   ],
+   ...
+   ```
+
 ### New icon sources
 
 If you want to add other icon sources (e.g. from API), you can create your own

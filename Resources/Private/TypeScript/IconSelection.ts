@@ -25,6 +25,7 @@ class IconSelection {
 	protected selectedIconName: string;
 	protected currentModal;
 	protected pid: number;
+	protected iconProviders: string;
 	protected editor;
 
 	protected onModalButtonClick(e: Event) {
@@ -32,6 +33,7 @@ class IconSelection {
 		let url = TYPO3.settings.ajaxUrls.icon_selection;
 		url += url.indexOf('?') > 0 ? '&' : '?';
 		url += 'P[pid]=' + this.pid;
+		url += '&P[iconProviders]=' + this.iconProviders;
 
 		Modal.advanced({
 			type: Modal.types.ajax,
@@ -229,8 +231,9 @@ class IconSelection {
 		this.loadAndIncludeStylesheets();
 	}
 
-	constructor(pid: number, itemFormElName: string) {
+	constructor(pid: number, iconProviders: string) {
 		this.pid = pid;
+		this.iconProviders = iconProviders;
 	}
 
 
