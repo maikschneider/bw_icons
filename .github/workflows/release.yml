@@ -13,3 +13,4 @@ jobs:
       teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
     with:
       base-branch: master
+      build-assets: true
