@@ -13,6 +13,8 @@ class HelperUtility
 
     protected int $pid = 0;
 
+    protected string $iconProviders = '';
+
     protected array $provider = [];
 
     /**
@@ -20,9 +22,10 @@ class HelperUtility
      *
      * @param int $pid
      */
-    public function __construct(int $pid)
+    public function __construct(int $pid, string $iconProviders = '')
     {
         $this->pid = $pid;
+        $this->iconProviders = $iconProviders;
     }
 
     public function getModalTabs(): array
@@ -35,13 +38,16 @@ class HelperUtility
         }
 
         $tabs = [];
+        $iconProviders = GeneralUtility::trimExplode(',', $this->iconProviders, true);
         foreach ($this->getAllProvider() as $provider) {
-            $tab = [];
-            $tab['id'] = $provider->getId();
-            $tab['title'] = $provider->getTitle();
-            $tab['folders'] = $provider->getIcons();
+            if (empty($iconProviders) || in_array($provider->getId(), $iconProviders, true)) {
+                $tab = [];
+                $tab['id'] = $provider->getId();
+                $tab['title'] = $provider->getTitle();
+                $tab['folders'] = $provider->getIcons();
 
-            $tabs[] = $tab;
+                $tabs[] = $tab;
+            }
         }
 
         $cache->set($cacheIdentifier, $tabs, [], 0);
@@ -51,7 +57,7 @@ class HelperUtility
     protected function getCacheIdentifier(): string
     {
         $extensionSettings = $this->getSettings();
-        return md5(serialize($extensionSettings));
+        return md5(serialize($extensionSettings) . '-' . $this->iconProviders);
     }
 
     protected function getSettings(): array

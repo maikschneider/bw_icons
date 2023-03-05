@@ -184,6 +184,19 @@ Usage in other tables
          ]
       ],
 
+   Optional: you may restrict which icon providers are available:
+
+   .. code:: php
+
+      'icon_field' => [
+         'label' => 'My Icon',
+         'config' => [
+            'type' => 'input',
+            'renderType' => 'iconSelection',
+            'iconProviders' => 'fontawesome,otherProviderKey'
+         ]
+      ],
+
 New icon sources
 ~~~~~~~~~~~~~~~~
 

@@ -16,6 +16,15 @@
 			<trans-unit id="icon_wizard_title">
 				<source><![CDATA[Select icon]]></source>
 			</trans-unit>
+			<trans-unit id="callout.no-provider.title">
+				<source>No icons found</source>
+			</trans-unit>
+			<trans-unit id="callout.no-provider.description">
+				<source><![CDATA[There were no IconProvider found for the current form element. Make sure you configured a provider via PageTS.<br />For more information see the documentation.]]></source>
+			</trans-unit>
+			<trans-unit id="callout.no-provider.button">
+				<source>Extension manual</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

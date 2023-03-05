@@ -1,12 +1,22 @@
 {namespace bw=Blueways\BwIcons\ViewHelpers}
 
-<ul class="nav nav-tabs">
-	<f:for each="{tabs}" as="tab" iteration="i">
-		<li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
-			<a class="nav-item {f:if(condition:i.isFirst, then:'active')}" href="#{tab.id}">{tab.title}</a>
-		</li>
-	</f:for>
-</ul>
+<f:if condition="!{tabs}">
+    <div class="callout callout-info">
+        <h4 class="callout-title"><f:translate extensionName="BwIcons" key="callout.no-provider.title" /></h4>
+        <p class="callout-body"><f:format.raw><f:translate extensionName="BwIcons" key="callout.no-provider.description" arguments="{0: 'https://docs.typo3.org/p/blueways/bw-icons/2.0/en-us'}" /></f:format.raw></p>
+        <a target="_blank" href="https://docs.typo3.org/p/blueways/bw-icons/2.0/en-us/" class="btn btn-default"><core:icon identifier="actions-notebook-typoscript" size="small" /> <f:translate extensionName="BwIcons" key="callout.no-provider.button" /></a>
+    </div>
+</f:if>
+
+<f:if condition="{tabs}">
+    <ul class="nav nav-tabs">
+        <f:for each="{tabs}" as="tab" iteration="i">
+            <li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
+                <a class="nav-item {f:if(condition:i.isFirst, then:'active')}" href="#{tab.id}">{tab.title}</a>
+            </li>
+        </f:for>
+    </ul>
+</f:if>
 
 <f:for each="{tabs}" as="tab" iteration="i">
 	<div class="tab-content {f:if(condition:'{tab.folders->f:count()}>1', then:'tab-content--subnav')} {f:if(condition:i.isFirst, then:'active')}"
