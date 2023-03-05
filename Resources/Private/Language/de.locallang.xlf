@@ -19,6 +19,15 @@
 				<source><![CDATA[Select icon]]></source>
 				<target><![CDATA[Icon auswählen]]></target>
 			</trans-unit>
+			<trans-unit id="callout.no-provider.title">
+				<target>Keine Icons gefunden</target>
+			</trans-unit>
+			<trans-unit id="callout.no-provider.description">
+				<target><![CDATA[Es wurden keine IconProvider für das aktuelle Formular-Element gefunden. Stellen Sie sicher, dass Sie Provider über PageTS konfiguriert haben.<br />Mehr Informationen finden Sie in der Dokumentation.]]></target>
+			</trans-unit>
+			<trans-unit id="callout.no-provider.button">
+				<target>Extension Dokumentation</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
