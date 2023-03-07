@@ -8,7 +8,7 @@
 			"es2018",
 			"es2019"
 		],
-		"module": "amd",
+		"module": "ES2015",
 		"sourceMap": false,
 		"removeComments": false,
 		"pretty": true,
@@ -33,7 +33,6 @@
 			"node_modules/@types",
 			"types"
 		],
-		"outDir": "Resources/Public/JavaScript"
 	},
 	"include": [
 		"Resources/Private/TypeScript/*"
