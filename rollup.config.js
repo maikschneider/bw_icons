@@ -65,9 +65,9 @@ export function typo3Resolve() {
             }
 
             // Resolve "@typo3/ext-name/module-name.js" into "TYPO3/CMS/ExtName/ModuleName" for TYPO3 v11 (AMD) builds
-            return code.replace(
-                /(["'])@typo3\/([^\/]+)\/(.+)\.js\1/g,
-                (match, quotes, extension, path) => lowerDashedToUpperCamelCase(`${quotes}TYPO3/CMS/${extension}/${path}${quotes}`)
+            return code.replaceAll(
+                /(["'])@typo3\/([\w\d\/\.\@\-]+)\.js\1/g,
+                (match, quotes, path) => lowerDashedToUpperCamelCase(`${quotes}TYPO3/CMS/${path}${quotes}`)
             )
         }
     }
