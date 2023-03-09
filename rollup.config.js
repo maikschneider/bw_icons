@@ -2,6 +2,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import {terser} from "rollup-plugin-terser";
 import typescript from '@rollup/plugin-typescript';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 const typo3Exports = [
     'autosize',
@@ -82,13 +83,13 @@ export default {
         {
             dir: 'Resources/Public/ECMAScript6',
             format: 'es',
-            plugins: [terser()]
+            plugins: []
         },
         {
             dir: 'Resources/Public/JavaScript',
             entryFileNames: (chunkInfo) => lowerDashedToUpperCamelCase('/' + chunkInfo.name).substring(1) + '.js',
             format: 'amd',
-            plugins: [terser()]
+            plugins: []
         },
     ],
     plugins: [
@@ -98,5 +99,6 @@ export default {
             mainFields: ['module', 'main'],
             modulesOnly: true
         }),
+        sourcemaps(),
     ],
 }
