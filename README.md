@@ -209,3 +209,4 @@ This extension was made by Maik Schneider: Feel free to contribute!
 * [Github-Repository](https://github.com/maikschneider/bw_icons)
 
 Thanks to [blueways](https://www.blueways.de/) and [XIMA](https://www.xima.de/)!
+
