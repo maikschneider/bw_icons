@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-    test-sca:
+    sca:
         uses: maikschneider/reusable-workflows/.github/workflows/sca.yml@main
         with:
             php-version: 8.1
