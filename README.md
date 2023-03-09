@@ -210,4 +210,3 @@ This extension was made by Maik Schneider: Feel free to contribute!
 
 Thanks to [blueways](https://www.blueways.de/) and [XIMA](https://www.xima.de/)!
 
-
