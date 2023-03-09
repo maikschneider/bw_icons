@@ -58,7 +58,12 @@ class IconSelection {
 		if (this.selectedIconName) {
 			$(this.$formElement).find('.close').css('visibility', 'visible');
 		}
-		this.currentModal.hideModal();
+		// hide modal in v12+
+		if (typeof this.currentModal.hideModal === 'function') {
+			this.currentModal.hideModal();
+		} else {
+			this.currentModal.trigger('modal-dismiss');
+		}
 	}
 
 	protected onClearButtonClick(e: Event) {
