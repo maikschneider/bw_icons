@@ -1,8 +1,6 @@
 // rollup.config.js
 import resolve from '@rollup/plugin-node-resolve';
-import {terser} from "rollup-plugin-terser";
 import typescript from '@rollup/plugin-typescript';
-import sourcemaps from 'rollup-plugin-sourcemaps';
 
 const typo3Exports = [
     'autosize',
@@ -99,6 +97,5 @@ export default {
             mainFields: ['module', 'main'],
             modulesOnly: true
         }),
-        sourcemaps(),
     ],
 }
