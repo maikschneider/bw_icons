@@ -31,7 +31,7 @@ class IconSelection extends AbstractFormElement
         $verionNumberUtility = GeneralUtility::makeInstance(VersionNumberUtility::class);
         $version = $verionNumberUtility->convertVersionStringToArray($verionNumberUtility->getNumericTypo3Version());
         if ($version['version_main'] < 12) {
-            $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . '); iconPicker.initForFormElement("' . $parameterArray['itemFormElName'] . '"); }); }'];
+            $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . ',\'' . rawurlencode($iconProviders) . '\', "' . $parameterArray['itemFormElName'] . '"); });}'];
         } else {
             $resultArray['javaScriptModules'][] = \TYPO3\CMS\Core\Page\JavaScriptModuleInstruction::create('@blueways/bw-icons/IconSelection.js')
                 ->instance($pid, $iconProviders, $parameterArray['itemFormElName']);
@@ -51,7 +51,7 @@ class IconSelection extends AbstractFormElement
             'itemFormElName' => $parameterArray['itemFormElName'],
             'itemFormElValue' => $parameterArray['itemFormElValue'],
             'width' => $width,
-            'fieldWizardHtml' => $fieldWizardHtml
+            'fieldWizardHtml' => $fieldWizardHtml,
         ]);
 
         $resultArray['html'] = $templateView->render();
