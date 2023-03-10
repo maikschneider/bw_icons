@@ -76,6 +76,7 @@ export function typo3Resolve() {
 export default {
     input: [
         'Resources/Private/TypeScript/IconSelection.ts',
+        'Resources/Private/TypeScript/IconPicker.ts',
     ],
     output: [
         {

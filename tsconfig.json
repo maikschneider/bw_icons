@@ -18,13 +18,19 @@
 		"downlevelIteration": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"@BwIcons/*": [
-				"Resources/Private/TypeScript/*"
+			"@blueways/bw-icons/*": [
+				"Resources/Public/ECMAScript6/*"
 			],
 			"@typo3/backend/*": [
 				"vendor/typo3/cms-backend/Resources/Public/JavaScript/*"
 			],
 			"@typo3/core/*": [
+				"vendor/typo3/cms-core/Resources/Public/JavaScript/*"
+			],
+			"@typo3/ckeditor5-bundle.js": [
+				"vendor/typo3/cms-rte-ckeditor/Resources/Public/Contrib/ckeditor5-bundle.js"
+			],
+			"@ckeditor/ckeditor5-core/*": [
 				"vendor/typo3/cms-core/Resources/Public/JavaScript/*"
 			]
 		},
