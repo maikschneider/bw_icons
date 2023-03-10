@@ -1,0 +1,41 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Variable \\$helperUtility in PHPDoc tag @var does not match assigned variable \\$helperUtil\\.$#"
+			count: 1
+			path: Classes/Controller/IconSelectionController.php
+
+		-
+			message: "#^Call to an undefined method Sabberworm\\\\CSS\\\\RuleSet\\\\RuleSet\\:\\:getSelectors\\(\\)\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: "#^Call to an undefined method Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\:\\:getString\\(\\)\\.$#"
+			count: 3
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: "#^Parameter \\#1 \\$cssGlyph of static method Blueways\\\\BwIcons\\\\Provider\\\\CssIconProvider\\:\\:glyphIsNotInSet\\(\\) expects Sabberworm\\\\CSS\\\\RuleSet\\\\DeclarationBlock, Sabberworm\\\\CSS\\\\RuleSet\\\\RuleSet given\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: "#^Parameter \\#1 \\$rule of method Blueways\\\\BwIcons\\\\Provider\\\\CssIconProvider\\:\\:adjustSrcOfFontFaceRule\\(\\) expects Sabberworm\\\\CSS\\\\RuleSet\\\\AtRuleSet, Sabberworm\\\\CSS\\\\RuleSet\\\\RuleSet given\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: "#^Unsafe call to private method Blueways\\\\BwIcons\\\\Provider\\\\CssIconProvider\\:\\:glyphIsNotInSet\\(\\) through static\\:\\:\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: "#^Variable \\$svgGlyphsClear might not be defined\\.$#"
+			count: 1
+			path: Classes/Utility/SvgReaderUtility.php

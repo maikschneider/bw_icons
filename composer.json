@@ -78,7 +78,8 @@
       "vendor/bin/phar-composer build 'phenx/php-font-lib=0.5.4' Libraries/phenx-php-font-lib.phar",
       "chmod -x Libraries/*"
     ],
-    "php:fixer": "php vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix"
+    "php:fixer": "php vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
+    "php:stan": "php vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline"
   },
   "require": {
     "sabberworm/php-css-parser": "8.4.0",
