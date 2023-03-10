@@ -7,7 +7,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class TtfReaderUtility
 {
-
     public function __construct()
     {
         if (!class_exists('\FontLib\Font')) {
@@ -37,5 +36,4 @@ class TtfReaderUtility
 
         return $cleanChars;
     }
-
 }

@@ -15,9 +15,9 @@ if (isset($bwiconsConf['sys_category']) && (int)$bwiconsConf['sys_category'] ===
             'label' => 'LLL:EXT:bw_icons/Resources/Private/Language/locallang.xlf:icon',
             'config' => [
                 'type' => 'input',
-                'renderType' => 'iconSelection'
+                'renderType' => 'iconSelection',
             ],
-        ]
+        ],
     ];
 
     // Register new field
