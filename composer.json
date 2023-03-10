@@ -80,7 +80,8 @@
       "chmod -x Libraries/*"
     ],
     "php:fixer": "php vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
-    "php:stan": "php vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline"
+    "php:stan": "php vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
+    "php:md": "php vendor/bin/phpmd Classes ansi phpmd.xml --generate-baseline"
   },
   "require": {
     "sabberworm/php-css-parser": "8.4.0",
