@@ -2,7 +2,6 @@
 
 namespace Blueways\BwIcons\ViewHelpers;
 
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -10,7 +9,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IconViewHelper extends AbstractViewHelper
 {
-
     protected $escapeOutput = false;
 
     public static function renderStatic(
@@ -60,7 +58,11 @@ class IconViewHelper extends AbstractViewHelper
         parent::initializeArguments();
         $this->registerArgument('icon', 'string', 'The icon name', true);
         $this->registerArgument('provider', 'string', 'PageTS did of the used IconProvider', false);
-        $this->registerArgument('additionalAttributes', 'array',
-            'Additional tag attributes. They will be added directly to the resulting HTML tag.', false);
+        $this->registerArgument(
+            'additionalAttributes',
+            'array',
+            'Additional tag attributes. They will be added directly to the resulting HTML tag.',
+            false
+        );
     }
 }

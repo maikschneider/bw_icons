@@ -10,7 +10,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
 {
-
     public function render()
     {
         $resultArray = $this->initializeResultArray();
@@ -32,8 +31,11 @@ class IconSelection extends AbstractFormElement
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
         $defaultInputWidth = 10;
-        $size = MathUtility::forceIntegerInRange($config['size'] ?? $defaultInputWidth, $this->minimumInputWidth,
-            $this->maxInputWidth);
+        $size = MathUtility::forceIntegerInRange(
+            $config['size'] ?? $defaultInputWidth,
+            $this->minimumInputWidth,
+            $this->maxInputWidth
+        );
         $width = (int)$this->formMaxWidth($size);
 
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $templateView */
@@ -43,7 +45,7 @@ class IconSelection extends AbstractFormElement
             'itemFormElName' => $parameterArray['itemFormElName'],
             'itemFormElValue' => $parameterArray['itemFormElValue'],
             'width' => $width,
-            'fieldWizardHtml' => $fieldWizardHtml
+            'fieldWizardHtml' => $fieldWizardHtml,
         ]);
 
         $resultArray['html'] = $templateView->render();
