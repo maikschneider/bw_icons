@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\Utility;
 
+use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -16,11 +17,6 @@ class HelperUtility
 
     protected array $provider = [];
 
-    /**
-     * HelperUtility constructor.
-     *
-     * @param int $pid
-     */
     public function __construct(int $pid, string $iconProviders = '')
     {
         $this->pid = $pid;
@@ -86,7 +82,7 @@ class HelperUtility
     }
 
     /**
-     * @return array<\Blueways\BwIcons\Provider\AbstractIconProvider>
+     * @return array<AbstractIconProvider>
      */
     protected function getAllProvider(): array
     {
@@ -99,7 +95,7 @@ class HelperUtility
         $languageService = GeneralUtility::makeInstance(LanguageService::class);
 
         foreach ($extensionSettings as $key => $options) {
-            /** @var \Blueways\BwIcons\Provider\AbstractIconProvider $prov */
+            /** @var AbstractIconProvider $prov */
             $prov = GeneralUtility::makeInstance($options['_typoScriptNodeValue'], $options);
             $prov->setCacheIdentifier($cacheIdentifier);
             $prov->setId($key);

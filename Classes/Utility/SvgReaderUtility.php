@@ -4,7 +4,7 @@ namespace Blueways\BwIcons\Utility;
 
 class SvgReaderUtility
 {
-    public function getGlyphs($svgFile)
+    public function getGlyphs($svgFile): array
     {
         $svgCopy = 'font.svg';
 
@@ -20,10 +20,9 @@ class SvgReaderUtility
         $svgArray = json_decode($svgJson, true);
 
         $svgGlyphs = $svgArray['defs']['font']['glyph'];
+        $svgGlyphsClear = [];
 
         if (count($svgGlyphs) > 0) {
-            $svgGlyphsClear = [];
-
             foreach ($svgGlyphs as $glyphId => $glyph) {
                 if (isset($glyph['@attributes']['unicode'])) {
                     $svgGlyphsClear[$glyphId] = $glyph['@attributes']['unicode'];

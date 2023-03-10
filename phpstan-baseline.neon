@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Variable \\$helperUtility in PHPDoc tag @var does not match assigned variable \\$helperUtil\\.$#"
-			count: 1
-			path: Classes/Controller/IconSelectionController.php
-
-		-
 			message: "#^Call to an undefined method Sabberworm\\\\CSS\\\\RuleSet\\\\RuleSet\\:\\:getSelectors\\(\\)\\.$#"
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
@@ -34,8 +29,3 @@ parameters:
 			message: "#^Unsafe call to private method Blueways\\\\BwIcons\\\\Provider\\\\CssIconProvider\\:\\:glyphIsNotInSet\\(\\) through static\\:\\:\\.$#"
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
-
-		-
-			message: "#^Variable \\$svgGlyphsClear might not be defined\\.$#"
-			count: 1
-			path: Classes/Utility/SvgReaderUtility.php
