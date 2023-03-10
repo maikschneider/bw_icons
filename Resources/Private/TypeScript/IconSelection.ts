@@ -1,9 +1,6 @@
 import $ from 'jquery'
-// @ts-ignore
 import Modal from '@typo3/backend/modal.js'
-// @ts-ignore
 import AjaxRequest from '@typo3/core/ajax/ajax-request.js';
-// @ts-ignore
 import AjaxResponse from "@typo3/core/ajax/ajax-response.js";
 
 class IconSelection {
