@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 class CssIconProvider extends AbstractIconProvider
 {
-
     public function __construct($options)
     {
         parent::__construct($options);
@@ -141,14 +140,12 @@ class CssIconProvider extends AbstractIconProvider
         // build tab modal markup
         $tabs = [];
         foreach ($fontFamilies as $key => $font) {
-
             // abort if no svg or ttf font found
             if ($svgFonts[$key]) {
                 $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
             } elseif ($ttfFonts[$key]) {
                 $fontGlyphs = $ttfReaderUtility->getGlyphs($ttfFonts[$key]);
-            }
-            else {
+            } else {
                 continue;
             }
 
@@ -162,8 +159,8 @@ class CssIconProvider extends AbstractIconProvider
             // rename font family for tab array in case of duplicate font names
             $fontName = $font['font-family'];
             if (count(array_filter($fontFamilies, static function ($fontFamily) use ($font) {
-                    return $fontFamily['font-family'] === $font['font-family'];
-                })) > 1) {
+                return $fontFamily['font-family'] === $font['font-family'];
+            })) > 1) {
                 $fontName = $font['font-family'] . ' ' . $font['weight'];
             }
 
@@ -176,8 +173,10 @@ class CssIconProvider extends AbstractIconProvider
 
                 // check font-family
                 $fontFamilyRules = $block->getRules('font-family');
-                if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || !is_a($fontFamilyRules[0]->getValue(),
-                        CSSString::class) || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
+                if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || !is_a(
+                    $fontFamilyRules[0]->getValue(),
+                    CSSString::class
+                ) || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
                     continue;
                 }
 
@@ -204,8 +203,10 @@ class CssIconProvider extends AbstractIconProvider
                 }
                 $selectors = $fontUser->getSelectors();
                 foreach ($selectors as $selector) {
-                    if (!strpos($selector->getSelector(), '[class') && strpos($selector->getSelector(),
-                            '.') === 0 && !strpos($selector->getSelector(), ' ')) {
+                    if (!strpos($selector->getSelector(), '[class') && strpos(
+                        $selector->getSelector(),
+                        '.'
+                    ) === 0 && !strpos($selector->getSelector(), ' ')) {
                         $fontFamilyPrefix = substr($selector->getSelector(), 1) . ' ';
                         $fontFamilyPrefixSelector = $selector;
                         break;
@@ -230,8 +231,11 @@ class CssIconProvider extends AbstractIconProvider
 
             // map icons to class names
             $icons = array_map(static function ($declarationBlock) use ($fontFamilyPrefix) {
-                return $fontFamilyPrefix . str_replace(['::before', ':before', '::after', ':after', '.'], '',
-                        $declarationBlock->getSelectors()[0]->getSelector());
+                return $fontFamilyPrefix . str_replace(
+                    ['::before', ':before', '::after', ':after', '.'],
+                    '',
+                    $declarationBlock->getSelectors()[0]->getSelector()
+                );
             }, $availableGlyphs);
             $icons = array_values($icons);
 
@@ -277,7 +281,6 @@ class CssIconProvider extends AbstractIconProvider
 
     protected function crawlAndHandleUrls($ruleValue): void
     {
-
         if (is_a($ruleValue, URL::class)) {
             $this->handleCssUrl($ruleValue);
         }
@@ -336,10 +339,16 @@ class CssIconProvider extends AbstractIconProvider
      */
     public static function cleanFilePath($path)
     {
-        $cleanPath = strpos($path, '?') ? substr($path, 0,
-            strpos($path, '?')) : $path;
-        return strpos($cleanPath, '#') ? substr($cleanPath, 0,
-            strpos($cleanPath, '#')) : $cleanPath;
+        $cleanPath = strpos($path, '?') ? substr(
+            $path,
+            0,
+            strpos($path, '?')
+        ) : $path;
+        return strpos($cleanPath, '#') ? substr(
+            $cleanPath,
+            0,
+            strpos($cleanPath, '#')
+        ) : $cleanPath;
     }
 
     protected static function ruleIsAGlyph($declarationBlock): bool
@@ -353,8 +362,10 @@ class CssIconProvider extends AbstractIconProvider
         }
         // validate content-property (exists and is not "")
         $contentRule = $declarationBlock->getRules('content')[0];
-        if (!$contentRule || !$contentRule->getValue() || !is_a($contentRule->getValue(),
-                CSSString::class) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+        if (!$contentRule || !$contentRule->getValue() || !is_a(
+            $contentRule->getValue(),
+            CSSString::class
+        ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
             return false;
         }
         // validate selector (is class and has :before or :after)

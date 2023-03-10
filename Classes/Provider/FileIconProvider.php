@@ -6,7 +6,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FileIconProvider extends AbstractIconProvider
 {
-
     public function getIcons(): array
     {
         $icons = [];

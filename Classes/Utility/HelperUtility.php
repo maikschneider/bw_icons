@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HelperUtility
 {
-
     protected int $pid = 0;
 
     protected string $iconProviders = '';
