@@ -15,7 +15,6 @@ $bwiconsConf = $extensionConfiguration->get('bw_icons');
 
 // Add new field if enabled
 if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 1) {
-
     // Create new field
     $temporaryColumns = [
         'tx_bwicons_icon' => [
@@ -23,9 +22,9 @@ if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 1) {
             'label' => 'LLL:EXT:bw_icons/Resources/Private/Language/locallang.xlf:icon',
             'config' => [
                 'type' => 'input',
-                'renderType' => 'iconSelection'
+                'renderType' => 'iconSelection',
             ],
-        ]
+        ],
     ];
 
     // Register new field
@@ -36,7 +35,10 @@ if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 1) {
 
     // Display field next to title field
     $firstBreak = strpos($GLOBALS['TCA']['pages']['palettes']['title']['showitem'], '--linebreak--');
-    $GLOBALS['TCA']['pages']['palettes']['title']['showitem'] = substr_replace($GLOBALS['TCA']['pages']['palettes']['title']['showitem'],
+    $GLOBALS['TCA']['pages']['palettes']['title']['showitem'] = substr_replace(
+        $GLOBALS['TCA']['pages']['palettes']['title']['showitem'],
         'tx_bwicons_icon,',
-        $firstBreak, 0);
+        $firstBreak,
+        0
+    );
 }

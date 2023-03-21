@@ -4,7 +4,6 @@ namespace Blueways\BwIcons\Provider;
 
 abstract class AbstractIconProvider
 {
-
     protected string $title = '';
 
     protected string $id = '';
