@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import Modal from '@typo3/backend/modal.js'
-import AjaxRequest from '@typo3/core/ajax/ajax-request.js';
-import AjaxResponse from "@typo3/core/ajax/ajax-response.js";
+import AjaxRequest from '@typo3/core/ajax/ajax-request.js'
+import AjaxResponse from "@typo3/core/ajax/ajax-response.js"
 
 class IconSelection {
 
@@ -165,18 +165,21 @@ class IconSelection {
 
 	public rteButtonClick() {
 
-		const url = this.editor.config.IconPicker.routeUrl;
+		let url = TYPO3.settings.ajaxUrls.icon_selection;
+		url += url.indexOf('?') > 0 ? '&' : '?';
+		url += 'P[pid]=' + this.pid;
+		url += '&P[iconProviders]=';
 
 		Modal.advanced({
 			type: Modal.types.ajax,
 			content: url,
 			size: Modal.sizes.large,
-			title: this.editor.lang.IconPicker.modalTitle,
+			title: TYPO3.lang.icon_wizard_title,
 			callback: (modal) => this.currentModal = modal,
 			ajaxCallback: this.onModalLoaded.bind(this),
 			buttons: [
 				{
-					text: this.editor.lang.IconPicker.save,
+					text: TYPO3.lang.icon_wizard_save,
 					name: 'save',
 					icon: 'actions-document-save',
 					active: true,
@@ -191,16 +194,18 @@ class IconSelection {
 	}
 
 	protected onRteModalSave(editor) {
-
 		if (this.selectedIconName) {
-			const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').get(0);
-			// @ts-ignore
-			const iconElement = new CKEDITOR.dom.element(icon);
-			editor.insertElement(iconElement);
-			editor.focus();
-		}
+			const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').get(0).cloneNode();
+			const content = icon.outerHTML
 
-		this.currentModal.trigger('modal-dismiss');
+			editor.model.change(writer => {
+				const insertPosition = editor.model.document.selection.getFirstPosition();
+				editor.model.insertContent(writer.createText(content), insertPosition);
+			})
+
+			this.currentModal.hideModal()
+			this.editor.focus();
+		}
 	}
 
 	public initForFormElement(itemFormElName: string) {
@@ -225,7 +230,9 @@ class IconSelection {
 	constructor(pid: number, iconProviders: string, itemFormElName: string) {
 		this.pid = pid;
 		this.iconProviders = iconProviders;
-		this.initForFormElement(itemFormElName);
+		if (itemFormElName) {
+			this.initForFormElement(itemFormElName);
+		}
 	}
 
 
