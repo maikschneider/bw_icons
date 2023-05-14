@@ -1,4 +1,4 @@
-base: 'https://bw-icons.ddev.site/'
+base: /
 errorHandling: {  }
 languages:
   -
