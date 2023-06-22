@@ -131,7 +131,7 @@ class CssIconProvider extends AbstractIconProvider
             $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
             $styleRules = $ruleSet->getRules('font-style');
             return [
-                'font-family' => $familyRules[0]->getValue()->getString(),
+                'font-family' => is_string($familyRules[0]->getValue()) ? $familyRules[0]->getValue() : $familyRules[0]->getValue()->getString(),
                 'weight' => $weight,
                 'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
             ];

@@ -4,6 +4,7 @@ namespace Blueways\BwIcons\Form\Element;
 
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -24,7 +25,10 @@ class IconSelection extends AbstractFormElement
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
         $styleSheets = $helperUtil->getStyleSheets();
-        $resultArray['stylesheetFiles'] = $styleSheets;
+        $styleSheetPaths = array_map(static function ($styleSheet) {
+            return Environment::getPublicPath() . $styleSheet;
+        }, $styleSheets);
+        $resultArray['stylesheetFiles'] = $styleSheetPaths;
 
         $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . ',\'' . rawurlencode($iconProviders) . '\'); iconPicker.initForFormElement("' . $parameterArray['itemFormElName'] . '"); }); }'];
 
