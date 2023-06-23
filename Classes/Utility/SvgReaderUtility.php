@@ -6,14 +6,7 @@ class SvgReaderUtility
 {
     public function getGlyphs($svgFile): array
     {
-        $svgCopy = 'font.svg';
-
-        if (file_exists($svgCopy)) {
-            unlink($svgCopy);
-        }
-        copy($svgFile, $svgCopy);
-
-        $svgContent = file_get_contents($svgCopy);
+        $svgContent = file_get_contents($svgFile);
 
         $xmlInit = simplexml_load_string($svgContent);
         $svgJson = json_encode($xmlInit);
