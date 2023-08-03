@@ -36,6 +36,8 @@ class IconViewHelper extends AbstractViewHelper
             $attributes['data-icon-base-name'] = $baseName;
             $attributes['src'] = $webPath;
             $attributes['loading'] = 'lazy';
+            $attributes['alt'] = '';
+            $attributes['role'] = 'presentation';
 
             $attrString = static::concatAttributes($attributes);
             return '<img ' . $attrString . ' />';
