@@ -7,6 +7,7 @@ use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
@@ -30,7 +31,14 @@ class IconSelection extends AbstractFormElement
         }, $styleSheets);
         $resultArray['stylesheetFiles'] = $styleSheetPaths;
 
-        $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . ',\'' . rawurlencode($iconProviders) . '\'); iconPicker.initForFormElement("' . $parameterArray['itemFormElName'] . '"); }); }'];
+        $verionNumberUtility = GeneralUtility::makeInstance(VersionNumberUtility::class);
+        $version = $verionNumberUtility->convertVersionStringToArray($verionNumberUtility->getNumericTypo3Version());
+        if ($version['version_main'] < 12) {
+            $resultArray['requireJsModules'][] = ['TYPO3/CMS/BwIcons/IconSelection' => 'function(IconSelection){top.require([], function() { const iconPicker = new IconSelection(' . $pid . ',\'' . rawurlencode($iconProviders) . '\', "' . $parameterArray['itemFormElName'] . '"); });}'];
+        } else {
+            $resultArray['javaScriptModules'][] = \TYPO3\CMS\Core\Page\JavaScriptModuleInstruction::create('@blueways/bw-icons/IconSelection.js')
+                ->instance($pid, $iconProviders, $parameterArray['itemFormElName']);
+        }
 
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
