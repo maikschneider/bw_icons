@@ -16,15 +16,8 @@ class TtfReaderUtility
 
     public function getGlyphs($ttfFile): array
     {
-        $ttfCopy = 'font.ttf';
-
-        if (file_exists($ttfCopy)) {
-            unlink($ttfCopy);
-        }
-        copy($ttfFile, $ttfCopy);
-
         try {
-            $font = Font::load($ttfCopy);
+            $font = Font::load($ttfFile);
             $font->parse();
             $chars = $font->getUnicodeCharMap();
             $cleanChars = array_map(function ($char) {

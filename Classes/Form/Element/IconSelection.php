@@ -4,6 +4,7 @@ namespace Blueways\BwIcons\Form\Element;
 
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -25,7 +26,10 @@ class IconSelection extends AbstractFormElement
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
         $styleSheets = $helperUtil->getStyleSheets();
-        $resultArray['stylesheetFiles'] = $styleSheets;
+        $styleSheetPaths = array_map(static function ($styleSheet) {
+            return Environment::getPublicPath() . $styleSheet;
+        }, $styleSheets);
+        $resultArray['stylesheetFiles'] = $styleSheetPaths;
 
         $verionNumberUtility = GeneralUtility::makeInstance(VersionNumberUtility::class);
         $version = $verionNumberUtility->convertVersionStringToArray($verionNumberUtility->getNumericTypo3Version());
