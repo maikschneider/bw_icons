@@ -142,20 +142,34 @@ class IconSelection {
 	}
 
 	protected injectStyleSheets(stylesheets: Array<string>) {
+
+		// in case typo3 backend is prefixed, e.g. /sub-path/typo3
+		const prefixStrings = []
+		const pathArray = window.location.pathname.split('/').filter(n => n)
+		for (let i=0; i<pathArray.length; i++) {
+			if (pathArray[i] === 'typo3') {
+				break
+			}
+			prefixStrings.push(pathArray[i])
+		}
+		const prefix = prefixStrings.length ? '/' + prefixStrings.join('/') : ''
+
 		stylesheets.forEach((sheet) => {
+
+			const sheetPath = prefix + sheet
 
 			// include if used in RTE editor
 			if (this.editor) {
 				this.editor.document.$.head.insertAdjacentHTML(
 					'beforeend',
-					'<link rel="stylesheet" href="' + sheet + '" />');
+					'<link rel="stylesheet" href="' + sheetPath + '" />');
 			}
 
 			// include for modal
-			if (!parent.document.querySelector('link[href*="' + sheet + '"]')) {
+			if (!parent.document.querySelector('link[href*="' + sheetPath + '"]')) {
 				parent.document.getElementsByTagName("head")[0].insertAdjacentHTML(
 					'beforeend',
-					'<link rel="stylesheet" href="' + sheet + '" />');
+					'<link rel="stylesheet" href="' + sheetPath + '" />');
 			}
 
 		});
