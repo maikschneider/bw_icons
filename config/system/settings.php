@@ -112,6 +112,13 @@ return [
         'transport_smtp_server' => '',
         'transport_smtp_username' => '',
     ],
+    'RTE' => [
+        'Presets' => [
+            'default' => 'EXT:bw_icons/Configuration/RTE/test.yaml',
+            'full' => 'EXT:bw_icons/Configuration/RTE/test.yaml',
+            'minimal' => 'EXT:bw_icons/Configuration/RTE/test.yaml',
+        ]
+    ],
     'SYS' => [
         'UTF8filesystem' => true,
         'caching' => [

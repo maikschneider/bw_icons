@@ -1,0 +1,7 @@
+imports:
+  - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+
+editor:
+  config:
+    toolbar:
+      - { name: 'icon', items: [IconPicker] }
