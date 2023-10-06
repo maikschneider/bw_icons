@@ -106,7 +106,7 @@ return [
     ],
     'MAIL' => [
         'transport' => 'sendmail',
-        'transport_sendmail_command' => '/usr/local/bin/mailhog sendmail test@example.org --smtp-addr 127.0.0.1:1025',
+        'transport_sendmail_command' => '/usr/local/bin/mailhog sendmail -t test@example.org --smtp-addr 127.0.0.1:1025',
         'transport_smtp_encrypt' => '',
         'transport_smtp_password' => '',
         'transport_smtp_server' => '',
@@ -117,7 +117,7 @@ return [
             'default' => 'EXT:bw_icons/Configuration/RTE/test.yaml',
             'full' => 'EXT:bw_icons/Configuration/RTE/test.yaml',
             'minimal' => 'EXT:bw_icons/Configuration/RTE/test.yaml',
-        ]
+        ],
     ],
     'SYS' => [
         'UTF8filesystem' => true,
@@ -148,9 +148,12 @@ return [
         ],
         'devIPmask' => '',
         'displayErrors' => 0,
-        'encryptionKey' => '649053da276ea65223eb6241846f99f22ef09061b39c5de24ca8a215ae4d6395a3198dca8c46bdea8ac78230e5b58502',
+        'encryptionKey' => 'd8d1706f0b5f73653e9be2518738b0bf45c4ff6c8c9b52e0e423f3de863a647b639211fb87679e696413c0909e1f6f7c',
         'exceptionalErrors' => 4096,
+        'features' => [
+            'security.backend.enforceContentSecurityPolicy' => true,
+            'security.usePasswordPolicyForFrontendUsers' => true,
+        ],
         'sitename' => 'New TYPO3 site',
-        'trustedHostsPattern' => '.*',
     ],
 ];

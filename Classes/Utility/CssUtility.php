@@ -7,7 +7,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class CssUtility
 {
-
     public ContentObjectRenderer $cObj;
 
     public function includeStyleSheets(): string
