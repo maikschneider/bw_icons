@@ -21,6 +21,7 @@ class IconSelection extends AbstractFormElement
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
         $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
+        $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
         $config = $parameterArray['fieldConf']['config'];
         $iconProviders = $config['iconProviders'] ?? '';
 
