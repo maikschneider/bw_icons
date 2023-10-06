@@ -158,10 +158,16 @@ class IconSelection {
     onRteModalSave(editor) {
         if (this.selectedIconName) {
             const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').get(0).cloneNode();
-            const content = icon.outerHTML;
             editor.model.change(writer => {
-                const insertPosition = editor.model.document.selection.getFirstPosition();
-                editor.model.insertContent(writer.createText(content), insertPosition);
+                const newIcon = writer.createElement('typo3icon', {
+                    src: icon.getAttribute('src'),
+                    iconName: icon.getAttribute('data-icon-name'),
+                    iconBaseName: icon.getAttribute('data-icon-base-name'),
+                    loading: icon.getAttribute('loading'),
+                    alt: icon.getAttribute('alt'),
+                    role: icon.getAttribute('role'),
+                });
+                editor.model.insertObject(newIcon);
             });
             this.currentModal.hideModal();
             this.editor.focus();

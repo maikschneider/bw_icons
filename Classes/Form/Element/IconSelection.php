@@ -12,7 +12,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
 {
-    public function render()
+    public function render(): array
     {
         $resultArray = $this->initializeResultArray();
 
