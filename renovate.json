@@ -39,7 +39,7 @@
 			],
 			"rangeStrategy": "widen"
 		},
-    {
+		{
 			"description": "Widen all production dependencies",
 			"matchDepTypes": [
 				"require"
