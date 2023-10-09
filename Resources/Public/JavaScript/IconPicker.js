@@ -8,6 +8,7 @@ define(['TYPO3/CMS/Ckeditor5Bundle', '@blueways/bw-icons/IconSelection.js'], (fu
         init() {
             // @ts-ignore
             const editor = this.editor;
+            const pid = this.guessPid(editor);
             this.registerTypo3Icon(editor);
             editor.ui.componentFactory.add(IconPicker.pluginName, locale => {
                 const button = new ckeditor5Bundle_js.UI.ButtonView(locale);
@@ -16,8 +17,18 @@ define(['TYPO3/CMS/Ckeditor5Bundle', '@blueways/bw-icons/IconSelection.js'], (fu
                 button.on('execute', () => this.picker.rteButtonClick());
                 return button;
             });
-            this.picker = new IconSelection__default["default"](1, '', '');
+            this.picker = new IconSelection__default["default"](pid, '', '');
             this.picker.initForRteEditor(editor);
+        }
+        guessPid(editor) {
+            var _a;
+            const url = (_a = editor.config.get('typo3link')) === null || _a === void 0 ? void 0 : _a.routeUrl;
+            if (url) {
+                const pattern = /(?:\&P\[pid\]\=)\d+/gi;
+                const decodedUrl = decodeURIComponent(url);
+                return parseInt(decodedUrl.match(pattern)[0].substring(8));
+            }
+            return 0;
         }
         registerTypo3Icon(editor) {
             editor.model.schema.register('typo3icon', {

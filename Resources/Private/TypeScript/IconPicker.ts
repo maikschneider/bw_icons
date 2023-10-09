@@ -9,6 +9,7 @@ export default class IconPicker extends Core.Plugin {
 	public init(): void {
 		// @ts-ignore
 		const editor = this.editor as EditorWithUI;
+		const pid = this.guessPid(editor)
 
 		this.registerTypo3Icon(editor)
 
@@ -20,8 +21,21 @@ export default class IconPicker extends Core.Plugin {
 			return button;
 		});
 
-		this.picker = new IconSelection(1, '', '')
+		this.picker = new IconSelection(pid, '', '')
 		this.picker.initForRteEditor(editor)
+	}
+
+	protected guessPid(editor): number
+	{
+		const url = editor.config.get('typo3link')?.routeUrl
+
+		if (url) {
+			const pattern = /(?:\&P\[pid\]\=)\d+/gi;
+			const decodedUrl = decodeURIComponent(url);
+			return parseInt(decodedUrl.match(pattern)[0].substring(8));
+		}
+
+		return 0
 	}
 
 	protected registerTypo3Icon(editor): void
