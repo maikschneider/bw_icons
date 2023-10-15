@@ -1,4 +1,5 @@
 .idea
+.Build
 public
 !Resources/Public
 vendor
