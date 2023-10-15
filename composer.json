@@ -88,10 +88,11 @@
     "php:md": "php vendor/bin/phpmd Classes ansi phpmd.xml --generate-baseline"
   },
   "require": {
+    "php": "^8.0",
     "sabberworm/php-css-parser": "8.4.0",
     "ext-simplexml": "*",
     "ext-json": "*",
-    "typo3/cms-core": "^9.5 || ^10.0 || ^11.0 || ^12.0",
+    "typo3/cms-core": "^12.0",
     "phenx/php-font-lib": "0.5.4"
   }
 }

@@ -144,6 +144,9 @@ return [
                         'compression' => true,
                     ],
                 ],
+                'bwicons_conf' => [
+                    'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend',
+                ],
             ],
         ],
         'devIPmask' => '',
