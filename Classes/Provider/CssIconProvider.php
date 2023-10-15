@@ -28,20 +28,6 @@ class CssIconProvider extends AbstractIconProvider
         }
     }
 
-    private static function glyphIsNotInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
-    {
-        $contentRules = $cssGlyph->getRules('content');
-        $glyphString = $contentRules[0]->getValue()->getString();
-        foreach ($cssGlyphs as $setRule) {
-            $contentRules = $setRule->getRules('content');
-            $glyphStringInSet = $contentRules[0]->getValue()->getString();
-            if ($glyphString === $glyphStringInSet) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public function getStyleSheet(): string
     {
         if (!$this->tempFileExist()) {
@@ -68,29 +54,6 @@ class CssIconProvider extends AbstractIconProvider
         return Environment::getPublicPath() . '/typo3temp/assets/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
     }
 
-    protected function extractFontFilesFromFontFaces(string $fileExtension, array $fontFaces): array
-    {
-        $tempPath = $this->getTempPath();
-        return array_map(static function ($ruleSet) use ($tempPath, $fileExtension) {
-            $rules = $ruleSet->getRules('src');
-            foreach ($rules as $rule) {
-                $values = $rule->getValues();
-                foreach ($values as $value) {
-                    foreach ($value as $part) {
-                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
-                            // combine relative path with absolute path from css file
-                            // merge paths
-                            $relativePath = static::cleanFilePath($part->getURL()->getString());
-                            $absolutePath = $tempPath . '/' . $relativePath;
-                            return realpath($absolutePath);
-                        }
-                    }
-                }
-            }
-            return '';
-        }, $fontFaces);
-    }
-
     public function getIcons(): array
     {
         /** @var SvgReaderUtility $svgReaderUtility */
@@ -106,16 +69,21 @@ class CssIconProvider extends AbstractIconProvider
 
         $fontFaces = [];
         $cssGlyphs = [];
+        $rulesUsingFontFamily = [];
         foreach ($allRules as $rule) {
-            if (static::ruleIsFontFace($rule)) {
+            if (is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face') {
                 $fontFaces[] = $rule;
-                $this->adjustSrcOfFontFaceRule($rule);
+                $this->downloadFontFilesOfFontFaceRules($rule);
                 $tempFile->append($rule);
             }
 
             if (static::ruleIsAGlyph($rule) && static::glyphIsNotInSet($rule, $cssGlyphs)) {
                 $cssGlyphs[] = $rule;
                 $tempFile->append($rule);
+            }
+
+            if (static::ruleUsesFontFamily($rule)) {
+                $rulesUsingFontFamily[] = $rule;
             }
         }
 
@@ -126,12 +94,13 @@ class CssIconProvider extends AbstractIconProvider
         // get different font-families
         $fontFamilies = array_map(static function ($ruleSet) {
             $familyRules = $ruleSet->getRules('font-family');
+            $familyRuleName = $familyRules[0]->getValue()->getString();
             $weightRules = $ruleSet->getRules('font-weight');
             $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
             $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
             $styleRules = $ruleSet->getRules('font-style');
             return [
-                'font-family' => is_string($familyRules[0]->getValue()) ? $familyRules[0]->getValue() : $familyRules[0]->getValue()->getString(),
+                'font-family' => $familyRuleName,
                 'weight' => $weight,
                 'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
             ];
@@ -164,19 +133,18 @@ class CssIconProvider extends AbstractIconProvider
                 $fontName = $font['font-family'] . ' ' . $font['weight'];
             }
 
-            // get statements that use the current font-family
-            $fontUsers = [];
-            foreach ($allRules as $block) {
-                if (!is_a($block, DeclarationBlock::class) || count($block->getRules('font-family')) !== 1) {
-                    continue;
-                }
+            // get statements that use current font-family
+            $rulesUsingThisFontFamily = [];
+            foreach ($rulesUsingFontFamily as $block) {
 
                 // check font-family
                 $fontFamilyRules = $block->getRules('font-family');
-                if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue() || !is_a(
-                    $fontFamilyRules[0]->getValue(),
-                    CSSString::class
-                ) || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
+
+                if (
+                    count($fontFamilyRules) !== 1
+                    || !$fontFamilyRules[0]->getValue()
+                    || !is_a($fontFamilyRules[0]->getValue(), CSSString::class)
+                    || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
                     continue;
                 }
 
@@ -190,14 +158,13 @@ class CssIconProvider extends AbstractIconProvider
                     }
                 }
 
-                $fontUsers[] = $block;
-                $tempFile->append($block);
+                $rulesUsingThisFontFamily[] = $block;
             }
 
             // extract prefix class (e.g. "fa"). use first selector that matches
             $fontFamilyPrefix = '';
             $fontFamilyPrefixSelector = false;
-            foreach ($fontUsers as $fontUser) {
+            foreach ($rulesUsingThisFontFamily as $fontUser) {
                 if ($fontFamilyPrefix || count($fontUser->getSelectors()) === count($fontGlyphs)) {
                     continue;
                 }
@@ -256,88 +223,73 @@ class CssIconProvider extends AbstractIconProvider
 
     protected function getStyleSheetContent(): string
     {
-        $path = $this->options['file'];
-        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
+        $path = $this->options['file'] ?? '';
+        if (str_starts_with($path, 'EXT:') || str_starts_with($path, 'fileadmin/')) {
             $path = GeneralUtility::getFileAbsFileName($path);
         }
-        return file_get_contents($path);
+        return GeneralUtility::getUrl($path);
     }
 
-    protected static function ruleIsFontFace($rule): bool
-    {
-        return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
-    }
-
-    protected function adjustSrcOfFontFaceRule(AtRuleSet $rule): void
+    protected function downloadFontFilesOfFontFaceRules(AtRuleSet $rule): void
     {
         foreach ($rule->getRules('src') as $srcRule) {
-            if (!$srcRule->getValue()) {
+            $fontFaceSrc = $srcRule->getValue();
+            if (!$fontFaceSrc) {
                 continue;
             }
-
-            $this->crawlAndHandleUrls($srcRule->getValue());
+            $this->downloadFontFilesOfFontFaceSrc($fontFaceSrc);
         }
     }
 
-    protected function crawlAndHandleUrls($ruleValue): void
+    /**
+     * @param RuleValueList|URL $ruleValue
+     */
+    protected function downloadFontFilesOfFontFaceSrc($ruleValue): void
     {
         if (is_a($ruleValue, URL::class)) {
-            $this->handleCssUrl($ruleValue);
+            $fontFilePath = $ruleValue->getURL()->getString();
+            $fontFileName = $this->downloadFontFile($fontFilePath);
+            if (is_string($fontFileName)) {
+                $ruleValue->getURL()->setString($fontFileName);
+            }
         }
 
         if (is_a($ruleValue, RuleValueList::class)) {
             foreach ($ruleValue->getListComponents() as $component) {
-                $this->crawlAndHandleUrls($component);
+                $this->downloadFontFilesOfFontFaceSrc($component);
             }
         }
     }
 
-    protected function handleCssUrl(URL $url)
+    protected function downloadFontFile(string $fontFilePath): string|false
     {
-        if (!is_a($url->getURL(), CSSString::class)) {
-            return $url;
-        }
+        $fontFileUrl = static::cleanFilePath($fontFilePath);
+        $isRemoteFontPath = GeneralUtility::isValidUrl($fontFileUrl);
+        $isRemoteStylesheet = GeneralUtility::isValidUrl($this->options['file']);
+        $fontFileName = pathinfo($fontFilePath, PATHINFO_BASENAME);
 
-        $fontFileUrl = static::cleanFilePath($url->getURL()->getString());
-
-        if (GeneralUtility::isValidUrl($fontFileUrl)) {
-            $file_headers = @get_headers($fontFileUrl);
-            if (strpos($file_headers[0], '404')) {
-                return 0;
-            }
-            $fontFilePath = $fontFileUrl;
+        if ($isRemoteFontPath) {
+            $fontFileUrl = $fontFilePath;
         } else {
-            $currentPath = $this->getCurrentPath();
-            $fontFilePath = realpath($currentPath . '/' . static::cleanFilePath($url->getURL()->getString()));
-            if (!file_exists($fontFilePath)) {
-                return 0;
+            if ($isRemoteStylesheet) {
+                $fontFileDir = pathinfo($this->options['file'], PATHINFO_DIRNAME);
+                $fontFileUrl = $fontFileDir . '/' . $fontFileUrl;
+            } else {
+                $currentPath = $this->getCurrentPath();
+                $fontFileUrl = realpath($currentPath . '/' . static::cleanFilePath($fontFilePath));
             }
         }
 
-        $tempPath = $this->getTempPath();
-        $fontFileName = pathinfo($url->getURL()->getString(), PATHINFO_BASENAME);
-        $tempFile = $tempPath . '/' . static::cleanFilePath($fontFileName);
-        GeneralUtility::writeFileToTypo3tempDir($tempFile, file_get_contents($fontFilePath));
-
-        $url->getURL()->setString($fontFileName);
-    }
-
-    public function getCurrentPath(): string
-    {
-        $path = $this->options['file'];
-        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
-            $path = GeneralUtility::getFileAbsFileName($path);
-        }
-        return pathinfo($path, PATHINFO_DIRNAME);
+        return $this->writeFontFile($fontFileUrl, $fontFileName);
     }
 
     /**
      * remove possible #fontawesome and ?version at end of string
      *
      * @param $path
-     * @return false|string
+     * @return string
      */
-    public static function cleanFilePath($path)
+    public static function cleanFilePath($path): string
     {
         $cleanPath = strpos($path, '?') ? substr(
             $path,
@@ -349,6 +301,34 @@ class CssIconProvider extends AbstractIconProvider
             0,
             strpos($cleanPath, '#')
         ) : $cleanPath;
+    }
+
+    public function getCurrentPath(): string
+    {
+        $path = $this->options['file'];
+        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
+            $path = GeneralUtility::getFileAbsFileName($path);
+        }
+        return pathinfo($path, PATHINFO_DIRNAME);
+    }
+
+    protected function writeFontFile(string $fontFileUrl, string $fontFileName): string|false
+    {
+        $tempPath = $this->getTempPath();
+        $tempFile = $tempPath . '/' . static::cleanFilePath($fontFileName);
+
+        // @TODO: Handle cache
+        if (file_exists($tempFile)) {
+            return $fontFileName;
+        }
+
+        $fontFileContent = GeneralUtility::getUrl($fontFileUrl) ?: '';
+        if (!$fontFileContent) {
+            return false;
+        }
+
+        GeneralUtility::writeFileToTypo3tempDir($tempFile, $fontFileContent);
+        return $fontFileName;
     }
 
     protected static function ruleIsAGlyph($declarationBlock): bool
@@ -374,6 +354,52 @@ class CssIconProvider extends AbstractIconProvider
             return false;
         }
         return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
+    }
+
+    private static function glyphIsNotInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
+    {
+        $contentRules = $cssGlyph->getRules('content');
+        $glyphString = $contentRules[0]->getValue()->getString();
+        foreach ($cssGlyphs as $setRule) {
+            $contentRules = $setRule->getRules('content');
+            $glyphStringInSet = $contentRules[0]->getValue()->getString();
+            if ($glyphString === $glyphStringInSet) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static function ruleUsesFontFamily($rule): bool
+    {
+        if (is_a($rule, DeclarationBlock::class)
+            && count($rule->getRules('font-family'))
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function extractFontFilesFromFontFaces(string $fileExtension, array $fontFaces): array
+    {
+        $tempPath = $this->getTempPath();
+        return array_map(static function ($ruleSet) use ($tempPath, $fileExtension) {
+            $rules = $ruleSet->getRules('src');
+            foreach ($rules as $rule) {
+                $values = $rule->getValues();
+                foreach ($values as $value) {
+                    foreach ($value as $part) {
+                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
+                            // combine relative path with absolute path from css file
+                            // merge paths
+                            $relativePath = static::cleanFilePath($part->getURL()->getString());
+                            return $tempPath . '/' . $relativePath;
+                        }
+                    }
+                }
+            }
+            return '';
+        }, $fontFaces);
     }
 
     protected function writeTempCss(Document $cssDocument): void
