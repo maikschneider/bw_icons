@@ -10,59 +10,41 @@ abstract class AbstractIconProvider
 
     protected string $cacheIdentifier = '';
 
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId(string $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCacheIdentifier(): string
-    {
-        return $this->cacheIdentifier;
-    }
-
-    /**
-     * @param string $cacheIdentifier
-     */
-    public function setCacheIdentifier(string $cacheIdentifier): void
-    {
-        $this->cacheIdentifier = $cacheIdentifier;
-    }
-
     protected array $options = [];
 
     public function __construct($options)
     {
         $this->options = $options;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getCacheIdentifier(): string
+    {
+        return $this->cacheIdentifier;
+    }
+
+    public function setCacheIdentifier(string $cacheIdentifier): void
+    {
+        $this->cacheIdentifier = $cacheIdentifier;
     }
 
     abstract public function getIcons(): array;

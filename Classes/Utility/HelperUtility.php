@@ -5,6 +5,7 @@ namespace Blueways\BwIcons\Utility;
 use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -26,7 +27,7 @@ class HelperUtility
     public function getModalTabs(): array
     {
         $cacheIdentifier = $this->getCacheIdentifier();
-        $cache = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Cache\CacheManager::class)->getCache('bwicons_conf');
+        $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('bwicons_conf');
 
         if (($tabs = $cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles()) {
             return $tabs;
@@ -65,8 +66,6 @@ class HelperUtility
 
     /**
      * Checks if all temp dirs of css provider do exist
-     *
-     * @return bool
      */
     protected function isValidTempFiles(): bool
     {
@@ -92,14 +91,14 @@ class HelperUtility
 
         $extensionSettings = $this->getSettings();
         $cacheIdentifier = $this->getCacheIdentifier();
-        //$languageService = GeneralUtility::makeInstance(LanguageService::class);
+        $languageService = GeneralUtility::makeInstance(LanguageService::class);
 
         foreach ($extensionSettings as $key => $options) {
             /** @var AbstractIconProvider $prov */
             $prov = GeneralUtility::makeInstance($options['_typoScriptNodeValue'], $options);
             $prov->setCacheIdentifier($cacheIdentifier);
             $prov->setId($key);
-            $prov->setTitle($options['title']);
+            $prov->setTitle($languageService->sL($options['title']));
 
             $this->provider[] = $prov;
         }

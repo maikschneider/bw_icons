@@ -12,12 +12,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelectionController extends ActionController
 {
-    /**
-     * @param ServerRequestInterface $request
-     * @param Response|null $response
-     * @return Response
-     */
-    public function modalAction(ServerRequestInterface $request, Response $response = null): Response
+    public function modalAction(ServerRequestInterface $request, ?Response $response = null): Response
     {
         if (null === $response) {
             $response = new Response();
@@ -40,17 +35,8 @@ class IconSelectionController extends ActionController
         return $response;
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param Response|null $response
-     * @return Response
-     */
-    public function stylesheetsAction(ServerRequestInterface $request, Response $response = null): Response
+    public function stylesheetsAction(ServerRequestInterface $request): Response
     {
-        if (null === $response) {
-            $response = new Response();
-        }
-
         $pid = (int)$request->getQueryParams()['pid'];
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid);
         $styleSheets = $helperUtil->getStyleSheets();
