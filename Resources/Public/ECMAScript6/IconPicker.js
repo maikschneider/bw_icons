@@ -1,4 +1,4 @@
-import { Core, UI } from '@typo3/ckeditor5-bundle.js';
+import { Core, UI } from '@ckeditor/ckeditor5-core/legacy/ckeditor5-bundle.js';
 import IconSelection from '@blueways/bw-icons/IconSelection.js';
 
 class IconPicker extends Core.Plugin {

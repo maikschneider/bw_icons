@@ -91,14 +91,14 @@ class HelperUtility
 
         $extensionSettings = $this->getSettings();
         $cacheIdentifier = $this->getCacheIdentifier();
-        $languageService = GeneralUtility::makeInstance(LanguageService::class);
+        //$languageService = GeneralUtility::makeInstance(LanguageService::class);
 
         foreach ($extensionSettings as $key => $options) {
             /** @var AbstractIconProvider $prov */
             $prov = GeneralUtility::makeInstance($options['_typoScriptNodeValue'], $options);
             $prov->setCacheIdentifier($cacheIdentifier);
             $prov->setId($key);
-            $prov->setTitle($languageService->sL($options['title']));
+            $prov->setTitle($options['title']);
 
             $this->provider[] = $prov;
         }

@@ -1,4 +1,4 @@
-define(['TYPO3/CMS/Ckeditor5Bundle', '@blueways/bw-icons/IconSelection.js'], (function (ckeditor5Bundle_js, IconSelection) { 'use strict';
+define(['@ckeditor/ckeditor5-core/legacy/ckeditor5-bundle.js', '@blueways/bw-icons/IconSelection.js'], (function (ckeditor5Bundle_js, IconSelection) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 

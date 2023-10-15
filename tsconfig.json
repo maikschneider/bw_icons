@@ -27,11 +27,8 @@
 			"@typo3/core/*": [
 				"vendor/typo3/cms-core/Resources/Public/JavaScript/*"
 			],
-			"@typo3/ckeditor5-bundle.js": [
-				"vendor/typo3/cms-rte-ckeditor/Resources/Public/Contrib/ckeditor5-bundle.js"
-			],
 			"@ckeditor/ckeditor5-core/*": [
-				"vendor/typo3/cms-core/Resources/Public/JavaScript/*"
+				"vendor/typo3/cms-rte-ckeditor/Resources/Public/JavaScript/*"
 			]
 		},
 		"typeRoots": [
