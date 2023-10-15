@@ -9,6 +9,6 @@ return [
         'backend.form',
     ],
     'imports' => [
-        '@blueways/bw-icons/' => 'EXT:bw_icons/Resources/Public/ECMAScript6/',
+        '@blueways/bw-icons/' => 'EXT:bw_icons/Resources/Public/JavaScript/',
     ],
 ];
