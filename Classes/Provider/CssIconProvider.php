@@ -8,6 +8,8 @@ use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Sabberworm\CSS\RuleSet\RuleSet;
+use Sabberworm\CSS\Value\CSSFunction;
 use Sabberworm\CSS\Value\CSSString;
 use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
@@ -87,6 +89,17 @@ class CssIconProvider extends AbstractIconProvider
             }
         }
 
+        // filter for font-faces that are really used
+        $fontFaces = array_filter($fontFaces, function ($fontFace) use ($rulesUsingFontFamily) {
+            $fontFamilyName = $fontFace->getRules('font-family')[0]->getValue()->getString();
+            foreach ($rulesUsingFontFamily as $ruleUsingFontFamily) {
+                if (self::cssBlockMatchesFontFamily($ruleUsingFontFamily, $fontFamilyName)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
         // get paths to the svg font files
         $svgFonts = $this->extractFontFilesFromFontFaces('svg', $fontFaces);
         $ttfFonts = $this->extractFontFilesFromFontFaces('ttf', $fontFaces);
@@ -108,6 +121,7 @@ class CssIconProvider extends AbstractIconProvider
 
         // build tab modal markup
         $tabs = [];
+        $fontFamilyPrefix = '';
         foreach ($fontFamilies as $key => $font) {
             // abort if no svg or ttf font found
             if ($svgFonts[$key]) {
@@ -134,63 +148,67 @@ class CssIconProvider extends AbstractIconProvider
             }
 
             // get statements that use current font-family
-            $rulesUsingThisFontFamily = [];
             foreach ($rulesUsingFontFamily as $block) {
-
-                // check font-family
-                $fontFamilyRules = $block->getRules('font-family');
-
-                if (
-                    count($fontFamilyRules) !== 1
-                    || !$fontFamilyRules[0]->getValue()
-                    || !is_a($fontFamilyRules[0]->getValue(), CSSString::class)
-                    || $fontFamilyRules[0]->getValue()->getString() !== $font['font-family']) {
+                if (!self::cssBlockMatchesFontFamily($block, $font['font-family'])) {
                     continue;
                 }
 
-                // check font weight
-                $fontWeightRules = $block->getRules('font-weight');
-                if (count($fontWeightRules)) {
-                    $weight = $fontWeightRules[0]->getValue();
-                    $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
-                    if ($weight && $weight !== $font['weight']) {
+                // @TODO: What does this block check? Maybe if selector is in every glyphe?
+                if (count($block->getSelectors()) === count($fontGlyphs)) {
+                    continue;
+                }
+
+                // extract prefix class (e.g. ".fab .fa-brand")
+                $validSelectors = [];
+                foreach ($block->getSelectors() as $selector) {
+                    $selectorString = $selector->getSelector();
+
+                    // check that selector matches requirements
+                    $selectorContainsClassAttr = str_contains($selectorString, '[class');
+                    $isClassSelector = str_starts_with($selectorString, '.');
+                    $selectorContainsSpace = str_contains($selectorString, ' ');
+
+                    if ($selectorContainsClassAttr || !$isClassSelector || $selectorContainsSpace) {
                         continue;
                     }
+
+                    $validSelectors[] = $selector;
                 }
 
-                $rulesUsingThisFontFamily[] = $block;
-            }
-
-            // extract prefix class (e.g. "fa"). use first selector that matches
-            $fontFamilyPrefix = '';
-            $fontFamilyPrefixSelector = false;
-            foreach ($rulesUsingThisFontFamily as $fontUser) {
-                if ($fontFamilyPrefix || count($fontUser->getSelectors()) === count($fontGlyphs)) {
-                    continue;
-                }
-                $selectors = $fontUser->getSelectors();
-                foreach ($selectors as $selector) {
-                    if (!strpos($selector->getSelector(), '[class') && strpos(
-                        $selector->getSelector(),
-                        '.'
-                    ) === 0 && !strpos($selector->getSelector(), ' ')) {
-                        $fontFamilyPrefix = substr($selector->getSelector(), 1) . ' ';
-                        $fontFamilyPrefixSelector = $selector;
-                        break;
-                    }
-                }
-            }
-
-            // extract styles of prefix class (e.g. font-style, font-variant,..)
-            if ($fontFamilyPrefixSelector) {
+                // collect all styles of valid selectors, then back-check if they match current font-family + weight
+                $selectorBlockToCheck = [];
                 foreach ($allRules as $block) {
                     if (!is_a($block, DeclarationBlock::class)) {
                         continue;
                     }
-                    $selectors = $block->getSelectors();
+                    $selectors = (array)$block->getSelectors();
                     foreach ($selectors as $selector) {
-                        if ($selector->getSelector() === $fontFamilyPrefixSelector->getSelector()) {
-                            $tempFile->append($block);
+                        if (!in_array($selector, $validSelectors)) {
+                            continue;
+                        }
+                        $selectorBlockToCheck[$selector->getSelector()] ??= [];
+                        $selectorBlockToCheck[$selector->getSelector()][] = $block;
+                    }
+                }
+
+                // if rule has desired font-family
+                // if rule has desired font-weight
+                // use last selectorName as prefix + add all rules to css
+                foreach ($selectorBlockToCheck as $selectorName => $blocks) {
+                    $fontFamilyMatches = $fontWeightMatches = false;
+                    foreach ($blocks as $blockRule) {
+                        if (self::cssBlockMatchesFontFamily($blockRule, $font['font-family'])) {
+                            $fontFamilyMatches = true;
+                        }
+                        if (self::cssBlockMatchesFontWeight($blockRule, $font['weight'])) {
+                            $fontWeightMatches = true;
+                        }
+                    }
+
+                    if ($fontFamilyMatches && $fontWeightMatches) {
+                        $fontFamilyPrefix = substr($selectorName, 1) . ' ';
+                        foreach ($blocks as $blockRule) {
+                            $tempFile->append($blockRule);
                         }
                     }
                 }
@@ -370,13 +388,38 @@ class CssIconProvider extends AbstractIconProvider
         return true;
     }
 
-    private static function ruleUsesFontFamily($rule): bool
+    protected static function ruleUsesFontFamily($rule): bool
     {
         if (is_a($rule, DeclarationBlock::class)
             && count($rule->getRules('font-family'))
         ) {
             return true;
         }
+        return false;
+    }
+
+    protected static function cssBlockMatchesFontFamily(RuleSet $ruleSet, string $fontFamilyName): bool
+    {
+        // check for font-family declaration
+        $fontFamilyRules = $ruleSet->getRules('font-family');
+        if (count($fontFamilyRules) !== 1 || !$fontFamilyRules[0]->getValue()) {
+            return false;
+        }
+
+        // check for css value (e.g. font-family: "Font Awesome")
+        if (is_a($fontFamilyRules[0]->getValue(), CSSString::class)
+            && $fontFamilyRules[0]->getValue()->getString() === $fontFamilyName) {
+            return true;
+        }
+
+        // check for css function and try to resolve by default value (font-family: var(--family-name, Font-Awesome)
+        if (is_a($fontFamilyRules[0]->getValue(), CSSFunction::class)) {
+            $cssFunctionParts = $fontFamilyRules[0]->getValue()->getListComponents();
+            if (count($cssFunctionParts) === 2 && $cssFunctionParts[1]->getString() === $fontFamilyName) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -400,6 +443,34 @@ class CssIconProvider extends AbstractIconProvider
             }
             return '';
         }, $fontFaces);
+    }
+
+    protected static function cssBlockMatchesFontWeight(RuleSet $ruleSet, float $fontWeight): bool
+    {
+        // check for font weight declaration
+        $fontWeightRules = $ruleSet->getRules('font-weight');
+        if (!count($fontWeightRules)) {
+            return false;
+        }
+
+        // check for css value (e.g. font-weight: 400)
+        $weight = $fontWeightRules[0]->getValue();
+        if (is_a($weight, Size::class) && $weight->getSize() === $fontWeight) {
+            return true;
+        }
+
+        // check for css function and try to resolve by default value (font-weight: var(--font-weight, 900))
+        if (is_a($weight, CSSFunction::class)) {
+            $cssFunctionParts = $weight->getListComponents();
+            if (count($cssFunctionParts) === 2
+                && is_a($cssFunctionParts[1], Size::class)
+                && $cssFunctionParts[1]->getSize() === $fontWeight
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function writeTempCss(Document $cssDocument): void
