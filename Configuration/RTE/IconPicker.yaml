@@ -7,11 +7,3 @@ editor:
 
     importModules:
       - '@blueways/bw-icons/IconPicker.js'
-
-processing:
-  allowTags:
-    - i
-    - img
-  allowTagsOutside:
-    - img
-    - i

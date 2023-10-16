@@ -40,13 +40,7 @@ class IconSelection {
         if (this.selectedIconName) {
             $(this.$formElement).find('.close').css('visibility', 'visible');
         }
-        // hide modal in v12+
-        if (typeof this.currentModal.hideModal === 'function') {
-            this.currentModal.hideModal();
-        }
-        else {
-            this.currentModal.trigger('modal-dismiss');
-        }
+        this.currentModal.hideModal();
     }
     onClearButtonClick(e) {
         $(this.$formElement).find('.input-icon-holder').html('');
@@ -111,7 +105,7 @@ class IconSelection {
         stylesheets.forEach((sheet) => {
             // include if used in RTE editor
             if (this.editor) {
-                this.editor.document.$.head.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="' + sheet + '" />');
+                document.getElementsByTagName("head")[0].insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="' + sheet + '" />');
             }
             // include for modal
             if (!parent.document.querySelector('link[href*="' + sheet + '"]')) {
@@ -157,17 +151,27 @@ class IconSelection {
     }
     onRteModalSave(editor) {
         if (this.selectedIconName) {
-            const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').get(0).cloneNode();
+            const icon = $(this.currentModal).find('*[data-icon-name="' + this.selectedIconName + '"]').get(0);
             editor.model.change(writer => {
-                const newIcon = writer.createElement('typo3icon', {
-                    src: icon.getAttribute('src'),
-                    iconName: icon.getAttribute('data-icon-name'),
-                    iconBaseName: icon.getAttribute('data-icon-base-name'),
-                    loading: icon.getAttribute('loading'),
-                    alt: icon.getAttribute('alt'),
-                    role: icon.getAttribute('role'),
-                });
-                editor.model.insertObject(newIcon);
+                if (icon.nodeName === 'I') {
+                    const newIcon = writer.createElement('typo3fonticon', {
+                        iconName: icon.getAttribute('data-icon-name'),
+                        iconBaseName: icon.getAttribute('data-icon-base-name'),
+                        class: icon.getAttribute('class'),
+                    });
+                    editor.model.insertObject(newIcon);
+                }
+                else {
+                    const newIcon = writer.createElement('typo3icon', {
+                        src: icon.getAttribute('src'),
+                        iconName: icon.getAttribute('data-icon-name'),
+                        iconBaseName: icon.getAttribute('data-icon-base-name'),
+                        loading: icon.getAttribute('loading'),
+                        alt: icon.getAttribute('alt'),
+                        role: icon.getAttribute('role'),
+                    });
+                    editor.model.insertObject(newIcon);
+                }
             });
             this.currentModal.hideModal();
             this.editor.focus();

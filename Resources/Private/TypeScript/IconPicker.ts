@@ -12,6 +12,7 @@ export default class IconPicker extends Core.Plugin {
 		const pid = this.guessPid(editor)
 
 		this.registerTypo3Icon(editor)
+		this.registerTypo3FontIcon(editor)
 
 		editor.ui.componentFactory.add(IconPicker.pluginName, locale => {
 			const button = new UI.ButtonView(locale);
@@ -25,8 +26,7 @@ export default class IconPicker extends Core.Plugin {
 		this.picker.initForRteEditor(editor)
 	}
 
-	protected guessPid(editor): number
-	{
+	protected guessPid(editor): number {
 		const url = editor.config.get('typo3link')?.routeUrl
 
 		if (url) {
@@ -38,15 +38,14 @@ export default class IconPicker extends Core.Plugin {
 		return 0
 	}
 
-	protected registerTypo3Icon(editor): void
-	{
+	protected registerTypo3Icon(editor): void {
 		editor.model.schema.register('typo3icon', {
 			inheritAllFrom: '$inlineObject',
 			allowIn: '$text',
 			allowAttributes: [
 				'src',
-				'data-icon-name',
-				'data-icon-base-name',
+				'iconName',
+				'iconBaseName',
 				'loading',
 				'alt',
 				'role'
@@ -93,6 +92,57 @@ export default class IconPicker extends Core.Plugin {
 							'loading': modelElement.getAttribute('loading'),
 							'alt': modelElement.getAttribute('alt'),
 							'role': modelElement.getAttribute('role'),
+						}
+					)
+				},
+			});
+	}
+
+	protected registerTypo3FontIcon(editor): void {
+		editor.model.schema.register('typo3fonticon', {
+			inheritAllFrom: '$inlineObject',
+			allowIn: '$text',
+			allowAttributes: [
+				'iconName',
+				'iconBaseName',
+				'class',
+			],
+		});
+
+		editor.conversion
+			.for('upcast')
+			.elementToElement({
+				view: {
+					name: 'i',
+					attributes: [
+						'class',
+					]
+				},
+				model: (viewElement, {writer}) => {
+					return writer.createElement('typo3fonticon', {
+						iconName: viewElement.getAttribute('data-icon-name') || '',
+						iconBaseName: viewElement.getAttribute('data-icon-base-name') || '',
+						class: viewElement.getAttribute('class') || '',
+					});
+				}
+			});
+
+		editor.conversion
+			.for('downcast')
+			.elementToElement({
+				model: {
+					name: 'typo3fonticon',
+					attributes: [
+						'class'
+					]
+				},
+				view: (modelElement, {writer}) => {
+					return writer.createEmptyElement(
+						'i',
+						{
+							'data-icon-name': modelElement.getAttribute('iconName'),
+							'data-icon-base-name': modelElement.getAttribute('iconBaseName'),
+							'class': modelElement.getAttribute('class'),
 						}
 					)
 				},
