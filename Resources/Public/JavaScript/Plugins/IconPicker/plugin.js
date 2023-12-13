@@ -2,8 +2,6 @@
 
 (function () {
 
-    let iconPicker = null;
-
     CKEDITOR.dtd.$removeEmpty.i = 0;
 
     CKEDITOR.plugins.add('IconPicker', {
@@ -39,8 +37,8 @@
                 const url = decodeURIComponent(editor.config.IconPicker.routeUrl);
                 const pid = parseInt(url.match(pattern)[0].substring(8));
 
-                iconPicker = new IconSelection(pid);
-                iconPicker.initForRteEditor(editor);
+                editor.iconPicker = new IconSelection(pid);
+                editor.iconPicker.initForRteEditor(editor);
             });
         }
     });
@@ -54,7 +52,7 @@
         require([
             'TYPO3/CMS/BwIcons/IconSelection'
         ], function (IconSelection) {
-            iconPicker.rteButtonClick();
+            editor.iconPicker.rteButtonClick();
         });
     }
 
