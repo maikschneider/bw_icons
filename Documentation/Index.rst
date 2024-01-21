@@ -106,6 +106,26 @@ The displayed icons are set up via PageTS. Choose a unique identifier and select
 		}
 	}
 
+When using :file:`FileIconProvider`, it's possible to specify a comma separated list of file extension you want to use (e.g. :file:`svg` oder :file:`png`) with the :file:`fileExtensionList` option.
+
+.. code:: typoscript
+
+	mod.tx_bwicons {
+		svgicons = Blueways\BwIcons\Provider\FileIconProvider
+		svgicons {
+			title = Custom SVG Icons
+			folder = fileadmin/icons
+			fileExtensionList = svg
+		}
+
+		pngicons = Blueways\BwIcons\Provider\FileIconProvider
+		pngicons {
+			title = Custom PNG Icons
+			folder = fileadmin/icons
+			fileExtensionList = png
+		}
+	}
+
 .. note::
 
    After changing the settings, make sure to clear the cache.
