@@ -1,6 +1,14 @@
 .idea
 .Build
-public
+config
+composer.lock
+public/.htaccess
+public/_assets
+public/fileadmin
+public/typo3
+public/typo3conf
+public/typo3temp
+public/index.php
 !Resources/Public
 vendor
 var
