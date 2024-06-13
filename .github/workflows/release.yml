@@ -1,16 +1,9 @@
-name: test-build-release
-
+name: Release
 on:
-  push:
-    branches:
-      - development
+    push:
+        tags:
+            - '*'
 
 jobs:
-
-  release:
-    uses: maikschneider/reusable-workflows/.github/workflows/release-typo3-extension.yml@main
-    secrets:
-      teams-webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL }}
-    with:
-      base-branch: master
-      build-assets: true
+    ter-publish:
+        uses: maikschneider/reusable-workflows/.github/workflows/release.yml@main
