@@ -1,6 +1,14 @@
-# TYPO3 Icon Picker
+<div align="center">
 
-Icon selection for TCA and RTE. Generates a browsable gallery of your icon fonts
+![Extension icon](Resources/Public/Icons/Extension.svg)
+
+# TYPO3 extension `bw_icons`
+
+[![Supported TYPO3 versions](https://typo3-badges.dev/badge/bw_icons/typo3/shields.svg)](https://extensions.typo3.org/extension/bw_icons)
+
+</div>
+
+Icon picker for TCA and RTE. Generates a browsable gallery of your icon fonts
 and SVGs - just link your stylesheet or image directory. Works with FontAwesome,
 Bootstrap, Icomoon.. Optionally adds icon field to pages, tt_content or
 sys_category.
@@ -51,7 +59,7 @@ downloading and adjusting paths!
    section.
 
 5. Include RTE configuration (optional)
-   ``` {.yaml}
+   ```yaml
    imports:
       - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
 
@@ -68,7 +76,7 @@ select `FileIconProvider` if you want to add
 image files from a directory or `CssIconProvider` if you want to display font
 icons from a stylesheet.
 
-```
+```typo3_typoscript
 mod.tx_bwicons {
 
     # Get icons from directory and subdirectory. Subdirectories become sidebar links.
@@ -98,16 +106,19 @@ After changing the settings, make sure to clear the cache.
 
 ### RTE Configuration
 
-After importing the yaml configuration, you can add the new button anywhere you want to your RTE present. [Read more](https://docs.typo3.org/c/typo3/cms-rte-ckeditor/main/en-us/Configuration/) about RTE configuration.
+After importing the yaml configuration, you can add the new button anywhere you
+want to your RTE
+present. [Read more](https://docs.typo3.org/c/typo3/cms-rte-ckeditor/main/en-us/Configuration/)
+about RTE configuration.
 
-``` {.yaml}
+```yaml
 imports:
-   - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+    - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
 
 editor:
-   config:
-       toolbar:
-           - { name: 'icon', items: [IconPicker] }
+    config:
+        toolbar:
+            - { name: 'icon', items: [ IconPicker ] }
 ```
 
 ## Usage
@@ -130,18 +141,19 @@ checking for a dot in the icon name:
 ```html
 {namespace bw=Blueways\BwIcons\ViewHelpers}
 
-<bw:icon icon="{data.tx_bwicons_icon}"/> Hello world!
+<bw:icon icon="{data.tx_bwicons_icon}" /> Hello world!
 ```
 
 Output:
 
-```
+```html
 <i class="fa fas-wave"></i> Hello world!
 ```
 
 or
 
-```
+```html
+
 <img src="/fileadmin/icons/foo.svg" /> Hello world!
 ```
 
@@ -151,10 +163,10 @@ If you want to include the extracted styles in the frontend, you can use
 the `CssUtility` to generate the style-tags in the head of your page. Include
 this in your **TypoScript setup**:
 
-```
+```typo3_typoscript
 page.headerData {
-	123 = USER
-	123.userFunc = Blueways\BwIcons\Utility\CssUtility->includeStyleSheets
+    123 = USER
+    123.userFunc = Blueways\BwIcons\Utility\CssUtility->includeStyleSheets
 }
 ```
 
