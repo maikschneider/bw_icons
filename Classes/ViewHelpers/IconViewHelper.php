@@ -44,7 +44,7 @@ class IconViewHelper extends AbstractViewHelper
             return '<img ' . $attrString . ' />';
         }
 
-        $markup = $arguments['markup'];
+        $markup = $arguments['markup'] ?: '<i class="###ICON###"></i>';
         $markup = str_replace('###ICON###', $arguments['icon'], $markup);
 
         $doc = new DOMDocument();
@@ -71,9 +71,9 @@ class IconViewHelper extends AbstractViewHelper
         $this->registerArgument(
             'markup',
             'string',
-            'Markup of the',
+            'Markup of the icon. Use ###ICON### as placeholder for the icon name.',
             false,
-            '<i class="###ICON###"></i>'
+            ''
         );
         $this->registerArgument(
             'additionalAttributes',
