@@ -41,6 +41,7 @@ class HelperUtility
                 $tab['id'] = $provider->getId();
                 $tab['title'] = $provider->getTitle();
                 $tab['folders'] = $provider->getIcons();
+                $tab['markup'] = $provider->getOptions()['markup'] ?? '';
 
                 $tabs[] = $tab;
             }

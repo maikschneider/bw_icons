@@ -98,6 +98,9 @@ mod.tx_bwicons {
     icomoon {
         title = Icomoon
         file = https://i.icomoon.io/public/b23ec64zea/Project/style.css
+        # optional: adjust markup in backend wizard
+        # defaults to <i class="###ICON###"></i>
+        markup = <span class="my-custom-class ###ICON###"></span>
     }
 }
 ```
