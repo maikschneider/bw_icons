@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\ViewHelpers;
 
+use DOMDocument;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
@@ -43,9 +44,17 @@ class IconViewHelper extends AbstractViewHelper
             return '<img ' . $attrString . ' />';
         }
 
-        $attributes['class'] = $arguments['icon'];
-        $attrString = static::concatAttributes($attributes);
-        return '<i ' . $attrString . '></i>';
+        $markup = $arguments['markup'];
+        $markup = str_replace('###ICON###', $arguments['icon'], $markup);
+
+        $doc = new DOMDocument();
+        $doc->loadHTML($markup, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $element = $doc->getElementsByTagName('*')->item(0);
+        foreach ($attributes as $attributeName => $attributeValue) {
+            $element->setAttribute($attributeName, $attributeValue);
+        }
+
+        return $doc->saveHTML() ?: '';
     }
 
     protected static function concatAttributes(array $attributes): string
@@ -59,7 +68,13 @@ class IconViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('icon', 'string', 'The icon name', true);
-        $this->registerArgument('provider', 'string', 'PageTS did of the used IconProvider', false);
+        $this->registerArgument(
+            'markup',
+            'string',
+            'Markup of the',
+            false,
+            '<i class="###ICON###"></i>'
+        );
         $this->registerArgument(
             'additionalAttributes',
             'array',

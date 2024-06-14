@@ -93,6 +93,8 @@
     "ext-simplexml": "*",
     "ext-json": "*",
     "typo3/cms-core": "^12.0",
-    "phenx/php-font-lib": "0.5.4"
+    "phenx/php-font-lib": "0.5.4",
+    "ext-dom": "*",
+    "ext-libxml": "*"
   }
 }

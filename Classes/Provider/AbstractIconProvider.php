@@ -17,6 +17,11 @@ abstract class AbstractIconProvider
         $this->options = $options;
     }
 
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
