@@ -33,8 +33,15 @@
   "license": [
     "GPL-2.0-or-later"
   ],
+  "repositories": [
+    {
+      "type": "github",
+      "url": "https://github.com/maikschneider/phar-composer/"
+    }
+  ],
   "require-dev": {
     "bk2k/bootstrap-package": "dev-master",
+    "clue/phar-composer": "dev-symfony7-support",
     "friendsofphp/php-cs-fixer": "^3.12",
     "phpmd/phpmd": "^2.13.0",
     "saschaegerer/phpstan-typo3": "^1.8",
