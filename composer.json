@@ -94,7 +94,7 @@
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-simplexml": "*",
-    "phenx/php-font-lib": "0.5.4 || 0.5.6",
+    "phenx/php-font-lib": "0.5.4 || 0.5.6 || 1.0.1",
     "sabberworm/php-css-parser": "8.4.0",
     "typo3/cms-core": "^12.4"
   }
