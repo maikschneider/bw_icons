@@ -283,7 +283,7 @@ class CssIconProvider extends AbstractIconProvider
     {
         $fontFileUrl = static::cleanFilePath($fontFilePath);
         $isRemoteFontPath = GeneralUtility::isValidUrl($fontFileUrl);
-        $isRemoteStylesheet = GeneralUtility::isValidUrl($this->options['file']);
+        $isRemoteStylesheet = GeneralUtility::isValidUrl($this->options['file']) && strpos($path, 'EXT:') != 0;
         $fontFileName = pathinfo($fontFilePath, PATHINFO_BASENAME);
 
         if ($isRemoteFontPath) {
