@@ -7,6 +7,7 @@ use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
@@ -14,6 +15,7 @@ class IconSelection extends AbstractFormElement
     public function render(): array
     {
         $resultArray = $this->initializeResultArray();
+        $fieldId = StringUtility::getUniqueId('formengine-input-');
 
         $fieldWizardResult = $this->renderFieldWizard();
         $fieldWizardHtml = $fieldWizardResult['html'];
@@ -51,7 +53,8 @@ class IconSelection extends AbstractFormElement
             'fieldWizardHtml' => $fieldWizardHtml,
         ]);
 
-        $resultArray['html'] = $templateView->render();
+        $resultArray['labelHasBeenHandled'] = true;
+        $resultArray['html'] = $this->renderLabel($fieldId) . $templateView->render();
         return $resultArray;
     }
 }
