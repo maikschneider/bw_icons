@@ -4,15 +4,15 @@
     <div class="callout callout-info">
         <h4 class="callout-title"><f:translate extensionName="BwIcons" key="callout.no-provider.title" /></h4>
         <p class="callout-body"><f:format.raw><f:translate extensionName="BwIcons" key="callout.no-provider.description" arguments="{0: 'https://docs.typo3.org/p/blueways/bw-icons/2.0/en-us'}" /></f:format.raw></p>
-        <a target="_blank" href="https://docs.typo3.org/p/blueways/bw-icons/2.0/en-us/" class="btn btn-default"><core:icon identifier="actions-notebook-typoscript" size="small" /> <f:translate extensionName="BwIcons" key="callout.no-provider.button" /></a>
+        <a target="_blank" href="https://docs.typo3.org/p/blueways/bw-icons/main/en-us/" class="btn btn-default"><core:icon identifier="actions-notebook-typoscript" size="small" /> <f:translate extensionName="BwIcons" key="callout.no-provider.button" /></a>
     </div>
 </f:if>
 
 <f:if condition="{tabs}">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-pills">
         <f:for each="{tabs}" as="tab" iteration="i">
-            <li role="presentation" class="{f:if(condition:i.isFirst, then:'active')}">
-                <a class="nav-item {f:if(condition:i.isFirst, then:'active')}" href="#{tab.id}">{tab.title}</a>
+            <li role="presentation" class="nav-item {f:if(condition:i.isFirst, then:'active')}">
+                <a class="nav-item nav-link {f:if(condition:i.isFirst, then:'active')}" href="#{tab.id}">{tab.title}</a>
             </li>
         </f:for>
     </ul>
@@ -41,7 +41,7 @@
 
             <form class="filter">
                 <div class="input-group">
-                    <span class="t3js-form-field-inputlink-icon input-group-addon">
+                    <span class="t3js-form-field-inputlink-icon input-group-addon input-group-text input-group-icon filter">
                         <core:icon identifier="actions-filter" size="small"/>
                     </span>
                     <span class="form-control-clearable form-control-clearable-wrapper">
@@ -91,10 +91,7 @@
 
 <style>
     .tab-content {
-        background: #fafafa;
-        border: 1px solid #ccc;
-        border-top: 0;
-        padding: 20px 13px 0;
+        padding-top: 20px;
         display: none;
         min-height: 80px;
     }
@@ -106,6 +103,10 @@
     .tab-content--subnav {
         grid-template-columns: minmax(100px, 245px) auto;
         gap: 20px;
+    }
+
+    .input-group-icon {
+        height: 36px;
     }
 
     .icongrid {
@@ -162,7 +163,7 @@
         background-color: #f5f5f5;
     }
 
-    h1 {
+    .modal-body h1 {
         border-bottom: 1px solid #000;
         padding-top: 12px;
     }
@@ -188,6 +189,6 @@
     }
 
     .filter input.search {
-        border-radius: 0 2px 2px 0;
+        border-radius: 0 4px 4px 0;
     }
 </style>
