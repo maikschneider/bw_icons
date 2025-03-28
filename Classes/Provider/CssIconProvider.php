@@ -260,8 +260,8 @@ class CssIconProvider extends AbstractIconProvider
     }
 
     /**
-     * @param RuleValueList|URL $ruleValue
-     */
+    * @param RuleValueList|URL $ruleValue
+    */
     protected function downloadFontFilesOfFontFaceSrc($ruleValue): void
     {
         if (is_a($ruleValue, URL::class)) {
@@ -302,11 +302,11 @@ class CssIconProvider extends AbstractIconProvider
     }
 
     /**
-     * remove possible #fontawesome and ?version at end of string
-     *
-     * @param $path
-     * @return string
-     */
+    * remove possible #fontawesome and ?version at end of string
+    *
+    * @param $path
+    * @return string
+    */
     public static function cleanFilePath($path): string
     {
         $cleanPath = strpos($path, '?') ? substr(

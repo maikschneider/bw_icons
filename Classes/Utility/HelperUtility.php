@@ -66,8 +66,8 @@ class HelperUtility
     }
 
     /**
-     * Checks if all temp dirs of css provider do exist
-     */
+    * Checks if all temp dirs of css provider do exist
+    */
     protected function isValidTempFiles(): bool
     {
         foreach ($this->getAllProvider() as $provider) {
@@ -82,8 +82,8 @@ class HelperUtility
     }
 
     /**
-     * @return array<AbstractIconProvider>
-     */
+    * @return array<AbstractIconProvider>
+    */
     protected function getAllProvider(): array
     {
         if (count($this->provider)) {

@@ -39,35 +39,35 @@ downloading and adjusting paths!
 ## Installation
 
 1. Install via composer
-   ``` {.bash}
-   composer require blueways/bw-icons
-   ```
+``` {.bash}
+composer require blueways/bw-icons
+```
 
 2. Update database schema
 
 3. Include PageTS
 
-   Enable the extension in the Extension Manager and include the **static
-   PageTS** for TYPO3 core icons or set up your own icons. See *Configuration*
-   section.
+Enable the extension in the Extension Manager and include the **static
+PageTS** for TYPO3 core icons or set up your own icons. See *Configuration*
+section.
 
 4. Enable icons for tt_content, pages and/or sys_category
 
-   In the extension
-   settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable
-   the icon fields. If you want to use it for other tables, see *For developers*
-   section.
+In the extension
+settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable
+the icon fields. If you want to use it for other tables, see *For developers*
+section.
 
 5. Include RTE configuration (optional)
-   ```yaml
-   imports:
-      - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
+```yaml
+imports:
+    - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
 
-   editor:
-      config:
+editor:
+    config:
         toolbar:
-          - { name: 'icon', items: [IconPicker] }
-   ```
+        - { name: 'icon', items: [IconPicker] }
+```
 
 ## Configuration
 
@@ -178,38 +178,38 @@ page.headerData {
 ### Usage in other tables
 
 1. Create database field for the icon:
-   ```sql
-   create table tx_myext_domain_model_foo (
-       icon_field varchar(255) not null default '',
-   );
-   ```
+```sql
+create table tx_myext_domain_model_foo (
+    icon_field varchar(255) not null default '',
+);
+```
 
 2. Edit TCA: Add the renderType `iconSelection` in the config array:
-   ```php
-   ...
-   'icon_field' => [
+```php
+...
+'icon_field' => [
         'label' => 'My Icon',
         'config' => [
-           'type' => 'input',
-           'renderType' => 'iconSelection'
+        'type' => 'input',
+        'renderType' => 'iconSelection'
         ]
-   ],
-   ...
-   ```
+],
+...
+```
 
-   Optional: you may restrict which icon providers are available:
-   ```php
-   ...
-   'icon_field' => [
+Optional: you may restrict which icon providers are available:
+```php
+...
+'icon_field' => [
         'label' => 'My Icon',
         'config' => [
-           'type' => 'input',
-           'renderType' => 'iconSelection',
-           'iconProviders' => 'fontawesome,otherProviderKey'
+        'type' => 'input',
+        'renderType' => 'iconSelection',
+        'iconProviders' => 'fontawesome,otherProviderKey'
         ]
-   ],
-   ...
-   ```
+],
+...
+```
 
 ### New icon sources
 
@@ -224,4 +224,3 @@ This extension was made by Maik Schneider: Feel free to contribute!
 * [Github-Repository](https://github.com/maikschneider/bw_icons)
 
 Thanks to [blueways](https://www.blueways.de/) and [XIMA](https://www.xima.de/)!
-
