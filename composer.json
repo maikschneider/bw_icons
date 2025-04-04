@@ -18,7 +18,6 @@
 	}
   ],
   "require": {
-	"php": "^8.0",
 	"ext-dom": "*",
 	"ext-json": "*",
 	"ext-libxml": "*",
