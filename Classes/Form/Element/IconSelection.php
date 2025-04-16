@@ -5,6 +5,7 @@ namespace Blueways\BwIcons\Form\Element;
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -18,7 +19,6 @@ class IconSelection extends AbstractFormElement
         $fieldId = StringUtility::getUniqueId('formengine-input-');
 
         $fieldWizardResult = $this->renderFieldWizard();
-        $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
         $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
@@ -32,8 +32,7 @@ class IconSelection extends AbstractFormElement
             return Environment::getPublicPath() . $styleSheet;
         }, $styleSheets);
         $resultArray['stylesheetFiles'] = $styleSheetPaths;
-        $resultArray['javaScriptModules'][] = \TYPO3\CMS\Core\Page\JavaScriptModuleInstruction::create('@blueways/bw-icons/IconSelection.js')
-            ->instance($pid, $iconProviders, $parameterArray['itemFormElName']);
+        $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
         $defaultInputWidth = 10;
@@ -50,11 +49,13 @@ class IconSelection extends AbstractFormElement
             'itemFormElName' => $parameterArray['itemFormElName'],
             'itemFormElValue' => $parameterArray['itemFormElValue'],
             'width' => $width,
-            'fieldWizardHtml' => $fieldWizardHtml,
         ]);
 
         $resultArray['labelHasBeenHandled'] = true;
-        $resultArray['html'] = $this->renderLabel($fieldId) . $templateView->render();
+        $html = $this->renderLabel($fieldId);
+        $html .= '<bw-icon-element></bw-icon-element>';
+
+        $resultArray['html'] = $html;
         return $resultArray;
     }
 }
