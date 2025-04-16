@@ -7,3 +7,8 @@ services:
   Blueways\BwIcons\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
+
+  Blueways\BwIcons\EventListener\BeforeJavaScriptsRenderingEventListener:
+    tags:
+      - name: 'event.listener'
+        identifier: 'blueways/bw-icons-before-javascripts-rendering'

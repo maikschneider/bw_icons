@@ -9,12 +9,14 @@ use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class IconSelection extends AbstractFormElement
 {
     public function render(): array
     {
+        $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
         $resultArray = $this->initializeResultArray();
         $fieldId = StringUtility::getUniqueId('formengine-input-');
 
@@ -23,8 +25,9 @@ class IconSelection extends AbstractFormElement
         $parameterArray = $this->data['parameterArray'];
         $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
         $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
-        $config = $parameterArray['fieldConf']['config'];
-        $iconProviders = $config['iconProviders'] ?? '';
+        $wizardConfig = $parameterArray['fieldConf']['config'];
+        $wizardConfig['typo3Version'] = $version['version_main'];
+        $iconProviders = $wizardConfig['iconProviders'] ?? '';
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
         $styleSheets = $helperUtil->getStyleSheets();
@@ -35,25 +38,23 @@ class IconSelection extends AbstractFormElement
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
-        $defaultInputWidth = 10;
-        $size = MathUtility::forceIntegerInRange(
-            $config['size'] ?? $defaultInputWidth,
-            $this->minimumInputWidth,
-            $this->maxInputWidth
-        );
-        $width = $this->formMaxWidth($size);
+        $itemFormElValue = $parameterArray['itemFormElValue'];
+        $itemFormElName = $parameterArray['itemFormElName'];
 
-        $templateView = GeneralUtility::makeInstance(StandaloneView::class);
-        $templateView->setTemplatePathAndFilename('EXT:bw_icons/Resources/Private/Template/FormElement.html');
-        $templateView->assignMultiple([
-            'itemFormElName' => $parameterArray['itemFormElName'],
-            'itemFormElValue' => $parameterArray['itemFormElValue'],
-            'width' => $width,
-        ]);
-
-        $resultArray['labelHasBeenHandled'] = true;
         $html = $this->renderLabel($fieldId);
-        $html .= '<bw-icon-element></bw-icon-element>';
+        $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
+        $html .= '<div class="form-wizards-wrap">';
+        $html .= '<div class="form-wizards-element">';
+        $html .= '<div class="form-control-wrap">';
+        $html .= '<bw-icon-element ';
+        $html .= 'itemElementValue="' . htmlspecialchars($itemFormElValue, ENT_QUOTES) . '"';
+        $html .= 'itemFormElName="' . $itemFormElName . '"';
+        $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
+        $html .= ' />';
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
 
         $resultArray['html'] = $html;
         return $resultArray;

@@ -10,6 +10,7 @@ const ignoreWarnings = new Set([
 const buildConfig = {
     entryPoints: [
         "Resources/Private/JavaScript/IconElement.svelte",
+        "Resources/Private/JavaScript/IconWizard.svelte",
     ],
     mainFields: ["svelte", "browser", "module", "main"],
     conditions: ["svelte", "browser"],

@@ -28,35 +28,10 @@ var ELEMENT_PRESERVE_ATTRIBUTE_CASE = 1 << 1;
 var UNINITIALIZED = Symbol();
 var FILENAME = Symbol("filename");
 var HMR = Symbol("hmr");
-var NAMESPACE_HTML = "http://www.w3.org/1999/xhtml";
 
 // node_modules/esm-env/dev-fallback.js
 var node_env = globalThis.process?.env?.NODE_ENV;
 var dev_fallback_default = node_env && !node_env.toLowerCase().startsWith("prod");
-
-// node_modules/svelte/src/internal/shared/errors.js
-function lifecycle_outside_component(name) {
-  if (dev_fallback_default) {
-    const error = new Error(`lifecycle_outside_component
-\`${name}(...)\` can only be used during component initialisation
-https://svelte.dev/e/lifecycle_outside_component`);
-    error.name = "Svelte error";
-    throw error;
-  } else {
-    throw new Error(`https://svelte.dev/e/lifecycle_outside_component`);
-  }
-}
-function store_invalid_shape(name) {
-  if (dev_fallback_default) {
-    const error = new Error(`store_invalid_shape
-\`${name}\` is not a store with a \`subscribe\` method
-https://svelte.dev/e/store_invalid_shape`);
-    error.name = "Svelte error";
-    throw error;
-  } else {
-    throw new Error(`https://svelte.dev/e/store_invalid_shape`);
-  }
-}
 
 // node_modules/svelte/src/internal/shared/utils.js
 var is_array = Array.isArray;
@@ -65,16 +40,13 @@ var array_from = Array.from;
 var object_keys = Object.keys;
 var define_property = Object.defineProperty;
 var get_descriptor = Object.getOwnPropertyDescriptor;
-var get_descriptors = Object.getOwnPropertyDescriptors;
 var object_prototype = Object.prototype;
 var array_prototype = Array.prototype;
 var get_prototype_of = Object.getPrototypeOf;
 var is_extensible = Object.isExtensible;
-var noop = () => {
-};
 function run_all(arr) {
-  for (var i5 = 0; i5 < arr.length; i5++) {
-    arr[i5]();
+  for (var i = 0; i < arr.length; i++) {
+    arr[i]();
   }
 }
 
@@ -105,17 +77,6 @@ var LEGACY_PROPS = Symbol("legacy props");
 var LOADING_ATTR_SYMBOL = Symbol("");
 
 // node_modules/svelte/src/internal/client/errors.js
-function bind_invalid_checkbox_value() {
-  if (dev_fallback_default) {
-    const error = new Error(`bind_invalid_checkbox_value
-Using \`bind:value\` together with a checkbox input is not allowed. Use \`bind:checked\` instead
-https://svelte.dev/e/bind_invalid_checkbox_value`);
-    error.name = "Svelte error";
-    throw error;
-  } else {
-    throw new Error(`https://svelte.dev/e/bind_invalid_checkbox_value`);
-  }
-}
 function component_api_changed(method, component2) {
   if (dev_fallback_default) {
     const error = new Error(`component_api_changed
@@ -147,39 +108,6 @@ https://svelte.dev/e/derived_references_self`);
     throw error;
   } else {
     throw new Error(`https://svelte.dev/e/derived_references_self`);
-  }
-}
-function effect_in_teardown(rune) {
-  if (dev_fallback_default) {
-    const error = new Error(`effect_in_teardown
-\`${rune}\` cannot be used inside an effect cleanup function
-https://svelte.dev/e/effect_in_teardown`);
-    error.name = "Svelte error";
-    throw error;
-  } else {
-    throw new Error(`https://svelte.dev/e/effect_in_teardown`);
-  }
-}
-function effect_in_unowned_derived() {
-  if (dev_fallback_default) {
-    const error = new Error(`effect_in_unowned_derived
-Effect cannot be created inside a \`$derived\` value that was not itself created inside an effect
-https://svelte.dev/e/effect_in_unowned_derived`);
-    error.name = "Svelte error";
-    throw error;
-  } else {
-    throw new Error(`https://svelte.dev/e/effect_in_unowned_derived`);
-  }
-}
-function effect_orphan(rune) {
-  if (dev_fallback_default) {
-    const error = new Error(`effect_orphan
-\`${rune}\` can only be used inside an effect (e.g. during component initialisation)
-https://svelte.dev/e/effect_orphan`);
-    error.name = "Svelte error";
-    throw error;
-  } else {
-    throw new Error(`https://svelte.dev/e/effect_orphan`);
   }
 }
 function effect_update_depth_exceeded() {
@@ -263,24 +191,6 @@ https://svelte.dev/e/state_unsafe_mutation`);
 // node_modules/svelte/src/internal/client/warnings.js
 var bold = "font-weight: bold";
 var normal = "font-weight: normal";
-function hydration_attribute_changed(attribute, html2, value) {
-  if (dev_fallback_default) {
-    console.warn(`%c[svelte] hydration_attribute_changed
-%cThe \`${attribute}\` attribute on \`${html2}\` changed its value between server and client renders. The client value, \`${value}\`, will be ignored in favour of the server value
-https://svelte.dev/e/hydration_attribute_changed`, bold, normal);
-  } else {
-    console.warn(`https://svelte.dev/e/hydration_attribute_changed`);
-  }
-}
-function hydration_html_changed(location) {
-  if (dev_fallback_default) {
-    console.warn(`%c[svelte] hydration_html_changed
-%c${location ? `The value of an \`{@html ...}\` block ${location} changed between server and client renders. The client value will be ignored in favour of the server value` : "The value of an `{@html ...}` block changed between server and client renders. The client value will be ignored in favour of the server value"}
-https://svelte.dev/e/hydration_html_changed`, bold, normal);
-  } else {
-    console.warn(`https://svelte.dev/e/hydration_html_changed`);
-  }
-}
 function hydration_mismatch(location) {
   if (dev_fallback_default) {
     console.warn(`%c[svelte] hydration_mismatch
@@ -328,14 +238,6 @@ function hydrate_next() {
     get_next_sibling(hydrate_node)
   );
 }
-function reset(node) {
-  if (!hydrating) return;
-  if (get_next_sibling(hydrate_node) !== null) {
-    hydration_mismatch();
-    throw HYDRATION_ERROR;
-  }
-  hydrate_node = node;
-}
 
 // node_modules/svelte/src/internal/client/dev/tracing.js
 var tracing_expressions = null;
@@ -345,8 +247,8 @@ function get_stack(label) {
   if (stack2) {
     const lines = stack2.split("\n");
     const new_lines = ["\n"];
-    for (let i5 = 0; i5 < lines.length; i5++) {
-      const line = lines[i5];
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
       if (line === "Error") {
         continue;
       }
@@ -408,25 +310,25 @@ function proxy(value) {
     /** @type {any} */
     value,
     {
-      defineProperty(_2, prop2, descriptor) {
+      defineProperty(_, prop2, descriptor) {
         if (!("value" in descriptor) || descriptor.configurable === false || descriptor.enumerable === false || descriptor.writable === false) {
           state_descriptors_fixed();
         }
-        var s4 = sources.get(prop2);
-        if (s4 === void 0) {
-          s4 = with_parent(() => state(descriptor.value, stack2));
-          sources.set(prop2, s4);
+        var s = sources.get(prop2);
+        if (s === void 0) {
+          s = with_parent(() => state(descriptor.value, stack2));
+          sources.set(prop2, s);
         } else {
           set(
-            s4,
+            s,
             with_parent(() => proxy(descriptor.value))
           );
         }
         return true;
       },
       deleteProperty(target, prop2) {
-        var s4 = sources.get(prop2);
-        if (s4 === void 0) {
+        var s = sources.get(prop2);
+        if (s === void 0) {
           if (prop2 in target) {
             sources.set(
               prop2,
@@ -439,12 +341,12 @@ function proxy(value) {
               /** @type {Source<number>} */
               sources.get("length")
             );
-            var n4 = Number(prop2);
-            if (Number.isInteger(n4) && n4 < ls.v) {
-              set(ls, n4);
+            var n = Number(prop2);
+            if (Number.isInteger(n) && n < ls.v) {
+              set(ls, n);
             }
           }
-          set(s4, UNINITIALIZED);
+          set(s, UNINITIALIZED);
           update_version(version);
         }
         return true;
@@ -453,23 +355,23 @@ function proxy(value) {
         if (prop2 === STATE_SYMBOL) {
           return value;
         }
-        var s4 = sources.get(prop2);
+        var s = sources.get(prop2);
         var exists = prop2 in target;
-        if (s4 === void 0 && (!exists || get_descriptor(target, prop2)?.writable)) {
-          s4 = with_parent(() => state(proxy(exists ? target[prop2] : UNINITIALIZED), stack2));
-          sources.set(prop2, s4);
+        if (s === void 0 && (!exists || get_descriptor(target, prop2)?.writable)) {
+          s = with_parent(() => state(proxy(exists ? target[prop2] : UNINITIALIZED), stack2));
+          sources.set(prop2, s);
         }
-        if (s4 !== void 0) {
-          var v2 = get(s4);
-          return v2 === UNINITIALIZED ? void 0 : v2;
+        if (s !== void 0) {
+          var v = get(s);
+          return v === UNINITIALIZED ? void 0 : v;
         }
         return Reflect.get(target, prop2, receiver);
       },
       getOwnPropertyDescriptor(target, prop2) {
         var descriptor = Reflect.getOwnPropertyDescriptor(target, prop2);
         if (descriptor && "value" in descriptor) {
-          var s4 = sources.get(prop2);
-          if (s4) descriptor.value = get(s4);
+          var s = sources.get(prop2);
+          if (s) descriptor.value = get(s);
         } else if (descriptor === void 0) {
           var source2 = sources.get(prop2);
           var value2 = source2?.v;
@@ -488,14 +390,14 @@ function proxy(value) {
         if (prop2 === STATE_SYMBOL) {
           return true;
         }
-        var s4 = sources.get(prop2);
-        var has = s4 !== void 0 && s4.v !== UNINITIALIZED || Reflect.has(target, prop2);
-        if (s4 !== void 0 || active_effect !== null && (!has || get_descriptor(target, prop2)?.writable)) {
-          if (s4 === void 0) {
-            s4 = with_parent(() => state(has ? proxy(target[prop2]) : UNINITIALIZED, stack2));
-            sources.set(prop2, s4);
+        var s = sources.get(prop2);
+        var has = s !== void 0 && s.v !== UNINITIALIZED || Reflect.has(target, prop2);
+        if (s !== void 0 || active_effect !== null && (!has || get_descriptor(target, prop2)?.writable)) {
+          if (s === void 0) {
+            s = with_parent(() => state(has ? proxy(target[prop2]) : UNINITIALIZED, stack2));
+            sources.set(prop2, s);
           }
-          var value2 = get(s4);
+          var value2 = get(s);
           if (value2 === UNINITIALIZED) {
             return false;
           }
@@ -503,33 +405,33 @@ function proxy(value) {
         return has;
       },
       set(target, prop2, value2, receiver) {
-        var s4 = sources.get(prop2);
+        var s = sources.get(prop2);
         var has = prop2 in target;
         if (is_proxied_array && prop2 === "length") {
-          for (var i5 = value2; i5 < /** @type {Source<number>} */
-          s4.v; i5 += 1) {
-            var other_s = sources.get(i5 + "");
+          for (var i = value2; i < /** @type {Source<number>} */
+          s.v; i += 1) {
+            var other_s = sources.get(i + "");
             if (other_s !== void 0) {
               set(other_s, UNINITIALIZED);
-            } else if (i5 in target) {
+            } else if (i in target) {
               other_s = with_parent(() => state(UNINITIALIZED, stack2));
-              sources.set(i5 + "", other_s);
+              sources.set(i + "", other_s);
             }
           }
         }
-        if (s4 === void 0) {
+        if (s === void 0) {
           if (!has || get_descriptor(target, prop2)?.writable) {
-            s4 = with_parent(() => state(void 0, stack2));
+            s = with_parent(() => state(void 0, stack2));
             set(
-              s4,
+              s,
               with_parent(() => proxy(value2))
             );
-            sources.set(prop2, s4);
+            sources.set(prop2, s);
           }
         } else {
-          has = s4.v !== UNINITIALIZED;
+          has = s.v !== UNINITIALIZED;
           set(
-            s4,
+            s,
             with_parent(() => proxy(value2))
           );
         }
@@ -543,9 +445,9 @@ function proxy(value) {
               /** @type {Source<number>} */
               sources.get("length")
             );
-            var n4 = Number(prop2);
-            if (Number.isInteger(n4) && n4 >= ls.v) {
-              set(ls, n4 + 1);
+            var n = Number(prop2);
+            if (Number.isInteger(n) && n >= ls.v) {
+              set(ls, n + 1);
             }
           }
           update_version(version);
@@ -571,8 +473,8 @@ function proxy(value) {
     }
   );
 }
-function update_version(signal, d3 = 1) {
-  set(signal, signal.v + d3);
+function update_version(signal, d = 1) {
+  set(signal, signal.v + d);
 }
 function get_proxied_value(value) {
   try {
@@ -595,8 +497,8 @@ function init_array_prototype_warnings() {
   array_prototype2.indexOf = function(item, from_index) {
     const index2 = indexOf.call(this, item, from_index);
     if (index2 === -1) {
-      for (let i5 = from_index ?? 0; i5 < this.length; i5 += 1) {
-        if (get_proxied_value(this[i5]) === item) {
+      for (let i = from_index ?? 0; i < this.length; i += 1) {
+        if (get_proxied_value(this[i]) === item) {
           state_proxy_equality_mismatch("array.indexOf(...)");
           break;
         }
@@ -607,8 +509,8 @@ function init_array_prototype_warnings() {
   array_prototype2.lastIndexOf = function(item, from_index) {
     const index2 = lastIndexOf.call(this, item, from_index ?? this.length - 1);
     if (index2 === -1) {
-      for (let i5 = 0; i5 <= (from_index ?? this.length - 1); i5 += 1) {
-        if (get_proxied_value(this[i5]) === item) {
+      for (let i = 0; i <= (from_index ?? this.length - 1); i += 1) {
+        if (get_proxied_value(this[i]) === item) {
           state_proxy_equality_mismatch("array.lastIndexOf(...)");
           break;
         }
@@ -619,8 +521,8 @@ function init_array_prototype_warnings() {
   array_prototype2.includes = function(item, from_index) {
     const has = includes.call(this, item, from_index);
     if (!has) {
-      for (let i5 = 0; i5 < this.length; i5 += 1) {
-        if (get_proxied_value(this[i5]) === item) {
+      for (let i = 0; i < this.length; i += 1) {
+        if (get_proxied_value(this[i]) === item) {
           state_proxy_equality_mismatch("array.includes(...)");
           break;
         }
@@ -679,53 +581,6 @@ function get_first_child(node) {
 function get_next_sibling(node) {
   return next_sibling_getter.call(node);
 }
-function child(node, is_text) {
-  if (!hydrating) {
-    return /* @__PURE__ */ get_first_child(node);
-  }
-  var child2 = (
-    /** @type {TemplateNode} */
-    /* @__PURE__ */ get_first_child(hydrate_node)
-  );
-  if (child2 === null) {
-    child2 = hydrate_node.appendChild(create_text());
-  } else if (is_text && child2.nodeType !== 3) {
-    var text2 = create_text();
-    child2?.before(text2);
-    set_hydrate_node(text2);
-    return text2;
-  }
-  set_hydrate_node(child2);
-  return child2;
-}
-function sibling(node, count = 1, is_text = false) {
-  let next_sibling = hydrating ? hydrate_node : node;
-  var last_sibling;
-  while (count--) {
-    last_sibling = next_sibling;
-    next_sibling = /** @type {TemplateNode} */
-    /* @__PURE__ */ get_next_sibling(next_sibling);
-  }
-  if (!hydrating) {
-    return next_sibling;
-  }
-  var type = next_sibling?.nodeType;
-  if (is_text && type !== 3) {
-    var text2 = create_text();
-    if (next_sibling === null) {
-      last_sibling?.after(text2);
-    } else {
-      next_sibling.before(text2);
-    }
-    set_hydrate_node(text2);
-    return text2;
-  }
-  set_hydrate_node(next_sibling);
-  return (
-    /** @type {TemplateNode} */
-    next_sibling
-  );
-}
 function clear_text_content(node) {
   node.textContent = "";
 }
@@ -734,8 +589,8 @@ function clear_text_content(node) {
 function equals(value) {
   return value === this.v;
 }
-function safe_not_equal(a3, b3) {
-  return a3 != a3 ? b3 == b3 : a3 !== b3 || a3 !== null && typeof a3 === "object" || typeof a3 === "function";
+function safe_not_equal(a, b) {
+  return a != a ? b == b : a !== b || a !== null && typeof a === "object" || typeof a === "function";
 }
 function safe_equals(value) {
   return !safe_not_equal(value, this.v);
@@ -781,21 +636,21 @@ function derived_safe_equal(fn) {
   signal.equals = safe_equals;
   return signal;
 }
-function destroy_derived_effects(derived3) {
-  var effects = derived3.effects;
+function destroy_derived_effects(derived2) {
+  var effects = derived2.effects;
   if (effects !== null) {
-    derived3.effects = null;
-    for (var i5 = 0; i5 < effects.length; i5 += 1) {
+    derived2.effects = null;
+    for (var i = 0; i < effects.length; i += 1) {
       destroy_effect(
         /** @type {Effect} */
-        effects[i5]
+        effects[i]
       );
     }
   }
 }
 var stack = [];
-function get_derived_parent_effect(derived3) {
-  var parent = derived3.parent;
+function get_derived_parent_effect(derived2) {
+  var parent = derived2.parent;
   while (parent !== null) {
     if ((parent.f & DERIVED) === 0) {
       return (
@@ -807,20 +662,20 @@ function get_derived_parent_effect(derived3) {
   }
   return null;
 }
-function execute_derived(derived3) {
+function execute_derived(derived2) {
   var value;
   var prev_active_effect = active_effect;
-  set_active_effect(get_derived_parent_effect(derived3));
+  set_active_effect(get_derived_parent_effect(derived2));
   if (dev_fallback_default) {
     let prev_inspect_effects = inspect_effects;
     set_inspect_effects(/* @__PURE__ */ new Set());
     try {
-      if (stack.includes(derived3)) {
+      if (stack.includes(derived2)) {
         derived_references_self();
       }
-      stack.push(derived3);
-      destroy_derived_effects(derived3);
-      value = update_reaction(derived3);
+      stack.push(derived2);
+      destroy_derived_effects(derived2);
+      value = update_reaction(derived2);
     } finally {
       set_active_effect(prev_active_effect);
       set_inspect_effects(prev_inspect_effects);
@@ -828,36 +683,25 @@ function execute_derived(derived3) {
     }
   } else {
     try {
-      destroy_derived_effects(derived3);
-      value = update_reaction(derived3);
+      destroy_derived_effects(derived2);
+      value = update_reaction(derived2);
     } finally {
       set_active_effect(prev_active_effect);
     }
   }
   return value;
 }
-function update_derived(derived3) {
-  var value = execute_derived(derived3);
-  var status = (skip_reaction || (derived3.f & UNOWNED) !== 0) && derived3.deps !== null ? MAYBE_DIRTY : CLEAN;
-  set_signal_status(derived3, status);
-  if (!derived3.equals(value)) {
-    derived3.v = value;
-    derived3.wv = increment_write_version();
+function update_derived(derived2) {
+  var value = execute_derived(derived2);
+  var status = (skip_reaction || (derived2.f & UNOWNED) !== 0) && derived2.deps !== null ? MAYBE_DIRTY : CLEAN;
+  set_signal_status(derived2, status);
+  if (!derived2.equals(value)) {
+    derived2.v = value;
+    derived2.wv = increment_write_version();
   }
 }
 
 // node_modules/svelte/src/internal/client/reactivity/effects.js
-function validate_effect(rune) {
-  if (active_effect === null && active_reaction === null) {
-    effect_orphan(rune);
-  }
-  if (active_reaction !== null && (active_reaction.f & UNOWNED) !== 0 && active_effect === null) {
-    effect_in_unowned_derived();
-  }
-  if (is_destroying_effect) {
-    effect_in_teardown(rune);
-  }
-}
 function push_effect(effect2, parent_effect) {
   var parent_last = parent_effect.last;
   if (parent_last === null) {
@@ -898,9 +742,9 @@ function create_effect(type, fn, sync, push2 = true) {
     try {
       update_effect(effect2);
       effect2.f |= EFFECT_RAN;
-    } catch (e4) {
+    } catch (e) {
       destroy_effect(effect2);
-      throw e4;
+      throw e;
     }
   } else if (fn !== null) {
     schedule_effect(effect2);
@@ -911,11 +755,11 @@ function create_effect(type, fn, sync, push2 = true) {
       push_effect(effect2, parent);
     }
     if (active_reaction !== null && (active_reaction.f & DERIVED) !== 0) {
-      var derived3 = (
+      var derived2 = (
         /** @type {Derived} */
         active_reaction
       );
-      (derived3.effects ??= []).push(effect2);
+      (derived2.effects ??= []).push(effect2);
     }
   }
   return effect2;
@@ -925,29 +769,6 @@ function teardown(fn) {
   set_signal_status(effect2, CLEAN);
   effect2.teardown = fn;
   return effect2;
-}
-function user_effect(fn) {
-  validate_effect("$effect");
-  var defer = active_effect !== null && (active_effect.f & BRANCH_EFFECT) !== 0 && component_context !== null && !component_context.m;
-  if (dev_fallback_default) {
-    define_property(fn, "name", {
-      value: "$effect"
-    });
-  }
-  if (defer) {
-    var context = (
-      /** @type {ComponentContext} */
-      component_context
-    );
-    (context.e ??= []).push({
-      fn,
-      effect: active_effect,
-      reaction: active_reaction
-    });
-  } else {
-    var signal = effect(fn);
-    return signal;
-  }
 }
 function effect_root(fn) {
   const effect2 = create_effect(ROOT_EFFECT, fn, true);
@@ -976,19 +797,6 @@ function effect(fn) {
 }
 function render_effect(fn) {
   return create_effect(RENDER_EFFECT, fn, true);
-}
-function template_effect(fn, thunks = [], d3 = derived) {
-  const deriveds = thunks.map(d3);
-  const effect2 = () => fn(...deriveds.map(get));
-  if (dev_fallback_default) {
-    define_property(effect2, "name", {
-      value: "{expression}"
-    });
-  }
-  return block(effect2);
-}
-function block(fn, flags = 0) {
-  return create_effect(RENDER_EFFECT | BLOCK_EFFECT | flags, fn, true);
 }
 function branch(fn, push2 = true) {
   return create_effect(RENDER_EFFECT | BRANCH_EFFECT, fn, true, push2);
@@ -1115,7 +923,6 @@ function pause_children(effect2, transitions, local) {
 }
 
 // node_modules/svelte/src/internal/client/dom/task.js
-var request_idle_callback = typeof requestIdleCallback === "undefined" ? (cb) => setTimeout(cb, 1) : requestIdleCallback;
 var micro_tasks = [];
 var idle_tasks = [];
 function run_micro_tasks() {
@@ -1127,18 +934,6 @@ function run_idle_tasks() {
   var tasks = idle_tasks;
   idle_tasks = [];
   run_all(tasks);
-}
-function queue_micro_task(fn) {
-  if (micro_tasks.length === 0) {
-    queueMicrotask(run_micro_tasks);
-  }
-  micro_tasks.push(fn);
-}
-function queue_idle_task(fn) {
-  if (idle_tasks.length === 0) {
-    request_idle_callback(run_idle_tasks);
-  }
-  idle_tasks.push(fn);
 }
 function flush_tasks() {
   if (micro_tasks.length > 0) {
@@ -1202,32 +997,32 @@ function check_dirtiness(reaction) {
     var dependencies = reaction.deps;
     var is_unowned = (flags & UNOWNED) !== 0;
     if (dependencies !== null) {
-      var i5;
+      var i;
       var dependency;
       var is_disconnected = (flags & DISCONNECTED) !== 0;
       var is_unowned_connected = is_unowned && active_effect !== null && !skip_reaction;
       var length = dependencies.length;
       if (is_disconnected || is_unowned_connected) {
-        var derived3 = (
+        var derived2 = (
           /** @type {Derived} */
           reaction
         );
-        var parent = derived3.parent;
-        for (i5 = 0; i5 < length; i5++) {
-          dependency = dependencies[i5];
-          if (is_disconnected || !dependency?.reactions?.includes(derived3)) {
-            (dependency.reactions ??= []).push(derived3);
+        var parent = derived2.parent;
+        for (i = 0; i < length; i++) {
+          dependency = dependencies[i];
+          if (is_disconnected || !dependency?.reactions?.includes(derived2)) {
+            (dependency.reactions ??= []).push(derived2);
           }
         }
         if (is_disconnected) {
-          derived3.f ^= DISCONNECTED;
+          derived2.f ^= DISCONNECTED;
         }
         if (is_unowned_connected && parent !== null && (parent.f & UNOWNED) === 0) {
-          derived3.f ^= UNOWNED;
+          derived2.f ^= UNOWNED;
         }
       }
-      for (i5 = 0; i5 < length; i5++) {
-        dependency = dependencies[i5];
+      for (i = 0; i < length; i++) {
+        dependency = dependencies[i];
         if (check_dirtiness(
           /** @type {Derived} */
           dependency
@@ -1315,8 +1110,8 @@ ${indent}in ${name}`).join("")}
   if (stack2) {
     const lines = stack2.split("\n");
     const new_lines = [];
-    for (let i5 = 0; i5 < lines.length; i5++) {
-      const line = lines[i5];
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
       if (line.includes("svelte/src/internal")) {
         continue;
       }
@@ -1334,8 +1129,8 @@ ${indent}in ${name}`).join("")}
 function schedule_possible_effect_self_invalidation(signal, effect2, root2 = true) {
   var reactions = signal.reactions;
   if (reactions === null) return;
-  for (var i5 = 0; i5 < reactions.length; i5++) {
-    var reaction = reactions[i5];
+  for (var i = 0; i < reactions.length; i++) {
+    var reaction = reactions[i];
     if (reaction_sources?.includes(signal)) continue;
     if ((reaction.f & DERIVED) !== 0) {
       schedule_possible_effect_self_invalidation(
@@ -1385,19 +1180,19 @@ function update_reaction(reaction) {
     );
     var deps = reaction.deps;
     if (new_deps !== null) {
-      var i5;
+      var i;
       remove_reactions(reaction, skipped_deps);
       if (deps !== null && skipped_deps > 0) {
         deps.length = skipped_deps + new_deps.length;
-        for (i5 = 0; i5 < new_deps.length; i5++) {
-          deps[skipped_deps + i5] = new_deps[i5];
+        for (i = 0; i < new_deps.length; i++) {
+          deps[skipped_deps + i] = new_deps[i];
         }
       } else {
         reaction.deps = deps = new_deps;
       }
       if (!skip_reaction) {
-        for (i5 = skipped_deps; i5 < deps.length; i5++) {
-          (deps[i5].reactions ??= []).push(reaction);
+        for (i = skipped_deps; i < deps.length; i++) {
+          (deps[i].reactions ??= []).push(reaction);
         }
       }
     } else if (deps !== null && skipped_deps < deps.length) {
@@ -1405,10 +1200,10 @@ function update_reaction(reaction) {
       deps.length = skipped_deps;
     }
     if (is_runes() && untracked_writes !== null && !untracking && deps !== null && (reaction.f & (DERIVED | MAYBE_DIRTY | DIRTY)) === 0) {
-      for (i5 = 0; i5 < /** @type {Source[]} */
-      untracked_writes.length; i5++) {
+      for (i = 0; i < /** @type {Source[]} */
+      untracked_writes.length; i++) {
         schedule_possible_effect_self_invalidation(
-          untracked_writes[i5],
+          untracked_writes[i],
           /** @type {Effect} */
           reaction
         );
@@ -1474,8 +1269,8 @@ function remove_reaction(signal, dependency) {
 function remove_reactions(signal, start_index) {
   var dependencies = signal.deps;
   if (dependencies === null) return;
-  for (var i5 = start_index; i5 < dependencies.length; i5++) {
-    remove_reaction(signal, dependencies[i5]);
+  for (var i = start_index; i < dependencies.length; i++) {
+    remove_reaction(signal, dependencies[i]);
   }
 }
 function update_effect(effect2) {
@@ -1505,8 +1300,8 @@ function update_effect(effect2) {
     effect2.wv = write_version;
     var deps = effect2.deps;
     if (dev_fallback_default && tracing_mode_flag && (effect2.f & DIRTY) !== 0 && deps !== null) {
-      for (let i5 = 0; i5 < deps.length; i5++) {
-        var dep = deps[i5];
+      for (let i = 0; i < deps.length; i++) {
+        var dep = deps[i];
         if (dep.trace_need_increase) {
           dep.wv = increment_write_version();
           dep.trace_need_increase = void 0;
@@ -1530,7 +1325,7 @@ function update_effect(effect2) {
 function log_effect_stack() {
   console.error(
     "Last ten effects were: ",
-    dev_effect_stack.slice(-10).map((d3) => d3.fn)
+    dev_effect_stack.slice(-10).map((d) => d.fn)
   );
   dev_effect_stack = [];
 }
@@ -1547,9 +1342,9 @@ function infinite_loop_guard() {
       if (dev_fallback_default) {
         try {
           handle_error(error, last_scheduled_effect, null, null);
-        } catch (e4) {
+        } catch (e) {
           log_effect_stack();
-          throw e4;
+          throw e;
         }
       } else {
         handle_error(error, last_scheduled_effect, null, null);
@@ -1574,8 +1369,8 @@ function flush_queued_root_effects() {
       var root_effects = queued_root_effects;
       var length = root_effects.length;
       queued_root_effects = [];
-      for (var i5 = 0; i5 < length; i5++) {
-        var collected_effects = process_effects(root_effects[i5]);
+      for (var i = 0; i < length; i++) {
+        var collected_effects = process_effects(root_effects[i]);
         flush_queued_effects(collected_effects);
       }
       old_values.clear();
@@ -1592,8 +1387,8 @@ function flush_queued_root_effects() {
 function flush_queued_effects(effects) {
   var length = effects.length;
   if (length === 0) return;
-  for (var i5 = 0; i5 < length; i5++) {
-    var effect2 = effects[i5];
+  for (var i = 0; i < length; i++) {
+    var effect2 = effects[i];
     if ((effect2.f & (DESTROYED | INERT)) === 0) {
       try {
         if (check_dirtiness(effect2)) {
@@ -1709,20 +1504,20 @@ function get(signal) {
   } else if (is_derived && /** @type {Derived} */
   signal.deps === null && /** @type {Derived} */
   signal.effects === null) {
-    var derived3 = (
+    var derived2 = (
       /** @type {Derived} */
       signal
     );
-    var parent = derived3.parent;
+    var parent = derived2.parent;
     if (parent !== null && (parent.f & UNOWNED) === 0) {
-      derived3.f ^= UNOWNED;
+      derived2.f ^= UNOWNED;
     }
   }
   if (is_derived) {
-    derived3 = /** @type {Derived} */
+    derived2 = /** @type {Derived} */
     signal;
-    if (check_dirtiness(derived3)) {
-      update_derived(derived3);
+    if (check_dirtiness(derived2)) {
+      update_derived(derived2);
     }
   }
   if (dev_fallback_default && tracing_mode_flag && tracing_expressions !== null && active_reaction !== null && tracing_expressions.reaction === active_reaction) {
@@ -1759,14 +1554,14 @@ function set_signal_status(signal, status) {
 // node_modules/svelte/src/internal/client/reactivity/sources.js
 var inspect_effects = /* @__PURE__ */ new Set();
 var old_values = /* @__PURE__ */ new Map();
-function set_inspect_effects(v2) {
-  inspect_effects = v2;
+function set_inspect_effects(v) {
+  inspect_effects = v;
 }
-function source(v2, stack2) {
+function source(v, stack2) {
   var signal = {
     f: 0,
     // TODO ideally we could skip this altogether, but it causes type errors
-    v: v2,
+    v,
     reactions: null,
     equals,
     rv: 0,
@@ -1779,21 +1574,21 @@ function source(v2, stack2) {
   return signal;
 }
 // @__NO_SIDE_EFFECTS__
-function state(v2, stack2) {
-  const s4 = source(v2, stack2);
-  push_reaction_value(s4);
-  return s4;
+function state(v, stack2) {
+  const s = source(v, stack2);
+  push_reaction_value(s);
+  return s;
 }
 // @__NO_SIDE_EFFECTS__
 function mutable_source(initial_value, immutable = false) {
-  const s4 = source(initial_value);
+  const s = source(initial_value);
   if (!immutable) {
-    s4.equals = safe_equals;
+    s.equals = safe_equals;
   }
   if (legacy_mode_flag && component_context !== null && component_context.l !== null) {
-    (component_context.l.s ??= []).push(s4);
+    (component_context.l.s ??= []).push(s);
   }
-  return s4;
+  return s;
 }
 function set(source2, value, should_proxy = false) {
   if (active_reaction !== null && !untracking && is_runes() && (active_reaction.f & (DERIVED | BLOCK_EFFECT)) !== 0 && !reaction_sources?.includes(source2)) {
@@ -1856,8 +1651,8 @@ function mark_reactions(signal, status) {
   if (reactions === null) return;
   var runes = is_runes();
   var length = reactions.length;
-  for (var i5 = 0; i5 < length; i5++) {
-    var reaction = reactions[i5];
+  for (var i = 0; i < length; i++) {
+    var reaction = reactions[i];
     var flags = reaction.f;
     if ((flags & DIRTY) !== 0) continue;
     if (!runes && reaction === active_effect) continue;
@@ -1931,8 +1726,8 @@ function pop(component2) {
       var previous_reaction = active_reaction;
       context_stack_item.e = null;
       try {
-        for (var i5 = 0; i5 < component_effects.length; i5++) {
-          var component_effect = component_effects[i5];
+        for (var i = 0; i < component_effects.length; i++) {
+          var component_effect = component_effects[i];
           set_active_effect(component_effect.effect);
           set_active_reaction(component_effect.reaction);
           effect(component_effect.fn);
@@ -1956,14 +1751,6 @@ function is_runes() {
 }
 
 // node_modules/svelte/src/utils.js
-var regex_return_characters = /\r/g;
-function hash(str) {
-  str = str.replace(regex_return_characters, "");
-  let hash2 = 5381;
-  let i5 = str.length;
-  while (i5--) hash2 = (hash2 << 5) - hash2 ^ str.charCodeAt(i5);
-  return (hash2 >>> 0).toString(36);
-}
 var DOM_BOOLEAN_ATTRIBUTES = [
   "allowfullscreen",
   "async",
@@ -2016,23 +1803,6 @@ var PASSIVE_EVENTS = ["touchstart", "touchmove"];
 function is_passive_event(name) {
   return PASSIVE_EVENTS.includes(name);
 }
-function sanitize_location(location) {
-  return (
-    /** @type {T} */
-    location?.replace(/\//g, "/\u200B")
-  );
-}
-
-// node_modules/svelte/src/internal/client/dev/css.js
-var all_styles = /* @__PURE__ */ new Map();
-function register_style(hash2, style) {
-  var styles = all_styles.get(hash2);
-  if (!styles) {
-    styles = /* @__PURE__ */ new Set();
-    all_styles.set(hash2, styles);
-  }
-  styles.add(style);
-}
 
 // node_modules/svelte/src/internal/client/dev/elements.js
 function add_locations(fn, filename, locations) {
@@ -2052,9 +1822,9 @@ function assign_location(element2, filename, location) {
   }
 }
 function assign_locations(node, filename, locations) {
-  var i5 = 0;
+  var i = 0;
   var depth = 0;
-  while (node && i5 < locations.length) {
+  while (node && i < locations.length) {
     if (hydrating && node.nodeType === 8) {
       var comment2 = (
         /** @type {Comment} */
@@ -2068,77 +1838,16 @@ function assign_locations(node, filename, locations) {
         /** @type {Element} */
         node,
         filename,
-        locations[i5++]
+        locations[i++]
       );
     }
     node = node.nextSibling;
   }
 }
 
-// node_modules/svelte/src/internal/client/dom/elements/misc.js
-var listening_to_form_reset = false;
-function add_form_reset_listener() {
-  if (!listening_to_form_reset) {
-    listening_to_form_reset = true;
-    document.addEventListener(
-      "reset",
-      (evt) => {
-        Promise.resolve().then(() => {
-          if (!evt.defaultPrevented) {
-            for (
-              const e4 of
-              /**@type {HTMLFormElement} */
-              evt.target.elements
-            ) {
-              e4.__on_r?.();
-            }
-          }
-        });
-      },
-      // In the capture phase to guarantee we get noticed of it (no possiblity of stopPropagation)
-      { capture: true }
-    );
-  }
-}
-
-// node_modules/svelte/src/internal/client/dom/elements/bindings/shared.js
-function without_reactive_context(fn) {
-  var previous_reaction = active_reaction;
-  var previous_effect = active_effect;
-  set_active_reaction(null);
-  set_active_effect(null);
-  try {
-    return fn();
-  } finally {
-    set_active_reaction(previous_reaction);
-    set_active_effect(previous_effect);
-  }
-}
-function listen_to_event_and_reset_event(element2, event2, handler, on_reset = handler) {
-  element2.addEventListener(event2, () => without_reactive_context(handler));
-  const prev = element2.__on_r;
-  if (prev) {
-    element2.__on_r = () => {
-      prev();
-      on_reset(true);
-    };
-  } else {
-    element2.__on_r = () => on_reset(true);
-  }
-  add_form_reset_listener();
-}
-
 // node_modules/svelte/src/internal/client/dom/elements/events.js
 var all_registered_events = /* @__PURE__ */ new Set();
 var root_event_handles = /* @__PURE__ */ new Set();
-function delegate(events) {
-  for (var i5 = 0; i5 < events.length; i5++) {
-    all_registered_events.add(events[i5]);
-  }
-  for (var fn of root_event_handles) {
-    fn(events);
-  }
-}
 function handle_event_propagation(event2) {
   var handler_element = this;
   var owner_document = (
@@ -2366,18 +2075,18 @@ function _mount(Component, { target, anchor, props = {}, events, context, intro 
   init_operations();
   var registered_events = /* @__PURE__ */ new Set();
   var event_handle = (events2) => {
-    for (var i5 = 0; i5 < events2.length; i5++) {
-      var event_name = events2[i5];
+    for (var i = 0; i < events2.length; i++) {
+      var event_name = events2[i];
       if (registered_events.has(event_name)) continue;
       registered_events.add(event_name);
       var passive2 = is_passive_event(event_name);
       target.addEventListener(event_name, handle_event_propagation, { passive: passive2 });
-      var n4 = document_listeners.get(event_name);
-      if (n4 === void 0) {
+      var n = document_listeners.get(event_name);
+      if (n === void 0) {
         document.addEventListener(event_name, handle_event_propagation, { passive: passive2 });
         document_listeners.set(event_name, 1);
       } else {
-        document_listeners.set(event_name, n4 + 1);
+        document_listeners.set(event_name, n + 1);
       }
     }
   };
@@ -2418,15 +2127,15 @@ function _mount(Component, { target, anchor, props = {}, events, context, intro 
     return () => {
       for (var event_name of registered_events) {
         target.removeEventListener(event_name, handle_event_propagation);
-        var n4 = (
+        var n = (
           /** @type {number} */
           document_listeners.get(event_name)
         );
-        if (--n4 === 0) {
+        if (--n === 0) {
           document.removeEventListener(event_name, handle_event_propagation);
           document_listeners.delete(event_name);
         } else {
-          document_listeners.set(event_name, n4);
+          document_listeners.set(event_name, n);
         }
       }
       root_event_handles.delete(event_handle);
@@ -2469,119 +2178,6 @@ function legacy_api() {
   };
 }
 
-// node_modules/svelte/src/internal/client/dom/blocks/html.js
-function check_hash(element2, server_hash, value) {
-  if (!server_hash || server_hash === hash(String(value ?? ""))) return;
-  let location;
-  const loc = element2.__svelte_meta?.loc;
-  if (loc) {
-    location = `near ${loc.file}:${loc.line}:${loc.column}`;
-  } else if (dev_current_component_function?.[FILENAME]) {
-    location = `in ${dev_current_component_function[FILENAME]}`;
-  }
-  hydration_html_changed(sanitize_location(location));
-}
-function html(node, get_value, svg, mathml, skip_warning) {
-  var anchor = node;
-  var value = "";
-  var effect2;
-  block(() => {
-    if (value === (value = get_value() ?? "")) {
-      if (hydrating) {
-        hydrate_next();
-      }
-      return;
-    }
-    if (effect2 !== void 0) {
-      destroy_effect(effect2);
-      effect2 = void 0;
-    }
-    if (value === "") return;
-    effect2 = branch(() => {
-      if (hydrating) {
-        var hash2 = (
-          /** @type {Comment} */
-          hydrate_node.data
-        );
-        var next2 = hydrate_next();
-        var last = next2;
-        while (next2 !== null && (next2.nodeType !== 8 || /** @type {Comment} */
-        next2.data !== "")) {
-          last = next2;
-          next2 = /** @type {TemplateNode} */
-          get_next_sibling(next2);
-        }
-        if (next2 === null) {
-          hydration_mismatch();
-          throw HYDRATION_ERROR;
-        }
-        if (dev_fallback_default && !skip_warning) {
-          check_hash(
-            /** @type {Element} */
-            next2.parentNode,
-            hash2,
-            value
-          );
-        }
-        assign_nodes(hydrate_node, last);
-        anchor = set_hydrate_node(next2);
-        return;
-      }
-      var html2 = value + "";
-      if (svg) html2 = `<svg>${html2}</svg>`;
-      else if (mathml) html2 = `<math>${html2}</math>`;
-      var node2 = create_fragment_from_html(html2);
-      if (svg || mathml) {
-        node2 = /** @type {Element} */
-        get_first_child(node2);
-      }
-      assign_nodes(
-        /** @type {TemplateNode} */
-        get_first_child(node2),
-        /** @type {TemplateNode} */
-        node2.lastChild
-      );
-      if (svg || mathml) {
-        while (get_first_child(node2)) {
-          anchor.before(
-            /** @type {Node} */
-            get_first_child(node2)
-          );
-        }
-      } else {
-        anchor.before(node2);
-      }
-    });
-  });
-}
-
-// node_modules/svelte/src/internal/client/dom/css.js
-function append_styles(anchor, css) {
-  queue_micro_task(() => {
-    var root2 = anchor.getRootNode();
-    var target = (
-      /** @type {ShadowRoot} */
-      root2.host ? (
-        /** @type {ShadowRoot} */
-        root2
-      ) : (
-        /** @type {Document} */
-        root2.head ?? /** @type {Document} */
-        root2.ownerDocument.head
-      )
-    );
-    if (!target.querySelector("#" + css.hash)) {
-      const style = document.createElement("style");
-      style.id = css.hash;
-      style.textContent = css.code;
-      target.appendChild(style);
-      if (dev_fallback_default) {
-        register_style(css.hash, style);
-      }
-    }
-  });
-}
-
 // node_modules/svelte/src/internal/shared/attributes.js
 var whitespace = [..." 	\n\r\f\xA0\v\uFEFF"];
 
@@ -2590,161 +2186,6 @@ var CLASS = Symbol("class");
 var STYLE = Symbol("style");
 var IS_CUSTOM_ELEMENT = Symbol("is custom element");
 var IS_HTML = Symbol("is html");
-function remove_input_defaults(input) {
-  if (!hydrating) return;
-  var already_removed = false;
-  var remove_defaults = () => {
-    if (already_removed) return;
-    already_removed = true;
-    if (input.hasAttribute("value")) {
-      var value = input.value;
-      set_attribute(input, "value", null);
-      input.value = value;
-    }
-    if (input.hasAttribute("checked")) {
-      var checked = input.checked;
-      set_attribute(input, "checked", null);
-      input.checked = checked;
-    }
-  };
-  input.__on_r = remove_defaults;
-  queue_idle_task(remove_defaults);
-  add_form_reset_listener();
-}
-function set_attribute(element2, attribute, value, skip_warning) {
-  var attributes = get_attributes(element2);
-  if (hydrating) {
-    attributes[attribute] = element2.getAttribute(attribute);
-    if (attribute === "src" || attribute === "srcset" || attribute === "href" && element2.nodeName === "LINK") {
-      if (!skip_warning) {
-        check_src_in_dev_hydration(element2, attribute, value ?? "");
-      }
-      return;
-    }
-  }
-  if (attributes[attribute] === (attributes[attribute] = value)) return;
-  if (attribute === "loading") {
-    element2[LOADING_ATTR_SYMBOL] = value;
-  }
-  if (value == null) {
-    element2.removeAttribute(attribute);
-  } else if (typeof value !== "string" && get_setters(element2).includes(attribute)) {
-    element2[attribute] = value;
-  } else {
-    element2.setAttribute(attribute, value);
-  }
-}
-function get_attributes(element2) {
-  return (
-    /** @type {Record<string | symbol, unknown>} **/
-    // @ts-expect-error
-    element2.__attributes ??= {
-      [IS_CUSTOM_ELEMENT]: element2.nodeName.includes("-"),
-      [IS_HTML]: element2.namespaceURI === NAMESPACE_HTML
-    }
-  );
-}
-var setters_cache = /* @__PURE__ */ new Map();
-function get_setters(element2) {
-  var setters = setters_cache.get(element2.nodeName);
-  if (setters) return setters;
-  setters_cache.set(element2.nodeName, setters = []);
-  var descriptors;
-  var proto = element2;
-  var element_proto = Element.prototype;
-  while (element_proto !== proto) {
-    descriptors = get_descriptors(proto);
-    for (var key in descriptors) {
-      if (descriptors[key].set) {
-        setters.push(key);
-      }
-    }
-    proto = get_prototype_of(proto);
-  }
-  return setters;
-}
-function check_src_in_dev_hydration(element2, attribute, value) {
-  if (!dev_fallback_default) return;
-  if (attribute === "srcset" && srcset_url_equal(element2, value)) return;
-  if (src_url_equal(element2.getAttribute(attribute) ?? "", value)) return;
-  hydration_attribute_changed(
-    attribute,
-    element2.outerHTML.replace(element2.innerHTML, element2.innerHTML && "..."),
-    String(value)
-  );
-}
-function src_url_equal(element_src, url) {
-  if (element_src === url) return true;
-  return new URL(element_src, document.baseURI).href === new URL(url, document.baseURI).href;
-}
-function split_srcset(srcset) {
-  return srcset.split(",").map((src) => src.trim().split(" ").filter(Boolean));
-}
-function srcset_url_equal(element2, srcset) {
-  var element_urls = split_srcset(element2.srcset);
-  var urls = split_srcset(srcset);
-  return urls.length === element_urls.length && urls.every(
-    ([url, width], i5) => width === element_urls[i5][1] && // We need to test both ways because Vite will create an a full URL with
-    // `new URL(asset, import.meta.url).href` for the client when `base: './'`, and the
-    // relative URLs inside srcset are not automatically resolved to absolute URLs by
-    // browsers (in contrast to img.src). This means both SSR and DOM code could
-    // contain relative or absolute URLs.
-    (src_url_equal(element_urls[i5][0], url) || src_url_equal(url, element_urls[i5][0]))
-  );
-}
-
-// node_modules/svelte/src/internal/client/dom/elements/bindings/input.js
-function bind_value(input, get3, set2 = get3) {
-  var runes = is_runes();
-  listen_to_event_and_reset_event(input, "input", (is_reset) => {
-    if (dev_fallback_default && input.type === "checkbox") {
-      bind_invalid_checkbox_value();
-    }
-    var value = is_reset ? input.defaultValue : input.value;
-    value = is_numberlike_input(input) ? to_number(value) : value;
-    set2(value);
-    if (runes && value !== (value = get3())) {
-      var start = input.selectionStart;
-      var end = input.selectionEnd;
-      input.value = value ?? "";
-      if (end !== null) {
-        input.selectionStart = start;
-        input.selectionEnd = Math.min(end, input.value.length);
-      }
-    }
-  });
-  if (
-    // If we are hydrating and the value has since changed,
-    // then use the updated value from the input instead.
-    hydrating && input.defaultValue !== input.value || // If defaultValue is set, then value == defaultValue
-    // TODO Svelte 6: remove input.value check and set to empty string?
-    untrack(get3) == null && input.value
-  ) {
-    set2(is_numberlike_input(input) ? to_number(input.value) : input.value);
-  }
-  render_effect(() => {
-    if (dev_fallback_default && input.type === "checkbox") {
-      bind_invalid_checkbox_value();
-    }
-    var value = get3();
-    if (is_numberlike_input(input) && value === to_number(input.value)) {
-      return;
-    }
-    if (input.type === "date" && !value && !input.value) {
-      return;
-    }
-    if (value !== input.value) {
-      input.value = value ?? "";
-    }
-  });
-}
-function is_numberlike_input(input) {
-  var type = input.type;
-  return type === "number" || type === "range";
-}
-function to_number(value) {
-  return value === "" ? null : +value;
-}
 
 // node_modules/svelte/src/index-client.js
 if (dev_fallback_default) {
@@ -2760,8 +2201,8 @@ if (dev_fallback_default) {
           }
           rune_outside_svelte(rune);
         },
-        set: (v2) => {
-          value = v2;
+        set: (v) => {
+          value = v;
         }
       });
     }
@@ -2773,150 +2214,10 @@ if (dev_fallback_default) {
   throw_rune_error("$props");
   throw_rune_error("$bindable");
 }
-function onMount(fn) {
-  if (component_context === null) {
-    lifecycle_outside_component("onMount");
-  }
-  if (legacy_mode_flag && component_context.l !== null) {
-    init_update_callbacks(component_context).m.push(fn);
-  } else {
-    user_effect(() => {
-      const cleanup = untrack(fn);
-      if (typeof cleanup === "function") return (
-        /** @type {() => void} */
-        cleanup
-      );
-    });
-  }
-}
-function init_update_callbacks(context) {
-  var l3 = (
-    /** @type {ComponentContextLegacy} */
-    context.l
-  );
-  return l3.u ??= { a: [], b: [], m: [] };
-}
-
-// node_modules/svelte/src/store/utils.js
-function subscribe_to_store(store, run2, invalidate) {
-  if (store == null) {
-    run2(void 0);
-    if (invalidate) invalidate(void 0);
-    return noop;
-  }
-  const unsub = untrack(
-    () => store.subscribe(
-      run2,
-      // @ts-expect-error
-      invalidate
-    )
-  );
-  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
-}
-
-// node_modules/svelte/src/store/shared/index.js
-var subscriber_queue = [];
-function writable(value, start = noop) {
-  let stop = null;
-  const subscribers = /* @__PURE__ */ new Set();
-  function set2(new_value) {
-    if (safe_not_equal(value, new_value)) {
-      value = new_value;
-      if (stop) {
-        const run_queue = !subscriber_queue.length;
-        for (const subscriber of subscribers) {
-          subscriber[1]();
-          subscriber_queue.push(subscriber, value);
-        }
-        if (run_queue) {
-          for (let i5 = 0; i5 < subscriber_queue.length; i5 += 2) {
-            subscriber_queue[i5][0](subscriber_queue[i5 + 1]);
-          }
-          subscriber_queue.length = 0;
-        }
-      }
-    }
-  }
-  function update2(fn) {
-    set2(fn(
-      /** @type {T} */
-      value
-    ));
-  }
-  function subscribe(run2, invalidate = noop) {
-    const subscriber = [run2, invalidate];
-    subscribers.add(subscriber);
-    if (subscribers.size === 1) {
-      stop = start(set2, update2) || noop;
-    }
-    run2(
-      /** @type {T} */
-      value
-    );
-    return () => {
-      subscribers.delete(subscriber);
-      if (subscribers.size === 0 && stop) {
-        stop();
-        stop = null;
-      }
-    };
-  }
-  return { set: set2, update: update2, subscribe };
-}
-function get2(store) {
-  let value;
-  subscribe_to_store(store, (_2) => value = _2)();
-  return value;
-}
 
 // node_modules/svelte/src/internal/client/reactivity/store.js
 var is_store_binding = false;
 var IS_UNMOUNTED = Symbol();
-function store_get(store, store_name, stores) {
-  const entry = stores[store_name] ??= {
-    store: null,
-    source: mutable_source(void 0),
-    unsubscribe: noop
-  };
-  if (entry.store !== store && !(IS_UNMOUNTED in stores)) {
-    entry.unsubscribe();
-    entry.store = store ?? null;
-    if (store == null) {
-      entry.source.v = void 0;
-      entry.unsubscribe = noop;
-    } else {
-      var is_synchronous_callback = true;
-      entry.unsubscribe = subscribe_to_store(store, (v2) => {
-        if (is_synchronous_callback) {
-          entry.source.v = v2;
-        } else {
-          set(entry.source, v2);
-        }
-      });
-      is_synchronous_callback = false;
-    }
-  }
-  if (store && IS_UNMOUNTED in stores) {
-    return get2(store);
-  }
-  return get(entry.source);
-}
-function setup_stores() {
-  const stores = {};
-  function cleanup() {
-    teardown(() => {
-      for (var store_name in stores) {
-        const ref = stores[store_name];
-        ref.unsubscribe();
-      }
-      define_property(stores, IS_UNMOUNTED, {
-        enumerable: false,
-        value: true
-      });
-    });
-  }
-  return [stores, cleanup];
-}
 function capture_store_binding(fn) {
   var previous_is_store_binding = is_store_binding;
   try {
@@ -2948,7 +2249,7 @@ function prop(props, key, flags, fallback2) {
     props[key];
   }
   var is_entry_props = STATE_SYMBOL in props || LEGACY_PROPS in props;
-  var setter = bindable && (get_descriptor(props, key)?.set ?? (is_entry_props && key in props && ((v2) => props[key] = v2))) || void 0;
+  var setter = bindable && (get_descriptor(props, key)?.set ?? (is_entry_props && key in props && ((v) => props[key] = v))) || void 0;
   var fallback_value = (
     /** @type {V} */
     fallback2
@@ -3084,9 +2385,9 @@ var Svelte4Component = class {
   constructor(options) {
     var sources = /* @__PURE__ */ new Map();
     var add_source = (key, value) => {
-      var s4 = mutable_source(value);
-      sources.set(key, s4);
-      return s4;
+      var s = mutable_source(value);
+      sources.set(key, s);
+      return s;
     };
     const props = new Proxy(
       { ...options.props || {}, $$events: {} },
@@ -3428,657 +2729,16 @@ function create_custom_element(Component, props_definition, slots, exports, use_
   return Class;
 }
 
-// node_modules/svelte/src/internal/shared/validate.js
-function validate_store(store, name) {
-  if (store != null && typeof store.subscribe !== "function") {
-    store_invalid_shape(name);
-  }
-}
-
-// Resources/Private/JavaScript/store.svelte.js
-import Icons from "@typo3/backend/icons.js";
-var iconStore = writable({});
-var getIcon = async (iconName) => {
-  const store = get2(iconStore);
-  if (store[iconName]) {
-    return;
-  }
-  Icons.getIcon(iconName, Icons.sizes.small).then((html2) => {
-    iconStore.update((store2) => {
-      store2[iconName] = html2;
-      return store2;
-    });
-  });
-};
-
-// node_modules/@lit/reactive-element/css-tag.js
-var t = globalThis;
-var e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype;
-var s = Symbol();
-var o = /* @__PURE__ */ new WeakMap();
-var n = class {
-  constructor(t3, e4, o5) {
-    if (this._$cssResult$ = true, o5 !== s) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
-    this.cssText = t3, this.t = e4;
-  }
-  get styleSheet() {
-    let t3 = this.o;
-    const s4 = this.t;
-    if (e && void 0 === t3) {
-      const e4 = void 0 !== s4 && 1 === s4.length;
-      e4 && (t3 = o.get(s4)), void 0 === t3 && ((this.o = t3 = new CSSStyleSheet()).replaceSync(this.cssText), e4 && o.set(s4, t3));
-    }
-    return t3;
-  }
-  toString() {
-    return this.cssText;
-  }
-};
-var r = (t3) => new n("string" == typeof t3 ? t3 : t3 + "", void 0, s);
-var S = (s4, o5) => {
-  if (e) s4.adoptedStyleSheets = o5.map((t3) => t3 instanceof CSSStyleSheet ? t3 : t3.styleSheet);
-  else for (const e4 of o5) {
-    const o6 = document.createElement("style"), n4 = t.litNonce;
-    void 0 !== n4 && o6.setAttribute("nonce", n4), o6.textContent = e4.cssText, s4.appendChild(o6);
-  }
-};
-var c = e ? (t3) => t3 : (t3) => t3 instanceof CSSStyleSheet ? ((t4) => {
-  let e4 = "";
-  for (const s4 of t4.cssRules) e4 += s4.cssText;
-  return r(e4);
-})(t3) : t3;
-
-// node_modules/@lit/reactive-element/reactive-element.js
-var { is: i2, defineProperty: e2, getOwnPropertyDescriptor: h, getOwnPropertyNames: r2, getOwnPropertySymbols: o2, getPrototypeOf: n2 } = Object;
-var a = globalThis;
-var c2 = a.trustedTypes;
-var l = c2 ? c2.emptyScript : "";
-var p = a.reactiveElementPolyfillSupport;
-var d = (t3, s4) => t3;
-var u = { toAttribute(t3, s4) {
-  switch (s4) {
-    case Boolean:
-      t3 = t3 ? l : null;
-      break;
-    case Object:
-    case Array:
-      t3 = null == t3 ? t3 : JSON.stringify(t3);
-  }
-  return t3;
-}, fromAttribute(t3, s4) {
-  let i5 = t3;
-  switch (s4) {
-    case Boolean:
-      i5 = null !== t3;
-      break;
-    case Number:
-      i5 = null === t3 ? null : Number(t3);
-      break;
-    case Object:
-    case Array:
-      try {
-        i5 = JSON.parse(t3);
-      } catch (t4) {
-        i5 = null;
-      }
-  }
-  return i5;
-} };
-var f = (t3, s4) => !i2(t3, s4);
-var b = { attribute: true, type: String, converter: u, reflect: false, useDefault: false, hasChanged: f };
-Symbol.metadata ??= Symbol("metadata"), a.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var y = class extends HTMLElement {
-  static addInitializer(t3) {
-    this._$Ei(), (this.l ??= []).push(t3);
-  }
-  static get observedAttributes() {
-    return this.finalize(), this._$Eh && [...this._$Eh.keys()];
-  }
-  static createProperty(t3, s4 = b) {
-    if (s4.state && (s4.attribute = false), this._$Ei(), this.prototype.hasOwnProperty(t3) && ((s4 = Object.create(s4)).wrapped = true), this.elementProperties.set(t3, s4), !s4.noAccessor) {
-      const i5 = Symbol(), h3 = this.getPropertyDescriptor(t3, i5, s4);
-      void 0 !== h3 && e2(this.prototype, t3, h3);
-    }
-  }
-  static getPropertyDescriptor(t3, s4, i5) {
-    const { get: e4, set: r4 } = h(this.prototype, t3) ?? { get() {
-      return this[s4];
-    }, set(t4) {
-      this[s4] = t4;
-    } };
-    return { get: e4, set(s5) {
-      const h3 = e4?.call(this);
-      r4?.call(this, s5), this.requestUpdate(t3, h3, i5);
-    }, configurable: true, enumerable: true };
-  }
-  static getPropertyOptions(t3) {
-    return this.elementProperties.get(t3) ?? b;
-  }
-  static _$Ei() {
-    if (this.hasOwnProperty(d("elementProperties"))) return;
-    const t3 = n2(this);
-    t3.finalize(), void 0 !== t3.l && (this.l = [...t3.l]), this.elementProperties = new Map(t3.elementProperties);
-  }
-  static finalize() {
-    if (this.hasOwnProperty(d("finalized"))) return;
-    if (this.finalized = true, this._$Ei(), this.hasOwnProperty(d("properties"))) {
-      const t4 = this.properties, s4 = [...r2(t4), ...o2(t4)];
-      for (const i5 of s4) this.createProperty(i5, t4[i5]);
-    }
-    const t3 = this[Symbol.metadata];
-    if (null !== t3) {
-      const s4 = litPropertyMetadata.get(t3);
-      if (void 0 !== s4) for (const [t4, i5] of s4) this.elementProperties.set(t4, i5);
-    }
-    this._$Eh = /* @__PURE__ */ new Map();
-    for (const [t4, s4] of this.elementProperties) {
-      const i5 = this._$Eu(t4, s4);
-      void 0 !== i5 && this._$Eh.set(i5, t4);
-    }
-    this.elementStyles = this.finalizeStyles(this.styles);
-  }
-  static finalizeStyles(s4) {
-    const i5 = [];
-    if (Array.isArray(s4)) {
-      const e4 = new Set(s4.flat(1 / 0).reverse());
-      for (const s5 of e4) i5.unshift(c(s5));
-    } else void 0 !== s4 && i5.push(c(s4));
-    return i5;
-  }
-  static _$Eu(t3, s4) {
-    const i5 = s4.attribute;
-    return false === i5 ? void 0 : "string" == typeof i5 ? i5 : "string" == typeof t3 ? t3.toLowerCase() : void 0;
-  }
-  constructor() {
-    super(), this._$Ep = void 0, this.isUpdatePending = false, this.hasUpdated = false, this._$Em = null, this._$Ev();
-  }
-  _$Ev() {
-    this._$ES = new Promise((t3) => this.enableUpdating = t3), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), this.constructor.l?.forEach((t3) => t3(this));
-  }
-  addController(t3) {
-    (this._$EO ??= /* @__PURE__ */ new Set()).add(t3), void 0 !== this.renderRoot && this.isConnected && t3.hostConnected?.();
-  }
-  removeController(t3) {
-    this._$EO?.delete(t3);
-  }
-  _$E_() {
-    const t3 = /* @__PURE__ */ new Map(), s4 = this.constructor.elementProperties;
-    for (const i5 of s4.keys()) this.hasOwnProperty(i5) && (t3.set(i5, this[i5]), delete this[i5]);
-    t3.size > 0 && (this._$Ep = t3);
-  }
-  createRenderRoot() {
-    const t3 = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
-    return S(t3, this.constructor.elementStyles), t3;
-  }
-  connectedCallback() {
-    this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(true), this._$EO?.forEach((t3) => t3.hostConnected?.());
-  }
-  enableUpdating(t3) {
-  }
-  disconnectedCallback() {
-    this._$EO?.forEach((t3) => t3.hostDisconnected?.());
-  }
-  attributeChangedCallback(t3, s4, i5) {
-    this._$AK(t3, i5);
-  }
-  _$ET(t3, s4) {
-    const i5 = this.constructor.elementProperties.get(t3), e4 = this.constructor._$Eu(t3, i5);
-    if (void 0 !== e4 && true === i5.reflect) {
-      const h3 = (void 0 !== i5.converter?.toAttribute ? i5.converter : u).toAttribute(s4, i5.type);
-      this._$Em = t3, null == h3 ? this.removeAttribute(e4) : this.setAttribute(e4, h3), this._$Em = null;
-    }
-  }
-  _$AK(t3, s4) {
-    const i5 = this.constructor, e4 = i5._$Eh.get(t3);
-    if (void 0 !== e4 && this._$Em !== e4) {
-      const t4 = i5.getPropertyOptions(e4), h3 = "function" == typeof t4.converter ? { fromAttribute: t4.converter } : void 0 !== t4.converter?.fromAttribute ? t4.converter : u;
-      this._$Em = e4, this[e4] = h3.fromAttribute(s4, t4.type) ?? this._$Ej?.get(e4) ?? null, this._$Em = null;
-    }
-  }
-  requestUpdate(t3, s4, i5) {
-    if (void 0 !== t3) {
-      const e4 = this.constructor, h3 = this[t3];
-      if (i5 ??= e4.getPropertyOptions(t3), !((i5.hasChanged ?? f)(h3, s4) || i5.useDefault && i5.reflect && h3 === this._$Ej?.get(t3) && !this.hasAttribute(e4._$Eu(t3, i5)))) return;
-      this.C(t3, s4, i5);
-    }
-    false === this.isUpdatePending && (this._$ES = this._$EP());
-  }
-  C(t3, s4, { useDefault: i5, reflect: e4, wrapped: h3 }, r4) {
-    i5 && !(this._$Ej ??= /* @__PURE__ */ new Map()).has(t3) && (this._$Ej.set(t3, r4 ?? s4 ?? this[t3]), true !== h3 || void 0 !== r4) || (this._$AL.has(t3) || (this.hasUpdated || i5 || (s4 = void 0), this._$AL.set(t3, s4)), true === e4 && this._$Em !== t3 && (this._$Eq ??= /* @__PURE__ */ new Set()).add(t3));
-  }
-  async _$EP() {
-    this.isUpdatePending = true;
-    try {
-      await this._$ES;
-    } catch (t4) {
-      Promise.reject(t4);
-    }
-    const t3 = this.scheduleUpdate();
-    return null != t3 && await t3, !this.isUpdatePending;
-  }
-  scheduleUpdate() {
-    return this.performUpdate();
-  }
-  performUpdate() {
-    if (!this.isUpdatePending) return;
-    if (!this.hasUpdated) {
-      if (this.renderRoot ??= this.createRenderRoot(), this._$Ep) {
-        for (const [t5, s5] of this._$Ep) this[t5] = s5;
-        this._$Ep = void 0;
-      }
-      const t4 = this.constructor.elementProperties;
-      if (t4.size > 0) for (const [s5, i5] of t4) {
-        const { wrapped: t5 } = i5, e4 = this[s5];
-        true !== t5 || this._$AL.has(s5) || void 0 === e4 || this.C(s5, void 0, i5, e4);
-      }
-    }
-    let t3 = false;
-    const s4 = this._$AL;
-    try {
-      t3 = this.shouldUpdate(s4), t3 ? (this.willUpdate(s4), this._$EO?.forEach((t4) => t4.hostUpdate?.()), this.update(s4)) : this._$EM();
-    } catch (s5) {
-      throw t3 = false, this._$EM(), s5;
-    }
-    t3 && this._$AE(s4);
-  }
-  willUpdate(t3) {
-  }
-  _$AE(t3) {
-    this._$EO?.forEach((t4) => t4.hostUpdated?.()), this.hasUpdated || (this.hasUpdated = true, this.firstUpdated(t3)), this.updated(t3);
-  }
-  _$EM() {
-    this._$AL = /* @__PURE__ */ new Map(), this.isUpdatePending = false;
-  }
-  get updateComplete() {
-    return this.getUpdateComplete();
-  }
-  getUpdateComplete() {
-    return this._$ES;
-  }
-  shouldUpdate(t3) {
-    return true;
-  }
-  update(t3) {
-    this._$Eq &&= this._$Eq.forEach((t4) => this._$ET(t4, this[t4])), this._$EM();
-  }
-  updated(t3) {
-  }
-  firstUpdated(t3) {
-  }
-};
-y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[d("elementProperties")] = /* @__PURE__ */ new Map(), y[d("finalized")] = /* @__PURE__ */ new Map(), p?.({ ReactiveElement: y }), (a.reactiveElementVersions ??= []).push("2.1.0");
-
-// node_modules/lit-html/lit-html.js
-var t2 = globalThis;
-var i3 = t2.trustedTypes;
-var s2 = i3 ? i3.createPolicy("lit-html", { createHTML: (t3) => t3 }) : void 0;
-var e3 = "$lit$";
-var h2 = `lit$${Math.random().toFixed(9).slice(2)}$`;
-var o3 = "?" + h2;
-var n3 = `<${o3}>`;
-var r3 = document;
-var l2 = () => r3.createComment("");
-var c3 = (t3) => null === t3 || "object" != typeof t3 && "function" != typeof t3;
-var a2 = Array.isArray;
-var u2 = (t3) => a2(t3) || "function" == typeof t3?.[Symbol.iterator];
-var d2 = "[ 	\n\f\r]";
-var f2 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
-var v = /-->/g;
-var _ = />/g;
-var m = RegExp(`>|${d2}(?:([^\\s"'>=/]+)(${d2}*=${d2}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g");
-var p2 = /'/g;
-var g = /"/g;
-var $ = /^(?:script|style|textarea|title)$/i;
-var y2 = (t3) => (i5, ...s4) => ({ _$litType$: t3, strings: i5, values: s4 });
-var x = y2(1);
-var b2 = y2(2);
-var w = y2(3);
-var T = Symbol.for("lit-noChange");
-var E = Symbol.for("lit-nothing");
-var A = /* @__PURE__ */ new WeakMap();
-var C = r3.createTreeWalker(r3, 129);
-function P(t3, i5) {
-  if (!a2(t3) || !t3.hasOwnProperty("raw")) throw Error("invalid template strings array");
-  return void 0 !== s2 ? s2.createHTML(i5) : i5;
-}
-var V = (t3, i5) => {
-  const s4 = t3.length - 1, o5 = [];
-  let r4, l3 = 2 === i5 ? "<svg>" : 3 === i5 ? "<math>" : "", c4 = f2;
-  for (let i6 = 0; i6 < s4; i6++) {
-    const s5 = t3[i6];
-    let a3, u3, d3 = -1, y3 = 0;
-    for (; y3 < s5.length && (c4.lastIndex = y3, u3 = c4.exec(s5), null !== u3); ) y3 = c4.lastIndex, c4 === f2 ? "!--" === u3[1] ? c4 = v : void 0 !== u3[1] ? c4 = _ : void 0 !== u3[2] ? ($.test(u3[2]) && (r4 = RegExp("</" + u3[2], "g")), c4 = m) : void 0 !== u3[3] && (c4 = m) : c4 === m ? ">" === u3[0] ? (c4 = r4 ?? f2, d3 = -1) : void 0 === u3[1] ? d3 = -2 : (d3 = c4.lastIndex - u3[2].length, a3 = u3[1], c4 = void 0 === u3[3] ? m : '"' === u3[3] ? g : p2) : c4 === g || c4 === p2 ? c4 = m : c4 === v || c4 === _ ? c4 = f2 : (c4 = m, r4 = void 0);
-    const x2 = c4 === m && t3[i6 + 1].startsWith("/>") ? " " : "";
-    l3 += c4 === f2 ? s5 + n3 : d3 >= 0 ? (o5.push(a3), s5.slice(0, d3) + e3 + s5.slice(d3) + h2 + x2) : s5 + h2 + (-2 === d3 ? i6 : x2);
-  }
-  return [P(t3, l3 + (t3[s4] || "<?>") + (2 === i5 ? "</svg>" : 3 === i5 ? "</math>" : "")), o5];
-};
-var N = class _N {
-  constructor({ strings: t3, _$litType$: s4 }, n4) {
-    let r4;
-    this.parts = [];
-    let c4 = 0, a3 = 0;
-    const u3 = t3.length - 1, d3 = this.parts, [f3, v2] = V(t3, s4);
-    if (this.el = _N.createElement(f3, n4), C.currentNode = this.el.content, 2 === s4 || 3 === s4) {
-      const t4 = this.el.content.firstChild;
-      t4.replaceWith(...t4.childNodes);
-    }
-    for (; null !== (r4 = C.nextNode()) && d3.length < u3; ) {
-      if (1 === r4.nodeType) {
-        if (r4.hasAttributes()) for (const t4 of r4.getAttributeNames()) if (t4.endsWith(e3)) {
-          const i5 = v2[a3++], s5 = r4.getAttribute(t4).split(h2), e4 = /([.?@])?(.*)/.exec(i5);
-          d3.push({ type: 1, index: c4, name: e4[2], strings: s5, ctor: "." === e4[1] ? H : "?" === e4[1] ? I : "@" === e4[1] ? L : k }), r4.removeAttribute(t4);
-        } else t4.startsWith(h2) && (d3.push({ type: 6, index: c4 }), r4.removeAttribute(t4));
-        if ($.test(r4.tagName)) {
-          const t4 = r4.textContent.split(h2), s5 = t4.length - 1;
-          if (s5 > 0) {
-            r4.textContent = i3 ? i3.emptyScript : "";
-            for (let i5 = 0; i5 < s5; i5++) r4.append(t4[i5], l2()), C.nextNode(), d3.push({ type: 2, index: ++c4 });
-            r4.append(t4[s5], l2());
-          }
-        }
-      } else if (8 === r4.nodeType) if (r4.data === o3) d3.push({ type: 2, index: c4 });
-      else {
-        let t4 = -1;
-        for (; -1 !== (t4 = r4.data.indexOf(h2, t4 + 1)); ) d3.push({ type: 7, index: c4 }), t4 += h2.length - 1;
-      }
-      c4++;
-    }
-  }
-  static createElement(t3, i5) {
-    const s4 = r3.createElement("template");
-    return s4.innerHTML = t3, s4;
-  }
-};
-function S2(t3, i5, s4 = t3, e4) {
-  if (i5 === T) return i5;
-  let h3 = void 0 !== e4 ? s4._$Co?.[e4] : s4._$Cl;
-  const o5 = c3(i5) ? void 0 : i5._$litDirective$;
-  return h3?.constructor !== o5 && (h3?._$AO?.(false), void 0 === o5 ? h3 = void 0 : (h3 = new o5(t3), h3._$AT(t3, s4, e4)), void 0 !== e4 ? (s4._$Co ??= [])[e4] = h3 : s4._$Cl = h3), void 0 !== h3 && (i5 = S2(t3, h3._$AS(t3, i5.values), h3, e4)), i5;
-}
-var M = class {
-  constructor(t3, i5) {
-    this._$AV = [], this._$AN = void 0, this._$AD = t3, this._$AM = i5;
-  }
-  get parentNode() {
-    return this._$AM.parentNode;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  u(t3) {
-    const { el: { content: i5 }, parts: s4 } = this._$AD, e4 = (t3?.creationScope ?? r3).importNode(i5, true);
-    C.currentNode = e4;
-    let h3 = C.nextNode(), o5 = 0, n4 = 0, l3 = s4[0];
-    for (; void 0 !== l3; ) {
-      if (o5 === l3.index) {
-        let i6;
-        2 === l3.type ? i6 = new R(h3, h3.nextSibling, this, t3) : 1 === l3.type ? i6 = new l3.ctor(h3, l3.name, l3.strings, this, t3) : 6 === l3.type && (i6 = new z(h3, this, t3)), this._$AV.push(i6), l3 = s4[++n4];
-      }
-      o5 !== l3?.index && (h3 = C.nextNode(), o5++);
-    }
-    return C.currentNode = r3, e4;
-  }
-  p(t3) {
-    let i5 = 0;
-    for (const s4 of this._$AV) void 0 !== s4 && (void 0 !== s4.strings ? (s4._$AI(t3, s4, i5), i5 += s4.strings.length - 2) : s4._$AI(t3[i5])), i5++;
-  }
-};
-var R = class _R {
-  get _$AU() {
-    return this._$AM?._$AU ?? this._$Cv;
-  }
-  constructor(t3, i5, s4, e4) {
-    this.type = 2, this._$AH = E, this._$AN = void 0, this._$AA = t3, this._$AB = i5, this._$AM = s4, this.options = e4, this._$Cv = e4?.isConnected ?? true;
-  }
-  get parentNode() {
-    let t3 = this._$AA.parentNode;
-    const i5 = this._$AM;
-    return void 0 !== i5 && 11 === t3?.nodeType && (t3 = i5.parentNode), t3;
-  }
-  get startNode() {
-    return this._$AA;
-  }
-  get endNode() {
-    return this._$AB;
-  }
-  _$AI(t3, i5 = this) {
-    t3 = S2(this, t3, i5), c3(t3) ? t3 === E || null == t3 || "" === t3 ? (this._$AH !== E && this._$AR(), this._$AH = E) : t3 !== this._$AH && t3 !== T && this._(t3) : void 0 !== t3._$litType$ ? this.$(t3) : void 0 !== t3.nodeType ? this.T(t3) : u2(t3) ? this.k(t3) : this._(t3);
-  }
-  O(t3) {
-    return this._$AA.parentNode.insertBefore(t3, this._$AB);
-  }
-  T(t3) {
-    this._$AH !== t3 && (this._$AR(), this._$AH = this.O(t3));
-  }
-  _(t3) {
-    this._$AH !== E && c3(this._$AH) ? this._$AA.nextSibling.data = t3 : this.T(r3.createTextNode(t3)), this._$AH = t3;
-  }
-  $(t3) {
-    const { values: i5, _$litType$: s4 } = t3, e4 = "number" == typeof s4 ? this._$AC(t3) : (void 0 === s4.el && (s4.el = N.createElement(P(s4.h, s4.h[0]), this.options)), s4);
-    if (this._$AH?._$AD === e4) this._$AH.p(i5);
-    else {
-      const t4 = new M(e4, this), s5 = t4.u(this.options);
-      t4.p(i5), this.T(s5), this._$AH = t4;
-    }
-  }
-  _$AC(t3) {
-    let i5 = A.get(t3.strings);
-    return void 0 === i5 && A.set(t3.strings, i5 = new N(t3)), i5;
-  }
-  k(t3) {
-    a2(this._$AH) || (this._$AH = [], this._$AR());
-    const i5 = this._$AH;
-    let s4, e4 = 0;
-    for (const h3 of t3) e4 === i5.length ? i5.push(s4 = new _R(this.O(l2()), this.O(l2()), this, this.options)) : s4 = i5[e4], s4._$AI(h3), e4++;
-    e4 < i5.length && (this._$AR(s4 && s4._$AB.nextSibling, e4), i5.length = e4);
-  }
-  _$AR(t3 = this._$AA.nextSibling, i5) {
-    for (this._$AP?.(false, true, i5); t3 && t3 !== this._$AB; ) {
-      const i6 = t3.nextSibling;
-      t3.remove(), t3 = i6;
-    }
-  }
-  setConnected(t3) {
-    void 0 === this._$AM && (this._$Cv = t3, this._$AP?.(t3));
-  }
-};
-var k = class {
-  get tagName() {
-    return this.element.tagName;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  constructor(t3, i5, s4, e4, h3) {
-    this.type = 1, this._$AH = E, this._$AN = void 0, this.element = t3, this.name = i5, this._$AM = e4, this.options = h3, s4.length > 2 || "" !== s4[0] || "" !== s4[1] ? (this._$AH = Array(s4.length - 1).fill(new String()), this.strings = s4) : this._$AH = E;
-  }
-  _$AI(t3, i5 = this, s4, e4) {
-    const h3 = this.strings;
-    let o5 = false;
-    if (void 0 === h3) t3 = S2(this, t3, i5, 0), o5 = !c3(t3) || t3 !== this._$AH && t3 !== T, o5 && (this._$AH = t3);
-    else {
-      const e5 = t3;
-      let n4, r4;
-      for (t3 = h3[0], n4 = 0; n4 < h3.length - 1; n4++) r4 = S2(this, e5[s4 + n4], i5, n4), r4 === T && (r4 = this._$AH[n4]), o5 ||= !c3(r4) || r4 !== this._$AH[n4], r4 === E ? t3 = E : t3 !== E && (t3 += (r4 ?? "") + h3[n4 + 1]), this._$AH[n4] = r4;
-    }
-    o5 && !e4 && this.j(t3);
-  }
-  j(t3) {
-    t3 === E ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t3 ?? "");
-  }
-};
-var H = class extends k {
-  constructor() {
-    super(...arguments), this.type = 3;
-  }
-  j(t3) {
-    this.element[this.name] = t3 === E ? void 0 : t3;
-  }
-};
-var I = class extends k {
-  constructor() {
-    super(...arguments), this.type = 4;
-  }
-  j(t3) {
-    this.element.toggleAttribute(this.name, !!t3 && t3 !== E);
-  }
-};
-var L = class extends k {
-  constructor(t3, i5, s4, e4, h3) {
-    super(t3, i5, s4, e4, h3), this.type = 5;
-  }
-  _$AI(t3, i5 = this) {
-    if ((t3 = S2(this, t3, i5, 0) ?? E) === T) return;
-    const s4 = this._$AH, e4 = t3 === E && s4 !== E || t3.capture !== s4.capture || t3.once !== s4.once || t3.passive !== s4.passive, h3 = t3 !== E && (s4 === E || e4);
-    e4 && this.element.removeEventListener(this.name, this, s4), h3 && this.element.addEventListener(this.name, this, t3), this._$AH = t3;
-  }
-  handleEvent(t3) {
-    "function" == typeof this._$AH ? this._$AH.call(this.options?.host ?? this.element, t3) : this._$AH.handleEvent(t3);
-  }
-};
-var z = class {
-  constructor(t3, i5, s4) {
-    this.element = t3, this.type = 6, this._$AN = void 0, this._$AM = i5, this.options = s4;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t3) {
-    S2(this, t3);
-  }
-};
-var j = t2.litHtmlPolyfillSupport;
-j?.(N, R), (t2.litHtmlVersions ??= []).push("3.3.0");
-var B = (t3, i5, s4) => {
-  const e4 = s4?.renderBefore ?? i5;
-  let h3 = e4._$litPart$;
-  if (void 0 === h3) {
-    const t4 = s4?.renderBefore ?? null;
-    e4._$litPart$ = h3 = new R(i5.insertBefore(l2(), t4), t4, void 0, s4 ?? {});
-  }
-  return h3._$AI(t3), h3;
-};
-
-// node_modules/lit-element/lit-element.js
-var s3 = globalThis;
-var i4 = class extends y {
-  constructor() {
-    super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
-  }
-  createRenderRoot() {
-    const t3 = super.createRenderRoot();
-    return this.renderOptions.renderBefore ??= t3.firstChild, t3;
-  }
-  update(t3) {
-    const r4 = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t3), this._$Do = B(r4, this.renderRoot, this.renderOptions);
-  }
-  connectedCallback() {
-    super.connectedCallback(), this._$Do?.setConnected(true);
-  }
-  disconnectedCallback() {
-    super.disconnectedCallback(), this._$Do?.setConnected(false);
-  }
-  render() {
-    return T;
-  }
-};
-i4._$litElement$ = true, i4["finalized"] = true, s3.litElementHydrateSupport?.({ LitElement: i4 });
-var o4 = s3.litElementPolyfillSupport;
-o4?.({ LitElement: i4 });
-(s3.litElementVersions ??= []).push("4.2.0");
-
-// Resources/Private/JavaScript/IconElement.svelte
-import Modal from "@typo3/backend/modal.js";
-IconElement[FILENAME] = "Resources/Private/JavaScript/IconElement.svelte";
-function onResetButtonClick(e4) {
-  e4.preventDefault();
-}
-var on_click = (e4, onButtonClick) => onButtonClick(e4);
-var root = add_locations(template(`<div class="input-group svelte-1q8a2ub"><input type="hidden"> <div class="form-control-clearable-wrapper"><span class="form-control form-control-clearable input svelte-1q8a2ub">test</span> <button class="close"><!></button></div> <button class="btn btn-default"><!> </button></div>`), IconElement[FILENAME], [
-  [
-    71,
-    0,
-    [
-      [72, 4],
-      [73, 4, [[74, 8], [75, 8]]],
-      [79, 4]
-    ]
-  ]
-]);
-var $$css = {
-  hash: "svelte-1q8a2ub",
-  code: "\n    .input-group.svelte-1q8a2ub {\n        width: 150px;\n    }\n\n    .input.svelte-1q8a2ub {\n        background: none;\n        border-bottom-left-radius: var(--typo3-input-border-radius) !important;\n        border-top-left-radius: var(--typo3-input-border-radius) !important;\n    }\n"
-};
-function IconElement($$anchor, $$props) {
+// Resources/Private/JavaScript/IconWizard.svelte
+IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
+var root = add_locations(template(`<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos ea pariatur perspiciatis quas ratione reiciendis soluta temporibus velit? Amet distinctio nesciunt nobis non numquam optio perspiciatis tenetur veniam. Explicabo, molestias?</div>`), IconWizard[FILENAME], [[7, 0]]);
+function IconWizard($$anchor, $$props) {
   check_target(new.target);
-  push($$props, true, IconElement);
-  append_styles($$anchor, $$css);
-  const [$$stores, $$cleanup] = setup_stores();
-  const $iconStore = () => (validate_store(iconStore, "iconStore"), store_get(iconStore, "$iconStore", $$stores));
+  push($$props, true, IconWizard);
   let itemFormElName = prop($$props, "itemFormElName", 7), itemFormElValue = prop($$props, "itemFormElValue", 7), wizardConfig = prop($$props, "wizardConfig", 7);
-  onMount(() => {
-    getIcon("actions-search");
-    getIcon("actions-close");
-  });
-  function onModalSave() {
-    console.log("save");
-  }
-  function onButtonClick(e4) {
-    e4.preventDefault();
-    const typo3Version = JSON.parse(wizardConfig()).typo3Version;
-    Modal.advanced({
-      additionalCssClasses: ["modal-image-manipulation", "cropper"],
-      buttons: [
-        {
-          btnClass: "btn-default",
-          name: "dismiss",
-          icon: "actions-close",
-          text: TYPO3.lang["wizard.button.cancel"],
-          trigger: () => window.parent.TYPO3.Modal.dismiss()
-        },
-        {
-          btnClass: "btn-primary",
-          name: "save",
-          icon: "actions-document-save",
-          text: TYPO3.lang["wizard.button.save"],
-          trigger: onModalSave
-        }
-      ],
-      content: x`
-                <bw-icon-wizard
-                    itemFormElName="${itemFormElName()}"
-                    wizardConfig="${wizardConfig()}"></bw-icon-wizard>`,
-      size: Modal.sizes.large,
-      title: "title",
-      style: typo3Version < 13 ? Modal.styles.dark : null,
-      staticBackdrop: true
-    });
-  }
   var div = root();
-  var input = child(div);
-  remove_input_defaults(input);
-  var div_1 = sibling(input, 2);
-  var button = sibling(child(div_1), 2);
-  button.__click = [onResetButtonClick];
-  var node = child(button);
-  html(node, () => $iconStore()["actions-close"], false, false);
-  reset(button);
-  reset(div_1);
-  var button_1 = sibling(div_1, 2);
-  button_1.__click = [on_click, onButtonClick];
-  var node_1 = child(button_1);
-  html(node_1, () => $iconStore()["actions-search"], false, false);
-  var text2 = sibling(node_1);
-  text2.nodeValue = ` ${TYPO3.lang["wizard.button"] ?? ""}`;
-  reset(button_1);
-  reset(div);
-  template_effect(() => set_attribute(input, "name", itemFormElName()));
-  bind_value(input, itemFormElValue);
   append($$anchor, div);
-  var $$pop = pop({
+  return pop({
     get itemFormElName() {
       return itemFormElName();
     },
@@ -4102,12 +2762,9 @@ function IconElement($$anchor, $$props) {
     },
     ...legacy_api()
   });
-  $$cleanup();
-  return $$pop;
 }
-delegate(["click"]);
-customElements.define("bw-icon-element", create_custom_element(
-  IconElement,
+customElements.define("bw-icon-wizard", create_custom_element(
+  IconWizard,
   {
     itemFormElName: {},
     itemFormElValue: {},
@@ -4118,43 +2775,6 @@ customElements.define("bw-icon-element", create_custom_element(
   false
 ));
 export {
-  IconElement as default
+  IconWizard as default
 };
-/*! Bundled license information:
-
-@lit/reactive-element/css-tag.js:
-  (**
-   * @license
-   * Copyright 2019 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-@lit/reactive-element/reactive-element.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-lit-html/lit-html.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-lit-element/lit-element.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-
-lit-html/is-server.js:
-  (**
-   * @license
-   * Copyright 2022 Google LLC
-   * SPDX-License-Identifier: BSD-3-Clause
-   *)
-*/
-//# sourceMappingURL=IconElement.js.map
+//# sourceMappingURL=IconWizard.js.map

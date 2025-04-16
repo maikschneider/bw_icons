@@ -15,3 +15,5 @@ var
 Documentation-*
 .phpdoc
 node_modules
+package-lock.json
+Resources/Public/JavaScript/*.js.map
