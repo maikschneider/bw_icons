@@ -2,7 +2,10 @@
 
 namespace Blueways\BwIcons\Provider;
 
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 class FileIconProvider extends AbstractIconProvider
 {
@@ -17,6 +20,7 @@ class FileIconProvider extends AbstractIconProvider
         // icons in root dir
         $icons[] = GeneralUtility::getFilesInDir($path, $fileExtensionList);
         $icons[0] = array_map(static function ($icon) use ($typo3Path) {
+            $typo3Path = str_starts_with($typo3Path, '/') ? $typo3Path : '/' . $typo3Path;
             return $typo3Path . '/' . $icon;
         }, $icons[0]);
         $icons[0] = array_values($icons[0]);
@@ -25,7 +29,8 @@ class FileIconProvider extends AbstractIconProvider
         foreach ($folders as $folder) {
             $folderIcons = GeneralUtility::getFilesInDir($path . '/' . $folder, $fileExtensionList);
             $folderIcons = array_map(static function ($icon) use ($folder, $typo3Path) {
-                return $typo3Path . '/' . $folder . '/' . $icon;
+                $extPath = $typo3Path . '/' . $folder . '/' . $icon;
+                return PathUtility::getPublicResourceWebPath($extPath);
             }, $folderIcons);
             $folderIcons = array_values($folderIcons);
             $icons[ucfirst($folder)] = $folderIcons;

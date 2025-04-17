@@ -42,6 +42,7 @@
             ],
             content: html`
                 <bw-icon-wizard
+                    class="w-100"
                     itemFormElName="${itemFormElName}"
                     wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
             size: Modal.sizes.large,

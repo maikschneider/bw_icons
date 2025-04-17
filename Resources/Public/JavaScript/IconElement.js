@@ -3999,12 +3999,12 @@ function onResetButtonClick(e4) {
 var on_click = (e4, onButtonClick) => onButtonClick(e4);
 var root = add_locations(template(`<div class="input-group svelte-1q8a2ub"><input type="hidden"> <div class="form-control-clearable-wrapper"><span class="form-control form-control-clearable input svelte-1q8a2ub">test</span> <button class="close"><!></button></div> <button class="btn btn-default"><!> </button></div>`), IconElement[FILENAME], [
   [
-    71,
+    72,
     0,
     [
-      [72, 4],
-      [73, 4, [[74, 8], [75, 8]]],
-      [79, 4]
+      [73, 4],
+      [74, 4, [[75, 8], [76, 8]]],
+      [80, 4]
     ]
   ]
 ]);
@@ -4049,6 +4049,7 @@ function IconElement($$anchor, $$props) {
       ],
       content: x`
                 <bw-icon-wizard
+                    class="w-100"
                     itemFormElName="${itemFormElName()}"
                     wizardConfig="${wizardConfig()}"></bw-icon-wizard>`,
       size: Modal.sizes.large,

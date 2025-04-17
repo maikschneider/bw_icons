@@ -7,6 +7,7 @@ if (typeof window !== "undefined") {
 }
 
 // node_modules/svelte/src/constants.js
+var EACH_ITEM_REACTIVE = 1;
 var EACH_INDEX_REACTIVE = 1 << 1;
 var EACH_IS_CONTROLLED = 1 << 2;
 var EACH_IS_ANIMATED = 1 << 3;
@@ -28,10 +29,35 @@ var ELEMENT_PRESERVE_ATTRIBUTE_CASE = 1 << 1;
 var UNINITIALIZED = Symbol();
 var FILENAME = Symbol("filename");
 var HMR = Symbol("hmr");
+var NAMESPACE_HTML = "http://www.w3.org/1999/xhtml";
 
 // node_modules/esm-env/dev-fallback.js
 var node_env = globalThis.process?.env?.NODE_ENV;
 var dev_fallback_default = node_env && !node_env.toLowerCase().startsWith("prod");
+
+// node_modules/svelte/src/internal/shared/errors.js
+function lifecycle_outside_component(name) {
+  if (dev_fallback_default) {
+    const error = new Error(`lifecycle_outside_component
+\`${name}(...)\` can only be used during component initialisation
+https://svelte.dev/e/lifecycle_outside_component`);
+    error.name = "Svelte error";
+    throw error;
+  } else {
+    throw new Error(`https://svelte.dev/e/lifecycle_outside_component`);
+  }
+}
+function store_invalid_shape(name) {
+  if (dev_fallback_default) {
+    const error = new Error(`store_invalid_shape
+\`${name}\` is not a store with a \`subscribe\` method
+https://svelte.dev/e/store_invalid_shape`);
+    error.name = "Svelte error";
+    throw error;
+  } else {
+    throw new Error(`https://svelte.dev/e/store_invalid_shape`);
+  }
+}
 
 // node_modules/svelte/src/internal/shared/utils.js
 var is_array = Array.isArray;
@@ -40,10 +66,13 @@ var array_from = Array.from;
 var object_keys = Object.keys;
 var define_property = Object.defineProperty;
 var get_descriptor = Object.getOwnPropertyDescriptor;
+var get_descriptors = Object.getOwnPropertyDescriptors;
 var object_prototype = Object.prototype;
 var array_prototype = Array.prototype;
 var get_prototype_of = Object.getPrototypeOf;
 var is_extensible = Object.isExtensible;
+var noop = () => {
+};
 function run_all(arr) {
   for (var i = 0; i < arr.length; i++) {
     arr[i]();
@@ -77,6 +106,17 @@ var LEGACY_PROPS = Symbol("legacy props");
 var LOADING_ATTR_SYMBOL = Symbol("");
 
 // node_modules/svelte/src/internal/client/errors.js
+function bind_invalid_checkbox_value() {
+  if (dev_fallback_default) {
+    const error = new Error(`bind_invalid_checkbox_value
+Using \`bind:value\` together with a checkbox input is not allowed. Use \`bind:checked\` instead
+https://svelte.dev/e/bind_invalid_checkbox_value`);
+    error.name = "Svelte error";
+    throw error;
+  } else {
+    throw new Error(`https://svelte.dev/e/bind_invalid_checkbox_value`);
+  }
+}
 function component_api_changed(method, component2) {
   if (dev_fallback_default) {
     const error = new Error(`component_api_changed
@@ -108,6 +148,39 @@ https://svelte.dev/e/derived_references_self`);
     throw error;
   } else {
     throw new Error(`https://svelte.dev/e/derived_references_self`);
+  }
+}
+function effect_in_teardown(rune) {
+  if (dev_fallback_default) {
+    const error = new Error(`effect_in_teardown
+\`${rune}\` cannot be used inside an effect cleanup function
+https://svelte.dev/e/effect_in_teardown`);
+    error.name = "Svelte error";
+    throw error;
+  } else {
+    throw new Error(`https://svelte.dev/e/effect_in_teardown`);
+  }
+}
+function effect_in_unowned_derived() {
+  if (dev_fallback_default) {
+    const error = new Error(`effect_in_unowned_derived
+Effect cannot be created inside a \`$derived\` value that was not itself created inside an effect
+https://svelte.dev/e/effect_in_unowned_derived`);
+    error.name = "Svelte error";
+    throw error;
+  } else {
+    throw new Error(`https://svelte.dev/e/effect_in_unowned_derived`);
+  }
+}
+function effect_orphan(rune) {
+  if (dev_fallback_default) {
+    const error = new Error(`effect_orphan
+\`${rune}\` can only be used inside an effect (e.g. during component initialisation)
+https://svelte.dev/e/effect_orphan`);
+    error.name = "Svelte error";
+    throw error;
+  } else {
+    throw new Error(`https://svelte.dev/e/effect_orphan`);
   }
 }
 function effect_update_depth_exceeded() {
@@ -191,6 +264,24 @@ https://svelte.dev/e/state_unsafe_mutation`);
 // node_modules/svelte/src/internal/client/warnings.js
 var bold = "font-weight: bold";
 var normal = "font-weight: normal";
+function hydration_attribute_changed(attribute, html2, value) {
+  if (dev_fallback_default) {
+    console.warn(`%c[svelte] hydration_attribute_changed
+%cThe \`${attribute}\` attribute on \`${html2}\` changed its value between server and client renders. The client value, \`${value}\`, will be ignored in favour of the server value
+https://svelte.dev/e/hydration_attribute_changed`, bold, normal);
+  } else {
+    console.warn(`https://svelte.dev/e/hydration_attribute_changed`);
+  }
+}
+function hydration_html_changed(location) {
+  if (dev_fallback_default) {
+    console.warn(`%c[svelte] hydration_html_changed
+%c${location ? `The value of an \`{@html ...}\` block ${location} changed between server and client renders. The client value will be ignored in favour of the server value` : "The value of an `{@html ...}` block changed between server and client renders. The client value will be ignored in favour of the server value"}
+https://svelte.dev/e/hydration_html_changed`, bold, normal);
+  } else {
+    console.warn(`https://svelte.dev/e/hydration_html_changed`);
+  }
+}
 function hydration_mismatch(location) {
   if (dev_fallback_default) {
     console.warn(`%c[svelte] hydration_mismatch
@@ -237,6 +328,38 @@ function hydrate_next() {
     /** @type {TemplateNode} */
     get_next_sibling(hydrate_node)
   );
+}
+function reset(node) {
+  if (!hydrating) return;
+  if (get_next_sibling(hydrate_node) !== null) {
+    hydration_mismatch();
+    throw HYDRATION_ERROR;
+  }
+  hydrate_node = node;
+}
+function remove_nodes() {
+  var depth = 0;
+  var node = hydrate_node;
+  while (true) {
+    if (node.nodeType === 8) {
+      var data = (
+        /** @type {Comment} */
+        node.data
+      );
+      if (data === HYDRATION_END) {
+        if (depth === 0) return node;
+        depth -= 1;
+      } else if (data === HYDRATION_START || data === HYDRATION_START_ELSE) {
+        depth += 1;
+      }
+    }
+    var next2 = (
+      /** @type {TemplateNode} */
+      get_next_sibling(node)
+    );
+    node.remove();
+    node = next2;
+  }
 }
 
 // node_modules/svelte/src/internal/client/dev/tracing.js
@@ -536,6 +659,15 @@ function init_array_prototype_warnings() {
     array_prototype2.includes = includes;
   };
 }
+function strict_equals(a, b, equal = true) {
+  try {
+    if (a === b !== (get_proxied_value(a) === get_proxied_value(b))) {
+      state_proxy_equality_mismatch(equal ? "===" : "!==");
+    }
+  } catch {
+  }
+  return a === b === equal;
+}
 
 // node_modules/svelte/src/internal/client/dom/operations.js
 var $window;
@@ -580,6 +712,73 @@ function get_first_child(node) {
 // @__NO_SIDE_EFFECTS__
 function get_next_sibling(node) {
   return next_sibling_getter.call(node);
+}
+function child(node, is_text) {
+  if (!hydrating) {
+    return /* @__PURE__ */ get_first_child(node);
+  }
+  var child2 = (
+    /** @type {TemplateNode} */
+    /* @__PURE__ */ get_first_child(hydrate_node)
+  );
+  if (child2 === null) {
+    child2 = hydrate_node.appendChild(create_text());
+  } else if (is_text && child2.nodeType !== 3) {
+    var text2 = create_text();
+    child2?.before(text2);
+    set_hydrate_node(text2);
+    return text2;
+  }
+  set_hydrate_node(child2);
+  return child2;
+}
+function first_child(fragment, is_text) {
+  if (!hydrating) {
+    var first = (
+      /** @type {DocumentFragment} */
+      /* @__PURE__ */ get_first_child(
+        /** @type {Node} */
+        fragment
+      )
+    );
+    if (first instanceof Comment && first.data === "") return /* @__PURE__ */ get_next_sibling(first);
+    return first;
+  }
+  if (is_text && hydrate_node?.nodeType !== 3) {
+    var text2 = create_text();
+    hydrate_node?.before(text2);
+    set_hydrate_node(text2);
+    return text2;
+  }
+  return hydrate_node;
+}
+function sibling(node, count = 1, is_text = false) {
+  let next_sibling = hydrating ? hydrate_node : node;
+  var last_sibling;
+  while (count--) {
+    last_sibling = next_sibling;
+    next_sibling = /** @type {TemplateNode} */
+    /* @__PURE__ */ get_next_sibling(next_sibling);
+  }
+  if (!hydrating) {
+    return next_sibling;
+  }
+  var type = next_sibling?.nodeType;
+  if (is_text && type !== 3) {
+    var text2 = create_text();
+    if (next_sibling === null) {
+      last_sibling?.after(text2);
+    } else {
+      next_sibling.before(text2);
+    }
+    set_hydrate_node(text2);
+    return text2;
+  }
+  set_hydrate_node(next_sibling);
+  return (
+    /** @type {TemplateNode} */
+    next_sibling
+  );
 }
 function clear_text_content(node) {
   node.textContent = "";
@@ -631,15 +830,21 @@ function derived(fn) {
   return signal;
 }
 // @__NO_SIDE_EFFECTS__
+function user_derived(fn) {
+  const d = /* @__PURE__ */ derived(fn);
+  push_reaction_value(d);
+  return d;
+}
+// @__NO_SIDE_EFFECTS__
 function derived_safe_equal(fn) {
   const signal = /* @__PURE__ */ derived(fn);
   signal.equals = safe_equals;
   return signal;
 }
-function destroy_derived_effects(derived2) {
-  var effects = derived2.effects;
+function destroy_derived_effects(derived3) {
+  var effects = derived3.effects;
   if (effects !== null) {
-    derived2.effects = null;
+    derived3.effects = null;
     for (var i = 0; i < effects.length; i += 1) {
       destroy_effect(
         /** @type {Effect} */
@@ -649,8 +854,8 @@ function destroy_derived_effects(derived2) {
   }
 }
 var stack = [];
-function get_derived_parent_effect(derived2) {
-  var parent = derived2.parent;
+function get_derived_parent_effect(derived3) {
+  var parent = derived3.parent;
   while (parent !== null) {
     if ((parent.f & DERIVED) === 0) {
       return (
@@ -662,20 +867,20 @@ function get_derived_parent_effect(derived2) {
   }
   return null;
 }
-function execute_derived(derived2) {
+function execute_derived(derived3) {
   var value;
   var prev_active_effect = active_effect;
-  set_active_effect(get_derived_parent_effect(derived2));
+  set_active_effect(get_derived_parent_effect(derived3));
   if (dev_fallback_default) {
     let prev_inspect_effects = inspect_effects;
     set_inspect_effects(/* @__PURE__ */ new Set());
     try {
-      if (stack.includes(derived2)) {
+      if (stack.includes(derived3)) {
         derived_references_self();
       }
-      stack.push(derived2);
-      destroy_derived_effects(derived2);
-      value = update_reaction(derived2);
+      stack.push(derived3);
+      destroy_derived_effects(derived3);
+      value = update_reaction(derived3);
     } finally {
       set_active_effect(prev_active_effect);
       set_inspect_effects(prev_inspect_effects);
@@ -683,25 +888,36 @@ function execute_derived(derived2) {
     }
   } else {
     try {
-      destroy_derived_effects(derived2);
-      value = update_reaction(derived2);
+      destroy_derived_effects(derived3);
+      value = update_reaction(derived3);
     } finally {
       set_active_effect(prev_active_effect);
     }
   }
   return value;
 }
-function update_derived(derived2) {
-  var value = execute_derived(derived2);
-  var status = (skip_reaction || (derived2.f & UNOWNED) !== 0) && derived2.deps !== null ? MAYBE_DIRTY : CLEAN;
-  set_signal_status(derived2, status);
-  if (!derived2.equals(value)) {
-    derived2.v = value;
-    derived2.wv = increment_write_version();
+function update_derived(derived3) {
+  var value = execute_derived(derived3);
+  var status = (skip_reaction || (derived3.f & UNOWNED) !== 0) && derived3.deps !== null ? MAYBE_DIRTY : CLEAN;
+  set_signal_status(derived3, status);
+  if (!derived3.equals(value)) {
+    derived3.v = value;
+    derived3.wv = increment_write_version();
   }
 }
 
 // node_modules/svelte/src/internal/client/reactivity/effects.js
+function validate_effect(rune) {
+  if (active_effect === null && active_reaction === null) {
+    effect_orphan(rune);
+  }
+  if (active_reaction !== null && (active_reaction.f & UNOWNED) !== 0 && active_effect === null) {
+    effect_in_unowned_derived();
+  }
+  if (is_destroying_effect) {
+    effect_in_teardown(rune);
+  }
+}
 function push_effect(effect2, parent_effect) {
   var parent_last = parent_effect.last;
   if (parent_last === null) {
@@ -755,11 +971,11 @@ function create_effect(type, fn, sync, push2 = true) {
       push_effect(effect2, parent);
     }
     if (active_reaction !== null && (active_reaction.f & DERIVED) !== 0) {
-      var derived2 = (
+      var derived3 = (
         /** @type {Derived} */
         active_reaction
       );
-      (derived2.effects ??= []).push(effect2);
+      (derived3.effects ??= []).push(effect2);
     }
   }
   return effect2;
@@ -769,6 +985,29 @@ function teardown(fn) {
   set_signal_status(effect2, CLEAN);
   effect2.teardown = fn;
   return effect2;
+}
+function user_effect(fn) {
+  validate_effect("$effect");
+  var defer = active_effect !== null && (active_effect.f & BRANCH_EFFECT) !== 0 && component_context !== null && !component_context.m;
+  if (dev_fallback_default) {
+    define_property(fn, "name", {
+      value: "$effect"
+    });
+  }
+  if (defer) {
+    var context = (
+      /** @type {ComponentContext} */
+      component_context
+    );
+    (context.e ??= []).push({
+      fn,
+      effect: active_effect,
+      reaction: active_reaction
+    });
+  } else {
+    var signal = effect(fn);
+    return signal;
+  }
 }
 function effect_root(fn) {
   const effect2 = create_effect(ROOT_EFFECT, fn, true);
@@ -797,6 +1036,19 @@ function effect(fn) {
 }
 function render_effect(fn) {
   return create_effect(RENDER_EFFECT, fn, true);
+}
+function template_effect(fn, thunks = [], d = derived) {
+  const deriveds = thunks.map(d);
+  const effect2 = () => fn(...deriveds.map(get));
+  if (dev_fallback_default) {
+    define_property(effect2, "name", {
+      value: "{expression}"
+    });
+  }
+  return block(effect2);
+}
+function block(fn, flags = 0) {
+  return create_effect(RENDER_EFFECT | BLOCK_EFFECT | flags, fn, true);
 }
 function branch(fn, push2 = true) {
   return create_effect(RENDER_EFFECT | BRANCH_EFFECT, fn, true, push2);
@@ -921,8 +1173,37 @@ function pause_children(effect2, transitions, local) {
     child2 = sibling2;
   }
 }
+function resume_effect(effect2) {
+  resume_children(effect2, true);
+}
+function resume_children(effect2, local) {
+  if ((effect2.f & INERT) === 0) return;
+  effect2.f ^= INERT;
+  if ((effect2.f & CLEAN) === 0) {
+    effect2.f ^= CLEAN;
+  }
+  if (check_dirtiness(effect2)) {
+    set_signal_status(effect2, DIRTY);
+    schedule_effect(effect2);
+  }
+  var child2 = effect2.first;
+  while (child2 !== null) {
+    var sibling2 = child2.next;
+    var transparent = (child2.f & EFFECT_TRANSPARENT) !== 0 || (child2.f & BRANCH_EFFECT) !== 0;
+    resume_children(child2, transparent ? local : false);
+    child2 = sibling2;
+  }
+  if (effect2.transitions !== null) {
+    for (const transition2 of effect2.transitions) {
+      if (transition2.is_global || local) {
+        transition2.in();
+      }
+    }
+  }
+}
 
 // node_modules/svelte/src/internal/client/dom/task.js
+var request_idle_callback = typeof requestIdleCallback === "undefined" ? (cb) => setTimeout(cb, 1) : requestIdleCallback;
 var micro_tasks = [];
 var idle_tasks = [];
 function run_micro_tasks() {
@@ -934,6 +1215,18 @@ function run_idle_tasks() {
   var tasks = idle_tasks;
   idle_tasks = [];
   run_all(tasks);
+}
+function queue_micro_task(fn) {
+  if (micro_tasks.length === 0) {
+    queueMicrotask(run_micro_tasks);
+  }
+  micro_tasks.push(fn);
+}
+function queue_idle_task(fn) {
+  if (idle_tasks.length === 0) {
+    request_idle_callback(run_idle_tasks);
+  }
+  idle_tasks.push(fn);
 }
 function flush_tasks() {
   if (micro_tasks.length > 0) {
@@ -1003,22 +1296,22 @@ function check_dirtiness(reaction) {
       var is_unowned_connected = is_unowned && active_effect !== null && !skip_reaction;
       var length = dependencies.length;
       if (is_disconnected || is_unowned_connected) {
-        var derived2 = (
+        var derived3 = (
           /** @type {Derived} */
           reaction
         );
-        var parent = derived2.parent;
+        var parent = derived3.parent;
         for (i = 0; i < length; i++) {
           dependency = dependencies[i];
-          if (is_disconnected || !dependency?.reactions?.includes(derived2)) {
-            (dependency.reactions ??= []).push(derived2);
+          if (is_disconnected || !dependency?.reactions?.includes(derived3)) {
+            (dependency.reactions ??= []).push(derived3);
           }
         }
         if (is_disconnected) {
-          derived2.f ^= DISCONNECTED;
+          derived3.f ^= DISCONNECTED;
         }
         if (is_unowned_connected && parent !== null && (parent.f & UNOWNED) === 0) {
-          derived2.f ^= UNOWNED;
+          derived3.f ^= UNOWNED;
         }
       }
       for (i = 0; i < length; i++) {
@@ -1504,20 +1797,20 @@ function get(signal) {
   } else if (is_derived && /** @type {Derived} */
   signal.deps === null && /** @type {Derived} */
   signal.effects === null) {
-    var derived2 = (
+    var derived3 = (
       /** @type {Derived} */
       signal
     );
-    var parent = derived2.parent;
+    var parent = derived3.parent;
     if (parent !== null && (parent.f & UNOWNED) === 0) {
-      derived2.f ^= UNOWNED;
+      derived3.f ^= UNOWNED;
     }
   }
   if (is_derived) {
-    derived2 = /** @type {Derived} */
+    derived3 = /** @type {Derived} */
     signal;
-    if (check_dirtiness(derived2)) {
-      update_derived(derived2);
+    if (check_dirtiness(derived3)) {
+      update_derived(derived3);
     }
   }
   if (dev_fallback_default && tracing_mode_flag && tracing_expressions !== null && active_reaction !== null && tracing_expressions.reaction === active_reaction) {
@@ -1751,6 +2044,14 @@ function is_runes() {
 }
 
 // node_modules/svelte/src/utils.js
+var regex_return_characters = /\r/g;
+function hash(str) {
+  str = str.replace(regex_return_characters, "");
+  let hash2 = 5381;
+  let i = str.length;
+  while (i--) hash2 = (hash2 << 5) - hash2 ^ str.charCodeAt(i);
+  return (hash2 >>> 0).toString(36);
+}
 var DOM_BOOLEAN_ATTRIBUTES = [
   "allowfullscreen",
   "async",
@@ -1803,6 +2104,23 @@ var PASSIVE_EVENTS = ["touchstart", "touchmove"];
 function is_passive_event(name) {
   return PASSIVE_EVENTS.includes(name);
 }
+function sanitize_location(location) {
+  return (
+    /** @type {T} */
+    location?.replace(/\//g, "/\u200B")
+  );
+}
+
+// node_modules/svelte/src/internal/client/dev/css.js
+var all_styles = /* @__PURE__ */ new Map();
+function register_style(hash2, style) {
+  var styles = all_styles.get(hash2);
+  if (!styles) {
+    styles = /* @__PURE__ */ new Set();
+    all_styles.set(hash2, styles);
+  }
+  styles.add(style);
+}
 
 // node_modules/svelte/src/internal/client/dev/elements.js
 function add_locations(fn, filename, locations) {
@@ -1845,9 +2163,70 @@ function assign_locations(node, filename, locations) {
   }
 }
 
+// node_modules/svelte/src/internal/client/dom/elements/misc.js
+var listening_to_form_reset = false;
+function add_form_reset_listener() {
+  if (!listening_to_form_reset) {
+    listening_to_form_reset = true;
+    document.addEventListener(
+      "reset",
+      (evt) => {
+        Promise.resolve().then(() => {
+          if (!evt.defaultPrevented) {
+            for (
+              const e of
+              /**@type {HTMLFormElement} */
+              evt.target.elements
+            ) {
+              e.__on_r?.();
+            }
+          }
+        });
+      },
+      // In the capture phase to guarantee we get noticed of it (no possiblity of stopPropagation)
+      { capture: true }
+    );
+  }
+}
+
+// node_modules/svelte/src/internal/client/dom/elements/bindings/shared.js
+function without_reactive_context(fn) {
+  var previous_reaction = active_reaction;
+  var previous_effect = active_effect;
+  set_active_reaction(null);
+  set_active_effect(null);
+  try {
+    return fn();
+  } finally {
+    set_active_reaction(previous_reaction);
+    set_active_effect(previous_effect);
+  }
+}
+function listen_to_event_and_reset_event(element2, event2, handler, on_reset = handler) {
+  element2.addEventListener(event2, () => without_reactive_context(handler));
+  const prev = element2.__on_r;
+  if (prev) {
+    element2.__on_r = () => {
+      prev();
+      on_reset(true);
+    };
+  } else {
+    element2.__on_r = () => on_reset(true);
+  }
+  add_form_reset_listener();
+}
+
 // node_modules/svelte/src/internal/client/dom/elements/events.js
 var all_registered_events = /* @__PURE__ */ new Set();
 var root_event_handles = /* @__PURE__ */ new Set();
+function delegate(events) {
+  for (var i = 0; i < events.length; i++) {
+    all_registered_events.add(events[i]);
+  }
+  for (var fn of root_event_handles) {
+    fn(events);
+  }
+}
 function handle_event_propagation(event2) {
   var handler_element = this;
   var owner_document = (
@@ -1997,6 +2376,18 @@ function template(content, flags) {
     return clone;
   };
 }
+function comment() {
+  if (hydrating) {
+    assign_nodes(hydrate_node, null);
+    return hydrate_node;
+  }
+  var frag = document.createDocumentFragment();
+  var start = document.createComment("");
+  var anchor = create_text();
+  frag.append(start, anchor);
+  assign_nodes(start, anchor);
+  return frag;
+}
 function append(anchor, dom) {
   if (hydrating) {
     active_effect.nodes_end = hydrate_node;
@@ -2014,6 +2405,13 @@ function append(anchor, dom) {
 
 // node_modules/svelte/src/internal/client/render.js
 var should_intro = true;
+function set_text(text2, value) {
+  var str = value == null ? "" : typeof value === "object" ? value + "" : value;
+  if (str !== (text2.__t ??= text2.nodeValue)) {
+    text2.__t = str;
+    text2.nodeValue = str + "";
+  }
+}
 function mount(component2, options) {
   return _mount(component2, options);
 }
@@ -2178,14 +2576,792 @@ function legacy_api() {
   };
 }
 
+// node_modules/svelte/src/internal/client/dom/blocks/if.js
+function if_block(node, fn, [root_index, hydrate_index] = [0, 0]) {
+  if (hydrating && root_index === 0) {
+    hydrate_next();
+  }
+  var anchor = node;
+  var consequent_effect = null;
+  var alternate_effect = null;
+  var condition = UNINITIALIZED;
+  var flags = root_index > 0 ? EFFECT_TRANSPARENT : 0;
+  var has_branch = false;
+  const set_branch = (fn2, flag = true) => {
+    has_branch = true;
+    update_branch(flag, fn2);
+  };
+  const update_branch = (new_condition, fn2) => {
+    if (condition === (condition = new_condition)) return;
+    let mismatch = false;
+    if (hydrating && hydrate_index !== -1) {
+      if (root_index === 0) {
+        const data = (
+          /** @type {Comment} */
+          anchor.data
+        );
+        if (data === HYDRATION_START) {
+          hydrate_index = 0;
+        } else if (data === HYDRATION_START_ELSE) {
+          hydrate_index = Infinity;
+        } else {
+          hydrate_index = parseInt(data.substring(1));
+          if (hydrate_index !== hydrate_index) {
+            hydrate_index = condition ? Infinity : -1;
+          }
+        }
+      }
+      const is_else = hydrate_index > root_index;
+      if (!!condition === is_else) {
+        anchor = remove_nodes();
+        set_hydrate_node(anchor);
+        set_hydrating(false);
+        mismatch = true;
+        hydrate_index = -1;
+      }
+    }
+    if (condition) {
+      if (consequent_effect) {
+        resume_effect(consequent_effect);
+      } else if (fn2) {
+        consequent_effect = branch(() => fn2(anchor));
+      }
+      if (alternate_effect) {
+        pause_effect(alternate_effect, () => {
+          alternate_effect = null;
+        });
+      }
+    } else {
+      if (alternate_effect) {
+        resume_effect(alternate_effect);
+      } else if (fn2) {
+        alternate_effect = branch(() => fn2(anchor, [root_index + 1, hydrate_index]));
+      }
+      if (consequent_effect) {
+        pause_effect(consequent_effect, () => {
+          consequent_effect = null;
+        });
+      }
+    }
+    if (mismatch) {
+      set_hydrating(true);
+    }
+  };
+  block(() => {
+    has_branch = false;
+    fn(set_branch);
+    if (!has_branch) {
+      update_branch(null, null);
+    }
+  }, flags);
+  if (hydrating) {
+    anchor = hydrate_node;
+  }
+}
+
+// node_modules/svelte/src/internal/client/dom/blocks/each.js
+var current_each_item = null;
+function index(_, i) {
+  return i;
+}
+function pause_effects(state2, items, controlled_anchor, items_map) {
+  var transitions = [];
+  var length = items.length;
+  for (var i = 0; i < length; i++) {
+    pause_children(items[i].e, transitions, true);
+  }
+  var is_controlled = length > 0 && transitions.length === 0 && controlled_anchor !== null;
+  if (is_controlled) {
+    var parent_node = (
+      /** @type {Element} */
+      /** @type {Element} */
+      controlled_anchor.parentNode
+    );
+    clear_text_content(parent_node);
+    parent_node.append(
+      /** @type {Element} */
+      controlled_anchor
+    );
+    items_map.clear();
+    link(state2, items[0].prev, items[length - 1].next);
+  }
+  run_out_transitions(transitions, () => {
+    for (var i2 = 0; i2 < length; i2++) {
+      var item = items[i2];
+      if (!is_controlled) {
+        items_map.delete(item.k);
+        link(state2, item.prev, item.next);
+      }
+      destroy_effect(item.e, !is_controlled);
+    }
+  });
+}
+function each(node, flags, get_collection, get_key, render_fn, fallback_fn = null) {
+  var anchor = node;
+  var state2 = { flags, items: /* @__PURE__ */ new Map(), first: null };
+  var is_controlled = (flags & EACH_IS_CONTROLLED) !== 0;
+  if (is_controlled) {
+    var parent_node = (
+      /** @type {Element} */
+      node
+    );
+    anchor = hydrating ? set_hydrate_node(
+      /** @type {Comment | Text} */
+      get_first_child(parent_node)
+    ) : parent_node.appendChild(create_text());
+  }
+  if (hydrating) {
+    hydrate_next();
+  }
+  var fallback2 = null;
+  var was_empty = false;
+  var each_array = derived_safe_equal(() => {
+    var collection = get_collection();
+    return is_array(collection) ? collection : collection == null ? [] : array_from(collection);
+  });
+  block(() => {
+    var array = get(each_array);
+    var length = array.length;
+    if (was_empty && length === 0) {
+      return;
+    }
+    was_empty = length === 0;
+    let mismatch = false;
+    if (hydrating) {
+      var is_else = (
+        /** @type {Comment} */
+        anchor.data === HYDRATION_START_ELSE
+      );
+      if (is_else !== (length === 0)) {
+        anchor = remove_nodes();
+        set_hydrate_node(anchor);
+        set_hydrating(false);
+        mismatch = true;
+      }
+    }
+    if (hydrating) {
+      var prev = null;
+      var item;
+      for (var i = 0; i < length; i++) {
+        if (hydrate_node.nodeType === 8 && /** @type {Comment} */
+        hydrate_node.data === HYDRATION_END) {
+          anchor = /** @type {Comment} */
+          hydrate_node;
+          mismatch = true;
+          set_hydrating(false);
+          break;
+        }
+        var value = array[i];
+        var key = get_key(value, i);
+        item = create_item(
+          hydrate_node,
+          state2,
+          prev,
+          null,
+          value,
+          key,
+          i,
+          render_fn,
+          flags,
+          get_collection
+        );
+        state2.items.set(key, item);
+        prev = item;
+      }
+      if (length > 0) {
+        set_hydrate_node(remove_nodes());
+      }
+    }
+    if (!hydrating) {
+      reconcile(array, state2, anchor, render_fn, flags, get_key, get_collection);
+    }
+    if (fallback_fn !== null) {
+      if (length === 0) {
+        if (fallback2) {
+          resume_effect(fallback2);
+        } else {
+          fallback2 = branch(() => fallback_fn(anchor));
+        }
+      } else if (fallback2 !== null) {
+        pause_effect(fallback2, () => {
+          fallback2 = null;
+        });
+      }
+    }
+    if (mismatch) {
+      set_hydrating(true);
+    }
+    get(each_array);
+  });
+  if (hydrating) {
+    anchor = hydrate_node;
+  }
+}
+function reconcile(array, state2, anchor, render_fn, flags, get_key, get_collection) {
+  var is_animated = (flags & EACH_IS_ANIMATED) !== 0;
+  var should_update = (flags & (EACH_ITEM_REACTIVE | EACH_INDEX_REACTIVE)) !== 0;
+  var length = array.length;
+  var items = state2.items;
+  var first = state2.first;
+  var current = first;
+  var seen;
+  var prev = null;
+  var to_animate;
+  var matched = [];
+  var stashed = [];
+  var value;
+  var key;
+  var item;
+  var i;
+  if (is_animated) {
+    for (i = 0; i < length; i += 1) {
+      value = array[i];
+      key = get_key(value, i);
+      item = items.get(key);
+      if (item !== void 0) {
+        item.a?.measure();
+        (to_animate ??= /* @__PURE__ */ new Set()).add(item);
+      }
+    }
+  }
+  for (i = 0; i < length; i += 1) {
+    value = array[i];
+    key = get_key(value, i);
+    item = items.get(key);
+    if (item === void 0) {
+      var child_anchor = current ? (
+        /** @type {TemplateNode} */
+        current.e.nodes_start
+      ) : anchor;
+      prev = create_item(
+        child_anchor,
+        state2,
+        prev,
+        prev === null ? state2.first : prev.next,
+        value,
+        key,
+        i,
+        render_fn,
+        flags,
+        get_collection
+      );
+      items.set(key, prev);
+      matched = [];
+      stashed = [];
+      current = prev.next;
+      continue;
+    }
+    if (should_update) {
+      update_item(item, value, i, flags);
+    }
+    if ((item.e.f & INERT) !== 0) {
+      resume_effect(item.e);
+      if (is_animated) {
+        item.a?.unfix();
+        (to_animate ??= /* @__PURE__ */ new Set()).delete(item);
+      }
+    }
+    if (item !== current) {
+      if (seen !== void 0 && seen.has(item)) {
+        if (matched.length < stashed.length) {
+          var start = stashed[0];
+          var j;
+          prev = start.prev;
+          var a = matched[0];
+          var b = matched[matched.length - 1];
+          for (j = 0; j < matched.length; j += 1) {
+            move(matched[j], start, anchor);
+          }
+          for (j = 0; j < stashed.length; j += 1) {
+            seen.delete(stashed[j]);
+          }
+          link(state2, a.prev, b.next);
+          link(state2, prev, a);
+          link(state2, b, start);
+          current = start;
+          prev = b;
+          i -= 1;
+          matched = [];
+          stashed = [];
+        } else {
+          seen.delete(item);
+          move(item, current, anchor);
+          link(state2, item.prev, item.next);
+          link(state2, item, prev === null ? state2.first : prev.next);
+          link(state2, prev, item);
+          prev = item;
+        }
+        continue;
+      }
+      matched = [];
+      stashed = [];
+      while (current !== null && current.k !== key) {
+        if ((current.e.f & INERT) === 0) {
+          (seen ??= /* @__PURE__ */ new Set()).add(current);
+        }
+        stashed.push(current);
+        current = current.next;
+      }
+      if (current === null) {
+        continue;
+      }
+      item = current;
+    }
+    matched.push(item);
+    prev = item;
+    current = item.next;
+  }
+  if (current !== null || seen !== void 0) {
+    var to_destroy = seen === void 0 ? [] : array_from(seen);
+    while (current !== null) {
+      if ((current.e.f & INERT) === 0) {
+        to_destroy.push(current);
+      }
+      current = current.next;
+    }
+    var destroy_length = to_destroy.length;
+    if (destroy_length > 0) {
+      var controlled_anchor = (flags & EACH_IS_CONTROLLED) !== 0 && length === 0 ? anchor : null;
+      if (is_animated) {
+        for (i = 0; i < destroy_length; i += 1) {
+          to_destroy[i].a?.measure();
+        }
+        for (i = 0; i < destroy_length; i += 1) {
+          to_destroy[i].a?.fix();
+        }
+      }
+      pause_effects(state2, to_destroy, controlled_anchor, items);
+    }
+  }
+  if (is_animated) {
+    queue_micro_task(() => {
+      if (to_animate === void 0) return;
+      for (item of to_animate) {
+        item.a?.apply();
+      }
+    });
+  }
+  active_effect.first = state2.first && state2.first.e;
+  active_effect.last = prev && prev.e;
+}
+function update_item(item, value, index2, type) {
+  if ((type & EACH_ITEM_REACTIVE) !== 0) {
+    internal_set(item.v, value);
+  }
+  if ((type & EACH_INDEX_REACTIVE) !== 0) {
+    internal_set(
+      /** @type {Value<number>} */
+      item.i,
+      index2
+    );
+  } else {
+    item.i = index2;
+  }
+}
+function create_item(anchor, state2, prev, next2, value, key, index2, render_fn, flags, get_collection) {
+  var previous_each_item = current_each_item;
+  var reactive = (flags & EACH_ITEM_REACTIVE) !== 0;
+  var mutable = (flags & EACH_ITEM_IMMUTABLE) === 0;
+  var v = reactive ? mutable ? mutable_source(value) : source(value) : value;
+  var i = (flags & EACH_INDEX_REACTIVE) === 0 ? index2 : source(index2);
+  if (dev_fallback_default && reactive) {
+    v.debug = () => {
+      var collection_index = typeof i === "number" ? index2 : i.v;
+      get_collection()[collection_index];
+    };
+  }
+  var item = {
+    i,
+    v,
+    k: key,
+    a: null,
+    // @ts-expect-error
+    e: null,
+    prev,
+    next: next2
+  };
+  current_each_item = item;
+  try {
+    item.e = branch(() => render_fn(anchor, v, i, get_collection), hydrating);
+    item.e.prev = prev && prev.e;
+    item.e.next = next2 && next2.e;
+    if (prev === null) {
+      state2.first = item;
+    } else {
+      prev.next = item;
+      prev.e.next = item.e;
+    }
+    if (next2 !== null) {
+      next2.prev = item;
+      next2.e.prev = item.e;
+    }
+    return item;
+  } finally {
+    current_each_item = previous_each_item;
+  }
+}
+function move(item, next2, anchor) {
+  var end = item.next ? (
+    /** @type {TemplateNode} */
+    item.next.e.nodes_start
+  ) : anchor;
+  var dest = next2 ? (
+    /** @type {TemplateNode} */
+    next2.e.nodes_start
+  ) : anchor;
+  var node = (
+    /** @type {TemplateNode} */
+    item.e.nodes_start
+  );
+  while (node !== end) {
+    var next_node = (
+      /** @type {TemplateNode} */
+      get_next_sibling(node)
+    );
+    dest.before(node);
+    node = next_node;
+  }
+}
+function link(state2, prev, next2) {
+  if (prev === null) {
+    state2.first = next2;
+  } else {
+    prev.next = next2;
+    prev.e.next = next2 && next2.e;
+  }
+  if (next2 !== null) {
+    next2.prev = prev;
+    next2.e.prev = prev && prev.e;
+  }
+}
+
+// node_modules/svelte/src/internal/client/dom/blocks/html.js
+function check_hash(element2, server_hash, value) {
+  if (!server_hash || server_hash === hash(String(value ?? ""))) return;
+  let location;
+  const loc = element2.__svelte_meta?.loc;
+  if (loc) {
+    location = `near ${loc.file}:${loc.line}:${loc.column}`;
+  } else if (dev_current_component_function?.[FILENAME]) {
+    location = `in ${dev_current_component_function[FILENAME]}`;
+  }
+  hydration_html_changed(sanitize_location(location));
+}
+function html(node, get_value, svg, mathml, skip_warning) {
+  var anchor = node;
+  var value = "";
+  var effect2;
+  block(() => {
+    if (value === (value = get_value() ?? "")) {
+      if (hydrating) {
+        hydrate_next();
+      }
+      return;
+    }
+    if (effect2 !== void 0) {
+      destroy_effect(effect2);
+      effect2 = void 0;
+    }
+    if (value === "") return;
+    effect2 = branch(() => {
+      if (hydrating) {
+        var hash2 = (
+          /** @type {Comment} */
+          hydrate_node.data
+        );
+        var next2 = hydrate_next();
+        var last = next2;
+        while (next2 !== null && (next2.nodeType !== 8 || /** @type {Comment} */
+        next2.data !== "")) {
+          last = next2;
+          next2 = /** @type {TemplateNode} */
+          get_next_sibling(next2);
+        }
+        if (next2 === null) {
+          hydration_mismatch();
+          throw HYDRATION_ERROR;
+        }
+        if (dev_fallback_default && !skip_warning) {
+          check_hash(
+            /** @type {Element} */
+            next2.parentNode,
+            hash2,
+            value
+          );
+        }
+        assign_nodes(hydrate_node, last);
+        anchor = set_hydrate_node(next2);
+        return;
+      }
+      var html2 = value + "";
+      if (svg) html2 = `<svg>${html2}</svg>`;
+      else if (mathml) html2 = `<math>${html2}</math>`;
+      var node2 = create_fragment_from_html(html2);
+      if (svg || mathml) {
+        node2 = /** @type {Element} */
+        get_first_child(node2);
+      }
+      assign_nodes(
+        /** @type {TemplateNode} */
+        get_first_child(node2),
+        /** @type {TemplateNode} */
+        node2.lastChild
+      );
+      if (svg || mathml) {
+        while (get_first_child(node2)) {
+          anchor.before(
+            /** @type {Node} */
+            get_first_child(node2)
+          );
+        }
+      } else {
+        anchor.before(node2);
+      }
+    });
+  });
+}
+
+// node_modules/svelte/src/internal/client/dom/css.js
+function append_styles(anchor, css) {
+  queue_micro_task(() => {
+    var root2 = anchor.getRootNode();
+    var target = (
+      /** @type {ShadowRoot} */
+      root2.host ? (
+        /** @type {ShadowRoot} */
+        root2
+      ) : (
+        /** @type {Document} */
+        root2.head ?? /** @type {Document} */
+        root2.ownerDocument.head
+      )
+    );
+    if (!target.querySelector("#" + css.hash)) {
+      const style = document.createElement("style");
+      style.id = css.hash;
+      style.textContent = css.code;
+      target.appendChild(style);
+      if (dev_fallback_default) {
+        register_style(css.hash, style);
+      }
+    }
+  });
+}
+
 // node_modules/svelte/src/internal/shared/attributes.js
 var whitespace = [..." 	\n\r\f\xA0\v\uFEFF"];
+function to_class(value, hash2, directives) {
+  var classname = value == null ? "" : "" + value;
+  if (hash2) {
+    classname = classname ? classname + " " + hash2 : hash2;
+  }
+  if (directives) {
+    for (var key in directives) {
+      if (directives[key]) {
+        classname = classname ? classname + " " + key : key;
+      } else if (classname.length) {
+        var len = key.length;
+        var a = 0;
+        while ((a = classname.indexOf(key, a)) >= 0) {
+          var b = a + len;
+          if ((a === 0 || whitespace.includes(classname[a - 1])) && (b === classname.length || whitespace.includes(classname[b]))) {
+            classname = (a === 0 ? "" : classname.substring(0, a)) + classname.substring(b + 1);
+          } else {
+            a = b;
+          }
+        }
+      }
+    }
+  }
+  return classname === "" ? null : classname;
+}
+
+// node_modules/svelte/src/internal/client/dom/elements/class.js
+function set_class(dom, is_html, value, hash2, prev_classes, next_classes) {
+  var prev = dom.__className;
+  if (hydrating || prev !== value || prev === void 0) {
+    var next_class_name = to_class(value, hash2, next_classes);
+    if (!hydrating || next_class_name !== dom.getAttribute("class")) {
+      if (next_class_name == null) {
+        dom.removeAttribute("class");
+      } else if (is_html) {
+        dom.className = next_class_name;
+      } else {
+        dom.setAttribute("class", next_class_name);
+      }
+    }
+    dom.__className = value;
+  } else if (next_classes && prev_classes !== next_classes) {
+    for (var key in next_classes) {
+      var is_present = !!next_classes[key];
+      if (prev_classes == null || is_present !== !!prev_classes[key]) {
+        dom.classList.toggle(key, is_present);
+      }
+    }
+  }
+  return next_classes;
+}
 
 // node_modules/svelte/src/internal/client/dom/elements/attributes.js
 var CLASS = Symbol("class");
 var STYLE = Symbol("style");
 var IS_CUSTOM_ELEMENT = Symbol("is custom element");
 var IS_HTML = Symbol("is html");
+function remove_input_defaults(input) {
+  if (!hydrating) return;
+  var already_removed = false;
+  var remove_defaults = () => {
+    if (already_removed) return;
+    already_removed = true;
+    if (input.hasAttribute("value")) {
+      var value = input.value;
+      set_attribute(input, "value", null);
+      input.value = value;
+    }
+    if (input.hasAttribute("checked")) {
+      var checked = input.checked;
+      set_attribute(input, "checked", null);
+      input.checked = checked;
+    }
+  };
+  input.__on_r = remove_defaults;
+  queue_idle_task(remove_defaults);
+  add_form_reset_listener();
+}
+function set_attribute(element2, attribute, value, skip_warning) {
+  var attributes = get_attributes(element2);
+  if (hydrating) {
+    attributes[attribute] = element2.getAttribute(attribute);
+    if (attribute === "src" || attribute === "srcset" || attribute === "href" && element2.nodeName === "LINK") {
+      if (!skip_warning) {
+        check_src_in_dev_hydration(element2, attribute, value ?? "");
+      }
+      return;
+    }
+  }
+  if (attributes[attribute] === (attributes[attribute] = value)) return;
+  if (attribute === "loading") {
+    element2[LOADING_ATTR_SYMBOL] = value;
+  }
+  if (value == null) {
+    element2.removeAttribute(attribute);
+  } else if (typeof value !== "string" && get_setters(element2).includes(attribute)) {
+    element2[attribute] = value;
+  } else {
+    element2.setAttribute(attribute, value);
+  }
+}
+function get_attributes(element2) {
+  return (
+    /** @type {Record<string | symbol, unknown>} **/
+    // @ts-expect-error
+    element2.__attributes ??= {
+      [IS_CUSTOM_ELEMENT]: element2.nodeName.includes("-"),
+      [IS_HTML]: element2.namespaceURI === NAMESPACE_HTML
+    }
+  );
+}
+var setters_cache = /* @__PURE__ */ new Map();
+function get_setters(element2) {
+  var setters = setters_cache.get(element2.nodeName);
+  if (setters) return setters;
+  setters_cache.set(element2.nodeName, setters = []);
+  var descriptors;
+  var proto = element2;
+  var element_proto = Element.prototype;
+  while (element_proto !== proto) {
+    descriptors = get_descriptors(proto);
+    for (var key in descriptors) {
+      if (descriptors[key].set) {
+        setters.push(key);
+      }
+    }
+    proto = get_prototype_of(proto);
+  }
+  return setters;
+}
+function check_src_in_dev_hydration(element2, attribute, value) {
+  if (!dev_fallback_default) return;
+  if (attribute === "srcset" && srcset_url_equal(element2, value)) return;
+  if (src_url_equal(element2.getAttribute(attribute) ?? "", value)) return;
+  hydration_attribute_changed(
+    attribute,
+    element2.outerHTML.replace(element2.innerHTML, element2.innerHTML && "..."),
+    String(value)
+  );
+}
+function src_url_equal(element_src, url) {
+  if (element_src === url) return true;
+  return new URL(element_src, document.baseURI).href === new URL(url, document.baseURI).href;
+}
+function split_srcset(srcset) {
+  return srcset.split(",").map((src) => src.trim().split(" ").filter(Boolean));
+}
+function srcset_url_equal(element2, srcset) {
+  var element_urls = split_srcset(element2.srcset);
+  var urls = split_srcset(srcset);
+  return urls.length === element_urls.length && urls.every(
+    ([url, width], i) => width === element_urls[i][1] && // We need to test both ways because Vite will create an a full URL with
+    // `new URL(asset, import.meta.url).href` for the client when `base: './'`, and the
+    // relative URLs inside srcset are not automatically resolved to absolute URLs by
+    // browsers (in contrast to img.src). This means both SSR and DOM code could
+    // contain relative or absolute URLs.
+    (src_url_equal(element_urls[i][0], url) || src_url_equal(url, element_urls[i][0]))
+  );
+}
+
+// node_modules/svelte/src/internal/client/dom/elements/bindings/input.js
+function bind_value(input, get3, set2 = get3) {
+  var runes = is_runes();
+  listen_to_event_and_reset_event(input, "input", (is_reset) => {
+    if (dev_fallback_default && input.type === "checkbox") {
+      bind_invalid_checkbox_value();
+    }
+    var value = is_reset ? input.defaultValue : input.value;
+    value = is_numberlike_input(input) ? to_number(value) : value;
+    set2(value);
+    if (runes && value !== (value = get3())) {
+      var start = input.selectionStart;
+      var end = input.selectionEnd;
+      input.value = value ?? "";
+      if (end !== null) {
+        input.selectionStart = start;
+        input.selectionEnd = Math.min(end, input.value.length);
+      }
+    }
+  });
+  if (
+    // If we are hydrating and the value has since changed,
+    // then use the updated value from the input instead.
+    hydrating && input.defaultValue !== input.value || // If defaultValue is set, then value == defaultValue
+    // TODO Svelte 6: remove input.value check and set to empty string?
+    untrack(get3) == null && input.value
+  ) {
+    set2(is_numberlike_input(input) ? to_number(input.value) : input.value);
+  }
+  render_effect(() => {
+    if (dev_fallback_default && input.type === "checkbox") {
+      bind_invalid_checkbox_value();
+    }
+    var value = get3();
+    if (is_numberlike_input(input) && value === to_number(input.value)) {
+      return;
+    }
+    if (input.type === "date" && !value && !input.value) {
+      return;
+    }
+    if (value !== input.value) {
+      input.value = value ?? "";
+    }
+  });
+}
+function is_numberlike_input(input) {
+  var type = input.type;
+  return type === "number" || type === "range";
+}
+function to_number(value) {
+  return value === "" ? null : +value;
+}
 
 // node_modules/svelte/src/index-client.js
 if (dev_fallback_default) {
@@ -2214,10 +3390,150 @@ if (dev_fallback_default) {
   throw_rune_error("$props");
   throw_rune_error("$bindable");
 }
+function onMount(fn) {
+  if (component_context === null) {
+    lifecycle_outside_component("onMount");
+  }
+  if (legacy_mode_flag && component_context.l !== null) {
+    init_update_callbacks(component_context).m.push(fn);
+  } else {
+    user_effect(() => {
+      const cleanup = untrack(fn);
+      if (typeof cleanup === "function") return (
+        /** @type {() => void} */
+        cleanup
+      );
+    });
+  }
+}
+function init_update_callbacks(context) {
+  var l = (
+    /** @type {ComponentContextLegacy} */
+    context.l
+  );
+  return l.u ??= { a: [], b: [], m: [] };
+}
+
+// node_modules/svelte/src/store/utils.js
+function subscribe_to_store(store, run2, invalidate) {
+  if (store == null) {
+    run2(void 0);
+    if (invalidate) invalidate(void 0);
+    return noop;
+  }
+  const unsub = untrack(
+    () => store.subscribe(
+      run2,
+      // @ts-expect-error
+      invalidate
+    )
+  );
+  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+}
+
+// node_modules/svelte/src/store/shared/index.js
+var subscriber_queue = [];
+function writable(value, start = noop) {
+  let stop = null;
+  const subscribers = /* @__PURE__ */ new Set();
+  function set2(new_value) {
+    if (safe_not_equal(value, new_value)) {
+      value = new_value;
+      if (stop) {
+        const run_queue = !subscriber_queue.length;
+        for (const subscriber of subscribers) {
+          subscriber[1]();
+          subscriber_queue.push(subscriber, value);
+        }
+        if (run_queue) {
+          for (let i = 0; i < subscriber_queue.length; i += 2) {
+            subscriber_queue[i][0](subscriber_queue[i + 1]);
+          }
+          subscriber_queue.length = 0;
+        }
+      }
+    }
+  }
+  function update2(fn) {
+    set2(fn(
+      /** @type {T} */
+      value
+    ));
+  }
+  function subscribe(run2, invalidate = noop) {
+    const subscriber = [run2, invalidate];
+    subscribers.add(subscriber);
+    if (subscribers.size === 1) {
+      stop = start(set2, update2) || noop;
+    }
+    run2(
+      /** @type {T} */
+      value
+    );
+    return () => {
+      subscribers.delete(subscriber);
+      if (subscribers.size === 0 && stop) {
+        stop();
+        stop = null;
+      }
+    };
+  }
+  return { set: set2, update: update2, subscribe };
+}
+function get2(store) {
+  let value;
+  subscribe_to_store(store, (_) => value = _)();
+  return value;
+}
 
 // node_modules/svelte/src/internal/client/reactivity/store.js
 var is_store_binding = false;
 var IS_UNMOUNTED = Symbol();
+function store_get(store, store_name, stores) {
+  const entry = stores[store_name] ??= {
+    store: null,
+    source: mutable_source(void 0),
+    unsubscribe: noop
+  };
+  if (entry.store !== store && !(IS_UNMOUNTED in stores)) {
+    entry.unsubscribe();
+    entry.store = store ?? null;
+    if (store == null) {
+      entry.source.v = void 0;
+      entry.unsubscribe = noop;
+    } else {
+      var is_synchronous_callback = true;
+      entry.unsubscribe = subscribe_to_store(store, (v) => {
+        if (is_synchronous_callback) {
+          entry.source.v = v;
+        } else {
+          set(entry.source, v);
+        }
+      });
+      is_synchronous_callback = false;
+    }
+  }
+  if (store && IS_UNMOUNTED in stores) {
+    return get2(store);
+  }
+  return get(entry.source);
+}
+function setup_stores() {
+  const stores = {};
+  function cleanup() {
+    teardown(() => {
+      for (var store_name in stores) {
+        const ref = stores[store_name];
+        ref.unsubscribe();
+      }
+      define_property(stores, IS_UNMOUNTED, {
+        enumerable: false,
+        value: true
+      });
+    });
+  }
+  return [stores, cleanup];
+}
 function capture_store_binding(fn) {
   var previous_is_store_binding = is_store_binding;
   try {
@@ -2729,16 +4045,237 @@ function create_custom_element(Component, props_definition, slots, exports, use_
   return Class;
 }
 
+// node_modules/svelte/src/internal/shared/validate.js
+function validate_store(store, name) {
+  if (store != null && typeof store.subscribe !== "function") {
+    store_invalid_shape(name);
+  }
+}
+
+// Resources/Private/JavaScript/store.svelte.js
+import Icons from "@typo3/backend/icons.js";
+var iconStore = writable({});
+var getIcon = async (iconName) => {
+  const store = get2(iconStore);
+  if (store[iconName]) {
+    return;
+  }
+  Icons.getIcon(iconName, Icons.sizes.small).then((html2) => {
+    iconStore.update((store2) => {
+      store2[iconName] = html2;
+      return store2;
+    });
+  });
+};
+
 // Resources/Private/JavaScript/IconWizard.svelte
+import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
-var root = add_locations(template(`<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos ea pariatur perspiciatis quas ratione reiciendis soluta temporibus velit? Amet distinctio nesciunt nobis non numquam optio perspiciatis tenetur veniam. Explicabo, molestias?</div>`), IconWizard[FILENAME], [[7, 0]]);
+var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[52, 16, [[53, 20]]]]);
+var on_input = (e) => {
+};
+var on_click = (_, filterQuery) => {
+  set(filterQuery, "");
+};
+var root_4 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[84, 28, [[86, 32]]]]);
+var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[80, 12, [[81, 16]]]]);
+var root_6 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[97, 20]]);
+var root_7 = add_locations(template(`<img class="img-thumbnail">`), IconWizard[FILENAME], [[101, 24]]);
+var root_5 = add_locations(template(`<!> <div class="icon-grid svelte-1irk9pa"></div>`, 1), IconWizard[FILENAME], [[99, 16]]);
+var root = add_locations(template(`<div class="px-4 py-4"><div class="d-flex justify-content-between align-items-center mb-4"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
+  [
+    48,
+    0,
+    [
+      [
+        49,
+        4,
+        [
+          [50, 8],
+          [
+            62,
+            8,
+            [
+              [
+                63,
+                12,
+                [[64, 16], [65, 16], [71, 16]]
+              ]
+            ]
+          ]
+        ]
+      ],
+      [78, 4, [[94, 8]]]
+    ]
+  ]
+]);
+var $$css = {
+  hash: "svelte-1irk9pa",
+  code: "\n    .icon-grid.svelte-1irk9pa {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n    }\n"
+};
 function IconWizard($$anchor, $$props) {
   check_target(new.target);
   push($$props, true, IconWizard);
+  append_styles($$anchor, $$css);
+  const [$$stores, $$cleanup] = setup_stores();
+  const $iconStore = () => (validate_store(iconStore, "iconStore"), store_get(iconStore, "$iconStore", $$stores));
   let itemFormElName = prop($$props, "itemFormElName", 7), itemFormElValue = prop($$props, "itemFormElValue", 7), wizardConfig = prop($$props, "wizardConfig", 7);
+  let tabs = state(proxy([]));
+  let activeTab = state(0);
+  let folders = user_derived(() => get(tabs)[get(activeTab)]?.folders ? Object.entries(get(tabs)[get(activeTab)].folders).map(([name, icons]) => {
+    return [
+      name,
+      icons.filter((path) => {
+        return nameFromPath(path).toLowerCase().includes(get(filterQuery).toLowerCase());
+      }),
+      name
+    ];
+  }) : []);
+  let filterQuery = state("");
+  onMount(() => {
+    getIcon("actions-close");
+    getIcon("actions-filter");
+    fetchIcons();
+  });
+  function fetchIcons() {
+    const body = JSON.parse(wizardConfig());
+    new AjaxRequest(TYPO3.settings.ajaxUrls.icon_selection).post(body).then(async function(response) {
+      const resolved = await response.resolve();
+      set(tabs, resolved.tabs, true);
+    });
+  }
+  function nameFromPath(path) {
+    return path.split("/").pop().split(".").slice(0, -1).join(".");
+  }
   var div = root();
+  var div_1 = child(div);
+  var ul = child(div_1);
+  each(ul, 21, () => get(tabs), index, ($$anchor2, tab, index2) => {
+    var li = root_1();
+    var a = child(li);
+    a.__click = () => set(activeTab, index2, true);
+    let classes;
+    var text2 = child(a, true);
+    reset(a);
+    reset(li);
+    template_effect(
+      ($0) => {
+        classes = set_class(a, 1, "nav-item nav-link", null, classes, $0);
+        set_attribute(a, "href", `#${get(tab).title ?? ""}`);
+        set_text(text2, get(tab).title);
+      },
+      [
+        () => ({
+          active: strict_equals(get(activeTab), index2)
+        })
+      ]
+    );
+    append($$anchor2, li);
+  });
+  reset(ul);
+  var div_2 = sibling(ul, 2);
+  var div_3 = child(div_2);
+  var span = child(div_3);
+  var node = child(span);
+  html(node, () => $iconStore()["actions-filter"], false, false);
+  reset(span);
+  var input = sibling(span, 2);
+  remove_input_defaults(input);
+  input.__input = [on_input];
+  var button = sibling(input, 2);
+  button.__click = [on_click, filterQuery];
+  var node_1 = child(button);
+  html(node_1, () => $iconStore()["actions-close"], false, false);
+  reset(button);
+  reset(div_3);
+  reset(div_2);
+  reset(div_1);
+  var div_4 = sibling(div_1, 2);
+  var node_2 = child(div_4);
+  {
+    var consequent_1 = ($$anchor2) => {
+      var div_5 = root_2();
+      var div_6 = child(div_5);
+      each(div_6, 21, () => get(folders), index, ($$anchor3, $$item) => {
+        let name = () => get($$item)[0];
+        name();
+        let icons = () => get($$item)[1];
+        icons();
+        var fragment = comment();
+        var node_3 = first_child(fragment);
+        {
+          var consequent = ($$anchor4) => {
+            var a_1 = root_4();
+            var text_1 = child(a_1);
+            var span_1 = sibling(text_1);
+            var text_2 = child(span_1, true);
+            reset(span_1);
+            reset(a_1);
+            template_effect(() => {
+              set_attribute(a_1, "href", `#tab${get(activeTab) ?? ""}-${name() ?? ""}`);
+              set_text(text_1, `${name() ?? ""} `);
+              set_text(text_2, icons().length);
+            });
+            append($$anchor4, a_1);
+          };
+          if_block(node_3, ($$render) => {
+            if (icons().length > 0) $$render(consequent);
+          });
+        }
+        append($$anchor3, fragment);
+      });
+      reset(div_6);
+      reset(div_5);
+      append($$anchor2, div_5);
+    };
+    if_block(node_2, ($$render) => {
+      if (get(folders).length > 1) $$render(consequent_1);
+    });
+  }
+  var div_7 = sibling(node_2, 2);
+  each(div_7, 21, () => get(folders), index, ($$anchor2, $$item) => {
+    let name = () => get($$item)[0];
+    name();
+    let icons = () => get($$item)[1];
+    icons();
+    var fragment_1 = root_5();
+    var node_4 = first_child(fragment_1);
+    {
+      var consequent_2 = ($$anchor3) => {
+        var h3 = root_6();
+        var text_3 = child(h3, true);
+        reset(h3);
+        template_effect(() => {
+          set_attribute(h3, "id", `tab${get(activeTab) ?? ""}-${name() ?? ""}`);
+          set_text(text_3, name());
+        });
+        append($$anchor3, h3);
+      };
+      if_block(node_4, ($$render) => {
+        if (get(folders).length > 1 && icons().length > 0) $$render(consequent_2);
+      });
+    }
+    var div_8 = sibling(node_4, 2);
+    each(div_8, 21, icons, index, ($$anchor3, path) => {
+      var img = root_7();
+      template_effect(
+        ($0) => {
+          set_attribute(img, "src", get(path));
+          set_attribute(img, "alt", $0);
+        },
+        [() => nameFromPath(get(path))]
+      );
+      append($$anchor3, img);
+    });
+    reset(div_8);
+    append($$anchor2, fragment_1);
+  });
+  reset(div_7);
+  reset(div_4);
+  reset(div);
+  bind_value(input, () => get(filterQuery), ($$value) => set(filterQuery, $$value));
   append($$anchor, div);
-  return pop({
+  var $$pop = pop({
     get itemFormElName() {
       return itemFormElName();
     },
@@ -2762,7 +4299,10 @@ function IconWizard($$anchor, $$props) {
     },
     ...legacy_api()
   });
+  $$cleanup();
+  return $$pop;
 }
+delegate(["click", "input"]);
 customElements.define("bw-icon-wizard", create_custom_element(
   IconWizard,
   {
