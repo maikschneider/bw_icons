@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\Form\Element;
 
+use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
@@ -16,20 +17,15 @@ class IconSelection extends AbstractFormElement
 {
     public function render(): array
     {
-        $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
         $resultArray = $this->initializeResultArray();
         $fieldId = StringUtility::getUniqueId('formengine-input-');
 
         $fieldWizardResult = $this->renderFieldWizard();
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
-        $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
-        $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
-        $wizardConfig = $parameterArray['fieldConf']['config'];
-        $wizardConfig['typo3Version'] = $version['version_main'];
-        $iconProviders = $wizardConfig['iconProviders'] ?? '';
+        $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
+        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
         $styleSheets = $helperUtil->getStyleSheets();
         $styleSheetPaths = array_map(static function ($styleSheet) {
             return Environment::getPublicPath() . $styleSheet;

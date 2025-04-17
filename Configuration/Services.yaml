@@ -8,6 +8,9 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
+  Blueways\BwIcons\Controller\IconSelectionController:
+    public: true
+
   Blueways\BwIcons\EventListener\BeforeJavaScriptsRenderingEventListener:
     tags:
       - name: 'event.listener'

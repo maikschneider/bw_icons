@@ -2,36 +2,35 @@
 
 namespace Blueways\BwIcons\Controller;
 
+use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Utility\HelperUtility;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
-class IconSelectionController extends ActionController
+class IconSelectionController
 {
-    public function modalAction(ServerRequestInterface $request, ?Response $response = null): Response
-    {
-        if (null === $response) {
-            $response = new Response();
-        }
+    public function __construct(
+        private ResponseFactoryInterface $responseFactory,
+    ) {
+    }
 
-        $params = $request->getQueryParams();
-        $pid = (int)$params['P']['pid'];
-        $iconProviders = $params['P']['iconProviders'] ?? '';
-        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
+    public function modalAction(ServerRequestInterface $request): ResponseInterface
+    {
+        $body = $request->getParsedBody();
+        $wizardConfig = WizardConfig::createFromFormPostBody($body);
+
+        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
         $tabs = $helperUtility->getModalTabs();
 
-        /** @var StandaloneView $templateView */
-        $templateView = GeneralUtility::makeInstance(StandaloneView::class);
-        $templateView->setTemplatePathAndFilename('EXT:bw_icons/Resources/Private/Template/Modal.html');
-        $templateView->assign('tabs', $tabs);
-
-        $content = $templateView->render();
-        $response->getBody()->write($content);
-
+        $response = $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'application/json; charset=utf-8');
+        $response->getBody()->write(
+            json_encode(['tabs' => $tabs], JSON_THROW_ON_ERROR),
+        );
         return $response;
     }
 
