@@ -2376,18 +2376,6 @@ function template(content, flags) {
     return clone;
   };
 }
-function comment() {
-  if (hydrating) {
-    assign_nodes(hydrate_node, null);
-    return hydrate_node;
-  }
-  var frag = document.createDocumentFragment();
-  var start = document.createComment("");
-  var anchor = create_text();
-  frag.append(start, anchor);
-  assign_nodes(start, anchor);
-  return frag;
-}
 function append(anchor, dom) {
   if (hydrating) {
     active_effect.nodes_end = hydrate_node;
@@ -4071,47 +4059,47 @@ var getIcon = async (iconName) => {
 // Resources/Private/JavaScript/IconWizard.svelte
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
-var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[52, 16, [[53, 20]]]]);
+var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[49, 16, [[50, 20]]]]);
 var on_input = (e) => {
 };
 var on_click = (_, filterQuery) => {
   set(filterQuery, "");
 };
-var root_4 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[84, 28, [[86, 32]]]]);
-var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[80, 12, [[81, 16]]]]);
-var root_6 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[97, 20]]);
-var root_7 = add_locations(template(`<img class="img-thumbnail">`), IconWizard[FILENAME], [[101, 24]]);
-var root_5 = add_locations(template(`<!> <div class="icon-grid svelte-1irk9pa"></div>`, 1), IconWizard[FILENAME], [[99, 16]]);
+var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[80, 24, [[82, 28]]]]);
+var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[77, 12, [[78, 16]]]]);
+var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[92, 20]]);
+var root_6 = add_locations(template(`<img class="img-thumbnail">`), IconWizard[FILENAME], [[96, 24]]);
+var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-tsn2rl"></div>`, 1), IconWizard[FILENAME], [[94, 16]]);
 var root = add_locations(template(`<div class="px-4 py-4"><div class="d-flex justify-content-between align-items-center mb-4"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
   [
-    48,
+    45,
     0,
     [
       [
-        49,
+        46,
         4,
         [
-          [50, 8],
+          [47, 8],
           [
-            62,
+            59,
             8,
             [
               [
-                63,
+                60,
                 12,
-                [[64, 16], [65, 16], [71, 16]]
+                [[61, 16], [62, 16], [68, 16]]
               ]
             ]
           ]
         ]
       ],
-      [78, 4, [[94, 8]]]
+      [75, 4, [[89, 8]]]
     ]
   ]
 ]);
 var $$css = {
-  hash: "svelte-1irk9pa",
-  code: "\n    .icon-grid.svelte-1irk9pa {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n    }\n"
+  hash: "svelte-tsn2rl",
+  code: "\n    .icon-grid.svelte-tsn2rl {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n    }\n\n    .icon-grid.svelte-tsn2rl:hover {\n        cursor: pointer;\n        border: 1px solid var(--typo3-form-control-focus-border-color);\n    }\n"
 };
 function IconWizard($$anchor, $$props) {
   check_target(new.target);
@@ -4122,15 +4110,7 @@ function IconWizard($$anchor, $$props) {
   let itemFormElName = prop($$props, "itemFormElName", 7), itemFormElValue = prop($$props, "itemFormElValue", 7), wizardConfig = prop($$props, "wizardConfig", 7);
   let tabs = state(proxy([]));
   let activeTab = state(0);
-  let folders = user_derived(() => get(tabs)[get(activeTab)]?.folders ? Object.entries(get(tabs)[get(activeTab)].folders).map(([name, icons]) => {
-    return [
-      name,
-      icons.filter((path) => {
-        return nameFromPath(path).toLowerCase().includes(get(filterQuery).toLowerCase());
-      }),
-      name
-    ];
-  }) : []);
+  let folders = user_derived(() => get(tabs)[get(activeTab)]?.folders ?? []);
   let filterQuery = state("");
   onMount(() => {
     getIcon("actions-close");
@@ -4143,9 +4123,6 @@ function IconWizard($$anchor, $$props) {
       const resolved = await response.resolve();
       set(tabs, resolved.tabs, true);
     });
-  }
-  function nameFromPath(path) {
-    return path.split("/").pop().split(".").slice(0, -1).join(".");
   }
   var div = root();
   var div_1 = child(div);
@@ -4193,82 +4170,70 @@ function IconWizard($$anchor, $$props) {
   var div_4 = sibling(div_1, 2);
   var node_2 = child(div_4);
   {
-    var consequent_1 = ($$anchor2) => {
+    var consequent = ($$anchor2) => {
       var div_5 = root_2();
       var div_6 = child(div_5);
-      each(div_6, 21, () => get(folders), index, ($$anchor3, $$item) => {
-        let name = () => get($$item)[0];
-        name();
-        let icons = () => get($$item)[1];
-        icons();
-        var fragment = comment();
-        var node_3 = first_child(fragment);
-        {
-          var consequent = ($$anchor4) => {
-            var a_1 = root_4();
-            var text_1 = child(a_1);
-            var span_1 = sibling(text_1);
-            var text_2 = child(span_1, true);
-            reset(span_1);
-            reset(a_1);
-            template_effect(() => {
-              set_attribute(a_1, "href", `#tab${get(activeTab) ?? ""}-${name() ?? ""}`);
-              set_text(text_1, `${name() ?? ""} `);
-              set_text(text_2, icons().length);
-            });
-            append($$anchor4, a_1);
-          };
-          if_block(node_3, ($$render) => {
-            if (icons().length > 0) $$render(consequent);
-          });
-        }
-        append($$anchor3, fragment);
+      each(div_6, 21, () => get(folders), index, ($$anchor3, folder) => {
+        var a_1 = root_3();
+        var text_1 = child(a_1);
+        var span_1 = sibling(text_1);
+        var text_2 = child(span_1, true);
+        reset(span_1);
+        reset(a_1);
+        template_effect(
+          ($0) => {
+            set_attribute(a_1, "href", `#tab${get(activeTab) ?? ""}-${get(folder).title ?? ""}`);
+            set_text(text_1, `${get(folder).title ?? ""} `);
+            set_text(text_2, $0);
+          },
+          [
+            () => Object.entries(get(folder).icons).length
+          ]
+        );
+        append($$anchor3, a_1);
       });
       reset(div_6);
       reset(div_5);
       append($$anchor2, div_5);
     };
     if_block(node_2, ($$render) => {
-      if (get(folders).length > 1) $$render(consequent_1);
+      if (get(folders).length > 1) $$render(consequent);
     });
   }
   var div_7 = sibling(node_2, 2);
-  each(div_7, 21, () => get(folders), index, ($$anchor2, $$item) => {
-    let name = () => get($$item)[0];
-    name();
-    let icons = () => get($$item)[1];
-    icons();
-    var fragment_1 = root_5();
-    var node_4 = first_child(fragment_1);
+  each(div_7, 21, () => get(folders), index, ($$anchor2, folder) => {
+    var fragment = root_4();
+    var node_3 = first_child(fragment);
     {
-      var consequent_2 = ($$anchor3) => {
-        var h3 = root_6();
+      var consequent_1 = ($$anchor3) => {
+        var h3 = root_5();
         var text_3 = child(h3, true);
         reset(h3);
         template_effect(() => {
-          set_attribute(h3, "id", `tab${get(activeTab) ?? ""}-${name() ?? ""}`);
-          set_text(text_3, name());
+          set_attribute(h3, "id", `tab${get(activeTab) ?? ""}-${get(folder).title ?? ""}`);
+          set_text(text_3, get(folder).title);
         });
         append($$anchor3, h3);
       };
-      if_block(node_4, ($$render) => {
-        if (get(folders).length > 1 && icons().length > 0) $$render(consequent_2);
+      if_block(node_3, ($$render) => {
+        if (get(folders).length > 1) $$render(consequent_1);
       });
     }
-    var div_8 = sibling(node_4, 2);
-    each(div_8, 21, icons, index, ($$anchor3, path) => {
-      var img = root_7();
-      template_effect(
-        ($0) => {
-          set_attribute(img, "src", get(path));
-          set_attribute(img, "alt", $0);
-        },
-        [() => nameFromPath(get(path))]
-      );
+    var div_8 = sibling(node_3, 2);
+    each(div_8, 21, () => Object.entries(get(folder).icons), index, ($$anchor3, $$item) => {
+      let index2 = () => get($$item)[0];
+      index2();
+      let icon = () => get($$item)[1];
+      icon();
+      var img = root_6();
+      template_effect(() => {
+        set_attribute(img, "src", icon().imgSrc);
+        set_attribute(img, "alt", icon().title);
+      });
       append($$anchor3, img);
     });
     reset(div_8);
-    append($$anchor2, fragment_1);
+    append($$anchor2, fragment);
   });
   reset(div_7);
   reset(div_4);

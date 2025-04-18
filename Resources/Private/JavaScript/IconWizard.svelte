@@ -9,11 +9,7 @@
 
     let tabs = $state([])
     let activeTab = $state(0)
-    let folders = $derived(tabs[activeTab]?.folders ? Object.entries(tabs[activeTab].folders).map(([name, icons]) => {
-        return [name, icons.filter(path => {
-            return nameFromPath(path).toLowerCase().includes(filterQuery.toLowerCase())
-        }), name]
-    }) : [])
+    let folders = $derived(tabs[activeTab]?.folders ?? [])
     let filterQuery = $state('')
 
     onMount(() => {
@@ -31,10 +27,6 @@
                 tabs = resolved.tabs;
             });
     }
-
-    function nameFromPath(path) {
-        return path.split('/').pop().split('.').slice(0, -1).join('.')
-    }
 </script>
 
 <style>
@@ -42,6 +34,11 @@
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         gap: 0.5rem;
+    }
+
+    .icon-grid:hover {
+        cursor: pointer;
+        border: 1px solid var(--typo3-form-control-focus-border-color);
     }
 </style>
 
@@ -79,26 +76,24 @@
         {#if folders.length > 1 }
             <div class="flex-shrink-0">
                 <div class="list-group">
-                    {#each folders as [name, icons]}
-                        {#if icons.length > 0}
-                            <a href="#tab{activeTab}-{name}" class="list-group-item d-flex justify-content-between gap-4">
-                                {name}
-                                <span class="badge">{icons.length}</span>
-                            </a>
-                        {/if}
+                    {#each folders as folder}
+                        <a href="#tab{activeTab}-{folder.title}" class="list-group-item d-flex justify-content-between gap-4">
+                            {folder.title}
+                            <span class="badge">{Object.entries(folder.icons).length}</span>
+                        </a>
                     {/each}
                 </div>
             </div>
         {/if}
 
         <div class="w-100">
-            {#each folders as [name, icons]}
-                {#if folders.length > 1 && icons.length > 0 }
-                    <h3 id="tab{activeTab}-{name}" class="pt-4 mb-4">{name}</h3>
+            {#each folders as folder}
+                {#if folders.length > 1}
+                    <h3 id="tab{activeTab}-{folder.title}" class="pt-4 mb-4">{folder.title}</h3>
                 {/if}
                 <div class="icon-grid">
-                    {#each icons as path}
-                        <img src="{path}" alt={nameFromPath(path)} class="img-thumbnail" />
+                    {#each Object.entries(folder.icons) as [index, icon]}
+                        <img src="{icon.imgSrc}" alt={icon.title} class="img-thumbnail" />
                     {/each}
                 </div>
             {/each}

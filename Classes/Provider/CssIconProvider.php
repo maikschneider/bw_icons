@@ -479,4 +479,9 @@ class CssIconProvider extends AbstractIconProvider
         $cssContent = $cssDocument->render(OutputFormat::createCompact());
         GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
     }
+
+    public function getWizardFolders(): array
+    {
+        return [];
+    }
 }

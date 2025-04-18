@@ -24,7 +24,7 @@ class IconSelectionController
         $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
         $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
-        $tabs = $helperUtility->getModalTabs();
+        $tabs = $helperUtility->getWizardTabs();
 
         $response = $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'application/json; charset=utf-8');

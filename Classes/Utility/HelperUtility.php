@@ -3,6 +3,7 @@
 namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
+use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
 use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Core\Cache\CacheManager;
@@ -16,7 +17,7 @@ class HelperUtility
     {
     }
 
-    public function getModalTabs(): array
+    public function getWizardTabs(): array
     {
         $cacheIdentifier = $this->wizardConfig->getCacheIdentifier();
         $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('bwicons_conf');
@@ -28,11 +29,10 @@ class HelperUtility
         $tabs = [];
         foreach ($this->getAllProvider() as $provider) {
             if (empty($this->wizardConfig->iconProviderClasses) || in_array($provider->getId(), $this->wizardConfig->iconProviderClasses, true)) {
-                $tab = [];
-                $tab['id'] = $provider->getId();
-                $tab['title'] = $provider->getTitle();
-                $tab['folders'] = $provider->getIcons();
-                $tab['markup'] = $provider->getOptions()['markup'] ?? '';
+                $tab = new WizardTab();
+                $tab->id = $provider->getId();
+                $tab->title = $provider->getTitle();
+                $tab->folders = $provider->getWizardFolders();
 
                 $tabs[] = $tab;
             }
