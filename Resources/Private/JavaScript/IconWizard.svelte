@@ -9,7 +9,15 @@
 
     let tabs = $state([])
     let activeTab = $state(0)
-    let folders = $derived(tabs[activeTab]?.folders ?? [])
+    let unfilteredFolders = $derived(tabs[activeTab]?.folders ?? [])
+    let folders = $derived(unfilteredFolders.map(folder => {
+        return {
+            ...folder,
+            icons: Object.entries(folder.icons).filter(([key, icon]) => {
+                return icon.title.toLowerCase().includes(filterQuery.toLowerCase())
+            })
+        }
+    }))
     let filterQuery = $state('')
 
     onMount(() => {
@@ -88,11 +96,11 @@
 
         <div class="w-100">
             {#each folders as folder}
-                {#if folders.length > 1}
+                {#if folders.length > 1 && folder.icons.length > 0}
                     <h3 id="tab{activeTab}-{folder.title}" class="pt-4 mb-4">{folder.title}</h3>
                 {/if}
                 <div class="icon-grid">
-                    {#each Object.entries(folder.icons) as [index, icon]}
+                    {#each folder.icons as [index, icon]}
                         <img src="{icon.imgSrc}" alt={icon.title} class="img-thumbnail" />
                     {/each}
                 </div>

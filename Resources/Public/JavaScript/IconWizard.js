@@ -4059,41 +4059,41 @@ var getIcon = async (iconName) => {
 // Resources/Private/JavaScript/IconWizard.svelte
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
-var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[49, 16, [[50, 20]]]]);
+var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[57, 16, [[58, 20]]]]);
 var on_input = (e) => {
 };
 var on_click = (_, filterQuery) => {
   set(filterQuery, "");
 };
-var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[80, 24, [[82, 28]]]]);
-var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[77, 12, [[78, 16]]]]);
-var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[92, 20]]);
-var root_6 = add_locations(template(`<img class="img-thumbnail">`), IconWizard[FILENAME], [[96, 24]]);
-var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-tsn2rl"></div>`, 1), IconWizard[FILENAME], [[94, 16]]);
+var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[88, 24, [[90, 28]]]]);
+var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[85, 12, [[86, 16]]]]);
+var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[100, 20]]);
+var root_6 = add_locations(template(`<img class="img-thumbnail">`), IconWizard[FILENAME], [[104, 24]]);
+var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-tsn2rl"></div>`, 1), IconWizard[FILENAME], [[102, 16]]);
 var root = add_locations(template(`<div class="px-4 py-4"><div class="d-flex justify-content-between align-items-center mb-4"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
   [
-    45,
+    53,
     0,
     [
       [
-        46,
+        54,
         4,
         [
-          [47, 8],
+          [55, 8],
           [
-            59,
+            67,
             8,
             [
               [
-                60,
+                68,
                 12,
-                [[61, 16], [62, 16], [68, 16]]
+                [[69, 16], [70, 16], [76, 16]]
               ]
             ]
           ]
         ]
       ],
-      [75, 4, [[89, 8]]]
+      [83, 4, [[97, 8]]]
     ]
   ]
 ]);
@@ -4110,7 +4110,15 @@ function IconWizard($$anchor, $$props) {
   let itemFormElName = prop($$props, "itemFormElName", 7), itemFormElValue = prop($$props, "itemFormElValue", 7), wizardConfig = prop($$props, "wizardConfig", 7);
   let tabs = state(proxy([]));
   let activeTab = state(0);
-  let folders = user_derived(() => get(tabs)[get(activeTab)]?.folders ?? []);
+  let unfilteredFolders = user_derived(() => get(tabs)[get(activeTab)]?.folders ?? []);
+  let folders = user_derived(() => get(unfilteredFolders).map((folder) => {
+    return {
+      ...folder,
+      icons: Object.entries(folder.icons).filter(([key, icon]) => {
+        return icon.title.toLowerCase().includes(get(filterQuery).toLowerCase());
+      })
+    };
+  }));
   let filterQuery = state("");
   onMount(() => {
     getIcon("actions-close");
@@ -4216,11 +4224,11 @@ function IconWizard($$anchor, $$props) {
         append($$anchor3, h3);
       };
       if_block(node_3, ($$render) => {
-        if (get(folders).length > 1) $$render(consequent_1);
+        if (get(folders).length > 1 && get(folder).icons.length > 0) $$render(consequent_1);
       });
     }
     var div_8 = sibling(node_3, 2);
-    each(div_8, 21, () => Object.entries(get(folder).icons), index, ($$anchor3, $$item) => {
+    each(div_8, 21, () => get(folder).icons, index, ($$anchor3, $$item) => {
       let index2 = () => get($$item)[0];
       index2();
       let icon = () => get($$item)[1];
