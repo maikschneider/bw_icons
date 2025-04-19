@@ -19,6 +19,7 @@
         }
     }))
     let filterQuery = $state('')
+    let selectedIcon = $state(null)
 
     onMount(() => {
         getIcon('actions-close');
@@ -44,9 +45,20 @@
         gap: 0.5rem;
     }
 
-    .icon-grid:hover {
+    .icon-grid-item {
+        border-radius: 2px;
+        padding: 2px;
         cursor: pointer;
-        border: 1px solid var(--typo3-form-control-focus-border-color);
+    }
+
+    .icon-grid-item:hover {
+        box-shadow: 0 0 0 2px light-dark(var(--token-color-blue-75), var(--token-color-blue-55))
+    }
+
+    .icon-grid-item.active {
+        cursor: pointer;
+        box-shadow: 0 0 0 2px light-dark(var(--token-color-blue-75), var(--token-color-blue-55));
+        background-color: light-dark(var(--token-color-blue-75), var(--token-color-blue-55));
     }
 </style>
 
@@ -101,7 +113,13 @@
                 {/if}
                 <div class="icon-grid">
                     {#each folder.icons as [index, icon]}
-                        <img src="{icon.imgSrc}" alt={icon.title} class="img-thumbnail" />
+                        <a
+                            href="#{icon.title}" class:active={selectedIcon === icon} class="icon-grid-item" onclick={(e) => {
+                            e.preventDefault();
+                            selectedIcon = icon;
+                        }}>
+                            <img src={icon.imgSrc} alt={icon.title} class="img-thumbnail" loading="lazy" />
+                        </a>
                     {/each}
                 </div>
             {/each}

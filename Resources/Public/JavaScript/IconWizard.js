@@ -4059,47 +4059,51 @@ var getIcon = async (iconName) => {
 // Resources/Private/JavaScript/IconWizard.svelte
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
-var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[57, 16, [[58, 20]]]]);
+var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[69, 16, [[70, 20]]]]);
 var on_input = (e) => {
 };
 var on_click = (_, filterQuery) => {
   set(filterQuery, "");
 };
-var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[88, 24, [[90, 28]]]]);
-var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[85, 12, [[86, 16]]]]);
-var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[100, 20]]);
-var root_6 = add_locations(template(`<img class="img-thumbnail">`), IconWizard[FILENAME], [[104, 24]]);
-var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-tsn2rl"></div>`, 1), IconWizard[FILENAME], [[102, 16]]);
+var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[100, 24, [[102, 28]]]]);
+var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group"></div></div>`), IconWizard[FILENAME], [[97, 12, [[98, 16]]]]);
+var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[112, 20]]);
+var on_click_1 = (e, selectedIcon, icon) => {
+  e.preventDefault();
+  set(selectedIcon, icon(), true);
+};
+var root_6 = add_locations(template(`<a><img class="img-thumbnail" loading="lazy"></a>`), IconWizard[FILENAME], [[116, 24, [[121, 28]]]]);
+var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-1fv1p0e"></div>`, 1), IconWizard[FILENAME], [[114, 16]]);
 var root = add_locations(template(`<div class="px-4 py-4"><div class="d-flex justify-content-between align-items-center mb-4"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
   [
-    53,
+    65,
     0,
     [
       [
-        54,
+        66,
         4,
         [
-          [55, 8],
+          [67, 8],
           [
-            67,
+            79,
             8,
             [
               [
-                68,
+                80,
                 12,
-                [[69, 16], [70, 16], [76, 16]]
+                [[81, 16], [82, 16], [88, 16]]
               ]
             ]
           ]
         ]
       ],
-      [83, 4, [[97, 8]]]
+      [95, 4, [[109, 8]]]
     ]
   ]
 ]);
 var $$css = {
-  hash: "svelte-tsn2rl",
-  code: "\n    .icon-grid.svelte-tsn2rl {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n    }\n\n    .icon-grid.svelte-tsn2rl:hover {\n        cursor: pointer;\n        border: 1px solid var(--typo3-form-control-focus-border-color);\n    }\n"
+  hash: "svelte-1fv1p0e",
+  code: "\n    .icon-grid.svelte-1fv1p0e {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n    }\n\n    .icon-grid-item.svelte-1fv1p0e {\n        border-radius: 2px;\n        padding: 2px;\n        cursor: pointer;\n    }\n\n    .icon-grid-item.svelte-1fv1p0e:hover {\n        box-shadow: 0 0 0 2px light-dark(var(--token-color-blue-75), var(--token-color-blue-55))\n    }\n\n    .icon-grid-item.active.svelte-1fv1p0e {\n        cursor: pointer;\n        box-shadow: 0 0 0 2px light-dark(var(--token-color-blue-75), var(--token-color-blue-55));\n        background-color: light-dark(var(--token-color-blue-75), var(--token-color-blue-55));\n    }\n"
 };
 function IconWizard($$anchor, $$props) {
   check_target(new.target);
@@ -4120,6 +4124,7 @@ function IconWizard($$anchor, $$props) {
     };
   }));
   let filterQuery = state("");
+  let selectedIcon = state(null);
   onMount(() => {
     getIcon("actions-close");
     getIcon("actions-filter");
@@ -4233,12 +4238,25 @@ function IconWizard($$anchor, $$props) {
       index2();
       let icon = () => get($$item)[1];
       icon();
-      var img = root_6();
-      template_effect(() => {
-        set_attribute(img, "src", icon().imgSrc);
-        set_attribute(img, "alt", icon().title);
-      });
-      append($$anchor3, img);
+      var a_2 = root_6();
+      let classes_1;
+      a_2.__click = [on_click_1, selectedIcon, icon];
+      var img = child(a_2);
+      reset(a_2);
+      template_effect(
+        ($0) => {
+          set_attribute(a_2, "href", `#${icon().title ?? ""}`);
+          classes_1 = set_class(a_2, 1, "icon-grid-item svelte-1fv1p0e", null, classes_1, $0);
+          set_attribute(img, "src", icon().imgSrc);
+          set_attribute(img, "alt", icon().title);
+        },
+        [
+          () => ({
+            active: strict_equals(get(selectedIcon), icon())
+          })
+        ]
+      );
+      append($$anchor3, a_2);
     });
     reset(div_8);
     append($$anchor2, fragment);
