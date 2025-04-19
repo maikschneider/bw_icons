@@ -39,6 +39,22 @@
 </script>
 
 <style>
+    :root {
+        --bw-hover-color: light-dark(var(--token-color-blue-75), var(--token-color-blue-55));
+        --bw-modal-bg: light-dark(var(--token-color-neutral-3), var(--token-color-neutral-92));
+    }
+
+    .topbar {
+        background: var(--bw-modal-bg);
+        position: sticky;
+        top: 0;
+    }
+
+    .list-group {
+        position: sticky;
+        top: 5.25rem;
+    }
+
     .icon-grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
@@ -52,18 +68,18 @@
     }
 
     .icon-grid-item:hover {
-        box-shadow: 0 0 0 2px light-dark(var(--token-color-blue-75), var(--token-color-blue-55))
+        box-shadow: 0 0 0 2px var(--bw-hover-color)
     }
 
     .icon-grid-item.active {
         cursor: pointer;
-        box-shadow: 0 0 0 2px light-dark(var(--token-color-blue-75), var(--token-color-blue-55));
-        background-color: light-dark(var(--token-color-blue-75), var(--token-color-blue-55));
+        box-shadow: 0 0 0 2px var(--bw-hover-color);
+        background-color: var(--bw-hover-color);
     }
 </style>
 
-<div class="px-4 py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="px-4 pb-4">
+    <div class="d-flex justify-content-between align-items-center py-4 topbar">
         <ul class="nav nav-pills w-100">
             {#each tabs as tab, index}
                 <li role="presentation" class="nav-item">
