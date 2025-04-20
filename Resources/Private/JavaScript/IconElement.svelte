@@ -23,7 +23,7 @@
         const typo3Version = JSON.parse(wizardConfig).typo3Version
 
         Modal.advanced({
-            additionalCssClasses: ['modal-image-manipulation', 'cropper'],
+            additionalCssClasses: ['modal-bw-icon'],
             buttons: [
                 {
                     btnClass: 'btn-default',
