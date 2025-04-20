@@ -72,17 +72,39 @@
         border-bottom-left-radius: var(--typo3-input-border-radius) !important;
         border-top-left-radius: var(--typo3-input-border-radius) !important;
     }
+
+    .form-control {
+        padding: 0;
+        padding-inline-end: 0;
+        min-width: unset;
+        background: light-dark(var(--bs-body-bg), transparent);
+        transition: background-color 0.2s ease;
+    }
+
+    .white-bg {
+        background: var(--bs-body-bg);
+    }
+
+    img {
+        border: 0;
+        box-shadow: none;
+        max-height: 34px;
+    }
+
+    .close {
+        color: #000 !important;
+    }
 </style>
 
 <div class="input-group">
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
     <div class="form-control-clearable-wrapper">
-        <span class="form-control form-control-clearable input">
+        <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon}>
             {#if currentIcon}
                 <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
             {/if}
         </span>
-        <button class="close" onclick={onResetButtonClick}>
+        <button class="close" class:hidden={!currentIcon} onclick={onResetButtonClick}>
             {@html $iconStore['actions-close']}
         </button>
     </div>

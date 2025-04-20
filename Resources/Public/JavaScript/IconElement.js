@@ -2719,6 +2719,57 @@ function append_styles(anchor, css) {
 
 // node_modules/svelte/src/internal/shared/attributes.js
 var whitespace = [..." 	\n\r\f\xA0\v\uFEFF"];
+function to_class(value, hash2, directives) {
+  var classname = value == null ? "" : "" + value;
+  if (hash2) {
+    classname = classname ? classname + " " + hash2 : hash2;
+  }
+  if (directives) {
+    for (var key in directives) {
+      if (directives[key]) {
+        classname = classname ? classname + " " + key : key;
+      } else if (classname.length) {
+        var len = key.length;
+        var a3 = 0;
+        while ((a3 = classname.indexOf(key, a3)) >= 0) {
+          var b3 = a3 + len;
+          if ((a3 === 0 || whitespace.includes(classname[a3 - 1])) && (b3 === classname.length || whitespace.includes(classname[b3]))) {
+            classname = (a3 === 0 ? "" : classname.substring(0, a3)) + classname.substring(b3 + 1);
+          } else {
+            a3 = b3;
+          }
+        }
+      }
+    }
+  }
+  return classname === "" ? null : classname;
+}
+
+// node_modules/svelte/src/internal/client/dom/elements/class.js
+function set_class(dom, is_html, value, hash2, prev_classes, next_classes) {
+  var prev = dom.__className;
+  if (hydrating || prev !== value || prev === void 0) {
+    var next_class_name = to_class(value, hash2, next_classes);
+    if (!hydrating || next_class_name !== dom.getAttribute("class")) {
+      if (next_class_name == null) {
+        dom.removeAttribute("class");
+      } else if (is_html) {
+        dom.className = next_class_name;
+      } else {
+        dom.setAttribute("class", next_class_name);
+      }
+    }
+    dom.__className = value;
+  } else if (next_classes && prev_classes !== next_classes) {
+    for (var key in next_classes) {
+      var is_present = !!next_classes[key];
+      if (prev_classes == null || is_present !== !!prev_classes[key]) {
+        dom.classList.toggle(key, is_present);
+      }
+    }
+  }
+  return next_classes;
+}
 
 // node_modules/svelte/src/internal/client/dom/elements/attributes.js
 var CLASS = Symbol("class");
@@ -4132,22 +4183,22 @@ function onResetButtonClick(e4, currentIcon) {
   e4.preventDefault();
   set(currentIcon, null);
 }
-var root_1 = add_locations(template(`<img class="img-thumbnail" loading="lazy">`), IconElement[FILENAME], [[82, 16]]);
+var root_1 = add_locations(template(`<img class="img-thumbnail svelte-13xzlsz" loading="lazy">`), IconElement[FILENAME], [[104, 16]]);
 var on_click = (e4, onButtonClick) => onButtonClick(e4);
-var root = add_locations(template(`<div class="input-group svelte-1q8a2ub"><input type="hidden"> <div class="form-control-clearable-wrapper"><span class="form-control form-control-clearable input svelte-1q8a2ub"><!></span> <button class="close"><!></button></div> <button class="btn btn-default"><!> </button></div>`), IconElement[FILENAME], [
+var root = add_locations(template(`<div class="input-group svelte-13xzlsz"><input type="hidden"> <div class="form-control-clearable-wrapper"><span><!></span> <button><!></button></div> <button class="btn btn-default"><!> </button></div>`), IconElement[FILENAME], [
   [
-    77,
+    99,
     0,
     [
-      [78, 4],
-      [79, 4, [[80, 8], [85, 8]]],
-      [89, 4]
+      [100, 4],
+      [101, 4, [[102, 8], [107, 8]]],
+      [111, 4]
     ]
   ]
 ]);
 var $$css = {
-  hash: "svelte-1q8a2ub",
-  code: "\n    .input-group.svelte-1q8a2ub {\n        width: 150px;\n    }\n\n    .input.svelte-1q8a2ub {\n        background: none;\n        border-bottom-left-radius: var(--typo3-input-border-radius) !important;\n        border-top-left-radius: var(--typo3-input-border-radius) !important;\n    }\n"
+  hash: "svelte-13xzlsz",
+  code: "\n    .input-group.svelte-13xzlsz {\n        width: 150px;\n    }\n\n    .input.svelte-13xzlsz {\n        background: none;\n        border-bottom-left-radius: var(--typo3-input-border-radius) !important;\n        border-top-left-radius: var(--typo3-input-border-radius) !important;\n    }\n\n    .form-control.svelte-13xzlsz {\n        padding: 0;\n        padding-inline-end: 0;\n        min-width: unset;\n        background: light-dark(var(--bs-body-bg), transparent);\n        transition: background-color 0.2s ease;\n    }\n\n    .white-bg.svelte-13xzlsz {\n        background: var(--bs-body-bg);\n    }\n\n    img.svelte-13xzlsz {\n        border: 0;\n        box-shadow: none;\n        max-height: 34px;\n    }\n\n    .close.svelte-13xzlsz {\n        color: #000 !important;\n    }\n"
 };
 function IconElement($$anchor, $$props) {
   check_target(new.target);
@@ -4204,6 +4255,7 @@ function IconElement($$anchor, $$props) {
   remove_input_defaults(input);
   var div_1 = sibling(input, 2);
   var span = child(div_1);
+  let classes;
   var node = child(span);
   {
     var consequent = ($$anchor2) => {
@@ -4220,6 +4272,7 @@ function IconElement($$anchor, $$props) {
   }
   reset(span);
   var button = sibling(span, 2);
+  let classes_1;
   button.__click = [onResetButtonClick, currentIcon];
   var node_1 = child(button);
   html(node_1, () => $iconStore()["actions-close"], false, false);
@@ -4233,7 +4286,17 @@ function IconElement($$anchor, $$props) {
   text2.nodeValue = ` ${TYPO3.lang["wizard.button"] ?? ""}`;
   reset(button_1);
   reset(div);
-  template_effect(() => set_attribute(input, "name", itemFormElName()));
+  template_effect(
+    ($0, $1) => {
+      set_attribute(input, "name", itemFormElName());
+      classes = set_class(span, 1, "form-control form-control-clearable input text-center svelte-13xzlsz", null, classes, $0);
+      classes_1 = set_class(button, 1, "close svelte-13xzlsz", null, classes_1, $1);
+    },
+    [
+      () => ({ "white-bg": get(currentIcon) }),
+      () => ({ hidden: !get(currentIcon) })
+    ]
+  );
   bind_value(input, itemFormElValue);
   append($$anchor, div);
   var $$pop = pop({
