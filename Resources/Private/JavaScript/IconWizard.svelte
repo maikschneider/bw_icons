@@ -59,6 +59,8 @@
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         gap: 0.5rem;
+        padding-top: 2px;
+        padding-bottom: 2px;
     }
 
     .icon-grid-item {
@@ -84,7 +86,7 @@
             {#each tabs as tab, index}
                 <li role="presentation" class="nav-item">
                     <a
-                        onclick={() => activeTab = index}
+                        onclick={() => {activeTab = index; document.querySelector('.modal-body').scrollTop = 0}}
                         class="nav-item nav-link"
                         class:active={activeTab === index}
                         href="#{tab.title}">{tab.title}</a>

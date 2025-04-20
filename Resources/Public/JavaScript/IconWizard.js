@@ -4059,51 +4059,51 @@ var getIcon = async (iconName) => {
 // Resources/Private/JavaScript/IconWizard.svelte
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
-var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[85, 16, [[86, 20]]]]);
+var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[87, 16, [[88, 20]]]]);
 var on_input = (e) => {
 };
 var on_click = (_, filterQuery) => {
   set(filterQuery, "");
 };
-var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[116, 24, [[118, 28]]]]);
-var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group svelte-1fvfnnb"></div></div>`), IconWizard[FILENAME], [[113, 12, [[114, 16]]]]);
-var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[128, 20]]);
+var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[118, 24, [[120, 28]]]]);
+var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group svelte-nuufr"></div></div>`), IconWizard[FILENAME], [[115, 12, [[116, 16]]]]);
+var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[130, 20]]);
 var on_click_1 = (e, selectedIcon, icon) => {
   e.preventDefault();
   set(selectedIcon, icon(), true);
 };
-var root_6 = add_locations(template(`<a><img class="img-thumbnail" loading="lazy"></a>`), IconWizard[FILENAME], [[132, 24, [[137, 28]]]]);
-var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-1fvfnnb"></div>`, 1), IconWizard[FILENAME], [[130, 16]]);
-var root = add_locations(template(`<div class="px-4 pb-4"><div class="d-flex justify-content-between align-items-center py-4 topbar svelte-1fvfnnb"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
+var root_6 = add_locations(template(`<a><img class="img-thumbnail" loading="lazy"></a>`), IconWizard[FILENAME], [[134, 24, [[139, 28]]]]);
+var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-nuufr"></div>`, 1), IconWizard[FILENAME], [[132, 16]]);
+var root = add_locations(template(`<div class="px-4 pb-4"><div class="d-flex justify-content-between align-items-center py-4 topbar svelte-nuufr"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
   [
-    81,
+    83,
     0,
     [
       [
-        82,
+        84,
         4,
         [
-          [83, 8],
+          [85, 8],
           [
-            95,
+            97,
             8,
             [
               [
-                96,
+                98,
                 12,
-                [[97, 16], [98, 16], [104, 16]]
+                [[99, 16], [100, 16], [106, 16]]
               ]
             ]
           ]
         ]
       ],
-      [111, 4, [[125, 8]]]
+      [113, 4, [[127, 8]]]
     ]
   ]
 ]);
 var $$css = {
-  hash: "svelte-1fvfnnb",
-  code: "\n    :root {\n        --bw-hover-color: light-dark(var(--token-color-blue-75), var(--token-color-blue-55));\n        --bw-modal-bg: light-dark(var(--token-color-neutral-3), var(--token-color-neutral-92));\n    }\n\n    .topbar.svelte-1fvfnnb {\n        background: var(--bw-modal-bg);\n        position: sticky;\n        top: 0;\n    }\n\n    .list-group.svelte-1fvfnnb {\n        position: sticky;\n        top: 5.25rem;\n    }\n\n    .icon-grid.svelte-1fvfnnb {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n    }\n\n    .icon-grid-item.svelte-1fvfnnb {\n        border-radius: 2px;\n        padding: 2px;\n        cursor: pointer;\n    }\n\n    .icon-grid-item.svelte-1fvfnnb:hover {\n        box-shadow: 0 0 0 2px var(--bw-hover-color)\n    }\n\n    .icon-grid-item.active.svelte-1fvfnnb {\n        cursor: pointer;\n        box-shadow: 0 0 0 2px var(--bw-hover-color);\n        background-color: var(--bw-hover-color);\n    }\n"
+  hash: "svelte-nuufr",
+  code: "\n    :root {\n        --bw-hover-color: light-dark(var(--token-color-blue-75), var(--token-color-blue-55));\n        --bw-modal-bg: light-dark(var(--token-color-neutral-3), var(--token-color-neutral-92));\n    }\n\n    .topbar.svelte-nuufr {\n        background: var(--bw-modal-bg);\n        position: sticky;\n        top: 0;\n    }\n\n    .list-group.svelte-nuufr {\n        position: sticky;\n        top: 5.25rem;\n    }\n\n    .icon-grid.svelte-nuufr {\n        display: grid;\n        grid-template-columns: repeat(12, 1fr);\n        gap: 0.5rem;\n        padding-top: 2px;\n        padding-bottom: 2px;\n    }\n\n    .icon-grid-item.svelte-nuufr {\n        border-radius: 2px;\n        padding: 2px;\n        cursor: pointer;\n    }\n\n    .icon-grid-item.svelte-nuufr:hover {\n        box-shadow: 0 0 0 2px var(--bw-hover-color)\n    }\n\n    .icon-grid-item.active.svelte-nuufr {\n        cursor: pointer;\n        box-shadow: 0 0 0 2px var(--bw-hover-color);\n        background-color: var(--bw-hover-color);\n    }\n"
 };
 function IconWizard($$anchor, $$props) {
   check_target(new.target);
@@ -4143,7 +4143,10 @@ function IconWizard($$anchor, $$props) {
   each(ul, 21, () => get(tabs), index, ($$anchor2, tab, index2) => {
     var li = root_1();
     var a = child(li);
-    a.__click = () => set(activeTab, index2, true);
+    a.__click = () => {
+      set(activeTab, index2, true);
+      document.querySelector(".modal-body").scrollTop = 0;
+    };
     let classes;
     var text2 = child(a, true);
     reset(a);
@@ -4246,7 +4249,7 @@ function IconWizard($$anchor, $$props) {
       template_effect(
         ($0) => {
           set_attribute(a_2, "href", `#${icon().title ?? ""}`);
-          classes_1 = set_class(a_2, 1, "icon-grid-item svelte-1fvfnnb", null, classes_1, $0);
+          classes_1 = set_class(a_2, 1, "icon-grid-item svelte-nuufr", null, classes_1, $0);
           set_attribute(img, "src", icon().imgSrc);
           set_attribute(img, "alt", icon().title);
         },
