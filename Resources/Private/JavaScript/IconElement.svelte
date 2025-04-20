@@ -6,15 +6,19 @@
     import {html} from "lit";
     import Modal from '@typo3/backend/modal.js'
 
-    let {itemFormElName, itemFormElValue, wizardConfig} = $props()
+    let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson} = $props()
+    let currentIcon = $state(null)
 
     onMount(() => {
+        currentIcon = currentIconJson ? JSON.parse(currentIconJson) : null
         getIcon('actions-search');
         getIcon('actions-close');
     });
 
     function onModalSave() {
-        console.log('save')
+        currentIcon = window.parent.frames.list_frame.window.SELECTED_ICON ?? null
+        itemFormElValue = currentIcon ? currentIcon.value : ''
+        window.parent.TYPO3.Modal.dismiss()
     }
 
     function onButtonClick(e) {
@@ -54,6 +58,7 @@
 
     function onResetButtonClick(e) {
         e.preventDefault();
+        currentIcon = null
     }
 </script>
 
@@ -72,7 +77,11 @@
 <div class="input-group">
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
     <div class="form-control-clearable-wrapper">
-        <span class="form-control form-control-clearable input">test</span>
+        <span class="form-control form-control-clearable input">
+            {#if currentIcon}
+                <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
+            {/if}
+        </span>
         <button class="close" onclick={onResetButtonClick}>
             {@html $iconStore['actions-close']}
         </button>

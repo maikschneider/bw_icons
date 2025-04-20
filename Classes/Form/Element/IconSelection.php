@@ -3,6 +3,7 @@
 namespace Blueways\BwIcons\Form\Element;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
+use Blueways\BwIcons\Domain\Model\Dto\WizardIcon;
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
@@ -37,6 +38,8 @@ class IconSelection extends AbstractFormElement
         $itemFormElValue = $parameterArray['itemFormElValue'];
         $itemFormElName = $parameterArray['itemFormElName'];
 
+        $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
+
         $html = $this->renderLabel($fieldId);
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
         $html .= '<div class="form-wizards-wrap">';
@@ -45,6 +48,7 @@ class IconSelection extends AbstractFormElement
         $html .= '<bw-icon-element ';
         $html .= 'itemElementValue="' . htmlspecialchars($itemFormElValue, ENT_QUOTES) . '"';
         $html .= 'itemFormElName="' . $itemFormElName . '"';
+        $html .= 'currentIconJson="' . htmlspecialchars(json_encode($currentIcon, JSON_THROW_ON_ERROR)) . '"';
         $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
         $html .= ' />';
         $html .= '</div>';

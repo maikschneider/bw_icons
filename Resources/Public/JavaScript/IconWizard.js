@@ -4059,45 +4059,46 @@ var getIcon = async (iconName) => {
 // Resources/Private/JavaScript/IconWizard.svelte
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 IconWizard[FILENAME] = "Resources/Private/JavaScript/IconWizard.svelte";
-var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[87, 16, [[88, 20]]]]);
+var root_1 = add_locations(template(`<li role="presentation" class="nav-item"><a> </a></li>`), IconWizard[FILENAME], [[88, 16, [[89, 20]]]]);
 var on_input = (e) => {
 };
 var on_click = (_, filterQuery) => {
   set(filterQuery, "");
 };
-var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[118, 24, [[120, 28]]]]);
-var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group svelte-nuufr"></div></div>`), IconWizard[FILENAME], [[115, 12, [[116, 16]]]]);
-var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[130, 20]]);
+var root_3 = add_locations(template(`<a class="list-group-item d-flex justify-content-between gap-4"> <span class="badge"> </span></a>`), IconWizard[FILENAME], [[119, 24, [[121, 28]]]]);
+var root_2 = add_locations(template(`<div class="flex-shrink-0"><div class="list-group svelte-nuufr"></div></div>`), IconWizard[FILENAME], [[116, 12, [[117, 16]]]]);
+var root_5 = add_locations(template(`<h3 class="pt-4 mb-4"> </h3>`), IconWizard[FILENAME], [[131, 20]]);
 var on_click_1 = (e, selectedIcon, icon) => {
   e.preventDefault();
   set(selectedIcon, icon(), true);
+  window.parent.frames.list_frame.window.SELECTED_ICON = icon();
 };
-var root_6 = add_locations(template(`<a><img class="img-thumbnail" loading="lazy"></a>`), IconWizard[FILENAME], [[134, 24, [[139, 28]]]]);
-var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-nuufr"></div>`, 1), IconWizard[FILENAME], [[132, 16]]);
+var root_6 = add_locations(template(`<a><img class="img-thumbnail" loading="lazy"></a>`), IconWizard[FILENAME], [[135, 24, [[141, 28]]]]);
+var root_4 = add_locations(template(`<!> <div class="icon-grid svelte-nuufr"></div>`, 1), IconWizard[FILENAME], [[133, 16]]);
 var root = add_locations(template(`<div class="px-4 pb-4"><div class="d-flex justify-content-between align-items-center py-4 topbar svelte-nuufr"><ul class="nav nav-pills w-100"></ul> <div class="form-control-clearable-wrapper"><div class="input-group"><span class="input-group-text input-group-icon"><!></span> <input placeholder="Filter..." class="form-control form-control-clearable input" type="text"> <button class="close"><!></button></div></div></div> <div class="d-flex gap-4"><!> <div class="w-100"></div></div></div>`), IconWizard[FILENAME], [
   [
-    83,
+    84,
     0,
     [
       [
-        84,
+        85,
         4,
         [
-          [85, 8],
+          [86, 8],
           [
-            97,
+            98,
             8,
             [
               [
-                98,
+                99,
                 12,
-                [[99, 16], [100, 16], [106, 16]]
+                [[100, 16], [101, 16], [107, 16]]
               ]
             ]
           ]
         ]
       ],
-      [113, 4, [[127, 8]]]
+      [114, 4, [[128, 8]]]
     ]
   ]
 ]);
@@ -4126,6 +4127,7 @@ function IconWizard($$anchor, $$props) {
   let filterQuery = state("");
   let selectedIcon = state(null);
   onMount(() => {
+    window.parent.frames.list_frame.window.SELECTED_ICON = null;
     getIcon("actions-close");
     getIcon("actions-filter");
     fetchIcons();

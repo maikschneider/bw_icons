@@ -22,6 +22,7 @@
     let selectedIcon = $state(null)
 
     onMount(() => {
+        window.parent.frames.list_frame.window.SELECTED_ICON = null;
         getIcon('actions-close');
         getIcon('actions-filter');
         fetchIcons();
@@ -135,6 +136,7 @@
                             href="#{icon.title}" class:active={selectedIcon === icon} class="icon-grid-item" onclick={(e) => {
                             e.preventDefault();
                             selectedIcon = icon;
+                            window.parent.frames.list_frame.window.SELECTED_ICON = icon;
                         }}>
                             <img src={icon.imgSrc} alt={icon.title} class="img-thumbnail" loading="lazy" />
                         </a>

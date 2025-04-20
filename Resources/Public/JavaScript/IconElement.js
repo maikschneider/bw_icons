@@ -336,6 +336,30 @@ function reset(node) {
   }
   hydrate_node = node;
 }
+function remove_nodes() {
+  var depth = 0;
+  var node = hydrate_node;
+  while (true) {
+    if (node.nodeType === 8) {
+      var data = (
+        /** @type {Comment} */
+        node.data
+      );
+      if (data === HYDRATION_END) {
+        if (depth === 0) return node;
+        depth -= 1;
+      } else if (data === HYDRATION_START || data === HYDRATION_START_ELSE) {
+        depth += 1;
+      }
+    }
+    var next2 = (
+      /** @type {TemplateNode} */
+      get_next_sibling(node)
+    );
+    node.remove();
+    node = next2;
+  }
+}
 
 // node_modules/svelte/src/internal/client/dev/tracing.js
 var tracing_expressions = null;
@@ -1111,6 +1135,34 @@ function pause_children(effect2, transitions, local) {
     var transparent = (child2.f & EFFECT_TRANSPARENT) !== 0 || (child2.f & BRANCH_EFFECT) !== 0;
     pause_children(child2, transitions, transparent ? local : false);
     child2 = sibling2;
+  }
+}
+function resume_effect(effect2) {
+  resume_children(effect2, true);
+}
+function resume_children(effect2, local) {
+  if ((effect2.f & INERT) === 0) return;
+  effect2.f ^= INERT;
+  if ((effect2.f & CLEAN) === 0) {
+    effect2.f ^= CLEAN;
+  }
+  if (check_dirtiness(effect2)) {
+    set_signal_status(effect2, DIRTY);
+    schedule_effect(effect2);
+  }
+  var child2 = effect2.first;
+  while (child2 !== null) {
+    var sibling2 = child2.next;
+    var transparent = (child2.f & EFFECT_TRANSPARENT) !== 0 || (child2.f & BRANCH_EFFECT) !== 0;
+    resume_children(child2, transparent ? local : false);
+    child2 = sibling2;
+  }
+  if (effect2.transitions !== null) {
+    for (const transition2 of effect2.transitions) {
+      if (transition2.is_global || local) {
+        transition2.in();
+      }
+    }
   }
 }
 
@@ -2467,6 +2519,89 @@ function legacy_api() {
     $on: () => error("$on(...)"),
     $set: () => error("$set(...)")
   };
+}
+
+// node_modules/svelte/src/internal/client/dom/blocks/if.js
+function if_block(node, fn, [root_index, hydrate_index] = [0, 0]) {
+  if (hydrating && root_index === 0) {
+    hydrate_next();
+  }
+  var anchor = node;
+  var consequent_effect = null;
+  var alternate_effect = null;
+  var condition = UNINITIALIZED;
+  var flags = root_index > 0 ? EFFECT_TRANSPARENT : 0;
+  var has_branch = false;
+  const set_branch = (fn2, flag = true) => {
+    has_branch = true;
+    update_branch(flag, fn2);
+  };
+  const update_branch = (new_condition, fn2) => {
+    if (condition === (condition = new_condition)) return;
+    let mismatch = false;
+    if (hydrating && hydrate_index !== -1) {
+      if (root_index === 0) {
+        const data = (
+          /** @type {Comment} */
+          anchor.data
+        );
+        if (data === HYDRATION_START) {
+          hydrate_index = 0;
+        } else if (data === HYDRATION_START_ELSE) {
+          hydrate_index = Infinity;
+        } else {
+          hydrate_index = parseInt(data.substring(1));
+          if (hydrate_index !== hydrate_index) {
+            hydrate_index = condition ? Infinity : -1;
+          }
+        }
+      }
+      const is_else = hydrate_index > root_index;
+      if (!!condition === is_else) {
+        anchor = remove_nodes();
+        set_hydrate_node(anchor);
+        set_hydrating(false);
+        mismatch = true;
+        hydrate_index = -1;
+      }
+    }
+    if (condition) {
+      if (consequent_effect) {
+        resume_effect(consequent_effect);
+      } else if (fn2) {
+        consequent_effect = branch(() => fn2(anchor));
+      }
+      if (alternate_effect) {
+        pause_effect(alternate_effect, () => {
+          alternate_effect = null;
+        });
+      }
+    } else {
+      if (alternate_effect) {
+        resume_effect(alternate_effect);
+      } else if (fn2) {
+        alternate_effect = branch(() => fn2(anchor, [root_index + 1, hydrate_index]));
+      }
+      if (consequent_effect) {
+        pause_effect(consequent_effect, () => {
+          consequent_effect = null;
+        });
+      }
+    }
+    if (mismatch) {
+      set_hydrating(true);
+    }
+  };
+  block(() => {
+    has_branch = false;
+    fn(set_branch);
+    if (!has_branch) {
+      update_branch(null, null);
+    }
+  }, flags);
+  if (hydrating) {
+    anchor = hydrate_node;
+  }
 }
 
 // node_modules/svelte/src/internal/client/dom/blocks/html.js
@@ -3993,18 +4128,20 @@ o4?.({ LitElement: i4 });
 // Resources/Private/JavaScript/IconElement.svelte
 import Modal from "@typo3/backend/modal.js";
 IconElement[FILENAME] = "Resources/Private/JavaScript/IconElement.svelte";
-function onResetButtonClick(e4) {
+function onResetButtonClick(e4, currentIcon) {
   e4.preventDefault();
+  set(currentIcon, null);
 }
+var root_1 = add_locations(template(`<img class="img-thumbnail" loading="lazy">`), IconElement[FILENAME], [[82, 16]]);
 var on_click = (e4, onButtonClick) => onButtonClick(e4);
-var root = add_locations(template(`<div class="input-group svelte-1q8a2ub"><input type="hidden"> <div class="form-control-clearable-wrapper"><span class="form-control form-control-clearable input svelte-1q8a2ub">test</span> <button class="close"><!></button></div> <button class="btn btn-default"><!> </button></div>`), IconElement[FILENAME], [
+var root = add_locations(template(`<div class="input-group svelte-1q8a2ub"><input type="hidden"> <div class="form-control-clearable-wrapper"><span class="form-control form-control-clearable input svelte-1q8a2ub"><!></span> <button class="close"><!></button></div> <button class="btn btn-default"><!> </button></div>`), IconElement[FILENAME], [
   [
-    72,
+    77,
     0,
     [
-      [73, 4],
-      [74, 4, [[75, 8], [76, 8]]],
-      [80, 4]
+      [78, 4],
+      [79, 4, [[80, 8], [85, 8]]],
+      [89, 4]
     ]
   ]
 ]);
@@ -4018,13 +4155,17 @@ function IconElement($$anchor, $$props) {
   append_styles($$anchor, $$css);
   const [$$stores, $$cleanup] = setup_stores();
   const $iconStore = () => (validate_store(iconStore, "iconStore"), store_get(iconStore, "$iconStore", $$stores));
-  let itemFormElName = prop($$props, "itemFormElName", 7), itemFormElValue = prop($$props, "itemFormElValue", 7), wizardConfig = prop($$props, "wizardConfig", 7);
+  let itemFormElName = prop($$props, "itemFormElName", 7), itemFormElValue = prop($$props, "itemFormElValue", 7), wizardConfig = prop($$props, "wizardConfig", 7), currentIconJson = prop($$props, "currentIconJson", 7);
+  let currentIcon = state(null);
   onMount(() => {
+    set(currentIcon, currentIconJson() ? JSON.parse(currentIconJson()) : null, true);
     getIcon("actions-search");
     getIcon("actions-close");
   });
   function onModalSave() {
-    console.log("save");
+    set(currentIcon, window.parent.frames.list_frame.window.SELECTED_ICON ?? null, true);
+    itemFormElValue(get(currentIcon) ? get(currentIcon).value : "");
+    window.parent.TYPO3.Modal.dismiss();
   }
   function onButtonClick(e4) {
     e4.preventDefault();
@@ -4062,17 +4203,33 @@ function IconElement($$anchor, $$props) {
   var input = child(div);
   remove_input_defaults(input);
   var div_1 = sibling(input, 2);
-  var button = sibling(child(div_1), 2);
-  button.__click = [onResetButtonClick];
-  var node = child(button);
-  html(node, () => $iconStore()["actions-close"], false, false);
+  var span = child(div_1);
+  var node = child(span);
+  {
+    var consequent = ($$anchor2) => {
+      var img = root_1();
+      template_effect(() => {
+        set_attribute(img, "src", get(currentIcon).imgSrc);
+        set_attribute(img, "alt", get(currentIcon).title);
+      });
+      append($$anchor2, img);
+    };
+    if_block(node, ($$render) => {
+      if (get(currentIcon)) $$render(consequent);
+    });
+  }
+  reset(span);
+  var button = sibling(span, 2);
+  button.__click = [onResetButtonClick, currentIcon];
+  var node_1 = child(button);
+  html(node_1, () => $iconStore()["actions-close"], false, false);
   reset(button);
   reset(div_1);
   var button_1 = sibling(div_1, 2);
   button_1.__click = [on_click, onButtonClick];
-  var node_1 = child(button_1);
-  html(node_1, () => $iconStore()["actions-search"], false, false);
-  var text2 = sibling(node_1);
+  var node_2 = child(button_1);
+  html(node_2, () => $iconStore()["actions-search"], false, false);
+  var text2 = sibling(node_2);
   text2.nodeValue = ` ${TYPO3.lang["wizard.button"] ?? ""}`;
   reset(button_1);
   reset(div);
@@ -4101,6 +4258,13 @@ function IconElement($$anchor, $$props) {
       wizardConfig($$value);
       flushSync();
     },
+    get currentIconJson() {
+      return currentIconJson();
+    },
+    set currentIconJson($$value) {
+      currentIconJson($$value);
+      flushSync();
+    },
     ...legacy_api()
   });
   $$cleanup();
@@ -4112,7 +4276,8 @@ customElements.define("bw-icon-element", create_custom_element(
   {
     itemFormElName: {},
     itemFormElValue: {},
-    wizardConfig: {}
+    wizardConfig: {},
+    currentIconJson: {}
   },
   [],
   [],
