@@ -32,7 +32,7 @@ const buildConfig = {
         })],
     logLevel: "info",
     sourcemap: true,
-    external: ["@typo3/*", "lit"],
+    external: ["@typo3/*", "@ckeditor", "lit"],
 };
 
 if (process.argv.includes('--build')) {

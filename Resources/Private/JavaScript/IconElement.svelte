@@ -33,14 +33,14 @@
                     btnClass: 'btn-default',
                     name: 'dismiss',
                     icon: 'actions-close',
-                    text: TYPO3.lang['wizard.button.cancel'],
+                    text: TYPO3.lang['button.cancel'],
                     trigger: () => window.parent.TYPO3.Modal.dismiss(),
                 },
                 {
                     btnClass: 'btn-primary',
                     name: 'save',
                     icon: 'actions-document-save',
-                    text: TYPO3.lang['wizard.button.save'],
+                    text: TYPO3.lang['icon_wizard_save'],
                     trigger: onModalSave,
                 },
             ],
@@ -50,7 +50,7 @@
                     itemFormElName="${itemFormElName}"
                     wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
             size: Modal.sizes.large,
-            title: 'title',
+            title: TYPO3.lang['icon_wizard_title'],
             style: typo3Version < 13 ? Modal.styles.dark : null,
             staticBackdrop: true
         })

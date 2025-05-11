@@ -1,4 +1,5 @@
-import {Core, UI} from '@typo3/ckeditor5-bundle.js';
+import * as Core from '@ckeditor/ckeditor5-core';
+import * as UI from '@ckeditor/ckeditor5-ui';
 import Modal from '@typo3/backend/modal.js'
 import {html} from "lit";
 
@@ -82,7 +83,7 @@ class IconPicker extends Core.Plugin {
         <bw-icon-wizard
           class="w-100" itemFormElName="${itemFormElName}" wizardConfig="${wizardConfig}" itemFormElValue=""></bw-icon-wizard>`,
       size: Modal.sizes.large,
-      title: TYPO3.lang['icon_wizard_title'],
+      title: TYPO3.lang['icon_wizard_title'] ?? 'Icon',
       style: typo3Version < 13 ? Modal.styles.dark : null,
       staticBackdrop: true
     })

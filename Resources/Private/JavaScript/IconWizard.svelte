@@ -56,6 +56,10 @@
         top: 5.25rem;
     }
 
+    h3:first-child {
+        padding-top: 0 !important;
+    }
+
     .icon-grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
