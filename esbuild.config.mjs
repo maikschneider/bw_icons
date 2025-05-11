@@ -11,6 +11,7 @@ const buildConfig = {
     entryPoints: [
         "Resources/Private/JavaScript/IconElement.svelte",
         "Resources/Private/JavaScript/IconWizard.svelte",
+        "Resources/Private/JavaScript/IconPicker.js",
     ],
     mainFields: ["svelte", "browser", "module", "main"],
     conditions: ["svelte", "browser"],
@@ -31,7 +32,7 @@ const buildConfig = {
         })],
     logLevel: "info",
     sourcemap: true,
-    external: ["@typo3/*"],
+    external: ["@typo3/*", "lit"],
 };
 
 if (process.argv.includes('--build')) {
