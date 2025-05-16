@@ -3,7 +3,6 @@
 namespace Blueways\BwIcons\Provider;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardFolder;
-use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
 
 abstract class AbstractIconProvider
 {

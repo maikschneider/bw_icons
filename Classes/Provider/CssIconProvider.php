@@ -465,7 +465,8 @@ class CssIconProvider extends AbstractIconProvider
         }, $fontFaces);
     }
 
-    protected static function getFontWeightOfRuleSet(RuleSet $rule): string|float {
+    protected static function getFontWeightOfRuleSet(RuleSet $rule): string|float
+    {
         if (!$rule instanceof DeclarationBlock) {
             return '';
         }

@@ -4,8 +4,6 @@ namespace Blueways\BwIcons\Provider;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardFolder;
 use Blueways\BwIcons\Domain\Model\Dto\WizardIcon;
-use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 

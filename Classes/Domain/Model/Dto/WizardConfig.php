@@ -59,5 +59,4 @@ class WizardConfig
         $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
         return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
     }
-
 }

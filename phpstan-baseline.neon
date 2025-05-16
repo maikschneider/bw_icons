@@ -11,6 +11,11 @@ parameters:
 			path: Classes/Provider/CssIconProvider.php
 
 		-
+			message: "#^Call to function is_float\\(\\) with Sabberworm\\\\CSS\\\\Value\\\\CSSFunction\\|Sabberworm\\\\CSS\\\\Value\\\\LineName\\|Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\|Sabberworm\\\\CSS\\\\Value\\\\Size\\|Sabberworm\\\\CSS\\\\Value\\\\URL will always evaluate to false\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
