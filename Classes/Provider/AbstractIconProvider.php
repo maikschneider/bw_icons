@@ -61,4 +61,9 @@ abstract class AbstractIconProvider
      * @return WizardFolder[]
      */
     abstract public function getWizardFolders(): array;
+
+    public function getStyleSheet(): ?string
+    {
+        return null;
+    }
 }

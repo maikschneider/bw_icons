@@ -12,9 +12,12 @@ class WizardIcon
 
     public string $title = '';
 
-    public function __construct(string $value)
+    public bool $isFontIcon = false;
+
+    public function __construct(string $value, ?bool $isFontIcon = false)
     {
         $this->value = $value;
+        $this->isFontIcon = $isFontIcon;
 
         $this->setImgSrcFromValue();
         $this->setTitleFromValue();

@@ -33,6 +33,7 @@ class HelperUtility
                 $tab->id = $provider->getId();
                 $tab->title = $provider->getTitle();
                 $tab->folders = $provider->getWizardFolders();
+                $tab->stylesheet = $provider->getStyleSheet();
 
                 $tabs[] = $tab;
             }

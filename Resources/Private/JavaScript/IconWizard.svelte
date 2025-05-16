@@ -25,12 +25,22 @@
         window.parent.frames.list_frame.window.SELECTED_ICON = null;
         getIcon('actions-close');
         getIcon('actions-filter');
-        fetchIcons();
+        fetchIcons().then(() => {
+            includeStylesheets();
+        })
     })
 
-    function fetchIcons() {
+    function includeStylesheets() {
+        const stylesheets = tabs.filter(tab => tab.stylesheet).map(tab => {
+            return `<link rel="stylesheet" href="${tab.stylesheet}" />`
+        }).join('\n')
+
+        document.querySelector('bw-icon-wizard').insertAdjacentHTML('beforeend', stylesheets)
+    }
+
+    async function fetchIcons() {
         const body = JSON.parse(wizardConfig)
-        new AjaxRequest(TYPO3.settings.ajaxUrls.icon_selection)
+        return new AjaxRequest(TYPO3.settings.ajaxUrls.icon_selection)
             .post(body)
             .then(async function (response) {
                 const resolved = await response.resolve();
@@ -75,13 +85,25 @@
     }
 
     .icon-grid-item:hover {
-        box-shadow: 0 0 0 2px var(--bw-hover-color)
+        box-shadow: 0 0 0 2px var(--bw-hover-color);
+        text-decoration: none;
     }
 
     .icon-grid-item.active {
         cursor: pointer;
         box-shadow: 0 0 0 2px var(--bw-hover-color);
         background-color: var(--bw-hover-color);
+    }
+
+    .fontIcon {
+        font-size: 36px;
+    }
+
+    span.img-thumbnail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        aspect-ratio: 1;
     }
 </style>
 
@@ -137,12 +159,19 @@
                 <div class="icon-grid">
                     {#each folder.icons as [index, icon]}
                         <a
+                            title="{icon.title}"
                             href="#{icon.title}" class:active={selectedIcon === icon} class="icon-grid-item" onclick={(e) => {
                             e.preventDefault();
                             selectedIcon = icon;
                             window.parent.frames.list_frame.window.SELECTED_ICON = icon;
                         }}>
-                            <img src={icon.imgSrc} alt={icon.title} class="img-thumbnail" loading="lazy" />
+                            {#if icon.isFontIcon}
+                                <span class="img-thumbnail">
+                                    <i class="{icon.value} fontIcon"></i>
+                                </span>
+                            {:else}
+                                <img src={icon.imgSrc} alt={icon.title} class="img-thumbnail" loading="lazy" />
+                            {/if}
                         </a>
                     {/each}
                 </div>

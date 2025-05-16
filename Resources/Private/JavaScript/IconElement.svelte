@@ -91,6 +91,12 @@
         max-height: 34px;
     }
 
+    .fontIcon {
+        font-size: 24px;
+        line-height: 32px;
+        color: var(--bs-body-color)
+    }
+
     .close {
         color: #000 !important;
     }
@@ -101,7 +107,11 @@
     <div class="form-control-clearable-wrapper">
         <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon}>
             {#if currentIcon}
-                <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
+                {#if currentIcon.imgSrc}
+                    <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
+                {:else}
+                    <span class="{currentIcon.value} fontIcon"></span>
+                {/if}
             {/if}
         </span>
         <button class="close" class:hidden={!currentIcon} onclick={onResetButtonClick}>

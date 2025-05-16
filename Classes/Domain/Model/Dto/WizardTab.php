@@ -12,4 +12,6 @@ class WizardTab
      * @var WizardFolder[]
      */
     public array $folders = [];
+
+    public ?string $stylesheet = null;
 }
