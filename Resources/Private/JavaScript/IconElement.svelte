@@ -93,7 +93,7 @@
     .fontIcon {
         font-size: 24px;
         line-height: 32px;
-        color: var(--bs-body-color)
+        color: light-dark(var(--bs-body-color), var(--typo3-input-color));
     }
 
     .close {
@@ -101,10 +101,10 @@
     }
 </style>
 
-<div class="input-group">
+<div class="input-group">{console.log(currentIcon)}
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
     <div class="form-control-clearable-wrapper">
-        <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon}>
+        <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon && !currentIcon.isFontIcon}>
             {#if currentIcon}
                 {#if currentIcon.imgSrc}
                     <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />

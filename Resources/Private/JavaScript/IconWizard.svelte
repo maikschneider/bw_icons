@@ -93,8 +93,9 @@
 
     .icon-grid-item.active {
         cursor: pointer;
-        box-shadow: 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color));
-        background-color: var(--bw-hover-color, var(--typo3-light-primary-color));
+        box-shadow: 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color)), inset 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color));
+        border-radius: 4px;
+        transition: box-shadow 0.1s ease, border-radius 0.1s ease;
     }
 
     .fontIcon {

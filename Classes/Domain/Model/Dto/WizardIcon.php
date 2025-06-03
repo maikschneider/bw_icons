@@ -12,15 +12,16 @@ class WizardIcon
 
     public string $title = '';
 
-    public bool $isFontIcon = false;
+    public ?bool $isFontIcon = null;
 
-    public function __construct(string $value, ?bool $isFontIcon = false)
+    public function __construct(string $value, ?bool $isFontIcon = null)
     {
         $this->value = $value;
         $this->isFontIcon = $isFontIcon;
 
         $this->setImgSrcFromValue();
         $this->setTitleFromValue();
+        $this->guessIsFontIcon();
     }
 
     public function setImgSrcFromValue(): void
@@ -36,5 +37,21 @@ class WizardIcon
     public function setTitleFromValue(): void
     {
         $this->title = pathinfo($this->imgSrc, PATHINFO_FILENAME);
+    }
+
+    private function guessIsFontIcon(): void
+    {
+        if ($this->isFontIcon !== null) {
+            return;
+        }
+
+        if ($this->imgSrc !== '') {
+            $this->isFontIcon = false;
+            return;
+        }
+
+        if (str_contains($this->value, ' ') && !str_contains($this->value, '.')) {
+            $this->isFontIcon = true;
+        }
     }
 }
