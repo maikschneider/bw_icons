@@ -1,9 +1,5 @@
 editor:
   config:
     contentsCss: 'EXT:bw_icons/Resources/Public/Css/Rte.css'
-
-    externalPlugins:
-      IconPicker: { route: 'ajax_icon_selection' }
-
     importModules:
       - '@blueways/bw-icons/IconPicker.js'

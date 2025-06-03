@@ -4,16 +4,16 @@
 		  product-name="bw_icons">
 		<body>
 			<trans-unit id="icon" approved="yes">
-				<source><![CDATA[Icon]]></source>
-				<target><![CDATA[Icon]]></target>
+				<source>Icon</source>
+				<target>Icon</target>
 			</trans-unit>
 			<trans-unit id="icon_wizard_save" approved="yes">
-				<source><![CDATA[Save changes]]></source>
-				<target><![CDATA[speichern]]></target>
+				<source>Save changes</source>
+				<target>Speichern</target>
 			</trans-unit>
 			<trans-unit id="icon_wizard_title" approved="yes">
-				<source><![CDATA[Select icon]]></source>
-				<target><![CDATA[Icon auswählen]]></target>
+				<source>Select icon</source>
+				<target>Icon auswählen</target>
 			</trans-unit>
 			<trans-unit id="callout.no-provider.title">
 				<source />
@@ -21,8 +21,9 @@
 			</trans-unit>
 			<trans-unit id="callout.no-provider.description">
 				<source />
-				<target>
-					<![CDATA[Es wurden keine IconProvider für das aktuelle Formular-Element gefunden. Stellen Sie sicher, dass Sie Provider über PageTS konfiguriert haben.<br />Mehr Informationen finden Sie in der Dokumentation.]]></target>
+				<target>Es wurden keine IconProvider für das aktuelle Formular-Element gefunden. Stellen Sie sicher, dass Sie Provider über
+					PageTS konfiguriert haben. Mehr Informationen finden Sie in der Dokumentation.
+				</target>
 			</trans-unit>
 			<trans-unit id="callout.no-provider.button">
 				<source />
