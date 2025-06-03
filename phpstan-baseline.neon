@@ -1,16 +1,25 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to function is_float\\(\\) with Sabberworm\\\\CSS\\\\Value\\\\CSSFunction\\|Sabberworm\\\\CSS\\\\Value\\\\LineName\\|Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\|Sabberworm\\\\CSS\\\\Value\\\\Size\\|Sabberworm\\\\CSS\\\\Value\\\\URL will always evaluate to false\\.$#"
+			message: '#^Call to function is_float\(\) with Sabberworm\\CSS\\Value\\CSSFunction\|Sabberworm\\CSS\\Value\\LineName\|Sabberworm\\CSS\\Value\\RuleValueList\|Sabberworm\\CSS\\Value\\Size\|Sabberworm\\CSS\\Value\\URL will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
 
 		-
-			message: "#^Cannot call method getString\\(\\) on Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\|string\\.$#"
+			message: '#^Cannot call method getString\(\) on Sabberworm\\CSS\\Value\\RuleValueList\|string\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
+			message: '#^Offset 0 on array\{list\<string\>, list\<non\-empty\-string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
