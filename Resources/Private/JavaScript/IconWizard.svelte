@@ -57,7 +57,7 @@
     }
 
     .topbar {
-        background: var(--bw-modal-bg);
+        background: var(--bw-modal-bg, #FFF);
         position: sticky;
         top: 0;
         z-index: 1;
@@ -87,14 +87,14 @@
     }
 
     .icon-grid-item:hover {
-        box-shadow: 0 0 0 2px var(--bw-hover-color);
+        box-shadow: 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color));
         text-decoration: none;
     }
 
     .icon-grid-item.active {
         cursor: pointer;
-        box-shadow: 0 0 0 2px var(--bw-hover-color);
-        background-color: var(--bw-hover-color);
+        box-shadow: 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color));
+        background-color: var(--bw-hover-color, var(--typo3-light-primary-color));
     }
 
     .fontIcon {
@@ -106,6 +106,7 @@
         justify-content: center;
         align-items: center;
         aspect-ratio: 1;
+        background-color: light-dark(var(--bs-body-bg), var(--typo3-modal-bg));
     }
 
     .loading-spinner {

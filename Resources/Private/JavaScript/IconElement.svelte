@@ -51,7 +51,6 @@
                     wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
             size: Modal.sizes.large,
             title: TYPO3.lang['icon_wizard_title'],
-            style: typo3Version < 13 ? Modal.styles.dark : null,
             staticBackdrop: true
         })
     }
