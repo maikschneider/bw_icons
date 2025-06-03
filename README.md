@@ -121,7 +121,8 @@ imports:
 editor:
     config:
         toolbar:
-            - { name: 'icon', items: [ IconPicker ] }
+            items:
+                - IconPicker
 ```
 
 ## Usage
@@ -190,8 +191,8 @@ create table tx_myext_domain_model_foo (
 'icon_field' => [
         'label' => 'My Icon',
         'config' => [
-        'type' => 'input',
-        'renderType' => 'iconSelection'
+            'type' => 'input',
+            'renderType' => 'iconSelection'
         ]
 ],
 ...
@@ -203,10 +204,10 @@ Optional: you may restrict which icon providers are available:
 'icon_field' => [
         'label' => 'My Icon',
         'config' => [
-        'type' => 'input',
-        'renderType' => 'iconSelection',
-        'iconProviders' => 'fontawesome,otherProviderKey'
-        ]
+            'type' => 'input',
+            'renderType' => 'iconSelection',
+            'iconProviders' => 'fontawesome,otherProviderKey',
+        ],
 ],
 ...
 ```

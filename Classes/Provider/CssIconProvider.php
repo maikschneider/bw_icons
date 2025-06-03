@@ -741,6 +741,15 @@ class CssIconProvider extends AbstractIconProvider
 
                 foreach ($values as $value) {
                     foreach ($value as $part) {
+                        if (is_a($part, RuleValueList::class)) {
+                            $partValues = $part->getListComponents();
+                            foreach ($partValues as $subPart) {
+                                if (is_a($subPart, URL::class) && strpos($subPart->getURL()->getString(), '.' . $fileExtension)) {
+                                    $relativePath = self::cleanFilePath($subPart->getURL()->getString());
+                                    return $tempPath . '/' . $relativePath;
+                                }
+                            }
+                        }
                         if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
                             $relativePath = self::cleanFilePath($part->getURL()->getString());
                             return $tempPath . '/' . $relativePath;

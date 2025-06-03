@@ -22,9 +22,9 @@
 		"ext-json": "*",
 		"ext-libxml": "*",
 		"ext-simplexml": "*",
-		"phenx/php-font-lib": "0.5.4 || 0.5.6",
-		"sabberworm/php-css-parser": "8.4.0",
-		"typo3/cms-core": "^12.4 || ^13.3"
+		"phenx/php-font-lib": "^1.0",
+		"sabberworm/php-css-parser": "^8.4.0",
+		"typo3/cms-core": "^12.4 || ^13.4"
 	},
 	"require-dev": {
 		"armin/editorconfig-cli": "^2.0",
