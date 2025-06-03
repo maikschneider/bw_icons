@@ -1,6 +1,7 @@
 import * as Core from '@ckeditor/ckeditor5-core';
 import * as UI from '@ckeditor/ckeditor5-ui';
 import Modal from '@typo3/backend/modal.js'
+import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 import {html} from "lit";
 
 class IconPicker extends Core.Plugin {
@@ -17,6 +18,8 @@ class IconPicker extends Core.Plugin {
       button.on('execute', () => this.openWizardModal());
       return button;
     });
+
+    this.loadAndIncludeStylesheets();
   }
 
   guessPid() {
@@ -37,29 +40,44 @@ class IconPicker extends Core.Plugin {
       return
     }
 
-    editor.model.change(writer => {
-      const newIcon = writer.createElement('typo3icon', {
-        src: selectedIcon.imgSrc,
-        iconName: selectedIcon.title,
-        iconBaseName: selectedIcon.title,
-        loading: 'lazy',
-        alt: selectedIcon.title,
-        role: 'presentation',
-      });
-      editor.model.insertObject(newIcon);
-    })
+    if (selectedIcon.isFontIcon) {
+      editor.model.change(writer => {
+        const newIcon = writer.createElement('typo3fonticon', {
+          class: selectedIcon.value,
+          iconName: selectedIcon.title,
+          iconBaseName: selectedIcon.title
+        });
+        editor.model.insertObject(newIcon);
+      })
+    } else {
+      editor.model.change(writer => {
+        const newIcon = writer.createElement('typo3icon', {
+          src: selectedIcon.imgSrc,
+          iconName: selectedIcon.title,
+          iconBaseName: selectedIcon.title,
+          loading: 'lazy',
+          alt: selectedIcon.title,
+          role: 'presentation',
+        });
+        editor.model.insertObject(newIcon);
+      })
+    }
 
     this.editor.focus();
+  }
+
+  getWizardConfig() {
+    return {
+      pid: this.guessPid(),
+      iconProviders: []
+    };
   }
 
 
   openWizardModal() {
     const typo3Version = 13
     const itemFormElName = 'typo3icon';
-    const wizardConfig = JSON.stringify({
-      pid: this.guessPid(),
-      iconProviders: []
-    })
+    const wizardConfig = JSON.stringify(this.getWizardConfig());
 
     Modal.advanced({
       additionalCssClasses: ['modal-bw-icon'],
@@ -159,9 +177,7 @@ class IconPicker extends Core.Plugin {
       .elementToElement({
         view: {
           name: 'i',
-          attributes: [
-            'class',
-          ]
+          classes: true
         },
         model: (viewElement, {writer}) => {
           return writer.createElement('typo3fonticon', {
@@ -188,6 +204,21 @@ class IconPicker extends Core.Plugin {
           });
         },
       });
+  }
+
+  async loadAndIncludeStylesheets() {
+    const url = TYPO3.settings.ajaxUrls.icon_stylesheets;
+    const body = this.getWizardConfig()
+
+    new AjaxRequest(url).post(body).then(async response => {
+      const stylesheets = await response.resolve();
+
+      stylesheets.forEach((sheet) => {
+        document.getElementsByTagName("head")[0].insertAdjacentHTML(
+          'beforeend',
+          '<link rel="stylesheet" href="' + sheet + '" />');
+      });
+    });
   }
 }
 

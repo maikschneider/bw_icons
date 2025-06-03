@@ -8,6 +8,7 @@ use Blueways\BwIcons\Utility\SvgReaderUtility;
 use Blueways\BwIcons\Utility\TtfReaderUtility;
 use Sabberworm\CSS\CSSList\Document;
 use Sabberworm\CSS\OutputFormat;
+use Sabberworm\CSS\Parser;
 use Sabberworm\CSS\RuleSet\AtRuleSet;
 use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\RuleSet\RuleSet;
@@ -23,207 +24,189 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 class CssIconProvider extends AbstractIconProvider
 {
+    /**
+     * @var SvgReaderUtility
+     */
+    protected SvgReaderUtility $svgReaderUtility;
+
+    /**
+     * @var TtfReaderUtility
+     */
+    protected TtfReaderUtility $ttfReaderUtility;
+
     public function __construct($options)
     {
         parent::__construct($options);
+        $this->loadDependencies();
+        $this->svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
+        $this->ttfReaderUtility = GeneralUtility::makeInstance(TtfReaderUtility::class);
+    }
 
+    /**
+     * Load CSS parser library if not available
+     */
+    protected function loadDependencies(): void
+    {
         if (!class_exists('\Sabberworm\CSS\CSSList\Document')) {
             @include 'phar://' . ExtensionManagementUtility::extPath('bw_icons') . 'Libraries/sabberworm-php-css-parser.phar/vendor/autoload.php';
         }
     }
 
+    /**
+     * Get the stylesheet URL for frontend usage
+     */
     public function getStyleSheet(): string
     {
         if (!$this->tempFileExist()) {
-            @$this->getIcons();
+            $this->getIcons();
         }
         $tempFile = $this->getCssTempFilePath();
         return '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $tempFile), 0, -1);
     }
 
+    /**
+     * Check if the temporary CSS file exists
+     */
     public function tempFileExist(): bool
     {
-        $tempCssFile = $this->getCssTempFilePath();
-        return file_exists($tempCssFile);
+        return file_exists($this->getCssTempFilePath());
     }
 
+    /**
+     * Get the path to the temporary CSS file
+     */
     public function getCssTempFilePath(): string
     {
-        $tempPath = $this->getTempPath();
-        return $tempPath . '/font.css';
+        return $this->getTempPath() . '/font.css';
     }
 
+    /**
+     * Get the temporary directory path
+     */
     public function getTempPath(): string
     {
         return Environment::getPublicPath() . '/typo3temp/assets/tx_bwicons/' . $this->getCacheIdentifier() . '/' . $this->getId();
     }
 
+    /**
+     * Get the current directory path of the CSS file
+     */
+    public function getCurrentPath(): string
+    {
+        $path = $this->options['file'];
+        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
+            $path = GeneralUtility::getFileAbsFileName($path);
+        }
+        return pathinfo($path, PATHINFO_DIRNAME);
+    }
+
+    /**
+     * Process the CSS file and extract icon information
+     */
     public function getIcons(): array
     {
-        $wizardFolders = [];
-
-        /** @var SvgReaderUtility $svgReaderUtility */
-        $svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
-        /** @var TtfReaderUtility $ttfReaderUtility */
-        $ttfReaderUtility = GeneralUtility::makeInstance(TtfReaderUtility::class);
-        $tempFile = new Document();
         $styleSheetContent = $this->getStyleSheetContent();
-
-        $parser = new \Sabberworm\CSS\Parser($styleSheetContent);
+        $parser = new Parser($styleSheetContent);
         $cssDocument = $parser->parse();
         $allRules = $cssDocument->getAllRuleSets();
 
+        $tempFile = new Document();
+        $cssData = $this->extractCssData($allRules, $tempFile);
+
+        $wizardFolders = $this->processIconFonts(
+            $cssData['fontFaces'],
+            $cssData['cssGlyphs'],
+            $cssData['rulesUsingFontFamily'],
+            $allRules,
+            $tempFile
+        );
+
+        $this->writeTempCss($tempFile);
+
+        return $wizardFolders;
+    }
+
+    /**
+     * Extract and categorize CSS rules
+     */
+    protected function extractCssData(array $allRules, Document $tempFile): array
+    {
         $fontFaces = [];
         $cssGlyphs = [];
         $rulesUsingFontFamily = [];
+
         foreach ($allRules as $rule) {
-            if (is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face') {
+            if ($this->isFontFaceRule($rule)) {
                 $fontFaces[] = $rule;
                 $this->downloadFontFilesOfFontFaceRules($rule);
                 $tempFile->append($rule);
             }
 
-            if (static::ruleIsAGlyph($rule) && static::glyphIsNotInSet($rule, $cssGlyphs)) {
+            if ($this->isGlyphRule($rule) && !$this->glyphExistsInSet($rule, $cssGlyphs)) {
                 $cssGlyphs[] = $rule;
                 $tempFile->append($rule);
             }
 
-            if (static::getFontFamilyNameOfRuleSet($rule)) {
+            if ($this->getFontFamilyNameOfRuleSet($rule)) {
                 $rulesUsingFontFamily[] = $rule;
             }
         }
 
-        // filter for font-faces that are really used
-        $fontFaces = array_filter($fontFaces, static function ($fontFace) use ($rulesUsingFontFamily) {
-            $fontFamilyName = $fontFace->getRules('font-family')[0]->getValue()->getString();
-            foreach ($rulesUsingFontFamily as $ruleUsingFontFamily) {
-                return self::getFontFamilyNameOfRuleSet($ruleUsingFontFamily) === $fontFamilyName;
-            }
-        });
+        // Filter for font-faces that are actually used
+        $fontFaces = $this->filterUsedFontFaces($fontFaces, $rulesUsingFontFamily);
 
-        // get paths to the svg font files
+        return [
+            'fontFaces' => $fontFaces,
+            'cssGlyphs' => $cssGlyphs,
+            'rulesUsingFontFamily' => $rulesUsingFontFamily
+        ];
+    }
+
+    /**
+     * Process icon fonts and create wizard folders
+     */
+    protected function processIconFonts(
+        array $fontFaces,
+        array $cssGlyphs,
+        array $rulesUsingFontFamily,
+        array $allRules,
+        Document $tempFile
+    ): array {
+        $wizardFolders = [];
+
+        // Extract font files from font-faces
         $svgFonts = $this->extractFontFilesFromFontFaces('svg', $fontFaces);
         $ttfFonts = $this->extractFontFilesFromFontFaces('ttf', $fontFaces);
 
-        // get different font-families
-        $fontFamilies = array_map(static function ($ruleSet) {
-            $familyRules = $ruleSet->getRules('font-family');
-            $familyRuleName = $familyRules[0]->getValue()->getString();
-            $weightRules = $ruleSet->getRules('font-weight');
-            $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
-            $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
-            $styleRules = $ruleSet->getRules('font-style');
-            return [
-                'font-family' => $familyRuleName,
-                'weight' => $weight,
-                'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
-            ];
-        }, $fontFaces);
+        // Get different font-families
+        $fontFamilies = $this->extractFontFamilies($fontFaces);
 
-        $fontFamilyPrefix = '';
         foreach ($fontFamilies as $key => $font) {
-            // abort if no svg or ttf font found
-            if ($svgFonts[$key]) {
-                $fontGlyphs = $svgReaderUtility->getGlyphs($svgFonts[$key]);
-            } elseif ($ttfFonts[$key]) {
-                $fontGlyphs = $ttfReaderUtility->getGlyphs($ttfFonts[$key]);
+            // Skip if no svg or ttf font found
+            if (!empty($svgFonts[$key])) {
+                $fontGlyphs = $this->svgReaderUtility->getGlyphs($svgFonts[$key]);
+            } elseif (!empty($ttfFonts[$key])) {
+                $fontGlyphs = $this->ttfReaderUtility->getGlyphs($ttfFonts[$key]);
             } else {
                 continue;
             }
 
-            // filter glyphs for the ones in font file
-            $availableGlyphs = array_filter($cssGlyphs, static function ($cssGlyph) use ($fontGlyphs) {
-                $rules = $cssGlyph->getRules('content');
-                $glyphString = $rules[0]->getValue()->getString();
-                return in_array($glyphString, $fontGlyphs, true);
-            });
+            // Filter glyphs for the ones in font file
+            $availableGlyphs = $this->filterAvailableGlyphs($cssGlyphs, $fontGlyphs);
 
-            // rename font family for tab array in case of duplicate font names
-            $fontName = $font['font-family'];
-            if (count(array_filter($fontFamilies, static function ($fontFamily) use ($font) {
-                return $fontFamily['font-family'] === $font['font-family'];
-            })) > 1) {
-                $fontName = $font['font-family'] . ' ' . $font['weight'];
-            }
+            // Get font name (with weight if needed for uniqueness)
+            $fontName = $this->getFontDisplayName($font, $fontFamilies);
 
-            // get statements that use current font-family
-            foreach ($rulesUsingFontFamily as $block) {
-                if (self::getFontFamilyNameOfRuleSet($block) !== $font['font-family']) {
-                    continue;
-                }
+            // Extract font prefix (e.g., "fa " for Font Awesome)
+            $fontFamilyPrefix = $this->extractFontPrefix(
+                $font,
+                $rulesUsingFontFamily,
+                $allRules,
+                $tempFile
+            );
 
-                // @TODO: What does this block check? Maybe if selector is in every glyphe?
-                if (count($block->getSelectors()) === count($fontGlyphs)) {
-                    continue;
-                }
-
-                // extract prefix class (e.g. ".fab .fa-brand")
-                $validSelectors = [];
-                foreach ($block->getSelectors() as $selector) {
-                    $selectorString = $selector->getSelector();
-
-                    // check that selector matches requirements
-                    $selectorContainsClassAttr = str_contains($selectorString, '[class');
-                    $isClassSelector = str_starts_with($selectorString, '.');
-                    $selectorContainsSpace = str_contains($selectorString, ' ');
-
-                    if (!($selectorContainsClassAttr || $isClassSelector) || $selectorContainsSpace) {
-                        continue;
-                    }
-
-                    $validSelectors[] = $selector;
-                }
-
-                // collect all styles of valid selectors, then back-check if they match current font-family + weight
-                $selectorBlockToCheck = [];
-                foreach ($allRules as $block) {
-                    if (!is_a($block, DeclarationBlock::class)) {
-                        continue;
-                    }
-                    $selectors = (array)$block->getSelectors();
-                    foreach ($selectors as $selector) {
-                        $atomicSelectors = self::splitCssSelector($selector->getSelector());
-                        if (!count(array_intersect($validSelectors, $atomicSelectors))) {
-                            continue;
-                        }
-                        $selectorBlockToCheck[$selector->getSelector()] ??= [];
-                        $selectorBlockToCheck[$selector->getSelector()][] = $block;
-                    }
-                }
-
-                // if rule has desired font-family
-                // if rule has desired font-weight
-                // use last selectorName as prefix + add all rules to css
-                foreach ($selectorBlockToCheck as $selectorName => $blocks) {
-                    $fontFamilyMatches = $fontWeightMatches = false;
-                    foreach ($blocks as $blockRule) {
-                        if (self::getFontFamilyNameOfRuleSet($blockRule) === $font['font-family']) {
-                            $fontFamilyMatches = true;
-                        }
-                        if (self::getFontWeightOfRuleSet($blockRule) === $font['weight']) {
-                            $fontWeightMatches = true;
-                        }
-                    }
-
-                    if ($fontFamilyMatches && $fontWeightMatches) {
-                        $fontFamilyPrefix = substr($selectorName, 1) . ' ';
-                        foreach ($blocks as $blockRule) {
-                            $tempFile->append($blockRule);
-                        }
-                    }
-                }
-            }
-
-            // map icons to class names
-            $icons = array_map(static function ($declarationBlock) use ($fontFamilyPrefix) {
-                $atomicSelectors = [$fontFamilyPrefix, ...self::splitCssSelector($declarationBlock->getSelectors()[0]->getSelector())];
-                $atomicSelectors = array_map(static function ($selector) {
-                    return str_replace(['.'], [''], $selector);
-                }, $atomicSelectors);
-                $atomicSelectors = array_unique($atomicSelectors);
-                $value = implode(' ', $atomicSelectors);
-                return new WizardIcon($value, true);
-            }, $availableGlyphs);
+            // Map icons to class names
+            $icons = $this->createIconsFromGlyphs($availableGlyphs, $fontFamilyPrefix);
 
             $wizardFolder = new WizardFolder();
             $wizardFolder->title = $fontName;
@@ -232,28 +215,287 @@ class CssIconProvider extends AbstractIconProvider
             $wizardFolders[] = $wizardFolder;
         }
 
-        $this->writeTempCss($tempFile);
-
         return $wizardFolders;
     }
 
     /**
-     * Split a complex CSS selector into its atomic parts in PHP (e.g., .hgi-stroke.hgi-acceleration:before → ['.hgi-stroke', '.hgi-acceleration:before'])
+     * Check if rule is a font-face rule
      */
-    protected static function splitCssSelector($selector): array
+    protected function isFontFaceRule(RuleSet $rule): bool
     {
-        // First, remove known pseudo-elements
-        $selector = preg_replace('/::[a-zA-Z0-9_-]+|:[a-zA-Z0-9_-]+(?=\b)/', '', $selector);
-
-        // Now extract parts (class, ID, attributes, tag names)
-        preg_match_all(
-            '/(\.[a-zA-Z0-9_-]+|#[a-zA-Z0-9_-]+|\[[^\]]+\]|[a-zA-Z0-9_-]+)/',
-            $selector,
-            $matches
-        );
-        return $matches[0] ?? [];
+        return is_a($rule, AtRuleSet::class) && $rule->atRuleName() === 'font-face';
     }
 
+    /**
+     * Check if rule defines a glyph
+     */
+    protected function isGlyphRule($rule): bool
+    {
+        // Validate that declaration has content property and exactly one selector
+        if (!is_a($rule, DeclarationBlock::class)
+            || count($rule->getSelectors()) !== 1
+            || count($rule->getRules('content')) !== 1
+        ) {
+            return false;
+        }
+
+        // Validate content-property (exists and is not "")
+        $contentRule = $rule->getRules('content')[0];
+        if (!$contentRule || !$contentRule->getValue() || !is_a(
+                $contentRule->getValue(),
+                CSSString::class
+            ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+            return false;
+        }
+
+        // Validate selector (is class and has :before or :after)
+        $selector = $rule->getSelectors()[0]->getSelector();
+        if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
+            return false;
+        }
+
+        return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
+    }
+
+    /**
+     * Check if a glyph already exists in a set
+     */
+    protected function glyphExistsInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
+    {
+        $contentRules = $cssGlyph->getRules('content');
+        $glyphString = $contentRules[0]->getValue()->getString();
+
+        foreach ($cssGlyphs as $setRule) {
+            $contentRules = $setRule->getRules('content');
+            $glyphStringInSet = $contentRules[0]->getValue()->getString();
+            if ($glyphString === $glyphStringInSet) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Filter font-faces to only those that are actually used
+     */
+    protected function filterUsedFontFaces(array $fontFaces, array $rulesUsingFontFamily): array
+    {
+        return array_filter($fontFaces, function ($fontFace) use ($rulesUsingFontFamily) {
+            $fontFamilyName = $fontFace->getRules('font-family')[0]->getValue()->getString();
+            foreach ($rulesUsingFontFamily as $ruleUsingFontFamily) {
+                if ($this->getFontFamilyNameOfRuleSet($ruleUsingFontFamily) === $fontFamilyName) {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Extract font family information from font-face rules
+     */
+    protected function extractFontFamilies(array $fontFaces): array
+    {
+        return array_map(function ($ruleSet) {
+            $familyRules = $ruleSet->getRules('font-family');
+            $familyRuleName = $familyRules[0]->getValue()->getString();
+
+            $weightRules = $ruleSet->getRules('font-weight');
+            $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
+            $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
+
+            $styleRules = $ruleSet->getRules('font-style');
+
+            return [
+                'font-family' => $familyRuleName,
+                'weight' => $weight,
+                'style' => count($styleRules) ? $styleRules[0]->getValue() : '',
+            ];
+        }, $fontFaces);
+    }
+
+    /**
+     * Filter glyphs to only those available in the font
+     */
+    protected function filterAvailableGlyphs(array $cssGlyphs, array $fontGlyphs): array
+    {
+        return array_filter($cssGlyphs, function ($cssGlyph) use ($fontGlyphs) {
+            $rules = $cssGlyph->getRules('content');
+            $glyphString = $rules[0]->getValue()->getString();
+            return in_array($glyphString, $fontGlyphs, true);
+        });
+    }
+
+    /**
+     * Get display name for font (with weight if needed for uniqueness)
+     */
+    protected function getFontDisplayName(array $font, array $fontFamilies): string
+    {
+        $fontName = $font['font-family'];
+        $duplicateExists = count(array_filter($fontFamilies, function ($fontFamily) use ($font) {
+                return $fontFamily['font-family'] === $font['font-family'];
+            })) > 1;
+
+        if ($duplicateExists) {
+            $fontName = $font['font-family'] . ' ' . $font['weight'];
+        }
+
+        return $fontName;
+    }
+
+    /**
+     * Extract font prefix class (e.g. ".fab" for Font Awesome Brands)
+     */
+    protected function extractFontPrefix(
+        array $font,
+        array $rulesUsingFontFamily,
+        array $allRules,
+        Document $tempFile
+    ): string {
+        $fontFamilyPrefix = '';
+
+        foreach ($rulesUsingFontFamily as $block) {
+            if ($this->getFontFamilyNameOfRuleSet($block) !== $font['font-family']) {
+                continue;
+            }
+
+            // Skip if checking all glyphs
+            if (count($block->getSelectors()) === count($this->countGlyphsInFont($font))) {
+                continue;
+            }
+
+            // Extract prefix class (e.g. ".fab .fa-brand")
+            $validSelectors = $this->getValidSelectors($block);
+
+            // Collect all styles of valid selectors
+            $selectorBlockToCheck = $this->collectSelectorBlocks($validSelectors, $allRules);
+
+            // Check each selector for matching font family and weight
+            foreach ($selectorBlockToCheck as $selectorName => $blocks) {
+                if ($this->selectorMatchesFontFamily($blocks, $font)) {
+                    $fontFamilyPrefix = substr($selectorName, 1) . ' ';
+
+                    // Add all matching blocks to the temp file
+                    foreach ($blocks as $blockRule) {
+                        $tempFile->append($blockRule);
+                    }
+
+                    // Once found, we can break the loop
+                    break;
+                }
+            }
+        }
+
+        return $fontFamilyPrefix;
+    }
+
+    /**
+     * Get valid selectors from a block
+     */
+    protected function getValidSelectors(DeclarationBlock $block): array
+    {
+        $validSelectors = [];
+
+        foreach ($block->getSelectors() as $selector) {
+            $selectorString = $selector->getSelector();
+
+            // Check that selector matches requirements
+            $selectorContainsClassAttr = str_contains($selectorString, '[class');
+            $isClassSelector = str_starts_with($selectorString, '.');
+            $selectorContainsSpace = str_contains($selectorString, ' ');
+
+            if (!($selectorContainsClassAttr || $isClassSelector) || $selectorContainsSpace) {
+                continue;
+            }
+
+            $validSelectors[] = $selector;
+        }
+
+        return $validSelectors;
+    }
+
+    /**
+     * Collect all blocks related to a set of selectors
+     */
+    protected function collectSelectorBlocks(array $validSelectors, array $allRules): array
+    {
+        $selectorBlockToCheck = [];
+
+        foreach ($allRules as $block) {
+            if (!is_a($block, DeclarationBlock::class)) {
+                continue;
+            }
+
+            $selectors = (array)$block->getSelectors();
+
+            foreach ($selectors as $selector) {
+                $atomicSelectors = $this->splitCssSelector($selector->getSelector());
+
+                if (!count(array_intersect($validSelectors, $atomicSelectors))) {
+                    continue;
+                }
+
+                $selectorBlockToCheck[$selector->getSelector()] ??= [];
+                $selectorBlockToCheck[$selector->getSelector()][] = $block;
+            }
+        }
+
+        return $selectorBlockToCheck;
+    }
+
+    /**
+     * Check if a selector's blocks match a specific font family and weight
+     */
+    protected function selectorMatchesFontFamily(array $blocks, array $font): bool
+    {
+        $fontFamilyMatches = $fontWeightMatches = false;
+
+        foreach ($blocks as $blockRule) {
+            if ($this->getFontFamilyNameOfRuleSet($blockRule) === $font['font-family']) {
+                $fontFamilyMatches = true;
+            }
+
+            if ($this->getFontWeightOfRuleSet($blockRule) === $font['weight']) {
+                $fontWeightMatches = true;
+            }
+        }
+
+        return $fontFamilyMatches && $fontWeightMatches;
+    }
+
+    /**
+     * Count glyphs in a font (placeholder implementation)
+     */
+    protected function countGlyphsInFont(array $font): array
+    {
+        // This is a placeholder method since the original code doesn't fully define this functionality
+        // In a real implementation, this would count actual glyphs in the font
+        return [];
+    }
+
+    /**
+     * Create WizardIcon objects from glyph declarations
+     */
+    protected function createIconsFromGlyphs(array $availableGlyphs, string $fontFamilyPrefix): array
+    {
+        return array_map(function ($declarationBlock) use ($fontFamilyPrefix) {
+            $atomicSelectors = [$fontFamilyPrefix, ...$this->splitCssSelector($declarationBlock->getSelectors()[0]->getSelector())];
+
+            $atomicSelectors = array_map(function ($selector) {
+                return str_replace(['.'], [''], $selector);
+            }, $atomicSelectors);
+
+            $atomicSelectors = array_unique($atomicSelectors);
+            $value = implode(' ', $atomicSelectors);
+
+            return new WizardIcon($value, true);
+        }, $availableGlyphs);
+    }
+
+    /**
+     * Get the CSS stylesheet content
+     */
     protected function getStyleSheetContent(): string
     {
         $path = $this->options['file'] ?? '';
@@ -263,6 +505,9 @@ class CssIconProvider extends AbstractIconProvider
         return GeneralUtility::getUrl($path);
     }
 
+    /**
+     * Download font files from font-face rules
+     */
     protected function downloadFontFilesOfFontFaceRules(AtRuleSet $rule): void
     {
         foreach ($rule->getRules('src') as $srcRule) {
@@ -275,11 +520,13 @@ class CssIconProvider extends AbstractIconProvider
     }
 
     /**
-    * @param RuleValueList|URL $ruleValue
-    */
+     * Process font-face src values and download font files
+     *
+     * @param RuleValueList|URL $ruleValue
+     */
     protected function downloadFontFilesOfFontFaceSrc($ruleValue): void
     {
-        if (is_a($ruleValue, URL::class)) {
+        if ($ruleValue instanceof URL) {
             $fontFilePath = $ruleValue->getURL()->getString();
             $fontFileName = $this->downloadFontFile($fontFilePath);
             if (is_string($fontFileName)) {
@@ -287,16 +534,19 @@ class CssIconProvider extends AbstractIconProvider
             }
         }
 
-        if (is_a($ruleValue, RuleValueList::class)) {
+        if ($ruleValue instanceof RuleValueList) {
             foreach ($ruleValue->getListComponents() as $component) {
                 $this->downloadFontFilesOfFontFaceSrc($component);
             }
         }
     }
 
+    /**
+     * Download a font file and save it to the temp directory
+     */
     protected function downloadFontFile(string $fontFilePath): string|false
     {
-        $fontFileUrl = static::cleanFilePath($fontFilePath);
+        $fontFileUrl = self::cleanFilePath($fontFilePath);
         $isRemoteFontPath = GeneralUtility::isValidUrl($fontFileUrl);
         $isRemoteStylesheet = GeneralUtility::isValidUrl($this->options['file']) && !str_starts_with($this->options['file'], 'EXT:');
         $fontFileName = pathinfo($fontFilePath, PATHINFO_BASENAME);
@@ -309,7 +559,7 @@ class CssIconProvider extends AbstractIconProvider
                 $fontFileUrl = $fontFileDir . '/' . $fontFileUrl;
             } else {
                 $currentPath = $this->getCurrentPath();
-                $fontFileUrl = realpath($currentPath . '/' . static::cleanFilePath($fontFilePath));
+                $fontFileUrl = realpath($currentPath . '/' . self::cleanFilePath($fontFilePath));
             }
         }
 
@@ -317,11 +567,8 @@ class CssIconProvider extends AbstractIconProvider
     }
 
     /**
-    * remove possible #fontawesome and ?version at end of string
-    *
-    * @param $path
-    * @return string
-    */
+     * Clean a file path by removing query parameters and fragments
+     */
     public static function cleanFilePath($path): string
     {
         $cleanPath = strpos($path, '?') ? substr(
@@ -329,6 +576,7 @@ class CssIconProvider extends AbstractIconProvider
             0,
             strpos($path, '?')
         ) : $path;
+
         return strpos($cleanPath, '#') ? substr(
             $cleanPath,
             0,
@@ -336,21 +584,15 @@ class CssIconProvider extends AbstractIconProvider
         ) : $cleanPath;
     }
 
-    public function getCurrentPath(): string
-    {
-        $path = $this->options['file'];
-        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
-            $path = GeneralUtility::getFileAbsFileName($path);
-        }
-        return pathinfo($path, PATHINFO_DIRNAME);
-    }
-
+    /**
+     * Write a font file to the temp directory
+     */
     protected function writeFontFile(string $fontFileUrl, string $fontFileName): string|false
     {
         $tempPath = $this->getTempPath();
-        $tempFile = $tempPath . '/' . static::cleanFilePath($fontFileName);
+        $tempFile = $tempPath . '/' . self::cleanFilePath($fontFileName);
 
-        // @TODO: Handle cache
+        // Skip if file already exists
         if (file_exists($tempFile)) {
             return $fontFileName;
         }
@@ -364,78 +606,68 @@ class CssIconProvider extends AbstractIconProvider
         return $fontFileName;
     }
 
-    protected static function ruleIsAGlyph($declarationBlock): bool
+    /**
+     * Split a complex CSS selector into its atomic parts
+     */
+    protected static function splitCssSelector($selector): array
     {
-        // validate that declaration has content property and exactly one selector
-        if (!is_a($declarationBlock, DeclarationBlock::class)
-            || count($declarationBlock->getSelectors()) !== 1
-            || count($declarationBlock->getRules('content')) !== 1
-        ) {
-            return false;
-        }
-        // validate content-property (exists and is not "")
-        $contentRule = $declarationBlock->getRules('content')[0];
-        if (!$contentRule || !$contentRule->getValue() || !is_a(
-            $contentRule->getValue(),
-            CSSString::class
-        ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
-            return false;
-        }
-        // validate selector (is class and has :before or :after)
-        $selector = $declarationBlock->getSelectors()[0]->getSelector();
-        if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
-            return false;
-        }
-        return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
+        // First, remove known pseudo-elements
+        $selector = preg_replace('/::[a-zA-Z0-9_-]+|:[a-zA-Z0-9_-]+(?=\b)/', '', $selector);
+
+        // Now extract parts (class, ID, attributes, tag names)
+        preg_match_all(
+            '/(\.[a-zA-Z0-9_-]+|#[a-zA-Z0-9_-]+|\[[^\]]+\]|[a-zA-Z0-9_-]+)/',
+            $selector,
+            $matches
+        );
+
+        return $matches[0] ?? [];
     }
 
-    private static function glyphIsNotInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
-    {
-        $contentRules = $cssGlyph->getRules('content');
-        $glyphString = $contentRules[0]->getValue()->getString();
-        foreach ($cssGlyphs as $setRule) {
-            $contentRules = $setRule->getRules('content');
-            $glyphStringInSet = $contentRules[0]->getValue()->getString();
-            if ($glyphString === $glyphStringInSet) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    /**
+     * Extract font family name from a rule set
+     */
     public static function getFontFamilyNameOfRuleSet(RuleSet $rule): string
     {
         if (!$rule instanceof DeclarationBlock) {
             return '';
         }
 
+        $fontFamilyName = null;
+
+        // Check for font-family property
         $fontFamilyRules = $rule->getRules('font-family');
         if (count($fontFamilyRules) === 1 && $fontFamilyRules[0]->getValue()) {
             $fontFamilyName = $fontFamilyRules[0]->getValue();
         }
 
+        // Check for font shorthand property
         $fontRules = $rule->getRules('font');
-        if (count($fontRules) === 1 && $fontRules[0]->getValue()) {
-            $fontFamilyName = $fontRules[0]->getValue()->getListComponents()[4];
-        }
-
-        if (!isset($fontFamilyName)) {
-            return '';
-        }
-
-        // check for css value (e.g. font-family: "Font Awesome")
-        if ($fontFamilyName instanceof CSSString) {
-            $fontFamilyName = $fontFamilyName->getString();
-        }
-
-        // check for css function and try to resolve by default value (font-family: var(--family-name, Font-Awesome)
-        if ($fontFamilyName instanceof CSSFunction) {
-            $cssFunctionParts = $fontFamilyName->getListComponents();
-            if (count($cssFunctionParts) === 2) {
-                $fontFamilyName = $cssFunctionParts[1]->getString();
+        if (!$fontFamilyName && count($fontRules) === 1 && $fontRules[0]->getValue()) {
+            $components = $fontRules[0]->getValue()->getListComponents();
+            if (count($components) >= 5) {
+                $fontFamilyName = $components[4];
             }
         }
 
+        if (!$fontFamilyName) {
+            return '';
+        }
+
+        // Handle CSSString type
+        if ($fontFamilyName instanceof CSSString) {
+            return $fontFamilyName->getString();
+        }
+
+        // Handle CSS function (e.g., var())
+        if ($fontFamilyName instanceof CSSFunction) {
+            $cssFunctionParts = $fontFamilyName->getListComponents();
+            if (count($cssFunctionParts) === 2) {
+                return $cssFunctionParts[1]->getString();
+            }
+        }
+
+        // Handle string value
         if (is_string($fontFamilyName)) {
             return $fontFamilyName;
         }
@@ -443,61 +675,50 @@ class CssIconProvider extends AbstractIconProvider
         return '';
     }
 
-    protected function extractFontFilesFromFontFaces(string $fileExtension, array $fontFaces): array
-    {
-        $tempPath = $this->getTempPath();
-        return array_map(static function ($ruleSet) use ($tempPath, $fileExtension) {
-            $rules = $ruleSet->getRules('src');
-            foreach ($rules as $rule) {
-                $values = $rule->getValues();
-                foreach ($values as $value) {
-                    foreach ($value as $part) {
-                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
-                            // combine relative path with absolute path from css file
-                            // merge paths
-                            $relativePath = static::cleanFilePath($part->getURL()->getString());
-                            return $tempPath . '/' . $relativePath;
-                        }
-                    }
-                }
-            }
-            return '';
-        }, $fontFaces);
-    }
-
+    /**
+     * Extract font weight from a rule set
+     */
     protected static function getFontWeightOfRuleSet(RuleSet $rule): string|float
     {
         if (!$rule instanceof DeclarationBlock) {
             return '';
         }
 
+        $fontWeight = null;
+
+        // Check for font-weight property
         $fontWeightRules = $rule->getRules('font-weight');
         if (count($fontWeightRules) === 1 && $fontWeightRules[0]->getValue()) {
             $fontWeight = $fontWeightRules[0]->getValue();
         }
 
+        // Check for font shorthand property
         $fontRules = $rule->getRules('font');
-        if (count($fontRules) === 1 && $fontRules[0]->getValue()) {
-            $fontWeight = $fontRules[0]->getValue()->getListComponents()[2];
-        }
-
-        if (!isset($fontWeight)) {
-            return '';
-        }
-
-        // check for css value (e.g. font-weight: "200")
-        if ($fontWeight instanceof CSSString) {
-            $fontWeight = $fontWeight->getString();
-        }
-
-        // check for css function and try to resolve by default value (font-weight: var(--weight, 200))
-        if ($fontWeight instanceof CSSFunction) {
-            $cssFunctionParts = $fontWeight->getListComponents();
-            if (count($cssFunctionParts) === 2) {
-                $fontWeight = $cssFunctionParts[1]->getString();
+        if (!$fontWeight && count($fontRules) === 1 && $fontRules[0]->getValue()) {
+            $components = $fontRules[0]->getValue()->getListComponents();
+            if (count($components) >= 3) {
+                $fontWeight = $components[2];
             }
         }
 
+        if (!$fontWeight) {
+            return '';
+        }
+
+        // Handle CSSString type
+        if ($fontWeight instanceof CSSString) {
+            return $fontWeight->getString();
+        }
+
+        // Handle CSS function (e.g., var())
+        if ($fontWeight instanceof CSSFunction) {
+            $cssFunctionParts = $fontWeight->getListComponents();
+            if (count($cssFunctionParts) === 2) {
+                return $cssFunctionParts[1]->getString();
+            }
+        }
+
+        // Handle primitive values
         if (is_string($fontWeight) || is_float($fontWeight)) {
             return $fontWeight;
         }
@@ -505,6 +726,36 @@ class CssIconProvider extends AbstractIconProvider
         return '';
     }
 
+    /**
+     * Extract font files from font-face rules
+     */
+    protected function extractFontFilesFromFontFaces(string $fileExtension, array $fontFaces): array
+    {
+        $tempPath = $this->getTempPath();
+
+        return array_map(function ($ruleSet) use ($tempPath, $fileExtension) {
+            $rules = $ruleSet->getRules('src');
+
+            foreach ($rules as $rule) {
+                $values = $rule->getValues();
+
+                foreach ($values as $value) {
+                    foreach ($value as $part) {
+                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
+                            $relativePath = self::cleanFilePath($part->getURL()->getString());
+                            return $tempPath . '/' . $relativePath;
+                        }
+                    }
+                }
+            }
+
+            return '';
+        }, $fontFaces);
+    }
+
+    /**
+     * Write CSS content to the temp file
+     */
     protected function writeTempCss(Document $cssDocument): void
     {
         $tempCssFile = $this->getCssTempFilePath();
@@ -512,6 +763,9 @@ class CssIconProvider extends AbstractIconProvider
         GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
     }
 
+    /**
+     * Get wizard folders for the icon browser
+     */
     public function getWizardFolders(): array
     {
         return $this->getIcons();

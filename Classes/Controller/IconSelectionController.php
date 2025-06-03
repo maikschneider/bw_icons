@@ -36,8 +36,10 @@ class IconSelectionController
 
     public function stylesheetsAction(ServerRequestInterface $request): Response
     {
-        $pid = (int)$request->getQueryParams()['pid'];
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid);
+        $body = $request->getParsedBody();
+        $wizardConfig = WizardConfig::createFromFormPostBody($body);
+
+        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
         $styleSheets = $helperUtil->getStyleSheets();
 
         return new JsonResponse($styleSheets);
