@@ -2,31 +2,24 @@
 
 namespace Blueways\BwIcons\Utility;
 
+use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
+use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
 use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HelperUtility
 {
-    protected int $pid = 0;
-
-    protected string $iconProviders = '';
-
     protected array $provider = [];
 
-    public function __construct(int $pid, string $iconProviders = '')
+    public function __construct(protected WizardConfig $wizardConfig)
     {
-        $this->pid = $pid;
-        $this->iconProviders = $iconProviders;
     }
 
-    public function getModalTabs(): array
+    public function getWizardTabs(): array
     {
-        $cacheIdentifier = $this->getCacheIdentifier();
+        $cacheIdentifier = $this->wizardConfig->getCacheIdentifier();
         $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('bwicons_conf');
 
         if (($tabs = $cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles()) {
@@ -34,14 +27,13 @@ class HelperUtility
         }
 
         $tabs = [];
-        $iconProviders = GeneralUtility::trimExplode(',', $this->iconProviders, true);
         foreach ($this->getAllProvider() as $provider) {
-            if (empty($iconProviders) || in_array($provider->getId(), $iconProviders, true)) {
-                $tab = [];
-                $tab['id'] = $provider->getId();
-                $tab['title'] = $provider->getTitle();
-                $tab['folders'] = $provider->getIcons();
-                $tab['markup'] = $provider->getOptions()['markup'] ?? '';
+            if (empty($this->wizardConfig->iconProviderClasses) || in_array($provider->getId(), $this->wizardConfig->iconProviderClasses, true)) {
+                $tab = new WizardTab();
+                $tab->id = $provider->getId();
+                $tab->title = $provider->getTitle();
+                $tab->folders = $provider->getWizardFolders();
+                $tab->stylesheet = $provider->getStyleSheet();
 
                 $tabs[] = $tab;
             }
@@ -51,23 +43,9 @@ class HelperUtility
         return $tabs;
     }
 
-    protected function getCacheIdentifier(): string
-    {
-        $extensionSettings = $this->getSettings();
-        return md5(serialize($extensionSettings) . '-' . $this->iconProviders);
-    }
-
-    protected function getSettings(): array
-    {
-        $pageTsConfig = BackendUtility::getPagesTSconfig($this->pid);
-        /** @var TypoScriptService $typoscriptService */
-        $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-        return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
-    }
-
     /**
-     * Checks if all temp dirs of css provider do exist
-     */
+    * Checks if all temp dirs of css provider do exist
+    */
     protected function isValidTempFiles(): bool
     {
         foreach ($this->getAllProvider() as $provider) {
@@ -82,16 +60,16 @@ class HelperUtility
     }
 
     /**
-     * @return array<AbstractIconProvider>
-     */
+    * @return array<AbstractIconProvider>
+    */
     protected function getAllProvider(): array
     {
         if (count($this->provider)) {
             return $this->provider;
         }
 
-        $extensionSettings = $this->getSettings();
-        $cacheIdentifier = $this->getCacheIdentifier();
+        $extensionSettings = $this->wizardConfig->getPageTsSettings();
+        $cacheIdentifier = $this->wizardConfig->getCacheIdentifier();
         //$languageService = GeneralUtility::makeInstance(LanguageService::class);
 
         foreach ($extensionSettings as $key => $options) {

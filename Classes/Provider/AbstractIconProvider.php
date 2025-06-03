@@ -2,6 +2,8 @@
 
 namespace Blueways\BwIcons\Provider;
 
+use Blueways\BwIcons\Domain\Model\Dto\WizardFolder;
+
 abstract class AbstractIconProvider
 {
     protected string $title = '';
@@ -53,4 +55,14 @@ abstract class AbstractIconProvider
     }
 
     abstract public function getIcons(): array;
+
+    /**
+     * @return WizardFolder[]
+     */
+    abstract public function getWizardFolders(): array;
+
+    public function getStyleSheet(): ?string
+    {
+        return null;
+    }
 }

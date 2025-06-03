@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xliff version="1.0">
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
 	<file source-language="en" datatype="plaintext" original="messages" date="2021-10-27T11:56:25Z" product-name="bw_icons">
-		<header>
-			<generator>XLIFF Editor</generator>
-			<authorName>Maik Schneider</authorName>
-			<authorEmail>m.schneider@blueways.de</authorEmail>
-		</header>
 		<body>
 			<trans-unit id="icon">
-				<source><![CDATA[Icon]]></source>
+				<source>Icon</source>
 			</trans-unit>
 			<trans-unit id="icon_wizard_save">
-				<source><![CDATA[Save changes]]></source>
+				<source>Save changes</source>
 			</trans-unit>
 			<trans-unit id="icon_wizard_title">
-				<source><![CDATA[Select icon]]></source>
+				<source>Select icon</source>
 			</trans-unit>
 			<trans-unit id="callout.no-provider.title">
 				<source>No icons found</source>
 			</trans-unit>
 			<trans-unit id="callout.no-provider.description">
-				<source><![CDATA[There were no IconProvider found for the current form element. Make sure you configured a provider via PageTS.<br />For more information see the documentation.]]></source>
+				<source>There were no IconProvider found for the current form element. Make sure you configured a provider via PageTS. For
+					more information see the documentation.
+				</source>
 			</trans-unit>
 			<trans-unit id="callout.no-provider.button">
 				<source>Extension manual</source>

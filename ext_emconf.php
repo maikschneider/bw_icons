@@ -11,13 +11,13 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => 0,
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '2.1.5',
+    'version' => '4.0.0',
     'autoload' => [
         'psr-4' => ['Blueways\\BwIcons\\' => 'Classes'],
     ],
     'constraints' => [
         'depends' => [
-            'typo3' => '12.0.0-12.9.99',
+            'typo3' => '12.0.0-13.9.99',
         ],
     ],
 ];

@@ -2,43 +2,44 @@
 
 namespace Blueways\BwIcons\Controller;
 
+use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Utility\HelperUtility;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
-class IconSelectionController extends ActionController
+class IconSelectionController
 {
-    public function modalAction(ServerRequestInterface $request, ?Response $response = null): Response
+    public function __construct(
+        private ResponseFactoryInterface $responseFactory,
+    ) {
+    }
+
+    public function modalAction(ServerRequestInterface $request): ResponseInterface
     {
-        if (null === $response) {
-            $response = new Response();
-        }
+        $body = $request->getParsedBody();
+        $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
-        $params = $request->getQueryParams();
-        $pid = (int)$params['P']['pid'];
-        $iconProviders = $params['P']['iconProviders'] ?? '';
-        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
-        $tabs = $helperUtility->getModalTabs();
+        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
+        $tabs = $helperUtility->getWizardTabs();
 
-        /** @var StandaloneView $templateView */
-        $templateView = GeneralUtility::makeInstance(StandaloneView::class);
-        $templateView->setTemplatePathAndFilename('EXT:bw_icons/Resources/Private/Template/Modal.html');
-        $templateView->assign('tabs', $tabs);
-
-        $content = $templateView->render();
-        $response->getBody()->write($content);
-
+        $response = $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'application/json; charset=utf-8');
+        $response->getBody()->write(
+            json_encode(['tabs' => $tabs], JSON_THROW_ON_ERROR),
+        );
         return $response;
     }
 
     public function stylesheetsAction(ServerRequestInterface $request): Response
     {
-        $pid = (int)$request->getQueryParams()['pid'];
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid);
+        $body = $request->getParsedBody();
+        $wizardConfig = WizardConfig::createFromFormPostBody($body);
+
+        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
         $styleSheets = $helperUtil->getStyleSheets();
 
         return new JsonResponse($styleSheets);

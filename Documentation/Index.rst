@@ -70,8 +70,8 @@ Installation
 
       editor:
          config:
-           toolbar:
-             - { name: 'icon', items: [IconPicker] }
+         toolbar:
+            - { name: 'icon', items: [IconPicker] }
 
 .. _configuation:
 
@@ -82,49 +82,49 @@ The displayed icons are set up via PageTS. Choose a unique identifier and select
 
 .. code:: typoscript
 
-	mod.tx_bwicons {
+   mod.tx_bwicons {
 
-		# Get icons from directory and subdirectory. Subdirectories become sidebar links.
-		typo3icons = Blueways\BwIcons\Provider\FileIconProvider
-		typo3icons {
-			title = TYPO3 Icons
-			folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
-		}
+      # Get icons from directory and subdirectory. Subdirectories become sidebar links.
+      typo3icons = Blueways\BwIcons\Provider\FileIconProvider
+      typo3icons {
+         title = TYPO3 Icons
+         folder = EXT:core/Resources/Public/Icons/T3Icons/svgs
+      }
 
-		# Get icons from stylesheet. Multiple font-faces in one file become sidebar links.
-		fontawesome = Blueways\BwIcons\Provider\CssIconProvider
-		fontawesome {
-			title = FontAwsome
-			file = fileadmin/fontawesome/css/all.css
-		}
+      # Get icons from stylesheet. Multiple font-faces in one file become sidebar links.
+      fontawesome = Blueways\BwIcons\Provider\CssIconProvider
+      fontawesome {
+         title = FontAwsome
+         file = fileadmin/fontawesome/css/all.css
+      }
 
-		# Get icons from remote stylesheet. Styles and font files are cached in /typo3temp
-		icomoon = Blueways\BwIcons\Provider\CssIconProvider
-		icomoon {
-			title = Icomoon
-			file = https://i.icomoon.io/public/b23ec64zea/Project/style.css
-		}
-	}
+      # Get icons from remote stylesheet. Styles and font files are cached in /typo3temp
+      icomoon = Blueways\BwIcons\Provider\CssIconProvider
+      icomoon {
+         title = Icomoon
+         file = https://i.icomoon.io/public/b23ec64zea/Project/style.css
+      }
+   }
 
 When using :file:`FileIconProvider`, it's possible to specify a comma separated list of file extension you want to use (e.g. :file:`svg` oder :file:`png`) with the :file:`fileExtensionList` option.
 
 .. code:: typoscript
 
-	mod.tx_bwicons {
-		svgicons = Blueways\BwIcons\Provider\FileIconProvider
-		svgicons {
-			title = Custom SVG Icons
-			folder = fileadmin/icons
-			fileExtensionList = svg
-		}
+   mod.tx_bwicons {
+      svgicons = Blueways\BwIcons\Provider\FileIconProvider
+      svgicons {
+         title = Custom SVG Icons
+         folder = fileadmin/icons
+         fileExtensionList = svg
+      }
 
-		pngicons = Blueways\BwIcons\Provider\FileIconProvider
-		pngicons {
-			title = Custom PNG Icons
-			folder = fileadmin/icons
-			fileExtensionList = png
-		}
-	}
+      pngicons = Blueways\BwIcons\Provider\FileIconProvider
+      pngicons {
+         title = Custom PNG Icons
+         folder = fileadmin/icons
+         fileExtensionList = png
+      }
+   }
 
 .. note::
 
@@ -143,15 +143,15 @@ If you have a mixture, you can use my ViewHelper that determines the type by che
 
 .. code:: html
 
-	{namespace bw=Blueways\BwIcons\ViewHelpers}
+   {namespace bw=Blueways\BwIcons\ViewHelpers}
 
-	<bw:icon icon="{data.tx_bwicons_icon}" /> Hello world!
+   <bw:icon icon="{data.tx_bwicons_icon}" /> Hello world!
 
 Output:
 
 .. code:: html
 
-	<i class="fa fas-wave"></i> Hello world!
+   <i class="fa fas-wave"></i> Hello world!
 
 or
 

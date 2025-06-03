@@ -2,56 +2,58 @@
 
 namespace Blueways\BwIcons\Form\Element;
 
+use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
+use Blueways\BwIcons\Domain\Model\Dto\WizardIcon;
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 class IconSelection extends AbstractFormElement
 {
     public function render(): array
     {
         $resultArray = $this->initializeResultArray();
+        $fieldId = StringUtility::getUniqueId('formengine-input-');
 
         $fieldWizardResult = $this->renderFieldWizard();
-        $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
-        $pid = $this->data['tableName'] === 'pages' ? $this->data['vanillaUid'] : $this->data['databaseRow']['pid'];
-        $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
-        $config = $parameterArray['fieldConf']['config'];
-        $iconProviders = $config['iconProviders'] ?? '';
+        $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $pid, $iconProviders);
+        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
         $styleSheets = $helperUtil->getStyleSheets();
         $styleSheetPaths = array_map(static function ($styleSheet) {
             return Environment::getPublicPath() . $styleSheet;
         }, $styleSheets);
         $resultArray['stylesheetFiles'] = $styleSheetPaths;
-        $resultArray['javaScriptModules'][] = \TYPO3\CMS\Core\Page\JavaScriptModuleInstruction::create('@blueways/bw-icons/IconSelection.js')
-            ->instance($pid, $iconProviders, $parameterArray['itemFormElName']);
+        $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
-        $defaultInputWidth = 10;
-        $size = MathUtility::forceIntegerInRange(
-            $config['size'] ?? $defaultInputWidth,
-            $this->minimumInputWidth,
-            $this->maxInputWidth
-        );
-        $width = $this->formMaxWidth($size);
+        $itemFormElValue = $parameterArray['itemFormElValue'];
+        $itemFormElName = $parameterArray['itemFormElName'];
 
-        $templateView = GeneralUtility::makeInstance(StandaloneView::class);
-        $templateView->setTemplatePathAndFilename('EXT:bw_icons/Resources/Private/Template/FormElement.html');
-        $templateView->assignMultiple([
-            'itemFormElName' => $parameterArray['itemFormElName'],
-            'itemFormElValue' => $parameterArray['itemFormElValue'],
-            'width' => $width,
-            'fieldWizardHtml' => $fieldWizardHtml,
-        ]);
+        $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
 
-        $resultArray['html'] = $templateView->render();
+        $html = $this->renderLabel($fieldId);
+        $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
+        $html .= '<div class="form-wizards-wrap">';
+        $html .= '<div class="form-wizards-element">';
+        $html .= '<div class="form-control-wrap">';
+        $html .= '<bw-icon-element ';
+        $html .= 'itemElementValue="' . htmlspecialchars($itemFormElValue, ENT_QUOTES) . '"';
+        $html .= 'itemFormElName="' . $itemFormElName . '"';
+        $html .= 'currentIconJson="' . htmlspecialchars(json_encode($currentIcon, JSON_THROW_ON_ERROR)) . '"';
+        $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
+        $html .= ' />';
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $resultArray['html'] = $html;
         return $resultArray;
     }
 }
