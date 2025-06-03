@@ -11,7 +11,7 @@ services:
   Blueways\BwIcons\Controller\IconSelectionController:
     public: true
 
-  Blueways\BwIcons\EventListener\BeforeJavaScriptsRenderingEventListener:
+  Blueways\BwIcons\EventListener\AfterBackendPageRendererEventListener:
     tags:
       - name: 'event.listener'
-        identifier: 'blueways/bw-icons-before-javascripts-rendering'
+        identifier: 'blueways/bw-icons-after-backend-page-renderer'

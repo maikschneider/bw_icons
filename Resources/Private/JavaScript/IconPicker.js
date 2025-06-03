@@ -86,14 +86,14 @@ class IconPicker extends Core.Plugin {
           btnClass: 'btn-default',
           name: 'dismiss',
           icon: 'actions-close',
-          text: TYPO3.lang['button.cancel'],
+          text: window.parent.TYPO3.lang['button.cancel'],
           trigger: () => window.parent.TYPO3.Modal.dismiss(),
         },
         {
           btnClass: 'btn-primary',
           name: 'save',
           icon: 'actions-document-save',
-          text: TYPO3.lang['icon_wizard_save'],
+          text: window.parent.TYPO3.lang['icon_wizard_save'],
           trigger: this.onModalSave.bind(this),
         },
       ],
@@ -101,7 +101,7 @@ class IconPicker extends Core.Plugin {
         <bw-icon-wizard
           class="w-100" itemFormElName="${itemFormElName}" wizardConfig="${wizardConfig}" itemFormElValue=""></bw-icon-wizard>`,
       size: Modal.sizes.large,
-      title: TYPO3.lang['icon_wizard_title'] ?? 'Icon',
+      title: window.parent.TYPO3.lang['icon_wizard_title'],
       style: typo3Version < 13 ? Modal.styles.dark : null,
       staticBackdrop: true
     })
