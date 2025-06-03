@@ -1,31 +1,16 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method Sabberworm\\\\CSS\\\\RuleSet\\\\RuleSet\\:\\:getSelectors\\(\\)\\.$#"
-			count: 3
-			path: Classes/Provider/CssIconProvider.php
-
-		-
-			message: "#^Call to an undefined method Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\:\\:getString\\(\\)\\.$#"
-			count: 4
-			path: Classes/Provider/CssIconProvider.php
-
-		-
 			message: "#^Call to function is_float\\(\\) with Sabberworm\\\\CSS\\\\Value\\\\CSSFunction\\|Sabberworm\\\\CSS\\\\Value\\\\LineName\\|Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\|Sabberworm\\\\CSS\\\\Value\\\\Size\\|Sabberworm\\\\CSS\\\\Value\\\\URL will always evaluate to false\\.$#"
 			count: 1
 			path: Classes/Provider/CssIconProvider.php
 
 		-
+			message: "#^Cannot call method getString\\(\\) on Sabberworm\\\\CSS\\\\Value\\\\RuleValueList\\|string\\.$#"
+			count: 1
+			path: Classes/Provider/CssIconProvider.php
+
+		-
 			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: Classes/Provider/CssIconProvider.php
-
-		-
-			message: "#^Parameter \\#1 \\$cssGlyph of static method Blueways\\\\BwIcons\\\\Provider\\\\CssIconProvider\\:\\:glyphIsNotInSet\\(\\) expects Sabberworm\\\\CSS\\\\RuleSet\\\\DeclarationBlock, Sabberworm\\\\CSS\\\\RuleSet\\\\RuleSet given\\.$#"
-			count: 1
-			path: Classes/Provider/CssIconProvider.php
-
-		-
-			message: "#^Unsafe call to private method Blueways\\\\BwIcons\\\\Provider\\\\CssIconProvider\\:\\:glyphIsNotInSet\\(\\) through static\\:\\:\\.$#"
 			count: 1
 			path: Classes/Provider/CssIconProvider.php

@@ -158,7 +158,7 @@ class CssIconProvider extends AbstractIconProvider
         return [
             'fontFaces' => $fontFaces,
             'cssGlyphs' => $cssGlyphs,
-            'rulesUsingFontFamily' => $rulesUsingFontFamily
+            'rulesUsingFontFamily' => $rulesUsingFontFamily,
         ];
     }
 
@@ -242,9 +242,9 @@ class CssIconProvider extends AbstractIconProvider
         // Validate content-property (exists and is not "")
         $contentRule = $rule->getRules('content')[0];
         if (!$contentRule || !$contentRule->getValue() || !is_a(
-                $contentRule->getValue(),
-                CSSString::class
-            ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+            $contentRule->getValue(),
+            CSSString::class
+        ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
             return false;
         }
 
@@ -334,8 +334,8 @@ class CssIconProvider extends AbstractIconProvider
     {
         $fontName = $font['font-family'];
         $duplicateExists = count(array_filter($fontFamilies, function ($fontFamily) use ($font) {
-                return $fontFamily['font-family'] === $font['font-family'];
-            })) > 1;
+            return $fontFamily['font-family'] === $font['font-family'];
+        })) > 1;
 
         if ($duplicateExists) {
             $fontName = $font['font-family'] . ' ' . $font['weight'];

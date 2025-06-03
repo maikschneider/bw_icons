@@ -12,7 +12,8 @@ class AfterBackendPageRendererEventListener
 {
     public function __construct(
         private PageRenderer $pageRenderer
-    ) {}
+    ) {
+    }
 
     #[AsEventListener('redirects-after-backend-page-renderer-event')]
     public function __invoke(AfterBackendPageRenderEvent $event): void
