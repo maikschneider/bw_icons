@@ -8,6 +8,7 @@
 
     let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson} = $props()
     let currentIcon = $state(null)
+    let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
 
     onMount(() => {
         currentIcon = currentIconJson ? JSON.parse(currentIconJson) : null
@@ -101,7 +102,7 @@
     }
 </style>
 
-<div class="input-group">{console.log(currentIcon)}
+<div class="input-group" class:has-change={hasChange}>
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
     <div class="form-control-clearable-wrapper">
         <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon && !currentIcon.isFontIcon}>
