@@ -85,8 +85,8 @@
         background: var(--bs-body-bg);
     }
 
-    .white-bg + .close {
-        color: #000 !important;
+    .form-control-clearable-wrapper .white-bg + .close {
+        color: #000;
     }
 
     img {
