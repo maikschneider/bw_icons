@@ -9,6 +9,7 @@
     let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson} = $props()
     let currentIcon = $state(null)
     let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
+    let typo3Version = $derived(JSON.parse(wizardConfig).typo3Version)
 
     onMount(() => {
         currentIcon = currentIconJson ? JSON.parse(currentIconJson) : null
@@ -24,8 +25,6 @@
 
     function onButtonClick(e) {
         e.preventDefault();
-
-        const typo3Version = JSON.parse(wizardConfig).typo3Version
 
         Modal.advanced({
             additionalCssClasses: ['modal-bw-icon'],
@@ -78,6 +77,7 @@
         padding-inline-end: 0;
         min-width: unset;
         background: var(--typo3-input-bg);
+        border-color: var(--typo3-input-border-color);
         transition: background-color 0.2s ease;
     }
 
@@ -100,9 +100,17 @@
         line-height: 32px;
         color: light-dark(var(--bs-body-color), var(--typo3-input-color));
     }
+
+    .typo3-v12.has-change .form-control {
+        min-height: 32px;
+    }
+
+    .typo3-v12.has-change .form-control {
+        --typo3-input-border-color: #6daae0;
+    }
 </style>
 
-<div class="input-group" class:has-change={hasChange}>
+<div class="input-group" class:has-change={hasChange} class:typo3-v12={typo3Version === 12}>
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
     <div class="form-control-clearable-wrapper">
         <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon && !currentIcon.isFontIcon}>
