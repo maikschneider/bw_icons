@@ -37,7 +37,7 @@ class IconSelection extends AbstractFormElement
 
         $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
 
-        $html = $this->renderLabel($fieldId);
+        $html = $wizardConfig->typo3Version > 12 ? $this->renderLabel($fieldId) : '';
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
         $html .= '<div class="form-wizards-wrap">';
         $html .= '<div class="form-wizards-element">';
