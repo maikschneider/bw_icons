@@ -77,12 +77,16 @@
         padding: 0;
         padding-inline-end: 0;
         min-width: unset;
-        background: light-dark(var(--bs-body-bg), transparent);
+        background: var(--typo3-input-bg);
         transition: background-color 0.2s ease;
     }
 
     .white-bg {
         background: var(--bs-body-bg);
+    }
+
+    .white-bg + .close {
+        color: #000 !important;
     }
 
     img {
@@ -95,10 +99,6 @@
         font-size: 24px;
         line-height: 32px;
         color: light-dark(var(--bs-body-color), var(--typo3-input-color));
-    }
-
-    .close {
-        color: #000 !important;
     }
 </style>
 
