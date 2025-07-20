@@ -101,6 +101,10 @@
         color: light-dark(var(--bs-body-color), var(--typo3-input-color));
     }
 
+    .typo3-v12 img {
+        max-height: 32px;
+    }
+
     .typo3-v12.has-change .form-control {
         min-height: 32px;
     }
