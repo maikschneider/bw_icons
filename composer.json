@@ -66,7 +66,7 @@
 		"typo3/cms-seo": "^12.4 || ^13.4",
 		"typo3/cms-setup": "^12.4 || ^13.4",
 		"typo3/cms-tstemplate": "^12.4 || ^13.4",
-		"typo3/testing-framework": "^8.2"
+		"typo3/testing-framework": "^8.2 || ^9.0"
 	},
 	"repositories": [
 		{
