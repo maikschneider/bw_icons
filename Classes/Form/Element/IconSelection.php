@@ -34,6 +34,7 @@ class IconSelection extends AbstractFormElement
 
         $itemFormElValue = $parameterArray['itemFormElValue'];
         $itemFormElName = $parameterArray['itemFormElName'];
+        $description = $parameterArray['fieldConf']['description'] ?? '';
 
         $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
 
@@ -41,6 +42,7 @@ class IconSelection extends AbstractFormElement
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
         $html .= '<div class="form-wizards-wrap">';
         $html .= '<div class="form-wizards-element">';
+        $html .= $description ? '<div class="form-description">' . htmlspecialchars($description) . '</div>' : '';
         $html .= '<div class="form-control-wrap">';
         $html .= '<bw-icon-element ';
         $html .= 'itemFormElValue="' . htmlspecialchars($itemFormElValue, ENT_QUOTES) . '"';
