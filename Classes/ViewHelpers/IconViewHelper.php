@@ -11,6 +11,14 @@ class IconViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
+    /**
+     * Register view helper arguments used to render an icon.
+     *
+     * Registers three arguments:
+     * - `icon` (string, required): Icon name or path.
+     * - `markup` (string, optional): HTML template containing `###ICON###` as placeholder; defaults to an empty string.
+     * - `additionalAttributes` (array, optional): Additional attributes that will be added to the resulting HTML element as data-attributes.
+     */
     public function initializeArguments(): void
     {
         $this->registerArgument('icon', 'string', 'The icon name', true);
@@ -29,6 +37,17 @@ class IconViewHelper extends AbstractViewHelper
         );
     }
 
+    /**
+     * Render an icon either as an <img> element for file paths or as provided HTML markup with data attributes.
+     *
+     * Builds `data-` attributes (including `data-icon-name` and `data-icon-base-name`), merges any additional attributes,
+     * and if the icon string contains a dot treats it as a file path — resolving it to a web path and returning an `<img>` tag
+     * with `src`, `loading="lazy"`, `alt=""`, and `role="presentation"`. If the icon is not a file path, replaces the
+     * `###ICON###` placeholder in the provided markup (or the default `<i class="###ICON###"></i>`) with the icon name,
+     * applies the collected attributes to the first element, and returns the serialized HTML.
+     *
+     * @return string The rendered HTML for the icon.
+     */
     public function render()
     {
         $attributes = [];
@@ -71,6 +90,14 @@ class IconViewHelper extends AbstractViewHelper
         return $doc->saveHTML() ?: '';
     }
 
+    /**
+     * Build an HTML attribute string from an associative array.
+     *
+     * Converts each array entry into `key="value"` pairs separated by single spaces.
+     *
+     * @param array<string,mixed> $attributes Associative map of attribute names to values.
+     * @return string The attributes formatted as `key="value"` pairs separated by spaces.
+     */
     protected static function concatAttributes(array $attributes): string
     {
         return implode(' ', array_map(static function ($key) use ($attributes) {
