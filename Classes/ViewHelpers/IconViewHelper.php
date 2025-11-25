@@ -5,30 +5,44 @@ namespace Blueways\BwIcons\ViewHelpers;
 use DOMDocument;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IconViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $attributes = [];
-        $attributes['data-icon-name'] = $arguments['icon'];
-        $attributes['data-icon-base-name'] = $arguments['icon'];
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('icon', 'string', 'The icon name', true);
+        $this->registerArgument(
+            'markup',
+            'string',
+            'Markup of the icon. Use ###ICON### as placeholder for the icon name.',
+            false,
+            ''
+        );
+        $this->registerArgument(
+            'additionalAttributes',
+            'array',
+            'Additional tag attributes. They will be added directly to the resulting HTML tag.',
+            false
+        );
+    }
 
-        if (isset($arguments['additionalAttributes'])) {
-            foreach ($arguments['additionalAttributes'] as $additionalAttributeName => $value) {
+    public function render()
+    {
+        $attributes = [];
+        $attributes['data-icon-name'] = $this->arguments['icon'];
+        $attributes['data-icon-base-name'] = $this->arguments['icon'];
+
+        if (isset($this->arguments['additionalAttributes'])) {
+            foreach ($this->arguments['additionalAttributes'] as $additionalAttributeName => $value) {
                 $attributes['data-' . $additionalAttributeName] = $value;
             }
         }
 
-        if (strpos($arguments['icon'], '.')) {
-            $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
+        if (strpos($this->arguments['icon'], '.')) {
+            $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
             $webPath = PathUtility::getAbsoluteWebPath($path);
 
             $extension = pathinfo($path, PATHINFO_EXTENSION);
@@ -44,8 +58,8 @@ class IconViewHelper extends AbstractViewHelper
             return '<img ' . $attrString . ' />';
         }
 
-        $markup = $arguments['markup'] ?: '<i class="###ICON###"></i>';
-        $markup = str_replace('###ICON###', $arguments['icon'], $markup);
+        $markup = $this->arguments['markup'] ?: '<i class="###ICON###"></i>';
+        $markup = str_replace('###ICON###', $this->arguments['icon'], $markup);
 
         $doc = new DOMDocument();
         $doc->loadHTML($markup, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -62,24 +76,5 @@ class IconViewHelper extends AbstractViewHelper
         return implode(' ', array_map(static function ($key) use ($attributes) {
             return $key . '="' . $attributes[$key] . '"';
         }, array_keys($attributes)));
-    }
-
-    public function initializeArguments(): void
-    {
-        parent::initializeArguments();
-        $this->registerArgument('icon', 'string', 'The icon name', true);
-        $this->registerArgument(
-            'markup',
-            'string',
-            'Markup of the icon. Use ###ICON### as placeholder for the icon name.',
-            false,
-            ''
-        );
-        $this->registerArgument(
-            'additionalAttributes',
-            'array',
-            'Additional tag attributes. They will be added directly to the resulting HTML tag.',
-            false
-        );
     }
 }
