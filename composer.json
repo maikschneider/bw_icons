@@ -112,7 +112,6 @@
 			"@ci:editorconfig:lint",
 			"@ci:php:lint",
 			"@ci:php:fixer",
-			"@ci:php:stan",
 			"@ci:php:rector",
 			"@ci:typoscript:lint",
 			"@ci:xml:lint",
@@ -139,7 +138,6 @@
 			"@editorconfig:lint",
 			"@php:lint",
 			"@php:fixer",
-			"@php:stan",
 			"@typoscript:lint",
 			"@xml:lint",
 			"@yaml:lint"
