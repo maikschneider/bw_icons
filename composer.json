@@ -34,11 +34,11 @@
 		"friendsofphp/php-cs-fixer": "^3.6.0",
 		"helhum/typo3-console": "^8.2",
 		"helmich/typo3-typoscript-lint": "^3.3",
+		"move-elevator/composer-translation-validator": "^1.3",
 		"nikic/php-parser": "^4.19 || ^5.4",
 		"phpmd/phpmd": "^2.13.0",
 		"saschaegerer/phpstan-typo3": "^1.10 || ^2.1",
 		"ssch/typo3-rector": "^2.13 || ^3.3",
-		"symfony/translation": "^7.2",
 		"typo3/cms-backend": "^12.4 || ^13.4",
 		"typo3/cms-base-distribution": "^12.4 || ^13.4",
 		"typo3/cms-belog": "^12.4 || ^13.4",
@@ -88,6 +88,7 @@
 		"allow-plugins": {
 			"ergebnis/composer-normalize": true,
 			"helhum/typo3-console-plugin": true,
+			"move-elevator/composer-translation-validator": true,
 			"typo3/class-alias-loader": true,
 			"typo3/cms-composer-installers": true
 		},
@@ -105,6 +106,7 @@
 	"scripts": {
 		"ci:composer:normalize": "@composer normalize --no-check-lock --dry-run",
 		"ci:editorconfig:lint": "ec --strict --git-only -n",
+		"ci:language:lint": "@composer validate-translations ./Resources/Private/Language",
 		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml || true",
 		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' -print0 | xargs -0 -n 1 -P 4 php -l",
 		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml || true",
@@ -114,14 +116,13 @@
 			"@ci:editorconfig:lint",
 			"@ci:php:lint",
 			"@ci:php:fixer",
+			"@ci:language:lint",
 			"@ci:php:stan",
 			"@ci:php:rector",
 			"@ci:typoscript:lint",
-			"@ci:xml:lint",
 			"@ci:yaml:lint"
 		],
 		"ci:typoscript:lint": "typoscript-lint --fail-on-warnings",
-		"ci:xml:lint": "find ./ -name '*.xlf' ! -path './vendor/*' ! -path './var/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
 		"ci:yaml:lint": "find ./ ! -path './vendor/*' ! -path '*/node_modules/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint",
 		"composer:normalize": "@composer normalize --no-check-lock",
 		"create-libs": [
@@ -131,6 +132,7 @@
 			"chmod -x Libraries/*"
 		],
 		"editorconfig:lint": "ec --strict --fix --git-only -n",
+		"language:lint": "@composer validate-translations ./Resources/Private/Language",
 		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
 		"php:md": "php vendor/bin/phpmd Classes ansi phpmd.xml --generate-baseline",
@@ -141,13 +143,12 @@
 			"@editorconfig:lint",
 			"@php:lint",
 			"@php:fixer",
+			"@language:lint",
 			"@php:stan",
 			"@typoscript:lint",
-			"@xml:lint",
 			"@yaml:lint"
 		],
 		"typoscript:lint": "typoscript-lint",
-		"xml:lint": "find ./ -name '*.xlf' ! -path './vendor/*' ! -path './var/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
 		"yaml:lint": "find ./ ! -path './vendor/*' ! -path '*/node_modules/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
 	}
 }
