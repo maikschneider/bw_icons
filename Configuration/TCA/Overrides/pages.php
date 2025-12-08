@@ -1,15 +1,19 @@
 <?php
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 // Register PageTS
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
+ExtensionManagementUtility::registerPageTSConfigFile(
     'bw_icons',
     'Configuration/TSconfig/Page/Typo3Icons.tsconfig',
     'Icon Picker: TYPO3 Core Icons'
 );
 
 // Get extension configuration
-$extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+$extensionConfiguration = GeneralUtility::makeInstance(
+    ExtensionConfiguration::class
 );
 $bwiconsConf = $extensionConfiguration->get('bw_icons');
 
@@ -28,13 +32,13 @@ if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 1) {
     ];
 
     // Register new field
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
+    ExtensionManagementUtility::addTCAcolumns(
         'pages',
         $temporaryColumns
     );
 
     // Display field next to title field
-    $firstBreak = strpos($GLOBALS['TCA']['pages']['palettes']['title']['showitem'], '--linebreak--');
+    $firstBreak = strpos((string)$GLOBALS['TCA']['pages']['palettes']['title']['showitem'], '--linebreak--');
     $GLOBALS['TCA']['pages']['palettes']['title']['showitem'] = substr_replace(
         $GLOBALS['TCA']['pages']['palettes']['title']['showitem'],
         'tx_bwicons_icon,',

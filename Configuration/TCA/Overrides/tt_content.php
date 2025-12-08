@@ -1,8 +1,12 @@
 <?php
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 // Get extension configuration
-$extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+$extensionConfiguration = GeneralUtility::makeInstance(
+    ExtensionConfiguration::class
 );
 $bwiconsConf = $extensionConfiguration->get('bw_icons');
 
@@ -21,15 +25,15 @@ if (isset($bwiconsConf['tt_content']) && (int)$bwiconsConf['tt_content'] === 1) 
     ];
 
     // Register new field
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
+    ExtensionManagementUtility::addTCAcolumns(
         'tt_content',
         $temporaryColumns
     );
 
     // Display new field next to date field
-    $firstBreak = strpos($GLOBALS['TCA']['tt_content']['palettes']['headers']['showitem'], '--linebreak--');
+    $firstBreak = strpos((string)$GLOBALS['TCA']['tt_content']['palettes']['headers']['showitem'], '--linebreak--');
     $secondBreak = strpos(
-        $GLOBALS['TCA']['tt_content']['palettes']['headers']['showitem'],
+        (string)$GLOBALS['TCA']['tt_content']['palettes']['headers']['showitem'],
         '--linebreak--',
         $firstBreak + 13
     );

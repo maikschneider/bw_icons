@@ -18,6 +18,7 @@
 		}
 	],
 	"require": {
+		"php": "^8.2",
 		"ext-dom": "*",
 		"ext-json": "*",
 		"ext-libxml": "*",
@@ -139,6 +140,7 @@
 		"php:stan": "phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
 		"rector": "rector",
 		"sca": [
+			"@rector",
 			"@composer:normalize",
 			"@editorconfig:lint",
 			"@php:lint",

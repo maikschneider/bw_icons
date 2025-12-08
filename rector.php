@@ -41,12 +41,12 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(ExtEmConfRector::class, [
         ExtEmConfRector::PHP_VERSION_CONSTRAINT => '8.2.0-8.4.99',
-        ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '12.0.0-14.3.99',
+        ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '12.0.0-13.4.99',
         ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
     ])
     ->withConfiguredRule(
         RemoveTypo3VersionChecksRector::class,
-        [RemoveTypo3VersionChecksRector::TARGET_VERSION => 14]
+        [RemoveTypo3VersionChecksRector::TARGET_VERSION => 13]
     )
     ->withSkip([
         // @see https://github.com/sabbelasichon/typo3-rector/issues/2536

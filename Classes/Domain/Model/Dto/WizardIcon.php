@@ -6,19 +6,12 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 
 class WizardIcon
 {
-    public string $value = '';
-
     public string $imgSrc = '';
 
     public string $title = '';
 
-    public ?bool $isFontIcon = null;
-
-    public function __construct(string $value, ?bool $isFontIcon = null)
+    public function __construct(public string $value, public ?bool $isFontIcon = null)
     {
-        $this->value = $value;
-        $this->isFontIcon = $isFontIcon;
-
         $this->setImgSrcFromValue();
         $this->setTitleFromValue();
         $this->guessIsFontIcon();

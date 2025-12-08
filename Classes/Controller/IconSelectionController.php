@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class IconSelectionController
 {
     public function __construct(
-        private ResponseFactoryInterface $responseFactory,
+        private readonly ResponseFactoryInterface $responseFactory,
     ) {
     }
 

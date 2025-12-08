@@ -21,6 +21,6 @@ class IsWhiteViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ) {
-        return (bool)strpos($arguments['icon'], 'white');
+        return (bool)strpos((string)$arguments['icon'], 'white');
     }
 }
