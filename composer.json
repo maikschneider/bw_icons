@@ -38,7 +38,6 @@
 		"phpmd/phpmd": "^2.13.0",
 		"saschaegerer/phpstan-typo3": "^1.10 || ^2.1",
 		"ssch/typo3-rector": "^2.13 || ^3.3",
-		"symfony/translation": "^7.2",
 		"typo3/cms-backend": "^12.4 || ^13.4",
 		"typo3/cms-base-distribution": "^12.4 || ^13.4",
 		"typo3/cms-belog": "^12.4 || ^13.4",
@@ -117,11 +116,9 @@
 			"@ci:php:stan",
 			"@ci:php:rector",
 			"@ci:typoscript:lint",
-			"@ci:xml:lint",
 			"@ci:yaml:lint"
 		],
 		"ci:typoscript:lint": "typoscript-lint --fail-on-warnings",
-		"ci:xml:lint": "find ./ -name '*.xlf' ! -path './vendor/*' ! -path './var/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
 		"ci:yaml:lint": "find ./ ! -path './vendor/*' ! -path '*/node_modules/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint",
 		"composer:normalize": "@composer normalize --no-check-lock",
 		"create-libs": [
@@ -143,11 +140,9 @@
 			"@php:fixer",
 			"@php:stan",
 			"@typoscript:lint",
-			"@xml:lint",
 			"@yaml:lint"
 		],
 		"typoscript:lint": "typoscript-lint",
-		"xml:lint": "find ./ -name '*.xlf' ! -path './vendor/*' ! -path './var/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
 		"yaml:lint": "find ./ ! -path './vendor/*' ! -path '*/node_modules/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
 	}
 }
