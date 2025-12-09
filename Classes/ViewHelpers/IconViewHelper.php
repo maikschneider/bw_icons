@@ -27,7 +27,7 @@ class IconViewHelper extends AbstractViewHelper
             }
         }
 
-        if (strpos((string)$arguments['icon'], '.')) {
+        if (str_contains((string)$arguments['icon'], '.')) {
             $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
             $webPath = PathUtility::getAbsoluteWebPath($path);
 
