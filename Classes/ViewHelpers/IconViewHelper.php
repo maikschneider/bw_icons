@@ -27,7 +27,7 @@ class IconViewHelper extends AbstractViewHelper
             }
         }
 
-        if (strpos($arguments['icon'], '.')) {
+        if (str_contains($arguments['icon'], '.')) {
             $path = GeneralUtility::getFileAbsFileName($arguments['icon']);
             $webPath = PathUtility::getAbsoluteWebPath($path);
 
@@ -59,9 +59,7 @@ class IconViewHelper extends AbstractViewHelper
 
     protected static function concatAttributes(array $attributes): string
     {
-        return implode(' ', array_map(static function ($key) use ($attributes) {
-            return $key . '="' . $attributes[$key] . '"';
-        }, array_keys($attributes)));
+        return implode(' ', array_map(static fn ($key) => $key . '="' . $attributes[$key] . '"', array_keys($attributes)));
     }
 
     public function initializeArguments(): void

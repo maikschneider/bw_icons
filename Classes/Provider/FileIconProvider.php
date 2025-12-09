@@ -20,7 +20,7 @@ class FileIconProvider extends AbstractIconProvider
         // icons in root dir
         $icons[] = GeneralUtility::getFilesInDir($path, $fileExtensionList);
         $icons[0] = array_map(static function ($icon) use ($typo3Path) {
-            $typo3Path = str_starts_with($typo3Path, '/') ? $typo3Path : '/' . $typo3Path;
+            $typo3Path = str_starts_with((string)$typo3Path, '/') ? $typo3Path : '/' . $typo3Path;
             return $typo3Path . '/' . $icon;
         }, $icons[0]);
         $icons[0] = array_values($icons[0]);

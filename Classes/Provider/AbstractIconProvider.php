@@ -12,11 +12,8 @@ abstract class AbstractIconProvider
 
     protected string $cacheIdentifier = '';
 
-    protected array $options = [];
-
-    public function __construct($options)
+    public function __construct(protected array $options)
     {
-        $this->options = $options;
     }
 
     public function getOptions(): array
