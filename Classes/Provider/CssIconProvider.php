@@ -304,6 +304,7 @@ class CssIconProvider extends AbstractIconProvider
             $weightRules = $ruleSet->getRules('font-weight');
             $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
             $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
+            $weight = is_float($weight) ? (int)$weight : $weight;
 
             $styleRules = $ruleSet->getRules('font-style');
 
@@ -454,7 +455,8 @@ class CssIconProvider extends AbstractIconProvider
                 $fontFamilyMatches = true;
             }
 
-            if (static::getFontWeightOfRuleSet($blockRule) === $font['weight']) {
+            $fontWeightOfRule = static::getFontWeightOfRuleSet($blockRule);
+            if (!$fontWeightOfRule || $fontWeightOfRule === $font['weight']) {
                 $fontWeightMatches = true;
             }
         }
