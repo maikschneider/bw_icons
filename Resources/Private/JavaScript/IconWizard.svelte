@@ -74,7 +74,7 @@
 
     .icon-grid {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
         gap: 0.5rem;
         padding-top: 2px;
         padding-bottom: 2px;
