@@ -10,7 +10,12 @@ mod.tx_bwicons {
   fontawesome5 {
     title = Font Awesome 5
     file = EXT:bw_icons/Tests/Fixtures/font-awesome-5.15.4/css/all.css
-    markup = <span class="fab ###ICON###"></span>
+  }
+
+  fontawesome6 = Blueways\BwIcons\Provider\CssIconProvider
+  fontawesome6 {
+    title = Font Awesome 6
+    file = EXT:bw_icons/Tests/Fixtures/font-awesome-6.7.2/css/all.css
   }
 
 }
