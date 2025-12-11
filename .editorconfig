@@ -77,6 +77,14 @@ trim_trailing_whitespace = unset
 indent_style = unset
 indent_size = unset
 
+[Tests/Fixtures/**]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset
+
 [{Resources/Public/JavaScript/IconElement.js,Resources/Public/JavaScript/IconPicker.js,Resources/Public/JavaScript/IconWizard.js}]
 charset = unset
 end_of_line = unset

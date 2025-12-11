@@ -34,6 +34,11 @@ class CssIconProvider extends AbstractIconProvider
      */
     protected TtfReaderUtility $ttfReaderUtility;
 
+    /**
+     * @var array<string>
+     */
+    protected array $cssVariableNames = [];
+
     public function __construct($options)
     {
         parent::__construct($options);
@@ -152,6 +157,25 @@ class CssIconProvider extends AbstractIconProvider
             }
         }
 
+        if (count($this->cssVariableNames)) {
+            foreach ($allRules as $rule) {
+                // check for content rule
+                if (!is_a($rule, DeclarationBlock::class)) {
+                    continue;
+                }
+                if (count($rule->getRules('content')) === 0) {
+                    continue;
+                }
+                $selectors = $rule->getSelectors();
+                foreach ($selectors as $selector) {
+                    $selectorString = $selector->getSelector();
+                    if (str_contains($selectorString, '::')) {
+                        $tempFile->append($rule);
+                    }
+                }
+            }
+        }
+
         // Filter for font-faces that are actually used
         $fontFaces = $this->filterUsedFontFaces($fontFaces, $rulesUsingFontFamily);
 
@@ -234,17 +258,22 @@ class CssIconProvider extends AbstractIconProvider
         // Validate that declaration has content property and exactly one selector
         if (!is_a($rule, DeclarationBlock::class)
             || count($rule->getSelectors()) !== 1
-            || count($rule->getRules('content')) !== 1
         ) {
+            return false;
+        }
+
+        if (count($rule->getRules()) === 1 && str_starts_with($rule->getRules()[0]->getRule(), '--')) {
+            return true;
+        }
+
+        // Validate declaration has content property
+        if (count($rule->getRules('content')) !== 1) {
             return false;
         }
 
         // Validate content-property (exists and is not "")
         $contentRule = $rule->getRules('content')[0];
-        if (!$contentRule || !$contentRule->getValue() || !is_a(
-            $contentRule->getValue(),
-            CSSString::class
-        ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+        if ($contentRule->getValue() === null || trim((string)$contentRule->getValue(), '"\'') === '') {
             return false;
         }
 
@@ -257,17 +286,29 @@ class CssIconProvider extends AbstractIconProvider
         return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
     }
 
+    protected function extractGlyphString(DeclarationBlock $cssGlyph): string
+    {
+        $contentRules = $cssGlyph->getRules('content');
+        if (count($contentRules)) {
+            $glyphString = (string)$contentRules[0]->getValue();
+        } elseif (str_starts_with($cssGlyph->getRules()[0], '--')) {
+            $cssVariable = $cssGlyph->getRules()[0]->getRule();
+            // Store variable name to include related rules later
+            $this->cssVariableNames[$cssVariable] = $cssVariable;
+            $glyphString = $cssGlyph->getRules()[0]->getValue();
+        }
+        return trim($glyphString ?? '', '"\'');
+    }
+
     /**
      * Check if a glyph already exists in a set
      */
     protected function glyphExistsInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
     {
-        $contentRules = $cssGlyph->getRules('content');
-        $glyphString = $contentRules[0]->getValue()->getString();
+        $glyphString = $this->extractGlyphString($cssGlyph);
 
         foreach ($cssGlyphs as $setRule) {
-            $contentRules = $setRule->getRules('content');
-            $glyphStringInSet = $contentRules[0]->getValue()->getString();
+            $glyphStringInSet = $this->extractGlyphString($setRule);
             if ($glyphString === $glyphStringInSet) {
                 return true;
             }
@@ -304,6 +345,7 @@ class CssIconProvider extends AbstractIconProvider
             $weightRules = $ruleSet->getRules('font-weight');
             $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
             $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
+            $weight = is_float($weight) ? (int)$weight : $weight;
 
             $styleRules = $ruleSet->getRules('font-style');
 
@@ -321,8 +363,7 @@ class CssIconProvider extends AbstractIconProvider
     protected function filterAvailableGlyphs(array $cssGlyphs, array $fontGlyphs): array
     {
         return array_filter($cssGlyphs, function ($cssGlyph) use ($fontGlyphs) {
-            $rules = $cssGlyph->getRules('content');
-            $glyphString = $rules[0]->getValue()->getString();
+            $glyphString = $this->extractGlyphString($cssGlyph);
             return in_array($glyphString, $fontGlyphs, true);
         });
     }
@@ -454,7 +495,8 @@ class CssIconProvider extends AbstractIconProvider
                 $fontFamilyMatches = true;
             }
 
-            if (static::getFontWeightOfRuleSet($blockRule) === $font['weight']) {
+            $fontWeightOfRule = static::getFontWeightOfRuleSet($blockRule);
+            if (!$fontWeightOfRule || $fontWeightOfRule === $font['weight']) {
                 $fontWeightMatches = true;
             }
         }
@@ -617,7 +659,7 @@ class CssIconProvider extends AbstractIconProvider
             $matches
         );
 
-        return $matches[0] ?? [];
+        return $matches[0];
     }
 
     /**
@@ -709,8 +751,11 @@ class CssIconProvider extends AbstractIconProvider
         // Handle CSS function (e.g., var())
         if ($fontWeight instanceof CSSFunction) {
             $cssFunctionParts = $fontWeight->getListComponents();
-            if (count($cssFunctionParts) === 2) {
+            if (count($cssFunctionParts) === 2 && is_a($cssFunctionParts[1], CSSString::class)) {
                 return $cssFunctionParts[1]->getString();
+            }
+            if (count($cssFunctionParts) === 2 && is_a($cssFunctionParts[1], Size::class)) {
+                return $cssFunctionParts[1]->getSize();
             }
         }
 
