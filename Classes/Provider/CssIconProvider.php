@@ -273,10 +273,7 @@ class CssIconProvider extends AbstractIconProvider
 
         // Validate content-property (exists and is not "")
         $contentRule = $rule->getRules('content')[0];
-        if (!$contentRule || !$contentRule->getValue() || !is_a(
-            $contentRule->getValue(),
-            CSSString::class
-        ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+        if ($contentRule->getValue() === null || trim((string)$contentRule->getValue(), '"\'') === '') {
             return false;
         }
 
@@ -289,18 +286,18 @@ class CssIconProvider extends AbstractIconProvider
         return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
     }
 
-    protected function getGlyphString(DeclarationBlock $cssGlyph): string
+    protected function extractGlyphString(DeclarationBlock $cssGlyph): string
     {
         $contentRules = $cssGlyph->getRules('content');
         if (count($contentRules)) {
-            return $contentRules[0]->getValue()->getString();
-        }
-        if (str_starts_with($cssGlyph->getRules()[0], '--')) {
+            $glyphString = (string)$contentRules[0]->getValue();
+        } elseif (str_starts_with($cssGlyph->getRules()[0], '--')) {
             $cssVariable = $cssGlyph->getRules()[0]->getRule();
+            // Store variable name to include related rules later
             $this->cssVariableNames[$cssVariable] = $cssVariable;
-            return trim($cssGlyph->getRules()[0]->getValue(), '"');
+            $glyphString = $cssGlyph->getRules()[0]->getValue();
         }
-        return '';
+        return trim($glyphString ?? '', '"\'');
     }
 
     /**
@@ -308,10 +305,10 @@ class CssIconProvider extends AbstractIconProvider
      */
     protected function glyphExistsInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
     {
-        $glyphString = $this->getGlyphString($cssGlyph);
+        $glyphString = $this->extractGlyphString($cssGlyph);
 
         foreach ($cssGlyphs as $setRule) {
-            $glyphStringInSet = $this->getGlyphString($setRule);
+            $glyphStringInSet = $this->extractGlyphString($setRule);
             if ($glyphString === $glyphStringInSet) {
                 return true;
             }
@@ -366,7 +363,7 @@ class CssIconProvider extends AbstractIconProvider
     protected function filterAvailableGlyphs(array $cssGlyphs, array $fontGlyphs): array
     {
         return array_filter($cssGlyphs, function ($cssGlyph) use ($fontGlyphs) {
-            $glyphString = $this->getGlyphString($cssGlyph);
+            $glyphString = $this->extractGlyphString($cssGlyph);
             return in_array($glyphString, $fontGlyphs, true);
         });
     }
@@ -662,7 +659,7 @@ class CssIconProvider extends AbstractIconProvider
             $matches
         );
 
-        return $matches[0] ?? [];
+        return $matches[0];
     }
 
     /**
