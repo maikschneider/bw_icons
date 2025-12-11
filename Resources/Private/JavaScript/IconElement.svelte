@@ -58,6 +58,7 @@
     function onResetButtonClick(e) {
         e.preventDefault();
         currentIcon = null
+        itemFormElValue = ''
     }
 </script>
 
