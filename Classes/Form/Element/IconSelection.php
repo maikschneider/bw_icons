@@ -24,9 +24,8 @@ class IconSelection extends AbstractFormElement
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
-        $styleSheets = $helperUtil->getStyleSheets();
-        $styleSheetPaths = array_map(static fn ($styleSheet) => Environment::getPublicPath() . $styleSheet, $styleSheets);
-        $resultArray['stylesheetFiles'] = $styleSheetPaths;
+
+        $resultArray['stylesheetFiles'] = $helperUtil->getStyleSheets();;
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
