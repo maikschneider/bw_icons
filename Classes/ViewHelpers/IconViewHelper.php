@@ -41,7 +41,7 @@ class IconViewHelper extends AbstractViewHelper
             }
         }
 
-        if (strpos($this->arguments['icon'], '.')) {
+        if (str_contains((string)$this->arguments['icon'], '.')) {
             $path = GeneralUtility::getFileAbsFileName($this->arguments['icon']);
             $webPath = PathUtility::getAbsoluteWebPath($path);
 
@@ -73,8 +73,6 @@ class IconViewHelper extends AbstractViewHelper
 
     protected static function concatAttributes(array $attributes): string
     {
-        return implode(' ', array_map(static function ($key) use ($attributes) {
-            return $key . '="' . $attributes[$key] . '"';
-        }, array_keys($attributes)));
+        return implode(' ', array_map(static fn ($key) => $key . '="' . $attributes[$key] . '"', array_keys($attributes)));
     }
 }

@@ -8,16 +8,13 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 'maik.schneider@xima.de',
     'author_company' => 'XIMA Media GmbH',
     'state' => 'stable',
-    'uploadfolder' => 0,
-    'modify_tables' => '',
-    'clearCacheOnLoad' => 0,
     'version' => '4.0.0',
     'autoload' => [
         'psr-4' => ['Blueways\\BwIcons\\' => 'Classes'],
     ],
     'constraints' => [
         'depends' => [
-            'typo3' => '12.0.0-13.9.99',
+            'typo3' => '12.0.0-13.4.99',
         ],
     ],
 ];

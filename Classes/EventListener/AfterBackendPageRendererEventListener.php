@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 class AfterBackendPageRendererEventListener
 {
     public function __construct(
-        private PageRenderer $pageRenderer
+        private readonly PageRenderer $pageRenderer
     ) {
     }
 

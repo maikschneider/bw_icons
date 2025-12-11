@@ -7,7 +7,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class CssIconProviderTest extends UnitTestCase
 {
-    public function testCleanFilePath()
+    public function testCleanFilePath(): void
     {
         $provider = new CssIconProvider([]);
 

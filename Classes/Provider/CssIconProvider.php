@@ -34,6 +34,11 @@ class CssIconProvider extends AbstractIconProvider
      */
     protected TtfReaderUtility $ttfReaderUtility;
 
+    /**
+     * @var array<string>
+     */
+    protected array $cssVariableNames = [];
+
     public function __construct($options)
     {
         parent::__construct($options);
@@ -47,7 +52,7 @@ class CssIconProvider extends AbstractIconProvider
      */
     protected function loadDependencies(): void
     {
-        if (!class_exists('\Sabberworm\CSS\CSSList\Document')) {
+        if (!class_exists(Document::class)) {
             @include 'phar://' . ExtensionManagementUtility::extPath('bw_icons') . 'Libraries/sabberworm-php-css-parser.phar/vendor/autoload.php';
         }
     }
@@ -61,7 +66,7 @@ class CssIconProvider extends AbstractIconProvider
             $this->getIcons();
         }
         $tempFile = $this->getCssTempFilePath();
-        return '/' . substr(PathUtility::getRelativePath(Environment::getPublicPath(), $tempFile), 0, -1);
+        return '/' . substr((string)PathUtility::getRelativePath(Environment::getPublicPath(), $tempFile), 0, -1);
     }
 
     /**
@@ -94,10 +99,10 @@ class CssIconProvider extends AbstractIconProvider
     public function getCurrentPath(): string
     {
         $path = $this->options['file'];
-        if (!GeneralUtility::isValidUrl($path) || strpos($path, 'EXT:') === 0) {
+        if (!GeneralUtility::isValidUrl($path) || str_starts_with((string)$path, 'EXT:')) {
             $path = GeneralUtility::getFileAbsFileName($path);
         }
-        return pathinfo($path, PATHINFO_DIRNAME);
+        return pathinfo((string)$path, PATHINFO_DIRNAME);
     }
 
     /**
@@ -147,8 +152,27 @@ class CssIconProvider extends AbstractIconProvider
                 $tempFile->append($rule);
             }
 
-            if ($this->getFontFamilyNameOfRuleSet($rule)) {
+            if (static::getFontFamilyNameOfRuleSet($rule)) {
                 $rulesUsingFontFamily[] = $rule;
+            }
+        }
+
+        if (count($this->cssVariableNames)) {
+            foreach ($allRules as $rule) {
+                // check for content rule
+                if (!is_a($rule, DeclarationBlock::class)) {
+                    continue;
+                }
+                if (count($rule->getRules('content')) === 0) {
+                    continue;
+                }
+                $selectors = $rule->getSelectors();
+                foreach ($selectors as $selector) {
+                    $selectorString = $selector->getSelector();
+                    if (str_contains($selectorString, '::')) {
+                        $tempFile->append($rule);
+                    }
+                }
             }
         }
 
@@ -234,27 +258,46 @@ class CssIconProvider extends AbstractIconProvider
         // Validate that declaration has content property and exactly one selector
         if (!is_a($rule, DeclarationBlock::class)
             || count($rule->getSelectors()) !== 1
-            || count($rule->getRules('content')) !== 1
         ) {
+            return false;
+        }
+
+        if (count($rule->getRules()) === 1 && str_starts_with($rule->getRules()[0]->getRule(), '--')) {
+            return true;
+        }
+
+        // Validate declaration has content property
+        if (count($rule->getRules('content')) !== 1) {
             return false;
         }
 
         // Validate content-property (exists and is not "")
         $contentRule = $rule->getRules('content')[0];
-        if (!$contentRule || !$contentRule->getValue() || !is_a(
-            $contentRule->getValue(),
-            CSSString::class
-        ) || !$contentRule->getValue()->getString() || $contentRule->getValue()->getString() === '') {
+        if ($contentRule->getValue() === null || trim((string)$contentRule->getValue(), '"\'') === '') {
             return false;
         }
 
         // Validate selector (is class and has :before or :after)
         $selector = $rule->getSelectors()[0]->getSelector();
-        if (strlen($selector) < 7 || strpos($selector, '.') !== 0) {
+        if (strlen($selector) < 7 || !str_starts_with($selector, '.')) {
             return false;
         }
 
         return strpos($selector, ':before', -7) || strpos($selector, ':after', -6);
+    }
+
+    protected function extractGlyphString(DeclarationBlock $cssGlyph): string
+    {
+        $contentRules = $cssGlyph->getRules('content');
+        if (count($contentRules)) {
+            $glyphString = (string)$contentRules[0]->getValue();
+        } elseif (str_starts_with($cssGlyph->getRules()[0], '--')) {
+            $cssVariable = $cssGlyph->getRules()[0]->getRule();
+            // Store variable name to include related rules later
+            $this->cssVariableNames[$cssVariable] = $cssVariable;
+            $glyphString = $cssGlyph->getRules()[0]->getValue();
+        }
+        return trim($glyphString ?? '', '"\'');
     }
 
     /**
@@ -262,12 +305,10 @@ class CssIconProvider extends AbstractIconProvider
      */
     protected function glyphExistsInSet(DeclarationBlock $cssGlyph, array $cssGlyphs): bool
     {
-        $contentRules = $cssGlyph->getRules('content');
-        $glyphString = $contentRules[0]->getValue()->getString();
+        $glyphString = $this->extractGlyphString($cssGlyph);
 
         foreach ($cssGlyphs as $setRule) {
-            $contentRules = $setRule->getRules('content');
-            $glyphStringInSet = $contentRules[0]->getValue()->getString();
+            $glyphStringInSet = $this->extractGlyphString($setRule);
             if ($glyphString === $glyphStringInSet) {
                 return true;
             }
@@ -284,7 +325,7 @@ class CssIconProvider extends AbstractIconProvider
         return array_filter($fontFaces, function ($fontFace) use ($rulesUsingFontFamily) {
             $fontFamilyName = $fontFace->getRules('font-family')[0]->getValue()->getString();
             foreach ($rulesUsingFontFamily as $ruleUsingFontFamily) {
-                if ($this->getFontFamilyNameOfRuleSet($ruleUsingFontFamily) === $fontFamilyName) {
+                if (static::getFontFamilyNameOfRuleSet($ruleUsingFontFamily) === $fontFamilyName) {
                     return true;
                 }
             }
@@ -304,6 +345,7 @@ class CssIconProvider extends AbstractIconProvider
             $weightRules = $ruleSet->getRules('font-weight');
             $weight = count($weightRules) ? $weightRules[0]->getValue() : '';
             $weight = is_a($weight, Size::class) ? $weight->getSize() : $weight;
+            $weight = is_float($weight) ? (int)$weight : $weight;
 
             $styleRules = $ruleSet->getRules('font-style');
 
@@ -321,8 +363,7 @@ class CssIconProvider extends AbstractIconProvider
     protected function filterAvailableGlyphs(array $cssGlyphs, array $fontGlyphs): array
     {
         return array_filter($cssGlyphs, function ($cssGlyph) use ($fontGlyphs) {
-            $rules = $cssGlyph->getRules('content');
-            $glyphString = $rules[0]->getValue()->getString();
+            $glyphString = $this->extractGlyphString($cssGlyph);
             return in_array($glyphString, $fontGlyphs, true);
         });
     }
@@ -333,9 +374,7 @@ class CssIconProvider extends AbstractIconProvider
     protected function getFontDisplayName(array $font, array $fontFamilies): string
     {
         $fontName = $font['font-family'];
-        $duplicateExists = count(array_filter($fontFamilies, function ($fontFamily) use ($font) {
-            return $fontFamily['font-family'] === $font['font-family'];
-        })) > 1;
+        $duplicateExists = count(array_filter($fontFamilies, fn ($fontFamily) => $fontFamily['font-family'] === $font['font-family'])) > 1;
 
         if ($duplicateExists) {
             $fontName = $font['font-family'] . ' ' . $font['weight'];
@@ -356,7 +395,7 @@ class CssIconProvider extends AbstractIconProvider
         $fontFamilyPrefix = '';
 
         foreach ($rulesUsingFontFamily as $block) {
-            if ($this->getFontFamilyNameOfRuleSet($block) !== $font['font-family']) {
+            if (static::getFontFamilyNameOfRuleSet($block) !== $font['font-family']) {
                 continue;
             }
 
@@ -374,7 +413,7 @@ class CssIconProvider extends AbstractIconProvider
             // Check each selector for matching font family and weight
             foreach ($selectorBlockToCheck as $selectorName => $blocks) {
                 if ($this->selectorMatchesFontFamily($blocks, $font)) {
-                    $fontFamilyPrefix = substr($selectorName, 1) . ' ';
+                    $fontFamilyPrefix = substr((string)$selectorName, 1) . ' ';
 
                     // Add all matching blocks to the temp file
                     foreach ($blocks as $blockRule) {
@@ -430,7 +469,7 @@ class CssIconProvider extends AbstractIconProvider
             $selectors = (array)$block->getSelectors();
 
             foreach ($selectors as $selector) {
-                $atomicSelectors = $this->splitCssSelector($selector->getSelector());
+                $atomicSelectors = static::splitCssSelector($selector->getSelector());
 
                 if (!count(array_intersect($validSelectors, $atomicSelectors))) {
                     continue;
@@ -452,11 +491,12 @@ class CssIconProvider extends AbstractIconProvider
         $fontFamilyMatches = $fontWeightMatches = false;
 
         foreach ($blocks as $blockRule) {
-            if ($this->getFontFamilyNameOfRuleSet($blockRule) === $font['font-family']) {
+            if (static::getFontFamilyNameOfRuleSet($blockRule) === $font['font-family']) {
                 $fontFamilyMatches = true;
             }
 
-            if ($this->getFontWeightOfRuleSet($blockRule) === $font['weight']) {
+            $fontWeightOfRule = static::getFontWeightOfRuleSet($blockRule);
+            if (!$fontWeightOfRule || $fontWeightOfRule === $font['weight']) {
                 $fontWeightMatches = true;
             }
         }
@@ -480,11 +520,9 @@ class CssIconProvider extends AbstractIconProvider
     protected function createIconsFromGlyphs(array $availableGlyphs, string $fontFamilyPrefix): array
     {
         return array_map(function ($declarationBlock) use ($fontFamilyPrefix) {
-            $atomicSelectors = [$fontFamilyPrefix, ...$this->splitCssSelector($declarationBlock->getSelectors()[0]->getSelector())];
+            $atomicSelectors = [$fontFamilyPrefix, ...static::splitCssSelector($declarationBlock->getSelectors()[0]->getSelector())];
 
-            $atomicSelectors = array_map(function ($selector) {
-                return str_replace(['.'], [''], $selector);
-            }, $atomicSelectors);
+            $atomicSelectors = array_map(fn ($selector) => str_replace(['.'], [''], $selector), $atomicSelectors);
 
             $atomicSelectors = array_unique($atomicSelectors);
             $value = implode(' ', $atomicSelectors);
@@ -548,14 +586,14 @@ class CssIconProvider extends AbstractIconProvider
     {
         $fontFileUrl = self::cleanFilePath($fontFilePath);
         $isRemoteFontPath = GeneralUtility::isValidUrl($fontFileUrl);
-        $isRemoteStylesheet = GeneralUtility::isValidUrl($this->options['file']) && !str_starts_with($this->options['file'], 'EXT:');
+        $isRemoteStylesheet = GeneralUtility::isValidUrl($this->options['file']) && !str_starts_with((string)$this->options['file'], 'EXT:');
         $fontFileName = pathinfo($fontFilePath, PATHINFO_BASENAME);
 
         if ($isRemoteFontPath) {
             $fontFileUrl = $fontFilePath;
         } else {
             if ($isRemoteStylesheet) {
-                $fontFileDir = pathinfo($this->options['file'], PATHINFO_DIRNAME);
+                $fontFileDir = pathinfo((string)$this->options['file'], PATHINFO_DIRNAME);
                 $fontFileUrl = $fontFileDir . '/' . $fontFileUrl;
             } else {
                 $currentPath = $this->getCurrentPath();
@@ -571,16 +609,16 @@ class CssIconProvider extends AbstractIconProvider
      */
     public static function cleanFilePath($path): string
     {
-        $cleanPath = strpos($path, '?') ? substr(
-            $path,
+        $cleanPath = strpos((string)$path, '?') ? substr(
+            (string)$path,
             0,
-            strpos($path, '?')
+            strpos((string)$path, '?')
         ) : $path;
 
-        return strpos($cleanPath, '#') ? substr(
-            $cleanPath,
+        return strpos((string)$cleanPath, '#') ? substr(
+            (string)$cleanPath,
             0,
-            strpos($cleanPath, '#')
+            strpos((string)$cleanPath, '#')
         ) : $cleanPath;
     }
 
@@ -612,16 +650,16 @@ class CssIconProvider extends AbstractIconProvider
     protected static function splitCssSelector($selector): array
     {
         // First, remove known pseudo-elements
-        $selector = preg_replace('/::[a-zA-Z0-9_-]+|:[a-zA-Z0-9_-]+(?=\b)/', '', $selector);
+        $selector = preg_replace('/::[a-zA-Z0-9_-]+|:[a-zA-Z0-9_-]+(?=\b)/', '', (string)$selector);
 
         // Now extract parts (class, ID, attributes, tag names)
         preg_match_all(
             '/(\.[a-zA-Z0-9_-]+|#[a-zA-Z0-9_-]+|\[[^\]]+\]|[a-zA-Z0-9_-]+)/',
-            $selector,
+            (string)$selector,
             $matches
         );
 
-        return $matches[0] ?? [];
+        return $matches[0];
     }
 
     /**
@@ -713,8 +751,11 @@ class CssIconProvider extends AbstractIconProvider
         // Handle CSS function (e.g., var())
         if ($fontWeight instanceof CSSFunction) {
             $cssFunctionParts = $fontWeight->getListComponents();
-            if (count($cssFunctionParts) === 2) {
+            if (count($cssFunctionParts) === 2 && is_a($cssFunctionParts[1], CSSString::class)) {
                 return $cssFunctionParts[1]->getString();
+            }
+            if (count($cssFunctionParts) === 2 && is_a($cssFunctionParts[1], Size::class)) {
+                return $cssFunctionParts[1]->getSize();
             }
         }
 

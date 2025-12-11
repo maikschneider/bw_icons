@@ -25,9 +25,7 @@ class IconSelection extends AbstractFormElement
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
         $styleSheets = $helperUtil->getStyleSheets();
-        $styleSheetPaths = array_map(static function ($styleSheet) {
-            return Environment::getPublicPath() . $styleSheet;
-        }, $styleSheets);
+        $styleSheetPaths = array_map(static fn ($styleSheet) => Environment::getPublicPath() . $styleSheet, $styleSheets);
         $resultArray['stylesheetFiles'] = $styleSheetPaths;
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
@@ -42,10 +40,10 @@ class IconSelection extends AbstractFormElement
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
         $html .= '<div class="form-wizards-wrap">';
         $html .= '<div class="form-wizards-element">';
-        $html .= $description ? '<div class="form-description">' . htmlspecialchars($description) . '</div>' : '';
+        $html .= $description ? '<div class="form-description">' . htmlspecialchars((string)$description) . '</div>' : '';
         $html .= '<div class="form-control-wrap">';
         $html .= '<bw-icon-element ';
-        $html .= 'itemFormElValue="' . htmlspecialchars($itemFormElValue, ENT_QUOTES) . '"';
+        $html .= 'itemFormElValue="' . htmlspecialchars((string)$itemFormElValue, ENT_QUOTES) . '"';
         $html .= 'itemFormElName="' . $itemFormElName . '"';
         $html .= 'currentIconJson="' . htmlspecialchars(json_encode($currentIcon, JSON_THROW_ON_ERROR)) . '"';
         $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
