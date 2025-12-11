@@ -6,7 +6,6 @@ use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Domain\Model\Dto\WizardIcon;
 use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
@@ -25,7 +24,7 @@ class IconSelection extends AbstractFormElement
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
 
-        $resultArray['stylesheetFiles'] = $helperUtil->getStyleSheets();;
+        $resultArray['stylesheetFiles'] = $helperUtil->getStyleSheets();
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
