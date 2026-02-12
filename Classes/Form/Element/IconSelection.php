@@ -8,11 +8,14 @@ use Blueways\BwIcons\Utility\HelperUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
 class IconSelection extends AbstractFormElement
 {
+    public function __construct(protected HelperUtility $helperUtility)
+    {
+    }
+
     public function render(): array
     {
         $resultArray = $this->initializeResultArray();
@@ -23,8 +26,7 @@ class IconSelection extends AbstractFormElement
         $parameterArray = $this->data['parameterArray'];
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
-        $styleSheets = $helperUtil->getStyleSheets();
+        $styleSheets = $this->helperUtility->getStyleSheets($wizardConfig);
         $styleSheetPaths = array_map(static fn ($styleSheet) => Environment::getPublicPath() . $styleSheet, $styleSheets);
         $resultArray['stylesheetFiles'] = $styleSheetPaths;
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
