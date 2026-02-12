@@ -9,12 +9,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Http\Response;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IconSelectionController
 {
     public function __construct(
         private readonly ResponseFactoryInterface $responseFactory,
+        private readonly HelperUtility $helperUtility
     ) {
     }
 
@@ -23,8 +23,7 @@ class IconSelectionController
         $body = $request->getParsedBody();
         $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
-        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
-        $tabs = $helperUtility->getWizardTabs();
+        $tabs = $this->helperUtility->getWizardTabs($wizardConfig);
 
         $response = $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'application/json; charset=utf-8');
@@ -39,8 +38,7 @@ class IconSelectionController
         $body = $request->getParsedBody();
         $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
-        $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
-        $styleSheets = $helperUtil->getStyleSheets();
+        $styleSheets = $this->helperUtility->getStyleSheets($wizardConfig);
 
         return new JsonResponse($styleSheets);
     }

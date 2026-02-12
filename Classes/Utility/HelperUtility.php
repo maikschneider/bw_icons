@@ -6,29 +6,29 @@ use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
 use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
-use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HelperUtility
 {
-    protected array $provider = [];
+    /** @var array<string, array<AbstractIconProvider>> */
+    protected array $providerCache = [];
 
-    public function __construct(protected WizardConfig $wizardConfig)
+    public function __construct(private readonly FrontendInterface $cache)
     {
     }
 
-    public function getWizardTabs(): array
+    public function getWizardTabs(WizardConfig $wizardConfig): array
     {
-        $cacheIdentifier = $this->wizardConfig->getCacheIdentifier();
-        $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('bwicons_conf');
+        $cacheIdentifier = $wizardConfig->getCacheIdentifier();
 
-        if (($tabs = $cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles()) {
+        if (($tabs = $this->cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles($wizardConfig)) {
             return $tabs;
         }
 
         $tabs = [];
-        foreach ($this->getAllProvider() as $provider) {
-            if (empty($this->wizardConfig->iconProviderClasses) || in_array($provider->getId(), $this->wizardConfig->iconProviderClasses, true)) {
+        foreach ($this->getAllProvider($wizardConfig) as $provider) {
+            if (empty($wizardConfig->iconProviders) || in_array($provider->getId(), $wizardConfig->iconProviders, true)) {
                 $tab = new WizardTab();
                 $tab->id = $provider->getId();
                 $tab->title = $provider->getTitle();
@@ -39,16 +39,16 @@ class HelperUtility
             }
         }
 
-        $cache->set($cacheIdentifier, $tabs, [], 0);
+        $this->cache->set($cacheIdentifier, $tabs, [], 0);
         return $tabs;
     }
 
     /**
-    * Checks if all temp dirs of css provider do exist
-    */
-    protected function isValidTempFiles(): bool
+     * Checks if all temp dirs of css provider do exist
+     */
+    protected function isValidTempFiles(WizardConfig $wizardConfig): bool
     {
-        foreach ($this->getAllProvider() as $provider) {
+        foreach ($this->getAllProvider($wizardConfig) as $provider) {
             if (!is_a($provider, CssIconProvider::class)) {
                 continue;
             }
@@ -60,17 +60,18 @@ class HelperUtility
     }
 
     /**
-    * @return array<AbstractIconProvider>
-    */
-    protected function getAllProvider(): array
+     * @return array<AbstractIconProvider>
+     */
+    protected function getAllProvider(WizardConfig $wizardConfig): array
     {
-        if (count($this->provider)) {
-            return $this->provider;
+        $cacheIdentifier = $wizardConfig->getCacheIdentifier();
+
+        if (isset($this->providerCache[$cacheIdentifier])) {
+            return $this->providerCache[$cacheIdentifier];
         }
 
-        $extensionSettings = $this->wizardConfig->getPageTsSettings();
-        $cacheIdentifier = $this->wizardConfig->getCacheIdentifier();
-        //$languageService = GeneralUtility::makeInstance(LanguageService::class);
+        $extensionSettings = $wizardConfig->getPageTsSettings();
+        $providers = [];
 
         foreach ($extensionSettings as $key => $options) {
             /** @var AbstractIconProvider $prov */
@@ -79,16 +80,18 @@ class HelperUtility
             $prov->setId($key);
             $prov->setTitle($options['title']);
 
-            $this->provider[] = $prov;
+            $providers[] = $prov;
         }
 
-        return $this->provider;
+        $this->providerCache[$cacheIdentifier] = $providers;
+
+        return $providers;
     }
 
-    public function getStyleSheets(): array
+    public function getStyleSheets(WizardConfig $wizardConfig): array
     {
         $sheets = [];
-        foreach ($this->getAllProvider() as $provider) {
+        foreach ($this->getAllProvider($wizardConfig) as $provider) {
             if (!is_a($provider, CssIconProvider::class)) {
                 continue;
             }

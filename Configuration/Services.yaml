@@ -15,3 +15,12 @@ services:
     tags:
       - name: 'event.listener'
         identifier: 'blueways/bw-icons-after-backend-page-renderer'
+
+  cache.bwicons_conf:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: [ '@TYPO3\CMS\Core\Cache\CacheManager', 'getCache' ]
+    arguments: [ 'bwicons_conf' ]
+
+  Blueways\BwIcons\Utility\HelperUtility:
+    arguments:
+      $cache: '@cache.bwicons_conf'
