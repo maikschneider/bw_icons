@@ -2,6 +2,7 @@
 
 namespace Blueways\BwIcons\Domain\Model\Dto;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -10,44 +11,60 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class WizardConfig
 {
-    /**
-     * @var array<int, class-string>
-     */
-    public array $iconProviderClasses = [];
+    public int $pid = 0;
+
+    /** @var string[] */
+    public array $iconProviders = [];
 
     public int $typo3Version = 0;
 
-    public function __construct(public int $pid = 0, public string $iconProvidersString = '')
+    public function __construct()
     {
         $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
         $this->typo3Version = $version['version_main'];
-
-        $iconProviders = GeneralUtility::trimExplode(',', $this->iconProvidersString, true);
-        $iconProviders = array_filter($iconProviders, class_exists(...));
-        $this->iconProviderClasses = $iconProviders;
     }
 
     public static function createFromFormElementData(array $data): self
     {
         $pid = $data['tableName'] === 'pages' ? $data['vanillaUid'] : $data['databaseRow']['pid'];
         $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
-        $iconProvidersString = $data['parameterArray']['fieldConf']['config']['iconProviders'] ?? '';
+        $iconProviders = $data['parameterArray']['fieldConf']['config']['iconProviders'] ?? '';
+        $iconProviders = GeneralUtility::trimExplode(',', $iconProviders, true);
 
-        return new self($pid, $iconProvidersString);
+        $config = new WizardConfig();
+        $config->pid = $pid;
+        $config->iconProviders = $iconProviders;
+
+        return $config;
     }
 
     public static function createFromFormPostBody(object|array|null $body): self
     {
         $pid = (int)($body['pid'] ?? 0);
-        $iconProvidersString = $body['iconProviders'] ?? '';
+        $iconProviders = $body['iconProviders'] ?? [];
 
-        return new self($pid, $iconProvidersString);
+        $config = new WizardConfig();
+        $config->pid = $pid;
+        $config->iconProviders = is_array($iconProviders) ? $iconProviders : [];
+
+        return $config;
+    }
+
+    public static function createFromFrontendRequest(ServerRequestInterface $request): self
+    {
+        $controller = $request->getAttribute('frontend.controller');
+        $pid = (int)($controller?->page['uid'] ?? 0);
+
+        $config = new WizardConfig();
+        $config->pid = $pid;
+
+        return $config;
     }
 
     public function getCacheIdentifier(): string
     {
         $extensionSettings = $this->getPageTsSettings();
-        return md5(serialize($extensionSettings) . '-' . $this->iconProvidersString);
+        return md5(serialize($extensionSettings) . '-' . implode('-', $this->iconProviders));
     }
 
     public function getPageTsSettings(): array
