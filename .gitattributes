@@ -10,3 +10,4 @@
 /phpstan-baseline.neon                 export-ignore
 /renovate.json                         export-ignore
 /Configuration/page.tsconfig           export-ignore
+/Resources/Private/JavaScript          export-ignore
