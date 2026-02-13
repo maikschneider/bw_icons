@@ -538,7 +538,7 @@ class CssIconProvider extends AbstractIconProvider
     {
         $path = (string)($this->options['file'] ?? '');
         $fileadminDir = $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] ?? 'fileadmin/';
-        if (str_starts_with($path, 'EXT:') || str_starts_with($path, $fileadminDir)) {
+        if (str_starts_with($path, 'EXT:') || str_starts_with($path, (string)$fileadminDir)) {
             $path = GeneralUtility::getFileAbsFileName($path);
         }
         return GeneralUtility::getUrl($path);
