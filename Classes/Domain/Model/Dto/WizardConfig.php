@@ -23,7 +23,6 @@ class WizardConfig
         $this->typo3Version = $version['version_main'];
 
         $iconProviders = GeneralUtility::trimExplode(',', $this->iconProvidersString, true);
-        $iconProviders = array_filter($iconProviders, class_exists(...));
         $this->iconProviderClasses = $iconProviders;
     }
 
@@ -39,7 +38,7 @@ class WizardConfig
     public static function createFromFormPostBody(object|array|null $body): self
     {
         $pid = (int)($body['pid'] ?? 0);
-        $iconProvidersString = $body['iconProviders'] ?? '';
+        $iconProvidersString = $body['iconProvidersString'] ?? '';
 
         return new self($pid, $iconProvidersString);
     }
