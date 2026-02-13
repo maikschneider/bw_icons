@@ -103,10 +103,10 @@
     }
 
     .typo3-v12 img {
-        max-height: 32px;
+        max-height: 30px;
     }
 
-    .typo3-v12.has-change .form-control {
+    .typo3-v12 .form-control {
         min-height: 32px;
     }
 

@@ -30,7 +30,12 @@ class WizardIcon
 
     public function setTitleFromValue(): void
     {
-        $this->title = pathinfo($this->imgSrc, PATHINFO_FILENAME);
+        if ($this->imgSrc) {
+            $this->title = pathinfo($this->imgSrc, PATHINFO_FILENAME);
+            return;
+        }
+
+        $this->title = $this->value;
     }
 
     private function guessIsFontIcon(): void
