@@ -19,7 +19,8 @@ class WizardIcon
 
     public function setImgSrcFromValue(): void
     {
-        if (str_starts_with($this->value, 'fileadmin/')) {
+        $fileadminDir = $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] ?? 'fileadmin/';
+        if (str_starts_with($this->value, (string)$fileadminDir)) {
             $this->imgSrc = '/' . $this->value;
         }
         if (str_starts_with($this->value, 'EXT:')) {
