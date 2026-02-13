@@ -74,10 +74,14 @@
 
     .icon-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        grid-template-columns: repeat(14, 1fr);
         gap: 0.5rem;
         padding-top: 2px;
         padding-bottom: 2px;
+    }
+
+    .icon-grid.has-folders {
+        grid-template-columns: repeat(10, 1fr);
     }
 
     .icon-grid-item {
@@ -168,7 +172,7 @@
                     {#if folders.length > 1 && folder.icons.length > 0}
                         <h3 id="tab{activeTab}-{folder.title}" class="pt-4 mb-4">{folder.title}</h3>
                     {/if}
-                    <div class="icon-grid">
+                    <div class="icon-grid" class:has-folders={folders.length > 1}>
                         {#each folder.icons as [index, icon]}
                             <a
                                 title="{icon.title}"
