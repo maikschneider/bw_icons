@@ -9,7 +9,6 @@ use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRect
 use Rector\ValueObject\PhpVersion;
 use Ssch\TYPO3Rector\CodeQuality\General\ConvertImplicitVariablesToExplicitGlobalsRector;
 use Ssch\TYPO3Rector\CodeQuality\General\ExtEmConfRector;
-use Ssch\TYPO3Rector\CodeQuality\General\RemoveTypo3VersionChecksRector;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
@@ -44,10 +43,6 @@ return RectorConfig::configure()
         ExtEmConfRector::TYPO3_VERSION_CONSTRAINT => '12.0.0-13.4.99',
         ExtEmConfRector::ADDITIONAL_VALUES_TO_BE_REMOVED => [],
     ])
-    ->withConfiguredRule(
-        RemoveTypo3VersionChecksRector::class,
-        [RemoveTypo3VersionChecksRector::TARGET_VERSION => 13]
-    )
     ->withSkip([
         // @see https://github.com/sabbelasichon/typo3-rector/issues/2536
         __DIR__ . '/**/Configuration/ExtensionBuilder/*',
