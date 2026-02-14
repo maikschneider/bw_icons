@@ -5,7 +5,6 @@
  * ddev manages this file and may delete or overwrite the file unless this comment is removed.
  * It is recommended that you leave this file alone.
  */
-
 if (getenv('IS_DDEV_PROJECT') == 'true') {
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive(
         $GLOBALS['TYPO3_CONF_VARS'],
