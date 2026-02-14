@@ -1,6 +1,6 @@
 <?php
 
-//[STAMP] 52c0666b396aff2d82465517c2c2075a
+//[STAMP] bd5d2830d13920dcc2c8f30499482b6c
 // phpcs:ignoreFile
 namespace Blueways\BwIconsTest\Acceptance\Support\_generated;
 
@@ -17,38 +17,1778 @@ trait AcceptanceTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
+     * Handles and checks throwables (Exceptions/Errors) called inside the callback function.
+     * Either throwable class name or throwable instance should be provided.
+     *
+     * ```php
+     * <?php
+     * $I->expectThrowable(MyThrowable::class, function() {
+     *     $this->doSomethingBad();
+     * });
+     *
+     * $I->expectThrowable(new MyException(), function() {
+     *     $this->doSomethingBad();
+     * });
+     * ```
+     *
+     * If you want to check message or throwable code, you can pass them with throwable instance:
+     * ```php
+     * <?php
+     * // will check that throwable MyError is thrown with "Don't do bad things" message
+     * $I->expectThrowable(new MyError("Don't do bad things"), function() {
+     *     $this->doSomethingBad();
+     * });
+     * ```
+     * @see \Codeception\Module\Asserts::expectThrowable()
+     */
+    public function expectThrowable(\Throwable|string $throwable, callable $callback): void
+    {
+        $this->getScenario()->runStep(new \Codeception\Step\Action('expectThrowable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file does not exist.
+     * @see \Codeception\Module\AbstractAsserts::assertFileNotExists()
+     */
+    public function assertFileNotExists(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotExists', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a value is greater than or equal to another value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertGreaterOrEquals()
+     */
+    public function assertGreaterOrEquals($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertGreaterOrEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is empty.
+     *
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsEmpty()
+     */
+    public function assertIsEmpty($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsEmpty', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a value is smaller than or equal to another value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertLessOrEquals()
+     */
+    public function assertLessOrEquals($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertLessOrEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string does not match a given regular expression.
+     * @see \Codeception\Module\AbstractAsserts::assertNotRegExp()
+     */
+    public function assertNotRegExp(string $pattern, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotRegExp', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string matches a given regular expression.
+     * @see \Codeception\Module\AbstractAsserts::assertRegExp()
+     */
+    public function assertRegExp(string $pattern, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertRegExp', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Evaluates a PHPUnit\Framework\Constraint matcher object.
+     *
+     * @param mixed $value
+     * @see \Codeception\Module\AbstractAsserts::assertThatItsNot()
+     */
+    public function assertThatItsNot($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertThatItsNot', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that an array has a specified key.
+     *
+     * @param int|string $key
+     * @param array|\ArrayAccess $array
+     * @see \Codeception\Module\AbstractAsserts::assertArrayHasKey()
+     */
+    public function assertArrayHasKey($key, $array, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertArrayHasKey', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that an array does not have a specified key.
+     *
+     * @param int|string $key
+     * @param array|\ArrayAccess $array
+     * @see \Codeception\Module\AbstractAsserts::assertArrayNotHasKey()
+     */
+    public function assertArrayNotHasKey($key, $array, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertArrayNotHasKey', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a class has a specified attribute.
+     * @see \Codeception\Module\AbstractAsserts::assertClassHasAttribute()
+     */
+    public function assertClassHasAttribute(string $attributeName, string $className, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassHasAttribute', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a class has a specified static attribute.
+     * @see \Codeception\Module\AbstractAsserts::assertClassHasStaticAttribute()
+     */
+    public function assertClassHasStaticAttribute(string $attributeName, string $className, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassHasStaticAttribute', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a class does not have a specified attribute.
+     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasAttribute()
+     */
+    public function assertClassNotHasAttribute(string $attributeName, string $className, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassNotHasAttribute', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a class does not have a specified static attribute.
+     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasStaticAttribute()
+     */
+    public function assertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassNotHasStaticAttribute', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a haystack contains a needle.
+     *
+     * @param mixed $needle
+     * @see \Codeception\Module\AbstractAsserts::assertContains()
+     */
+    public function assertContains($needle, iterable $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContains', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * @param mixed $needle
+     * @see \Codeception\Module\AbstractAsserts::assertContainsEquals()
+     */
+    public function assertContainsEquals($needle, iterable $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContainsEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a haystack contains only values of a given type.
+     * @see \Codeception\Module\AbstractAsserts::assertContainsOnly()
+     */
+    public function assertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContainsOnly', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a haystack contains only instances of a given class name.
+     * @see \Codeception\Module\AbstractAsserts::assertContainsOnlyInstancesOf()
+     */
+    public function assertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContainsOnlyInstancesOf', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts the number of elements of an array, Countable or Traversable.
+     *
+     * @param \Countable|iterable $haystack
+     * @see \Codeception\Module\AbstractAsserts::assertCount()
+     */
+    public function assertCount(int $expectedCount, $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertCount', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a directory does not exist.
+     * @see \Codeception\Module\AbstractAsserts::assertDirectoryDoesNotExist()
+     */
+    public function assertDirectoryDoesNotExist(string $directory, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryDoesNotExist', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a directory exists.
+     * @see \Codeception\Module\AbstractAsserts::assertDirectoryExists()
+     */
+    public function assertDirectoryExists(string $directory, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryExists', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a directory exists and is not readable.
+     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotReadable()
+     */
+    public function assertDirectoryIsNotReadable(string $directory, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsNotReadable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a directory exists and is not writable.
+     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotWritable()
+     */
+    public function assertDirectoryIsNotWritable(string $directory, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsNotWritable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a directory exists and is readable.
+     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsReadable()
+     */
+    public function assertDirectoryIsReadable(string $directory, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsReadable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a directory exists and is writable.
+     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsWritable()
+     */
+    public function assertDirectoryIsWritable(string $directory, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsWritable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string does not match a given regular expression.
+     * @see \Codeception\Module\AbstractAsserts::assertDoesNotMatchRegularExpression()
+     */
+    public function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDoesNotMatchRegularExpression', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is empty.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert empty $actual
+     * @see \Codeception\Module\AbstractAsserts::assertEmpty()
+     */
+    public function assertEmpty($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEmpty', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are equal.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertEquals()
+     */
+    public function assertEquals($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are equal (canonicalizing).
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertEqualsCanonicalizing()
+     */
+    public function assertEqualsCanonicalizing($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEqualsCanonicalizing', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are equal (ignoring case).
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertEqualsIgnoringCase()
+     */
+    public function assertEqualsIgnoringCase($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEqualsIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are equal (with delta).
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertEqualsWithDelta()
+     */
+    public function assertEqualsWithDelta($expected, $actual, float $delta, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEqualsWithDelta', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a condition is false.
+     *
+     * @param mixed $condition
+     *
+     * @phpstan-assert false $condition
+     * @see \Codeception\Module\AbstractAsserts::assertFalse()
+     */
+    public function assertFalse($condition, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFalse', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file does not exist.
+     * @see \Codeception\Module\AbstractAsserts::assertFileDoesNotExist()
+     */
+    public function assertFileDoesNotExist(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileDoesNotExist', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of one file is equal to the contents of another file.
+     * @see \Codeception\Module\AbstractAsserts::assertFileEquals()
+     */
+    public function assertFileEquals(string $expected, string $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of one file is equal to the contents of another file (canonicalizing).
+     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsCanonicalizing()
+     */
+    public function assertFileEqualsCanonicalizing(string $expected, string $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileEqualsCanonicalizing', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of one file is equal to the contents of another file (ignoring case).
+     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsIgnoringCase()
+     */
+    public function assertFileEqualsIgnoringCase(string $expected, string $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileEqualsIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file exists.
+     * @see \Codeception\Module\AbstractAsserts::assertFileExists()
+     */
+    public function assertFileExists(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileExists', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file exists and is not readable.
+     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotReadable()
+     */
+    public function assertFileIsNotReadable(string $file, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsNotReadable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file exists and is not writable.
+     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotWritable()
+     */
+    public function assertFileIsNotWritable(string $file, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsNotWritable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file exists and is readable.
+     * @see \Codeception\Module\AbstractAsserts::assertFileIsReadable()
+     */
+    public function assertFileIsReadable(string $file, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsReadable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file exists and is writable.
+     * @see \Codeception\Module\AbstractAsserts::assertFileIsWritable()
+     */
+    public function assertFileIsWritable(string $file, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsWritable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of one file is not equal to the contents of another file.
+     * @see \Codeception\Module\AbstractAsserts::assertFileNotEquals()
+     */
+    public function assertFileNotEquals(string $expected, string $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of one file is not equal to the contents of another file (canonicalizing).
+     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsCanonicalizing()
+     */
+    public function assertFileNotEqualsCanonicalizing(string $expected, string $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotEqualsCanonicalizing', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of one file is not equal to the contents of another file (ignoring case).
+     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsIgnoringCase()
+     */
+    public function assertFileNotEqualsIgnoringCase(string $expected, string $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotEqualsIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is finite.
+     *
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertFinite()
+     */
+    public function assertFinite($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFinite', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a value is greater than another value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertGreaterThan()
+     */
+    public function assertGreaterThan($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertGreaterThan', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a value is greater than or equal to another value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertGreaterThanOrEqual()
+     */
+    public function assertGreaterThanOrEqual($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertGreaterThanOrEqual', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is infinite.
+     *
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertInfinite()
+     */
+    public function assertInfinite($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertInfinite', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of a given type.
+     *
+     * @template ExpectedType of object
+     *
+     * @param mixed $actual
+     * @param class-string<ExpectedType> $expected
+     *
+     * @phpstan-assert =ExpectedType $actual
+     * @see \Codeception\Module\AbstractAsserts::assertInstanceOf()
+     */
+    public function assertInstanceOf(string $expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertInstanceOf', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type array.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert array $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsArray()
+     */
+    public function assertIsArray($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsArray', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type bool.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert bool $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsBool()
+     */
+    public function assertIsBool($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsBool', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type callable.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert callable $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsCallable()
+     */
+    public function assertIsCallable($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsCallable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type resource and is closed.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert resource $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsClosedResource()
+     */
+    public function assertIsClosedResource($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsClosedResource', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type float.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert float $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsFloat()
+     */
+    public function assertIsFloat($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsFloat', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type int.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert int $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsInt()
+     */
+    public function assertIsInt($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsInt', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type iterable.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert iterable $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsIterable()
+     */
+    public function assertIsIterable($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsIterable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type array.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !array $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotArray()
+     */
+    public function assertIsNotArray($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotArray', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type bool.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !bool $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotBool()
+     */
+    public function assertIsNotBool($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotBool', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type callable.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !callable $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotCallable()
+     */
+    public function assertIsNotCallable($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotCallable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type resource.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !resource $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotClosedResource()
+     */
+    public function assertIsNotClosedResource($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotClosedResource', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type float.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !float $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotFloat()
+     */
+    public function assertIsNotFloat($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotFloat', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type int.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !int $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotInt()
+     */
+    public function assertIsNotInt($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotInt', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type iterable.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !iterable $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotIterable()
+     */
+    public function assertIsNotIterable($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotIterable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type numeric.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !numeric $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotNumeric()
+     */
+    public function assertIsNotNumeric($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotNumeric', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type object.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !object $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotObject()
+     */
+    public function assertIsNotObject($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotObject', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file/dir exists and is not readable.
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotReadable()
+     */
+    public function assertIsNotReadable(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotReadable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type resource.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !resource $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotResource()
+     */
+    public function assertIsNotResource($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotResource', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type scalar.
+     *
+     * @param mixed $actual
+     *
+     * @psalm-assert !scalar $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotScalar()
+     */
+    public function assertIsNotScalar($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotScalar', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of type string.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !string $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotString()
+     */
+    public function assertIsNotString($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file/dir exists and is not writable.
+     * @see \Codeception\Module\AbstractAsserts::assertIsNotWritable()
+     */
+    public function assertIsNotWritable(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotWritable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type numeric.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert numeric $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsNumeric()
+     */
+    public function assertIsNumeric($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNumeric', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type object.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert object $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsObject()
+     */
+    public function assertIsObject($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsObject', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file/dir is readable.
+     * @see \Codeception\Module\AbstractAsserts::assertIsReadable()
+     */
+    public function assertIsReadable(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsReadable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type resource.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert resource $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsResource()
+     */
+    public function assertIsResource($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsResource', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type scalar.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert scalar $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsScalar()
+     */
+    public function assertIsScalar($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsScalar', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is of type string.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert string $actual
+     * @see \Codeception\Module\AbstractAsserts::assertIsString()
+     */
+    public function assertIsString($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a file/dir exists and is writable.
+     * @see \Codeception\Module\AbstractAsserts::assertIsWritable()
+     */
+    public function assertIsWritable(string $filename, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsWritable', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string is a valid JSON string.
+     * @see \Codeception\Module\AbstractAsserts::assertJson()
+     */
+    public function assertJson(string $actualJson, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJson', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two JSON files are equal.
+     * @see \Codeception\Module\AbstractAsserts::assertJsonFileEqualsJsonFile()
+     */
+    public function assertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonFileEqualsJsonFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two JSON files are not equal.
+     * @see \Codeception\Module\AbstractAsserts::assertJsonFileNotEqualsJsonFile()
+     */
+    public function assertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonFileNotEqualsJsonFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the generated JSON encoded object and the content of the given file are equal.
+     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonFile()
+     */
+    public function assertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringEqualsJsonFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two given JSON encoded objects or arrays are equal.
+     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonString()
+     */
+    public function assertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringEqualsJsonString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the generated JSON encoded object and the content of the given file are not equal.
+     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonFile()
+     */
+    public function assertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringNotEqualsJsonFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two given JSON encoded objects or arrays are not equal.
+     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonString()
+     */
+    public function assertJsonStringNotEqualsJsonString(string $expectedJson, string $actualJson, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringNotEqualsJsonString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a value is smaller than another value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertLessThan()
+     */
+    public function assertLessThan($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertLessThan', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a value is smaller than or equal to another value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertLessThanOrEqual()
+     */
+    public function assertLessThanOrEqual($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertLessThanOrEqual', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string matches a given regular expression.
+     * @see \Codeception\Module\AbstractAsserts::assertMatchesRegularExpression()
+     */
+    public function assertMatchesRegularExpression(string $pattern, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertMatchesRegularExpression', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is nan.
+     *
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNan()
+     */
+    public function assertNan($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNan', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a haystack does not contain a needle.
+     *
+     * @param mixed $needle
+     * @see \Codeception\Module\AbstractAsserts::assertNotContains()
+     */
+    public function assertNotContains($needle, iterable $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotContains', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \Codeception\Module\AbstractAsserts::assertNotContainsEquals()
+     */
+    public function assertNotContainsEquals($needle, iterable $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotContainsEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a haystack does not contain only values of a given type.
+     * @see \Codeception\Module\AbstractAsserts::assertNotContainsOnly()
+     */
+    public function assertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotContainsOnly', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts the number of elements of an array, Countable or Traversable.
+     *
+     * @param \Countable|iterable $haystack
+     * @see \Codeception\Module\AbstractAsserts::assertNotCount()
+     */
+    public function assertNotCount(int $expectedCount, $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotCount', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not empty.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !empty $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotEmpty()
+     */
+    public function assertNotEmpty($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEmpty', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are not equal.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotEquals()
+     */
+    public function assertNotEquals($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEquals', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are not equal (canonicalizing).
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsCanonicalizing()
+     */
+    public function assertNotEqualsCanonicalizing($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEqualsCanonicalizing', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are not equal (ignoring case).
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsIgnoringCase()
+     */
+    public function assertNotEqualsIgnoringCase($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEqualsIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables are not equal (with delta).
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsWithDelta()
+     */
+    public function assertNotEqualsWithDelta($expected, $actual, float $delta, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEqualsWithDelta', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a condition is not false.
+     *
+     * @param mixed $condition
+     *
+     * @phpstan-assert !false $condition
+     * @see \Codeception\Module\AbstractAsserts::assertNotFalse()
+     */
+    public function assertNotFalse($condition, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotFalse', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not of a given type.
+     *
+     * @template ExpectedType of object
+     *
+     * @param mixed $actual
+     * @param class-string<ExpectedType> $expected
+     *
+     * @phpstan-assert !ExpectedType $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotInstanceOf()
+     */
+    public function assertNotInstanceOf(string $expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotInstanceOf', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is not null.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert !null $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotNull()
+     */
+    public function assertNotNull($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotNull', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables do not have the same type and value.
+     *
+     * @param mixed $expected
+     * @param mixed $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotSame()
+     */
+    public function assertNotSame($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotSame', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Assert that the size of two arrays (or `Countable` or `Traversable` objects) is not the same.
+     *
+     * @param \Countable|iterable $expected
+     * @param \Countable|iterable $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNotSameSize()
+     */
+    public function assertNotSameSize($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotSameSize', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a condition is not true.
+     *
+     * @param mixed $condition
+     *
+     * @phpstan-assert !true $condition
+     * @see \Codeception\Module\AbstractAsserts::assertNotTrue()
+     */
+    public function assertNotTrue($condition, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotTrue', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a variable is null.
+     *
+     * @param mixed $actual
+     *
+     * @phpstan-assert null $actual
+     * @see \Codeception\Module\AbstractAsserts::assertNull()
+     */
+    public function assertNull($actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNull', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that an object has a specified attribute.
+     * @see \Codeception\Module\AbstractAsserts::assertObjectHasAttribute()
+     */
+    public function assertObjectHasAttribute(string $attributeName, object $object, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertObjectHasAttribute', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that an object does not have a specified attribute.
+     * @see \Codeception\Module\AbstractAsserts::assertObjectNotHasAttribute()
+     */
+    public function assertObjectNotHasAttribute(string $attributeName, object $object, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertObjectNotHasAttribute', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two variables have the same type and value.
+     * Used on objects, it asserts that two variables reference
+     * the same object.
+     *
+     * @template ExpectedType
+     *
+     * @param ExpectedType $expected
+     * @param mixed $actual
+     *
+     * @phpstan-assert =ExpectedType $actual
+     * @see \Codeception\Module\AbstractAsserts::assertSame()
+     */
+    public function assertSame($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertSame', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Assert that the size of two arrays (or `Countable` or `Traversable` objects) is the same.
+     *
+     * @param \Countable|iterable $expected
+     * @param \Countable|iterable $actual
+     * @see \Codeception\Module\AbstractAsserts::assertSameSize()
+     */
+    public function assertSameSize($expected, $actual, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertSameSize', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \Codeception\Module\AbstractAsserts::assertStringContainsString()
+     */
+    public function assertStringContainsString(string $needle, string $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringContainsString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \Codeception\Module\AbstractAsserts::assertStringContainsStringIgnoringCase()
+     */
+    public function assertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringContainsStringIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string ends not with a given suffix.
+     * @see \Codeception\Module\AbstractAsserts::assertStringEndsNotWith()
+     */
+    public function assertStringEndsNotWith(string $suffix, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEndsNotWith', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string ends with a given suffix.
+     * @see \Codeception\Module\AbstractAsserts::assertStringEndsWith()
+     */
+    public function assertStringEndsWith(string $suffix, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEndsWith', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of a string is equal to the contents of a file.
+     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFile()
+     */
+    public function assertStringEqualsFile(string $expectedFile, string $actualString, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEqualsFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of a string is equal to the contents of a file (canonicalizing).
+     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileCanonicalizing()
+     */
+    public function assertStringEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEqualsFileCanonicalizing', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of a string is equal to the contents of a file (ignoring case).
+     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileIgnoringCase()
+     */
+    public function assertStringEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEqualsFileIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string matches a given format string.
+     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormat()
+     */
+    public function assertStringMatchesFormat(string $format, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringMatchesFormat', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string matches a given format file.
+     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormatFile()
+     */
+    public function assertStringMatchesFormatFile(string $formatFile, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringMatchesFormatFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsString()
+     */
+    public function assertStringNotContainsString(string $needle, string $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotContainsString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     *
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsStringIgnoringCase()
+     */
+    public function assertStringNotContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotContainsStringIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of a string is not equal to the contents of a file.
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFile()
+     */
+    public function assertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotEqualsFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of a string is not equal to the contents of a file (canonicalizing).
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileCanonicalizing()
+     */
+    public function assertStringNotEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotEqualsFileCanonicalizing', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that the contents of a string is not equal to the contents of a file (ignoring case).
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileIgnoringCase()
+     */
+    public function assertStringNotEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotEqualsFileIgnoringCase', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string does not match a given format string.
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormat()
+     */
+    public function assertStringNotMatchesFormat(string $format, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotMatchesFormat', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string does not match a given format string.
+     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormatFile()
+     */
+    public function assertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotMatchesFormatFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string starts not with a given prefix.
+     * @see \Codeception\Module\AbstractAsserts::assertStringStartsNotWith()
+     */
+    public function assertStringStartsNotWith(string $prefix, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringStartsNotWith', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a string starts with a given prefix.
+     * @see \Codeception\Module\AbstractAsserts::assertStringStartsWith()
+     */
+    public function assertStringStartsWith(string $prefix, string $string, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringStartsWith', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Evaluates a PHPUnit\Framework\Constraint matcher object.
+     *
+     * @param mixed $value
+     * @see \Codeception\Module\AbstractAsserts::assertThat()
+     */
+    public function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertThat', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that a condition is true.
+     *
+     * @param mixed $condition
+     *
+     * @phpstan-assert true $condition
+     * @see \Codeception\Module\AbstractAsserts::assertTrue()
+     */
+    public function assertTrue($condition, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertTrue', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two XML files are equal.
+     * @see \Codeception\Module\AbstractAsserts::assertXmlFileEqualsXmlFile()
+     */
+    public function assertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlFileEqualsXmlFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two XML files are not equal.
+     * @see \Codeception\Module\AbstractAsserts::assertXmlFileNotEqualsXmlFile()
+     */
+    public function assertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlFileNotEqualsXmlFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two XML documents are equal.
+     *
+     * @param \DOMDocument|string $actualXml
+     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlFile()
+     */
+    public function assertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringEqualsXmlFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two XML documents are equal.
+     *
+     * @param \DOMDocument|string $expectedXml
+     * @param \DOMDocument|string $actualXml
+     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlString()
+     */
+    public function assertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringEqualsXmlString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two XML documents are not equal.
+     *
+     * @param \DOMDocument|string $actualXml
+     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlFile()
+     */
+    public function assertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringNotEqualsXmlFile', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Asserts that two XML documents are not equal.
+     *
+     * @param \DOMDocument|string $expectedXml
+     * @param \DOMDocument|string $actualXml
+     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlString()
+     */
+    public function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringNotEqualsXmlString', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Fails a test with the given message.
+     * @see \Codeception\Module\AbstractAsserts::fail()
+     */
+    public function fail(string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('fail', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Mark the test as incomplete.
+     * @see \Codeception\Module\AbstractAsserts::markTestIncomplete()
+     */
+    public function markTestIncomplete(string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('markTestIncomplete', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
+     * Mark the test as skipped.
+     * @see \Codeception\Module\AbstractAsserts::markTestSkipped()
+     */
+    public function markTestSkipped(string $message = '')
+    {
+        return $this->getScenario()->runStep(new \Codeception\Step\Action('markTestSkipped', func_get_args()));
+    }
+
+    /**
+     * [!] Method is generated. Documentation taken from corresponding module.
+     *
      * Print out latest Selenium Logs in debug mode
      * @see \Codeception\Module\WebDriver::debugWebDriverLogs()
      */
     public function debugWebDriverLogs(?\Codeception\TestInterface $test = null): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('debugWebDriverLogs', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Print out latest Selenium Logs in debug mode
-     * @see \Codeception\Module\WebDriver::debugWebDriverLogs()
-     */
-    public function tryToDebugWebDriverLogs(?\Codeception\TestInterface $test = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('debugWebDriverLogs', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes debugWebDriverLogs and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::debugWebDriverLogs()
-     */
-    public function retryDebugWebDriverLogs(?\Codeception\TestInterface $test = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('debugWebDriverLogs', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -94,41 +1834,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('makeScreenshot', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Takes a screenshot of the current window and saves it to `tests/_output/debug`.
-     *
-     * ``` php
-     * <?php
-     * $I->amOnPage('/user/edit');
-     * $I->makeScreenshot('edit_page');
-     * // saved to: tests/_output/debug/edit_page.png
-     * $I->makeScreenshot();
-     * // saved to: tests/_output/debug/2017-05-26_14-24-11_4b3403665fea6.png
-     * ```
-     * @see \Codeception\Module\WebDriver::makeScreenshot()
-     */
-    public function tryToMakeScreenshot(?string $name = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('makeScreenshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes makeScreenshot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::makeScreenshot()
-     */
-    public function retryMakeScreenshot(?string $name = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('makeScreenshot', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -151,43 +1856,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('makeElementScreenshot', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Takes a screenshot of an element of the current window and saves it to `tests/_output/debug`.
-     *
-     * ``` php
-     * <?php
-     * $I->amOnPage('/user/edit');
-     * $I->makeElementScreenshot('#dialog', 'edit_page');
-     * // saved to: tests/_output/debug/edit_page.png
-     * $I->makeElementScreenshot('#dialog');
-     * // saved to: tests/_output/debug/2017-05-26_14-24-11_4b3403665fea6.png
-     * ```
-     *
-     * @param WebDriverBy|array $selector
-     * @see \Codeception\Module\WebDriver::makeElementScreenshot()
-     */
-    public function tryToMakeElementScreenshot($selector, ?string $name = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('makeElementScreenshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes makeElementScreenshot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::makeElementScreenshot()
-     */
-    public function retryMakeElementScreenshot($selector, ?string $name = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('makeElementScreenshot', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -207,40 +1875,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('makeHtmlSnapshot', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Use this method within an [interactive pause](https://codeception.com/docs/02-GettingStarted#Interactive-Pause) to save the HTML source code of the current page.
-     *
-     * ```php
-     * <?php
-     * $I->makeHtmlSnapshot('edit_page');
-     * // saved to: tests/_output/debug/edit_page.html
-     * $I->makeHtmlSnapshot();
-     * // saved to: tests/_output/debug/2017-05-26_14-24-11_4b3403665fea6.html
-     * ```
-     * @see \Codeception\Module\WebDriver::makeHtmlSnapshot()
-     */
-    public function tryToMakeHtmlSnapshot(?string $name = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('makeHtmlSnapshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes makeHtmlSnapshot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::makeHtmlSnapshot()
-     */
-    public function retryMakeHtmlSnapshot(?string $name = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('makeHtmlSnapshot', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -257,38 +1891,6 @@ trait AcceptanceTesterActions
     public function resizeWindow(int $width, int $height): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('resizeWindow', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Resize the current window.
-     *
-     * ``` php
-     * <?php
-     * $I->resizeWindow(800, 600);
-     *
-     * ```
-     * @see \Codeception\Module\WebDriver::resizeWindow()
-     */
-    public function tryToResizeWindow(int $width, int $height): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('resizeWindow', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes resizeWindow and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::resizeWindow()
-     */
-    public function retryResizeWindow(int $width, int $height)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('resizeWindow', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -328,40 +1930,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeCookie', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that a cookie with the given name is set.
-     * You can set additional cookie params like `domain`, `path` as array passed in last argument.
-     *
-     * ```php
-     * <?php
-     * $I->seeCookie('PHPSESSID');
-     * ```
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::seeCookie()
-     */
-    public function tryToSeeCookie($cookie, array $params = [], bool $showDebug = true): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeCookie', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeCookie and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeCookie()
-     */
-    public function retrySeeCookie($cookie, array $params = [], bool $showDebug = true)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeCookie', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -390,35 +1958,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeCookie', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that there isn't a cookie with the given name.
-     * You can set additional cookie params like `domain`, `path` as array passed in last argument.
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::dontSeeCookie()
-     */
-    public function tryToDontSeeCookie($cookie, array $params = [], bool $showDebug = true): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeCookie', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeCookie and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeCookie()
-     */
-    public function retryDontSeeCookie($cookie, array $params = [], bool $showDebug = true)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeCookie', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -438,40 +1977,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('setCookie', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Sets a cookie with the given name and value.
-     * You can set additional cookie params like `domain`, `path`, `expires`, `secure` in array passed as last argument.
-     *
-     * ```php
-     * <?php
-     * $I->setCookie('PHPSESSID', 'el4ukv0kqbvoirg7nkp4dncpk3');
-     * ```
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::setCookie()
-     */
-    public function tryToSetCookie($name, $value, array $params = [], $showDebug = true): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('setCookie', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes setCookie and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::setCookie()
-     */
-    public function retrySetCookie($name, $value, array $params = [], $showDebug = true)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('setCookie', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -486,35 +1991,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('resetCookie', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Unsets cookie with the given name.
-     * You can set additional cookie params like `domain`, `path` in array passed as last argument.
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::resetCookie()
-     */
-    public function tryToResetCookie($cookie, array $params = [], bool $showDebug = true): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('resetCookie', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes resetCookie and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::resetCookie()
-     */
-    public function retryResetCookie($cookie, array $params = [], bool $showDebug = true)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('resetCookie', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -527,21 +2003,6 @@ trait AcceptanceTesterActions
     public function grabCookie($cookie, array $params = []): mixed
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabCookie', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabCookie and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabCookie()
-     */
-    public function retryGrabCookie($cookie, array $params = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabCookie', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -556,21 +2017,6 @@ trait AcceptanceTesterActions
     public function grabPageSource(): string
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabPageSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabPageSource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabPageSource()
-     */
-    public function retryGrabPageSource()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabPageSource', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -684,59 +2130,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('see', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current page contains the given string (case insensitive).
-     *
-     * You can specify a specific HTML element (via CSS or XPath) as the second
-     * parameter to only search within that element.
-     *
-     * ```php
-     * <?php
-     * $I->see('Logout');                        // I can suppose user is logged in
-     * $I->see('Sign Up', 'h1');                 // I can suppose it's a signup page
-     * $I->see('Sign Up', '//body/h1');          // with XPath
-     * $I->see('Sign Up', ['css' => 'body h1']); // with strict CSS locator
-     * ```
-     *
-     * Note that the search is done after stripping all HTML tags from the body,
-     * so `$I->see('strong')` will return true for strings like:
-     *
-     *   - `<p>I am Stronger than thou</p>`
-     *   - `<script>document.createElement('strong');</script>`
-     *
-     * But will *not* be true for strings like:
-     *
-     *   - `<strong>Home</strong>`
-     *   - `<div class="strong">Home</strong>`
-     *   - `<!-- strong -->`
-     *
-     * For checking the raw source code, use `seeInSource()`.
-     *
-     * @param array|string $selector optional
-     * @see \Codeception\Module\WebDriver::see()
-     */
-    public function tryToSee($text, $selector = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('see', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes see and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::see()
-     */
-    public function retrySee($text, $selector = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('see', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -809,57 +2202,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSee', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current page doesn't contain the text specified (case insensitive).
-     * Give a locator as the second parameter to match a specific region.
-     *
-     * ```php
-     * <?php
-     * $I->dontSee('Login');                         // I can suppose user is already logged in
-     * $I->dontSee('Sign Up','h1');                  // I can suppose it's not a signup page
-     * $I->dontSee('Sign Up','//body/h1');           // with XPath
-     * $I->dontSee('Sign Up', ['css' => 'body h1']); // with strict CSS locator
-     * ```
-     *
-     * Note that the search is done after stripping all HTML tags from the body,
-     * so `$I->dontSee('strong')` will fail on strings like:
-     *
-     *   - `<p>I am Stronger than thou</p>`
-     *   - `<script>document.createElement('strong');</script>`
-     *
-     * But will ignore strings like:
-     *
-     *   - `<strong>Home</strong>`
-     *   - `<div class="strong">Home</strong>`
-     *   - `<!-- strong -->`
-     *
-     * For checking the raw source code, use `seeInSource()`.
-     *
-     * @param array|string $selector optional
-     * @see \Codeception\Module\WebDriver::dontSee()
-     */
-    public function tryToDontSee($text, $selector = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSee', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSee and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSee()
-     */
-    public function retryDontSee($text, $selector = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSee', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -893,38 +2235,6 @@ trait AcceptanceTesterActions
     public function canSeeInSource($raw): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current page contains the given string in its
-     * raw source code.
-     *
-     * ```php
-     * <?php
-     * $I->seeInSource('<h1>Green eggs &amp; ham</h1>');
-     * ```
-     * @see \Codeception\Module\WebDriver::seeInSource()
-     */
-    public function tryToSeeInSource($raw): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInSource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInSource()
-     */
-    public function retrySeeInSource($raw)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInSource', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -960,38 +2270,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInSource', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current page contains the given string in its
-     * raw source code.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInSource('<h1>Green eggs &amp; ham</h1>');
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeInSource()
-     */
-    public function tryToDontSeeInSource($raw): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInSource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInSource()
-     */
-    public function retryDontSeeInSource($raw)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInSource', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1024,37 +2302,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInPageSource', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the page source contains the given string.
-     *
-     * ```php
-     * <?php
-     * $I->seeInPageSource('<link rel="apple-touch-icon"');
-     * ```
-     * @see \Codeception\Module\WebDriver::seeInPageSource()
-     */
-    public function tryToSeeInPageSource(string $text): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInPageSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInPageSource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInPageSource()
-     */
-    public function retrySeeInPageSource(string $text)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInPageSource', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1076,32 +2323,6 @@ trait AcceptanceTesterActions
     public function cantSeeInPageSource(string $text): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInPageSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the page source doesn't contain the given string.
-     * @see \Codeception\Module\WebDriver::dontSeeInPageSource()
-     */
-    public function tryToDontSeeInPageSource(string $text): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInPageSource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInPageSource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInPageSource()
-     */
-    public function retryDontSeeInPageSource(string $text)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInPageSource', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -1139,57 +2360,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('click', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Perform a click on a link or a button, given by a locator.
-     * If a fuzzy locator is given, the page will be searched for a button, link, or image matching the locator string.
-     * For buttons, the "value" attribute, "name" attribute, and inner text are searched.
-     * For links, the link text is searched.
-     * For images, the "alt" attribute and inner text of any parent links are searched.
-     *
-     * The second parameter is a context (CSS or XPath locator) to narrow the search.
-     *
-     * Note that if the locator matches a button of type `submit`, the form will be submitted.
-     *
-     * ```php
-     * <?php
-     * // simple link
-     * $I->click('Logout');
-     * // button of form
-     * $I->click('Submit');
-     * // CSS button
-     * $I->click('#form input[type=submit]');
-     * // XPath
-     * $I->click('//form/*[@type="submit"]');
-     * // link in context
-     * $I->click('Logout', '#nav');
-     * // using strict locator
-     * $I->click(['link' => 'Login']);
-     * ```
-     * @param string|array $link
-     * @see \Codeception\Module\WebDriver::click()
-     */
-    public function tryToClick($link, $context = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('click', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes click and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::click()
-     */
-    public function retryClick($link, $context = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('click', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1226,39 +2396,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeLink', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that there's a link with the specified text.
-     * Give a full URL as the second parameter to match links with that exact URL.
-     *
-     * ```php
-     * <?php
-     * $I->seeLink('Logout'); // matches <a href="#">Logout</a>
-     * $I->seeLink('Logout','/logout'); // matches <a href="/logout">Logout</a>
-     * ```
-     * @see \Codeception\Module\WebDriver::seeLink()
-     */
-    public function tryToSeeLink(string $text, ?string $url = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeLink', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeLink and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeLink()
-     */
-    public function retrySeeLink(string $text, ?string $url = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeLink', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1294,39 +2431,6 @@ trait AcceptanceTesterActions
     public function cantSeeLink(string $text, string $url = ''): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeLink', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the page doesn't contain a link with the given string.
-     * If the second parameter is given, only links with a matching "href" attribute will be checked.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeLink('Logout'); // I suppose user is not logged in
-     * $I->dontSeeLink('Checkout now', '/store/cart.php');
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeLink()
-     */
-    public function tryToDontSeeLink(string $text, string $url = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeLink', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeLink and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeLink()
-     */
-    public function retryDontSeeLink(string $text, string $url = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeLink', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -1366,40 +2470,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInCurrentUrl', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that current URI contains the given string.
-     *
-     * ```php
-     * <?php
-     * // to match: /home/dashboard
-     * $I->seeInCurrentUrl('home');
-     * // to match: /users/1
-     * $I->seeInCurrentUrl('/users/');
-     * ```
-     * @see \Codeception\Module\WebDriver::seeInCurrentUrl()
-     */
-    public function tryToSeeInCurrentUrl(string $uri): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInCurrentUrl', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInCurrentUrl and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInCurrentUrl()
-     */
-    public function retrySeeInCurrentUrl(string $uri)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInCurrentUrl', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1436,39 +2506,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeCurrentUrlEquals', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current URL is equal to the given string.
-     * Unlike `seeInCurrentUrl`, this only matches the full URL.
-     *
-     * ```php
-     * <?php
-     * // to match root url
-     * $I->seeCurrentUrlEquals('/');
-     * ```
-     * @see \Codeception\Module\WebDriver::seeCurrentUrlEquals()
-     */
-    public function tryToSeeCurrentUrlEquals(string $uri): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeCurrentUrlEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeCurrentUrlEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeCurrentUrlEquals()
-     */
-    public function retrySeeCurrentUrlEquals(string $uri)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeCurrentUrlEquals', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1503,38 +2540,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeCurrentUrlMatches', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current URL matches the given regular expression.
-     *
-     * ```php
-     * <?php
-     * // to match root url
-     * $I->seeCurrentUrlMatches('~^/users/(\d+)~');
-     * ```
-     * @see \Codeception\Module\WebDriver::seeCurrentUrlMatches()
-     */
-    public function tryToSeeCurrentUrlMatches(string $uri): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeCurrentUrlMatches', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeCurrentUrlMatches and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeCurrentUrlMatches()
-     */
-    public function retrySeeCurrentUrlMatches(string $uri)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeCurrentUrlMatches', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1566,37 +2571,6 @@ trait AcceptanceTesterActions
     public function cantSeeInCurrentUrl(string $uri): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInCurrentUrl', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current URI doesn't contain the given string.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInCurrentUrl('/users/');
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeInCurrentUrl()
-     */
-    public function tryToDontSeeInCurrentUrl(string $uri): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInCurrentUrl', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInCurrentUrl and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInCurrentUrl()
-     */
-    public function retryDontSeeInCurrentUrl(string $uri)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInCurrentUrl', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -1634,39 +2608,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeCurrentUrlEquals', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the current URL doesn't equal the given string.
-     * Unlike `dontSeeInCurrentUrl`, this only matches the full URL.
-     *
-     * ```php
-     * <?php
-     * // current url is not root
-     * $I->dontSeeCurrentUrlEquals('/');
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeCurrentUrlEquals()
-     */
-    public function tryToDontSeeCurrentUrlEquals(string $uri): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeCurrentUrlEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeCurrentUrlEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeCurrentUrlEquals()
-     */
-    public function retryDontSeeCurrentUrlEquals(string $uri)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeCurrentUrlEquals', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1701,38 +2642,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeCurrentUrlMatches', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that current url doesn't match the given regular expression.
-     *
-     * ```php
-     * <?php
-     * // to match root url
-     * $I->dontSeeCurrentUrlMatches('~^/users/(\d+)~');
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeCurrentUrlMatches()
-     */
-    public function tryToDontSeeCurrentUrlMatches(string $uri): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeCurrentUrlMatches', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeCurrentUrlMatches and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeCurrentUrlMatches()
-     */
-    public function retryDontSeeCurrentUrlMatches(string $uri)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeCurrentUrlMatches', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1750,21 +2659,6 @@ trait AcceptanceTesterActions
     public function grabFromCurrentUrl($uri = null): mixed
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabFromCurrentUrl', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabFromCurrentUrl and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabFromCurrentUrl()
-     */
-    public function retryGrabFromCurrentUrl($uri = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabFromCurrentUrl', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -1802,39 +2696,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeCheckboxIsChecked', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the specified checkbox is checked.
-     *
-     * ```php
-     * <?php
-     * $I->seeCheckboxIsChecked('#agree'); // I suppose user agreed to terms
-     * $I->seeCheckboxIsChecked('#signup_form input[type=checkbox]'); // I suppose user agreed to terms, If there is only one checkbox in form.
-     * $I->seeCheckboxIsChecked('//form/input[@type=checkbox and @name=agree]');
-     * ```
-     * @see \Codeception\Module\WebDriver::seeCheckboxIsChecked()
-     */
-    public function tryToSeeCheckboxIsChecked($checkbox): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeCheckboxIsChecked', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeCheckboxIsChecked and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeCheckboxIsChecked()
-     */
-    public function retrySeeCheckboxIsChecked($checkbox)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeCheckboxIsChecked', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -1868,38 +2729,6 @@ trait AcceptanceTesterActions
     public function cantSeeCheckboxIsChecked($checkbox): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeCheckboxIsChecked', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Check that the specified checkbox is unchecked.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeCheckboxIsChecked('#agree'); // I suppose user didn't agree to terms
-     * $I->seeCheckboxIsChecked('#signup_form input[type=checkbox]'); // I suppose user didn't check the first checkbox in form.
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeCheckboxIsChecked()
-     */
-    public function tryToDontSeeCheckboxIsChecked($checkbox): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeCheckboxIsChecked', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeCheckboxIsChecked and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeCheckboxIsChecked()
-     */
-    public function retryDontSeeCheckboxIsChecked($checkbox)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeCheckboxIsChecked', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -1949,45 +2778,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInField', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the given input field or textarea *equals* (i.e. not just contains) the given value.
-     * Fields are matched by label text, the "name" attribute, CSS, or XPath.
-     *
-     * ```php
-     * <?php
-     * $I->seeInField('Body','Type your comment here');
-     * $I->seeInField('form textarea[name=body]','Type your comment here');
-     * $I->seeInField('form input[type=hidden]','hidden_value');
-     * $I->seeInField('#searchform input','Search');
-     * $I->seeInField('//form/*[@name=search]','Search');
-     * $I->seeInField(['name' => 'search'], 'Search');
-     * ```
-     *
-     * @param string|array $field
-     * @see \Codeception\Module\WebDriver::seeInField()
-     */
-    public function tryToSeeInField($field, $value): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInField and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInField()
-     */
-    public function retrySeeInField($field, $value)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInField', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2033,44 +2823,6 @@ trait AcceptanceTesterActions
     public function cantSeeInField($field, $value): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that an input field or textarea doesn't contain the given value.
-     * For fuzzy locators, the field is matched by label text, CSS and XPath.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInField('Body','Type your comment here');
-     * $I->dontSeeInField('form textarea[name=body]','Type your comment here');
-     * $I->dontSeeInField('form input[type=hidden]','hidden_value');
-     * $I->dontSeeInField('#searchform input','Search');
-     * $I->dontSeeInField('//form/*[@name=search]','Search');
-     * $I->dontSeeInField(['name' => 'search'], 'Search');
-     * ```
-     * @param string|array $field
-     * @see \Codeception\Module\WebDriver::dontSeeInField()
-     */
-    public function tryToDontSeeInField($field, $value): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInField and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInField()
-     */
-    public function retryDontSeeInField($field, $value)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInField', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2196,83 +2948,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInFormFields', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks if the array of form parameters (name => value) are set on the form matched with the
-     * passed selector.
-     *
-     * ```php
-     * <?php
-     * $I->seeInFormFields('form[name=myform]', [
-     *      'input1' => 'value',
-     *      'input2' => 'other value',
-     * ]);
-     * ```
-     *
-     * For multi-select elements, or to check values of multiple elements with the same name, an
-     * array may be passed:
-     *
-     * ```php
-     * <?php
-     * $I->seeInFormFields('.form-class', [
-     *      'multiselect' => [
-     *          'value1',
-     *          'value2',
-     *      ],
-     *      'checkbox[]' => [
-     *          'a checked value',
-     *          'another checked value',
-     *      ],
-     * ]);
-     * ```
-     *
-     * Additionally, checkbox values can be checked with a boolean.
-     *
-     * ```php
-     * <?php
-     * $I->seeInFormFields('#form-id', [
-     *      'checkbox1' => true,        // passes if checked
-     *      'checkbox2' => false,       // passes if unchecked
-     * ]);
-     * ```
-     *
-     * Pair this with submitForm for quick testing magic.
-     *
-     * ```php
-     * <?php
-     * $form = [
-     *      'field1' => 'value',
-     *      'field2' => 'another value',
-     *      'checkbox1' => true,
-     *      // ...
-     * ];
-     * $I->submitForm('//form[@id=my-form]', string $form, 'submitButton');
-     * // $I->amOnPage('/path/to/form-page') may be needed
-     * $I->seeInFormFields('//form[@id=my-form]', string $form);
-     * ```
-     * @see \Codeception\Module\WebDriver::seeInFormFields()
-     */
-    public function tryToSeeInFormFields($formSelector, array $params): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInFormFields', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInFormFields and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInFormFields()
-     */
-    public function retrySeeInFormFields($formSelector, array $params)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInFormFields', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2359,64 +3034,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInFormFields', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks if the array of form parameters (name => value) are not set on the form matched with
-     * the passed selector.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInFormFields('form[name=myform]', [
-     *      'input1' => 'non-existent value',
-     *      'input2' => 'other non-existent value',
-     * ]);
-     * ```
-     *
-     * To check that an element hasn't been assigned any one of many values, an array can be passed
-     * as the value:
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInFormFields('.form-class', [
-     *      'fieldName' => [
-     *          'This value shouldn\'t be set',
-     *          'And this value shouldn\'t be set',
-     *      ],
-     * ]);
-     * ```
-     *
-     * Additionally, checkbox values can be checked with a boolean.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInFormFields('#form-id', [
-     *      'checkbox1' => true,        // fails if checked
-     *      'checkbox2' => false,       // fails if unchecked
-     * ]);
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeInFormFields()
-     */
-    public function tryToDontSeeInFormFields($formSelector, array $params): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInFormFields', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInFormFields and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInFormFields()
-     */
-    public function retryDontSeeInFormFields($formSelector, array $params)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInFormFields', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2450,54 +3067,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('selectOption', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Selects an option in a select tag or in radio button group.
-     *
-     * ```php
-     * <?php
-     * $I->selectOption('form select[name=account]', 'Premium');
-     * $I->selectOption('form input[name=payment]', 'Monthly');
-     * $I->selectOption('//form/select[@name=account]', 'Monthly');
-     * ```
-     *
-     * Provide an array for the second argument to select multiple options:
-     *
-     * ```php
-     * <?php
-     * $I->selectOption('Which OS do you use?', ['Windows', 'Linux']);
-     * ```
-     *
-     * Or provide an associative array for the second argument to specifically define which selection method should be used:
-     *
-     * ```php
-     * <?php
-     * $I->selectOption('Which OS do you use?', ['text' => 'Windows']); // Only search by text 'Windows'
-     * $I->selectOption('Which OS do you use?', ['value' => 'windows']); // Only search by value 'windows'
-     * ```
-     * @see \Codeception\Module\WebDriver::selectOption()
-     */
-    public function tryToSelectOption($select, $option): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('selectOption', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes selectOption and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::selectOption()
-     */
-    public function retrySelectOption($select, $option)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('selectOption', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2511,35 +3080,6 @@ trait AcceptanceTesterActions
     public function unselectOption($select, $option): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('unselectOption', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Unselect an option in the given select box.
-     *
-     * @param string|array|WebDriverBy $select
-     * @param string|array|WebDriverBy $option
-     * @see \Codeception\Module\WebDriver::unselectOption()
-     */
-    public function tryToUnselectOption($select, $option): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('unselectOption', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes unselectOption and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::unselectOption()
-     */
-    public function retryUnselectOption($select, $option)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('unselectOption', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2557,37 +3097,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('checkOption', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Ticks a checkbox. For radio buttons, use the `selectOption` method instead.
-     *
-     * ```php
-     * <?php
-     * $I->checkOption('#agree');
-     * ```
-     * @see \Codeception\Module\WebDriver::checkOption()
-     */
-    public function tryToCheckOption($option): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('checkOption', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes checkOption and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::checkOption()
-     */
-    public function retryCheckOption($option)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('checkOption', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2603,37 +3112,6 @@ trait AcceptanceTesterActions
     public function uncheckOption($option): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('uncheckOption', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Unticks a checkbox.
-     *
-     * ```php
-     * <?php
-     * $I->uncheckOption('#notify');
-     * ```
-     * @see \Codeception\Module\WebDriver::uncheckOption()
-     */
-    public function tryToUncheckOption($option): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('uncheckOption', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes uncheckOption and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::uncheckOption()
-     */
-    public function retryUncheckOption($option)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('uncheckOption', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2652,38 +3130,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('fillField', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Fills a text field or textarea with the given string.
-     *
-     * ```php
-     * <?php
-     * $I->fillField("//input[@type='text']", "Hello World!");
-     * $I->fillField(['name' => 'email'], 'jon@example.com');
-     * ```
-     * @see \Codeception\Module\WebDriver::fillField()
-     */
-    public function tryToFillField($field, $value): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('fillField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes fillField and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::fillField()
-     */
-    public function retryFillField($field, $value)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('fillField', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2701,39 +3147,6 @@ trait AcceptanceTesterActions
     public function clearField($field): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('clearField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Clears given field which isn't empty.
-     *
-     * ``` php
-     * <?php
-     * $I->clearField('#username');
-     * ```
-     *
-     * @param string|array|WebDriverBy $field
-     * @see \Codeception\Module\WebDriver::clearField()
-     */
-    public function tryToClearField($field): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('clearField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes clearField and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::clearField()
-     */
-    public function retryClearField($field)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('clearField', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2764,50 +3177,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('type', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Type in characters on active element.
-     * With a second parameter you can specify delay between key presses.
-     *
-     * ```php
-     * <?php
-     * // activate input element
-     * $I->click('#input');
-     *
-     * // type text in active element
-     * $I->type('Hello world');
-     *
-     * // type text with a 1sec delay between chars
-     * $I->type('Hello World', 1);
-     * ```
-     *
-     * This might be useful when you an input reacts to typing and you need to slow it down to emulate human behavior.
-     * For instance, this is how Credit Card fields can be filled in.
-     *
-     * @param int $delay [sec]
-     * @see \Codeception\Module\WebDriver::type()
-     */
-    public function tryToType(string $text, int $delay = 0): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('type', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes type and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::type()
-     */
-    public function retryType(string $text, int $delay = 0)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('type', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2824,38 +3193,6 @@ trait AcceptanceTesterActions
     public function attachFile($field, string $filename): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('attachFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Attaches a file relative to the Codeception `_data` directory to the given file upload field.
-     *
-     * ```php
-     * <?php
-     * // file is stored in 'tests/_data/prices.xls'
-     * $I->attachFile('input[@type="file"]', 'prices.xls');
-     * ```
-     * @see \Codeception\Module\WebDriver::attachFile()
-     */
-    public function tryToAttachFile($field, string $filename): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('attachFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes attachFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::attachFile()
-     */
-    public function retryAttachFile($field, string $filename)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('attachFile', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2877,21 +3214,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabTextFrom', func_get_args()));
     }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabTextFrom and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabTextFrom()
-     */
-    public function retryGrabTextFrom($cssOrXPathOrRegex)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabTextFrom', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -2908,21 +3230,6 @@ trait AcceptanceTesterActions
     public function grabAttributeFrom($cssOrXpath, $attribute): ?string
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabAttributeFrom', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabAttributeFrom and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabAttributeFrom()
-     */
-    public function retryGrabAttributeFrom($cssOrXpath, $attribute)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabAttributeFrom', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2943,21 +3250,6 @@ trait AcceptanceTesterActions
     public function grabValueFrom($field): ?string
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabValueFrom', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabValueFrom and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabValueFrom()
-     */
-    public function retryGrabValueFrom($field)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabValueFrom', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -2987,21 +3279,6 @@ trait AcceptanceTesterActions
     public function grabMultiple($cssOrXpath, $attribute = null): array
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabMultiple', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabMultiple and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::grabMultiple()
-     */
-    public function retryGrabMultiple($cssOrXpath, $attribute = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabMultiple', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -3051,45 +3328,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeElement', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the given element exists on the page and is visible.
-     * You can also specify expected attributes of this element.
-     * Only works if `<html>` tag is present.
-     *
-     * ```php
-     * <?php
-     * $I->seeElement('.error');
-     * $I->seeElement('//form/input[1]');
-     * $I->seeElement('input', ['name' => 'login']);
-     * $I->seeElement('input', ['value' => '123456']);
-     *
-     * // strict locator in first arg, attributes in second
-     * $I->seeElement(['css' => 'form input'], ['name' => 'login']);
-     * ```
-     * @see \Codeception\Module\WebDriver::seeElement()
-     */
-    public function tryToSeeElement($selector, array $attributes = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeElement', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeElement and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeElement()
-     */
-    public function retrySeeElement($selector, array $attributes = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeElement', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3130,41 +3368,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeElement', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the given element is invisible or not present on the page.
-     * You can also specify expected attributes of this element.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeElement('.error');
-     * $I->dontSeeElement('//form/input[1]');
-     * $I->dontSeeElement('input', ['name' => 'login']);
-     * $I->dontSeeElement('input', ['value' => '123456']);
-     * ```
-     * @see \Codeception\Module\WebDriver::dontSeeElement()
-     */
-    public function tryToDontSeeElement($selector, array $attributes = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeElement', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeElement and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeElement()
-     */
-    public function retryDontSeeElement($selector, array $attributes = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeElement', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3201,39 +3404,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeElementInDOM', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the given element exists on the page, even it is invisible.
-     *
-     * ``` php
-     * <?php
-     * $I->seeElementInDOM('//form/input[type=hidden]');
-     * ```
-     *
-     * @param string|array|WebDriverBy $selector
-     * @see \Codeception\Module\WebDriver::seeElementInDOM()
-     */
-    public function tryToSeeElementInDOM($selector, array $attributes = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeElementInDOM', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeElementInDOM and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeElementInDOM()
-     */
-    public function retrySeeElementInDOM($selector, array $attributes = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeElementInDOM', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3259,34 +3429,6 @@ trait AcceptanceTesterActions
     public function cantSeeElementInDOM($selector, array $attributes = []): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeElementInDOM', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Opposite of `seeElementInDOM`.
-     *
-     * @param string|array|WebDriverBy $selector
-     * @see \Codeception\Module\WebDriver::dontSeeElementInDOM()
-     */
-    public function tryToDontSeeElementInDOM($selector, array $attributes = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeElementInDOM', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeElementInDOM and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeElementInDOM()
-     */
-    public function retryDontSeeElementInDOM($selector, array $attributes = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeElementInDOM', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -3326,40 +3468,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeNumberOfElements', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that there are a certain number of elements matched by the given locator on the page.
-     *
-     * ```php
-     * <?php
-     * $I->seeNumberOfElements('tr', 10);
-     * $I->seeNumberOfElements('tr', [0,10]); // between 0 and 10 elements
-     * ```
-     *
-     * @param int|int[] $expected
-     * @see \Codeception\Module\WebDriver::seeNumberOfElements()
-     */
-    public function tryToSeeNumberOfElements($selector, $expected): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeNumberOfElements', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeNumberOfElements and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeNumberOfElements()
-     */
-    public function retrySeeNumberOfElements($selector, $expected)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeNumberOfElements', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3385,34 +3493,6 @@ trait AcceptanceTesterActions
     public function canSeeNumberOfElementsInDOM($selector, $expected)
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeNumberOfElementsInDOM', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * @param string|array|WebDriverBy $selector
-     * @param int|array $expected
-     * @throws ModuleException
-     * @see \Codeception\Module\WebDriver::seeNumberOfElementsInDOM()
-     */
-    public function tryToSeeNumberOfElementsInDOM($selector, $expected): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeNumberOfElementsInDOM', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeNumberOfElementsInDOM and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeNumberOfElementsInDOM()
-     */
-    public function retrySeeNumberOfElementsInDOM($selector, $expected)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeNumberOfElementsInDOM', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -3450,39 +3530,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeOptionIsSelected', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the given option is selected.
-     *
-     * ```php
-     * <?php
-     * $I->seeOptionIsSelected('#form input[name=payment]', 'Visa');
-     * ```
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::seeOptionIsSelected()
-     */
-    public function tryToSeeOptionIsSelected($selector, $optionText): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeOptionIsSelected', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeOptionIsSelected and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeOptionIsSelected()
-     */
-    public function retrySeeOptionIsSelected($selector, $optionText)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeOptionIsSelected', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3518,39 +3565,6 @@ trait AcceptanceTesterActions
     public function cantSeeOptionIsSelected($selector, $optionText): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeOptionIsSelected', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the given option is not selected.
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeOptionIsSelected('#form input[name=payment]', 'Visa');
-     * ```
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::dontSeeOptionIsSelected()
-     */
-    public function tryToDontSeeOptionIsSelected($selector, $optionText): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeOptionIsSelected', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeOptionIsSelected and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeOptionIsSelected()
-     */
-    public function retryDontSeeOptionIsSelected($selector, $optionText)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeOptionIsSelected', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -3588,39 +3602,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInTitle', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the page title contains the given string.
-     *
-     * ```php
-     * <?php
-     * $I->seeInTitle('Blog - Post #1');
-     * ```
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::seeInTitle()
-     */
-    public function tryToSeeInTitle($title): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInTitle', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInTitle and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInTitle()
-     */
-    public function retrySeeInTitle($title)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInTitle', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3647,34 +3628,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInTitle', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the page title does not contain the given string.
-     *
-     * @return mixed|void
-     * @see \Codeception\Module\WebDriver::dontSeeInTitle()
-     */
-    public function tryToDontSeeInTitle($title): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInTitle', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInTitle and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInTitle()
-     */
-    public function retryDontSeeInTitle($title)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInTitle', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3688,34 +3641,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('acceptPopup', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Accepts the active JavaScript native popup window, as created by `window.alert`|`window.confirm`|`window.prompt`.
-     * Don't confuse popups with modal windows,
-     * as created by [various libraries](https://jster.net/category/windows-modals-popups).
-     * @see \Codeception\Module\WebDriver::acceptPopup()
-     */
-    public function tryToAcceptPopup(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('acceptPopup', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes acceptPopup and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::acceptPopup()
-     */
-    public function retryAcceptPopup()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('acceptPopup', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3726,32 +3651,6 @@ trait AcceptanceTesterActions
     public function cancelPopup(): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('cancelPopup', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Dismisses the active JavaScript popup, as created by `window.alert`, `window.confirm`, or `window.prompt`.
-     * @see \Codeception\Module\WebDriver::cancelPopup()
-     */
-    public function tryToCancelPopup(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('cancelPopup', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes cancelPopup and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::cancelPopup()
-     */
-    public function retryCancelPopup()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('cancelPopup', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -3781,35 +3680,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInPopup', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the active JavaScript popup,
-     * as created by `window.alert`|`window.confirm`|`window.prompt`, contains the given string.
-     *
-     * @throws ModuleException
-     * @see \Codeception\Module\WebDriver::seeInPopup()
-     */
-    public function tryToSeeInPopup(string $text): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInPopup', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInPopup and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeInPopup()
-     */
-    public function retrySeeInPopup(string $text)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInPopup', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3838,35 +3708,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInPopup', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks that the active JavaScript popup,
-     * as created by `window.alert`|`window.confirm`|`window.prompt`, does NOT contain the given string.
-     *
-     * @throws ModuleException
-     * @see \Codeception\Module\WebDriver::dontSeeInPopup()
-     */
-    public function tryToDontSeeInPopup(string $text): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInPopup', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInPopup and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dontSeeInPopup()
-     */
-    public function retryDontSeeInPopup(string $text)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInPopup', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3880,34 +3721,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('typeInPopup', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Enters text into a native JavaScript prompt popup, as created by `window.prompt`.
-     *
-     * @throws ModuleException
-     * @see \Codeception\Module\WebDriver::typeInPopup()
-     */
-    public function tryToTypeInPopup(string $keys): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('typeInPopup', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes typeInPopup and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::typeInPopup()
-     */
-    public function retryTypeInPopup(string $keys)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('typeInPopup', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3918,32 +3731,6 @@ trait AcceptanceTesterActions
     public function reloadPage(): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('reloadPage', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Reloads the current page. All forms will be reset, so the outcome is as if the user would press <kbd>Ctrl</kbd>+<kbd>F5</kbd>.
-     * @see \Codeception\Module\WebDriver::reloadPage()
-     */
-    public function tryToReloadPage(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('reloadPage', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes reloadPage and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::reloadPage()
-     */
-    public function retryReloadPage()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('reloadPage', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -3956,32 +3743,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('moveBack', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Moves back in history.
-     * @see \Codeception\Module\WebDriver::moveBack()
-     */
-    public function tryToMoveBack(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('moveBack', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes moveBack and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::moveBack()
-     */
-    public function retryMoveBack()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('moveBack', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -3992,32 +3753,6 @@ trait AcceptanceTesterActions
     public function moveForward(): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('moveForward', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Moves forward in history.
-     * @see \Codeception\Module\WebDriver::moveForward()
-     */
-    public function tryToMoveForward(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('moveForward', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes moveForward and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::moveForward()
-     */
-    public function retryMoveForward()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('moveForward', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -4182,185 +3917,6 @@ trait AcceptanceTesterActions
     public function submitForm($selector, array $params, $button = null): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('submitForm', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Submits the given form on the page, optionally with the given form
-     * values.  Give the form fields values as an array. Note that hidden fields
-     * can't be accessed.
-     *
-     * Skipped fields will be filled by their values from the page.
-     * You don't need to click the 'Submit' button afterwards.
-     * This command itself triggers the request to form's action.
-     *
-     * You can optionally specify what button's value to include
-     * in the request with the last parameter as an alternative to
-     * explicitly setting its value in the second parameter, as
-     * button values are not otherwise included in the request.
-     *
-     * Examples:
-     *
-     * ``` php
-     * <?php
-     * $I->submitForm('#login', [
-     *     'login' => 'davert',
-     *     'password' => '123456'
-     * ]);
-     * // or
-     * $I->submitForm('#login', [
-     *     'login' => 'davert',
-     *     'password' => '123456'
-     * ], 'submitButtonName');
-     *
-     * ```
-     *
-     * For example, given this sample "Sign Up" form:
-     *
-     * ``` html
-     * <form action="/sign_up">
-     *     Login:
-     *     <input type="text" name="user[login]"><br>
-     *     Password:
-     *     <input type="password" name="user[password]"><br>
-     *     Do you agree to our terms?
-     *     <input type="checkbox" name="user[agree]"><br>
-     *     Select pricing plan:
-     *     <select name="plan">
-     *         <option value="1">Free</option>
-     *         <option value="2" selected="selected">Paid</option>
-     *     </select>
-     *     <input type="submit" name="submitButton" value="Submit">
-     * </form>
-     * ```
-     *
-     * You could write the following to submit it:
-     *
-     * ``` php
-     * <?php
-     * $I->submitForm(
-     *     '#userForm',
-     *     [
-     *         'user[login]' => 'Davert',
-     *         'user[password]' => '123456',
-     *         'user[agree]' => true
-     *     ],
-     *     'submitButton'
-     * );
-     * ```
-     * Note that "2" will be the submitted value for the "plan" field, as it is
-     * the selected option.
-     *
-     * Also note that this differs from PhpBrowser, in that
-     * ```'user' => [ 'login' => 'Davert' ]``` is not supported at the moment.
-     * Named array keys *must* be included in the name as above.
-     *
-     * Pair this with seeInFormFields for quick testing magic.
-     *
-     * ``` php
-     * <?php
-     * $form = [
-     *      'field1' => 'value',
-     *      'field2' => 'another value',
-     *      'checkbox1' => true,
-     *      // ...
-     * ];
-     * $I->submitForm('//form[@id=my-form]', $form, 'submitButton');
-     * // $I->amOnPage('/path/to/form-page') may be needed
-     * $I->seeInFormFields('//form[@id=my-form]', $form);
-     * ```
-     *
-     * Parameter values must be set to arrays for multiple input fields
-     * of the same name, or multi-select combo boxes.  For checkboxes,
-     * either the string value can be used, or boolean values which will
-     * be replaced by the checkbox's value in the DOM.
-     *
-     * ``` php
-     * <?php
-     * $I->submitForm('#my-form', [
-     *      'field1' => 'value',
-     *      'checkbox' => [
-     *          'value of first checkbox',
-     *          'value of second checkbox',
-     *      ],
-     *      'otherCheckboxes' => [
-     *          true,
-     *          false,
-     *          false,
-     *      ],
-     *      'multiselect' => [
-     *          'first option value',
-     *          'second option value',
-     *      ]
-     * ]);
-     * ```
-     *
-     * Mixing string and boolean values for a checkbox's value is not supported
-     * and may produce unexpected results.
-     *
-     * Field names ending in "[]" must be passed without the trailing square
-     * bracket characters, and must contain an array for its value.  This allows
-     * submitting multiple values with the same name, consider:
-     *
-     * ```php
-     * $I->submitForm('#my-form', [
-     *     'field[]' => 'value',
-     *     'field[]' => 'another value', // 'field[]' is already a defined key
-     * ]);
-     * ```
-     *
-     * The solution is to pass an array value:
-     *
-     * ```php
-     * // this way both values are submitted
-     * $I->submitForm('#my-form', [
-     *     'field' => [
-     *         'value',
-     *         'another value',
-     *     ]
-     * ]);
-     * ```
-     *
-     * The `$button` parameter can be either a string, an array or an instance
-     * of Facebook\WebDriver\WebDriverBy. When it is a string, the
-     * button will be found by its "name" attribute. If $button is an
-     * array then it will be treated as a strict selector and a WebDriverBy
-     * will be used verbatim.
-     *
-     * For example, given the following HTML:
-     *
-     * ``` html
-     * <input type="submit" name="submitButton" value="Submit">
-     * ```
-     *
-     * `$button` could be any one of the following:
-     *   - 'submitButton'
-     *   - ['name' => 'submitButton']
-     *   - WebDriverBy::name('submitButton')
-     *
-     * @param string|array|WebDriverBy $selector
-     * @param string|array|WebDriverBy|null $button
-     * @see \Codeception\Module\WebDriver::submitForm()
-     */
-    public function tryToSubmitForm($selector, array $params, $button = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('submitForm', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes submitForm and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::submitForm()
-     */
-    public function retrySubmitForm($selector, array $params, $button = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('submitForm', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -4539,47 +4095,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('executeInSelenium', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Low-level API method.
-     * If Codeception commands are not enough, this allows you to use Selenium WebDriver methods directly:
-     *
-     * ``` php
-     * $I->executeInSelenium(function(\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) {
-     *   $webdriver->get('https://google.com');
-     * });
-     * ```
-     *
-     * This runs in the context of the
-     * [RemoteWebDriver class](https://github.com/php-webdriver/php-webdriver/blob/master/lib/remote/RemoteWebDriver.php).
-     * Try not to use this command on a regular basis.
-     * If Codeception lacks a feature you need, please implement it and submit a patch.
-     *
-     * @param Closure $function
-     * @return mixed
-     * @see \Codeception\Module\WebDriver::executeInSelenium()
-     */
-    public function tryToExecuteInSelenium(\Closure $function): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('executeInSelenium', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes executeInSelenium and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::executeInSelenium()
-     */
-    public function retryExecuteInSelenium(\Closure $function)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('executeInSelenium', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -4620,61 +4135,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('switchToWindow', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Switch to another window identified by name.
-     *
-     * The window can only be identified by name. If the $name parameter is blank, the parent window will be used.
-     *
-     * Example:
-     * ``` html
-     * <input type="button" value="Open window" onclick="window.open('https://example.com', 'another_window')">
-     * ```
-     *
-     * ``` php
-     * <?php
-     * $I->click("Open window");
-     * # switch to another window
-     * $I->switchToWindow("another_window");
-     * # switch to parent window
-     * $I->switchToWindow();
-     * ```
-     *
-     * If the window has no name, match it by switching to next active tab using `switchToNextTab` method.
-     *
-     * Or use native Selenium functions to get access to all opened windows:
-     *
-     * ``` php
-     * <?php
-     * $I->executeInSelenium(function (\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) {
-     *      $handles=$webdriver->getWindowHandles();
-     *      $last_window = end($handles);
-     *      $webdriver->switchTo()->window($last_window);
-     * });
-     * ```
-     * @see \Codeception\Module\WebDriver::switchToWindow()
-     */
-    public function tryToSwitchToWindow(?string $name = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('switchToWindow', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes switchToWindow and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::switchToWindow()
-     */
-    public function retrySwitchToWindow(?string $name = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('switchToWindow', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -4705,51 +4165,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('switchToIFrame', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Switch to another iframe on the page.
-     *
-     * Example:
-     * ``` html
-     * <iframe name="another_frame" id="fr1" src="https://example.com">
-     *
-     * ```
-     *
-     * ``` php
-     * <?php
-     * # switch to iframe by name
-     * $I->switchToIFrame("another_frame");
-     * # switch to iframe by CSS or XPath
-     * $I->switchToIFrame("#fr1");
-     * # switch to parent page
-     * $I->switchToIFrame();
-     *
-     * ```
-     *
-     * @param string|null $locator (name, CSS or XPath)
-     * @see \Codeception\Module\WebDriver::switchToIFrame()
-     */
-    public function tryToSwitchToIFrame(?string $locator = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('switchToIFrame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes switchToIFrame and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::switchToIFrame()
-     */
-    public function retrySwitchToIFrame(?string $locator = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('switchToIFrame', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -4779,51 +4194,6 @@ trait AcceptanceTesterActions
     public function switchToFrame(?string $locator = null): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('switchToFrame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Switch to another frame on the page.
-     *
-     * Example:
-     * ``` html
-     * <frame name="another_frame" id="fr1" src="https://example.com">
-     *
-     * ```
-     *
-     * ``` php
-     * <?php
-     * # switch to frame by name
-     * $I->switchToFrame("another_frame");
-     * # switch to frame by CSS or XPath
-     * $I->switchToFrame("#fr1");
-     * # switch to parent page
-     * $I->switchToFrame();
-     *
-     * ```
-     *
-     * @param string|null $locator (name, CSS or XPath)
-     * @see \Codeception\Module\WebDriver::switchToFrame()
-     */
-    public function tryToSwitchToFrame(?string $locator = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('switchToFrame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes switchToFrame and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::switchToFrame()
-     */
-    public function retrySwitchToFrame(?string $locator = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('switchToFrame', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -4867,43 +4237,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('executeJS', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Executes JavaScript commands.
-     *
-     * ```php
-     * <?php
-     * $myVar = $I->executeJS('return document.getElementById("myField").value');
-     *
-     * // Additional arguments can be passed as array. E.g. this will alert `Hello World`:
-     * $I->executeJS("window.alert(arguments[0])", ['Hello world']);
-     * ```
-     *
-     * @param array $arguments
-     * @return mixed
-     * @see \Codeception\Module\WebDriver::executeJS()
-     */
-    public function tryToExecuteJS(string $script, array $arguments = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('executeJS', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes executeJS and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::executeJS()
-     */
-    public function retryExecuteJS(string $script, array $arguments = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('executeJS', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -4929,46 +4262,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('executeAsyncJS', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Executes asynchronous JavaScript.
-     * A callback should be executed by JavaScript to exit from a script.
-     * Callback is passed as a last element in `arguments` array.
-     * Additional arguments can be passed as array in second parameter.
-     *
-     * ```js
-     * // wait for 1200 milliseconds my running `setTimeout`
-     * * $I->executeAsyncJS('setTimeout(arguments[0], 1200)');
-     *
-     * $seconds = 1200; // or seconds are passed as argument
-     * $I->executeAsyncJS('setTimeout(arguments[1], arguments[0])', [$seconds]);
-     * ```
-     *
-     * @param array $arguments
-     * @return mixed
-     * @see \Codeception\Module\WebDriver::executeAsyncJS()
-     */
-    public function tryToExecuteAsyncJS(string $script, array $arguments = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('executeAsyncJS', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes executeAsyncJS and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::executeAsyncJS()
-     */
-    public function retryExecuteAsyncJS(string $script, array $arguments = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('executeAsyncJS', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -4979,32 +4272,6 @@ trait AcceptanceTesterActions
     public function maximizeWindow(): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('maximizeWindow', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Maximizes the current window.
-     * @see \Codeception\Module\WebDriver::maximizeWindow()
-     */
-    public function tryToMaximizeWindow(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('maximizeWindow', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes maximizeWindow and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::maximizeWindow()
-     */
-    public function retryMaximizeWindow()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('maximizeWindow', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5024,40 +4291,6 @@ trait AcceptanceTesterActions
     public function dragAndDrop($source, $target): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('dragAndDrop', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Performs a simple mouse drag-and-drop operation.
-     *
-     * ``` php
-     * <?php
-     * $I->dragAndDrop('#drag', '#drop');
-     * ```
-     *
-     * @param string|array|WebDriverBy $source (CSS ID or XPath)
-     * @param string|array|WebDriverBy $target (CSS ID or XPath)
-     * @see \Codeception\Module\WebDriver::dragAndDrop()
-     */
-    public function tryToDragAndDrop($source, $target): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dragAndDrop', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dragAndDrop and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::dragAndDrop()
-     */
-    public function retryDragAndDrop($source, $target)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dragAndDrop', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5083,46 +4316,6 @@ trait AcceptanceTesterActions
     public function moveMouseOver($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('moveMouseOver', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Move mouse over the first element matched by the given locator.
-     * If the first parameter null then the page is used.
-     * If the second and third parameters are given,
-     * then the mouse is moved to an offset of the element's top-left corner.
-     * Otherwise, the mouse is moved to the center of the element.
-     *
-     * ``` php
-     * <?php
-     * $I->moveMouseOver(['css' => '.checkout']);
-     * $I->moveMouseOver(null, 20, 50);
-     * $I->moveMouseOver(['css' => '.checkout'], 20, 50);
-     * ```
-     *
-     * @param string|array|WebDriverBy|null $cssOrXPath css or xpath of the web element
-     * @throws ElementNotFound
-     * @see \Codeception\Module\WebDriver::moveMouseOver()
-     */
-    public function tryToMoveMouseOver($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('moveMouseOver', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes moveMouseOver and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::moveMouseOver()
-     */
-    public function retryMoveMouseOver($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('moveMouseOver', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5150,47 +4343,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('clickWithLeftButton', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Performs click with the left mouse button on an element.
-     * If the first parameter `null` then the offset is relative to the actual mouse position.
-     * If the second and third parameters are given,
-     * then the mouse is moved to an offset of the element's top-left corner.
-     * Otherwise, the mouse is moved to the center of the element.
-     *
-     * ``` php
-     * <?php
-     * $I->clickWithLeftButton(['css' => '.checkout']);
-     * $I->clickWithLeftButton(null, 20, 50);
-     * $I->clickWithLeftButton(['css' => '.checkout'], 20, 50);
-     * ```
-     *
-     * @param string|array|WebDriverBy|null $cssOrXPath css or xpath of the web element (body by default).
-     *
-     * @throws ElementNotFound
-     * @see \Codeception\Module\WebDriver::clickWithLeftButton()
-     */
-    public function tryToClickWithLeftButton($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('clickWithLeftButton', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes clickWithLeftButton and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::clickWithLeftButton()
-     */
-    public function retryClickWithLeftButton($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('clickWithLeftButton', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5216,46 +4368,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('clickWithRightButton', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Performs contextual click with the right mouse button on an element.
-     * If the first parameter `null` then the offset is relative to the actual mouse position.
-     * If the second and third parameters are given,
-     * then the mouse is moved to an offset of the element's top-left corner.
-     * Otherwise, the mouse is moved to the center of the element.
-     *
-     * ``` php
-     * <?php
-     * $I->clickWithRightButton(['css' => '.checkout']);
-     * $I->clickWithRightButton(null, 20, 50);
-     * $I->clickWithRightButton(['css' => '.checkout'], 20, 50);
-     * ```
-     *
-     * @param string|array|WebDriverBy|null $cssOrXPath css or xpath of the web element (body by default).
-     * @throws ElementNotFound
-     * @see \Codeception\Module\WebDriver::clickWithRightButton()
-     */
-    public function tryToClickWithRightButton($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('clickWithRightButton', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes clickWithRightButton and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::clickWithRightButton()
-     */
-    public function retryClickWithRightButton($cssOrXPath = null, ?int $offsetX = null, ?int $offsetY = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('clickWithRightButton', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5269,35 +4381,6 @@ trait AcceptanceTesterActions
     public function doubleClick($cssOrXPath): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('doubleClick', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Performs a double click on an element matched by CSS or XPath.
-     *
-     * @param string|array|WebDriverBy $cssOrXPath
-     * @throws ElementNotFound
-     * @see \Codeception\Module\WebDriver::doubleClick()
-     */
-    public function tryToDoubleClick($cssOrXPath): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('doubleClick', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes doubleClick and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::doubleClick()
-     */
-    public function retryDoubleClick($cssOrXPath)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('doubleClick', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5327,49 +4410,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('pressKey', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Presses the given key on the given element.
-     * To specify a character and modifier (e.g. <kbd>Ctrl</kbd>, <kbd>Alt</kbd>, <kbd>Shift</kbd>, <kbd>Meta</kbd>), pass an array for `$char` with
-     * the modifier as the first element and the character as the second.
-     * For special keys, use the constants from [Facebook\WebDriver\WebDriverKeys](https://github.com/php-webdriver/php-webdriver/blob/main/lib/WebDriverKeys.php).
-     *
-     * ``` php
-     * <?php
-     * // <input id="page" value="old">
-     * $I->pressKey('#page', 'a'); // => olda
-     * $I->pressKey('#page', ['ctrl', 'a'],'new'); // => new
-     * $I->pressKey('#page', ['shift', '111'], '1', 'x'); // => old!!!1x
-     * $I->pressKey('descendant-or-self::*[@id='page']', 'u'); // => oldu
-     * $I->pressKey('#name', ['ctrl', 'a'], \Facebook\WebDriver\WebDriverKeys::DELETE); // =>''
-     * ```
-     *
-     * @param string|array|WebDriverBy $element
-     * @param string|list<string> $chars Can be char or array with modifier. You can provide several chars.
-     * @throws ElementNotFound
-     * @see \Codeception\Module\WebDriver::pressKey()
-     */
-    public function tryToPressKey($element, $chars = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('pressKey', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes pressKey and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::pressKey()
-     */
-    public function retryPressKey($element, $chars = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('pressKey', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5391,43 +4431,6 @@ trait AcceptanceTesterActions
     public function appendField($field, string $value): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('appendField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Append the given text to the given element.
-     * Can also add a selection to a select box.
-     *
-     * ``` php
-     * <?php
-     * $I->appendField('#mySelectbox', 'SelectValue');
-     * $I->appendField('#myTextField', 'appended');
-     * ```
-     *
-     * @param string|array|WebDriverBy $field
-     * @param string $value
-     * @throws ElementNotFound
-     * @see \Codeception\Module\WebDriver::appendField()
-     */
-    public function tryToAppendField($field, string $value): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('appendField', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes appendField and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::appendField()
-     */
-    public function retryAppendField($field, string $value)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('appendField', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5465,57 +4468,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('saveSessionSnapshot', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Saves current cookies into named snapshot in order to restore them in other tests
-     * This is useful to save session state between tests.
-     * For example, if user needs log in to site for each test this scenario can be executed once
-     * while other tests can just restore saved cookies.
-     *
-     * ``` php
-     * <?php
-     * // inside AcceptanceTester class:
-     *
-     * public function login()
-     * {
-     *      // if snapshot exists - skipping login
-     *      if ($I->loadSessionSnapshot('login')) return;
-     *
-     *      // logging in
-     *      $I->amOnPage('/login');
-     *      $I->fillField('name', 'jon');
-     *      $I->fillField('password', '123345');
-     *      $I->click('Login');
-     *
-     *      // saving snapshot
-     *      $I->saveSessionSnapshot('login');
-     * }
-     * ```
-     *
-     * @return mixed
-     * @see \Codeception\Module\WebDriver::saveSessionSnapshot()
-     */
-    public function tryToSaveSessionSnapshot($name): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('saveSessionSnapshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes saveSessionSnapshot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::saveSessionSnapshot()
-     */
-    public function retrySaveSessionSnapshot($name)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('saveSessionSnapshot', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5532,37 +4484,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('loadSessionSnapshot', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Loads cookies from a saved snapshot.
-     * Allows to reuse same session across tests without additional login.
-     *
-     * See [saveSessionSnapshot](#saveSessionSnapshot)
-     *
-     * @return mixed
-     * @see \Codeception\Module\WebDriver::loadSessionSnapshot()
-     */
-    public function tryToLoadSessionSnapshot($name, bool $showDebug = true): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('loadSessionSnapshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes loadSessionSnapshot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::loadSessionSnapshot()
-     */
-    public function retryLoadSessionSnapshot($name, bool $showDebug = true)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('loadSessionSnapshot', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5577,36 +4498,6 @@ trait AcceptanceTesterActions
     public function deleteSessionSnapshot($name)
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('deleteSessionSnapshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Deletes session snapshot.
-     *
-     * See [saveSessionSnapshot](#saveSessionSnapshot)
-     *
-     * @return mixed
-     * @see \Codeception\Module\WebDriver::deleteSessionSnapshot()
-     */
-    public function tryToDeleteSessionSnapshot($name): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('deleteSessionSnapshot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes deleteSessionSnapshot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::deleteSessionSnapshot()
-     */
-    public function retryDeleteSessionSnapshot($name)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('deleteSessionSnapshot', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5628,41 +4519,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('scrollTo', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Move to the middle of the given element matched by the given locator.
-     * Extra shift, calculated from the top-left corner of the element,
-     * can be set by passing $offsetX and $offsetY parameters.
-     *
-     * ``` php
-     * <?php
-     * $I->scrollTo(['css' => '.checkout'], 20, 50);
-     * ```
-     *
-     * @param string|array|WebDriverBy $selector
-     * @see \Codeception\Module\WebDriver::scrollTo()
-     */
-    public function tryToScrollTo($selector, ?int $offsetX = null, ?int $offsetY = null): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('scrollTo', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes scrollTo and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::scrollTo()
-     */
-    public function retryScrollTo($selector, ?int $offsetX = null, ?int $offsetY = null)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('scrollTo', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5681,40 +4537,6 @@ trait AcceptanceTesterActions
     public function openNewTab(): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('openNewTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Opens a new browser tab and switches to it.
-     *
-     * ```php
-     * <?php
-     * $I->openNewTab();
-     * ```
-     * The tab is opened with JavaScript's `window.open()`, which means:
-     * * Some ad-blockers might restrict it.
-     * * The sessionStorage is copied to the new tab (contrary to a tab that was manually opened by the user)
-     * @see \Codeception\Module\WebDriver::openNewTab()
-     */
-    public function tryToOpenNewTab(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('openNewTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes openNewTab and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::openNewTab()
-     */
-    public function retryOpenNewTab()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('openNewTab', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5748,37 +4570,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeNumberOfTabs', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Checks current number of opened tabs
-     *
-     * ```php
-     * <?php
-     * $I->seeNumberOfTabs(2);
-     * ```
-     * @see \Codeception\Module\WebDriver::seeNumberOfTabs()
-     */
-    public function tryToSeeNumberOfTabs(int $number): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeNumberOfTabs', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeNumberOfTabs and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::seeNumberOfTabs()
-     */
-    public function retrySeeNumberOfTabs(int $number)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeNumberOfTabs', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5794,37 +4585,6 @@ trait AcceptanceTesterActions
     public function closeTab(): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('closeTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Closes current browser tab and switches to previous active tab.
-     *
-     * ```php
-     * <?php
-     * $I->closeTab();
-     * ```
-     * @see \Codeception\Module\WebDriver::closeTab()
-     */
-    public function tryToCloseTab(): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('closeTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes closeTab and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::closeTab()
-     */
-    public function retryCloseTab()
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('closeTab', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5846,41 +4606,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('switchToNextTab', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Switches to next browser tab.
-     * An offset can be specified.
-     *
-     * ```php
-     * <?php
-     * // switch to next tab
-     * $I->switchToNextTab();
-     * // switch to 2nd next tab
-     * $I->switchToNextTab(2);
-     * ```
-     * @see \Codeception\Module\WebDriver::switchToNextTab()
-     */
-    public function tryToSwitchToNextTab(int $offset = 1): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('switchToNextTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes switchToNextTab and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::switchToNextTab()
-     */
-    public function retrySwitchToNextTab(int $offset = 1)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('switchToNextTab', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -5900,41 +4625,6 @@ trait AcceptanceTesterActions
     public function switchToPreviousTab(int $offset = 1): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('switchToPreviousTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Switches to previous browser tab.
-     * An offset can be specified.
-     *
-     * ```php
-     * <?php
-     * // switch to previous tab
-     * $I->switchToPreviousTab();
-     * // switch to 2nd previous tab
-     * $I->switchToPreviousTab(2);
-     * ```
-     * @see \Codeception\Module\WebDriver::switchToPreviousTab()
-     */
-    public function tryToSwitchToPreviousTab(int $offset = 1): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('switchToPreviousTab', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes switchToPreviousTab and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::switchToPreviousTab()
-     */
-    public function retrySwitchToPreviousTab(int $offset = 1)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('switchToPreviousTab', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -5985,5658 +4675,6 @@ trait AcceptanceTesterActions
     public function performOn($element, $actions, int $timeout = 10): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('performOn', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Waits for element and runs a sequence of actions inside its context.
-     * Actions can be defined with array, callback, or `Codeception\Util\ActionSequence` instance.
-     *
-     * Actions as array are recommended for simple to combine "waitForElement" with assertions;
-     * `waitForElement($el)` and `see('text', $el)` can be simplified to:
-     *
-     * ```php
-     * <?php
-     * $I->performOn($el, ['see' => 'text']);
-     * ```
-     *
-     * List of actions can be pragmatically build using `Codeception\Util\ActionSequence`:
-     *
-     * ```php
-     * <?php
-     * $I->performOn('.model', ActionSequence::build()
-     *     ->see('Warning')
-     *     ->see('Are you sure you want to delete this?')
-     *     ->click('Yes')
-     * );
-     * ```
-     *
-     * Actions executed from array or ActionSequence will print debug output for actions, and adds an action name to
-     * exception on failure.
-     *
-     * Whenever you need to define more actions a callback can be used. A WebDriver module is passed for argument:
-     *
-     * ```php
-     * <?php
-     * $I->performOn('.rememberMe', function (WebDriver $I) {
-     *      $I->see('Remember me next time');
-     *      $I->seeElement('#LoginForm_rememberMe');
-     *      $I->dontSee('Login');
-     * });
-     * ```
-     *
-     * In 3rd argument you can set number a seconds to wait for element to appear
-     *
-     * @param string|array|WebDriverBy $element
-     * @param callable|array|\Codeception\Util\ActionSequence $actions
-     * @see \Codeception\Module\WebDriver::performOn()
-     */
-    public function tryToPerformOn($element, $actions, int $timeout = 10): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('performOn', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes performOn and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\WebDriver::performOn()
-     */
-    public function retryPerformOn($element, $actions, int $timeout = 10)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('performOn', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Handles and checks throwables (Exceptions/Errors) called inside the callback function.
-     * Either throwable class name or throwable instance should be provided.
-     *
-     * ```php
-     * <?php
-     * $I->expectThrowable(MyThrowable::class, function() {
-     *     $this->doSomethingBad();
-     * });
-     *
-     * $I->expectThrowable(new MyException(), function() {
-     *     $this->doSomethingBad();
-     * });
-     * ```
-     *
-     * If you want to check message or throwable code, you can pass them with throwable instance:
-     * ```php
-     * <?php
-     * // will check that throwable MyError is thrown with "Don't do bad things" message
-     * $I->expectThrowable(new MyError("Don't do bad things"), function() {
-     *     $this->doSomethingBad();
-     * });
-     * ```
-     * @see \Codeception\Module\Asserts::expectThrowable()
-     */
-    public function expectThrowable(\Throwable|string $throwable, callable $callback): void
-    {
-        $this->getScenario()->runStep(new \Codeception\Step\Action('expectThrowable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Handles and checks throwables (Exceptions/Errors) called inside the callback function.
-     * Either throwable class name or throwable instance should be provided.
-     *
-     * ```php
-     * <?php
-     * $I->expectThrowable(MyThrowable::class, function() {
-     *     $this->doSomethingBad();
-     * });
-     *
-     * $I->expectThrowable(new MyException(), function() {
-     *     $this->doSomethingBad();
-     * });
-     * ```
-     *
-     * If you want to check message or throwable code, you can pass them with throwable instance:
-     * ```php
-     * <?php
-     * // will check that throwable MyError is thrown with "Don't do bad things" message
-     * $I->expectThrowable(new MyError("Don't do bad things"), function() {
-     *     $this->doSomethingBad();
-     * });
-     * ```
-     * @see \Codeception\Module\Asserts::expectThrowable()
-     */
-    public function tryToExpectThrowable(\Throwable|string $throwable, callable $callback): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('expectThrowable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes expectThrowable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Asserts::expectThrowable()
-     */
-    public function retryExpectThrowable(\Throwable|string $throwable, callable $callback)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('expectThrowable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file does not exist.
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotExists()
-     */
-    public function assertFileNotExists(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotExists', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file does not exist.
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotExists()
-     */
-    public function tryToAssertFileNotExists(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileNotExists', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileNotExists and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotExists()
-     */
-    public function retryAssertFileNotExists(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileNotExists', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a value is greater than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterOrEquals()
-     */
-    public function assertGreaterOrEquals($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertGreaterOrEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a value is greater than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterOrEquals()
-     */
-    public function tryToAssertGreaterOrEquals($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertGreaterOrEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertGreaterOrEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterOrEquals()
-     */
-    public function retryAssertGreaterOrEquals($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertGreaterOrEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is empty.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsEmpty()
-     */
-    public function assertIsEmpty($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsEmpty', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is empty.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsEmpty()
-     */
-    public function tryToAssertIsEmpty($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsEmpty', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsEmpty and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsEmpty()
-     */
-    public function retryAssertIsEmpty($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsEmpty', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a value is smaller than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertLessOrEquals()
-     */
-    public function assertLessOrEquals($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertLessOrEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a value is smaller than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertLessOrEquals()
-     */
-    public function tryToAssertLessOrEquals($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertLessOrEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertLessOrEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertLessOrEquals()
-     */
-    public function retryAssertLessOrEquals($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertLessOrEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string does not match a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertNotRegExp()
-     */
-    public function assertNotRegExp(string $pattern, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotRegExp', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string does not match a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertNotRegExp()
-     */
-    public function tryToAssertNotRegExp(string $pattern, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotRegExp', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotRegExp and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotRegExp()
-     */
-    public function retryAssertNotRegExp(string $pattern, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotRegExp', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string matches a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertRegExp()
-     */
-    public function assertRegExp(string $pattern, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertRegExp', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string matches a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertRegExp()
-     */
-    public function tryToAssertRegExp(string $pattern, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertRegExp', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertRegExp and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertRegExp()
-     */
-    public function retryAssertRegExp(string $pattern, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertRegExp', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Evaluates a PHPUnit\Framework\Constraint matcher object.
-     *
-     * @param mixed $value
-     * @see \Codeception\Module\AbstractAsserts::assertThatItsNot()
-     */
-    public function assertThatItsNot($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertThatItsNot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Evaluates a PHPUnit\Framework\Constraint matcher object.
-     *
-     * @param mixed $value
-     * @see \Codeception\Module\AbstractAsserts::assertThatItsNot()
-     */
-    public function tryToAssertThatItsNot($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertThatItsNot', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertThatItsNot and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertThatItsNot()
-     */
-    public function retryAssertThatItsNot($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertThatItsNot', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that an array has a specified key.
-     *
-     * @param int|string $key
-     * @param array|\ArrayAccess $array
-     * @see \Codeception\Module\AbstractAsserts::assertArrayHasKey()
-     */
-    public function assertArrayHasKey($key, $array, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertArrayHasKey', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that an array has a specified key.
-     *
-     * @param int|string $key
-     * @param array|\ArrayAccess $array
-     * @see \Codeception\Module\AbstractAsserts::assertArrayHasKey()
-     */
-    public function tryToAssertArrayHasKey($key, $array, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertArrayHasKey', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertArrayHasKey and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertArrayHasKey()
-     */
-    public function retryAssertArrayHasKey($key, $array, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertArrayHasKey', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that an array does not have a specified key.
-     *
-     * @param int|string $key
-     * @param array|\ArrayAccess $array
-     * @see \Codeception\Module\AbstractAsserts::assertArrayNotHasKey()
-     */
-    public function assertArrayNotHasKey($key, $array, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertArrayNotHasKey', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that an array does not have a specified key.
-     *
-     * @param int|string $key
-     * @param array|\ArrayAccess $array
-     * @see \Codeception\Module\AbstractAsserts::assertArrayNotHasKey()
-     */
-    public function tryToAssertArrayNotHasKey($key, $array, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertArrayNotHasKey', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertArrayNotHasKey and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertArrayNotHasKey()
-     */
-    public function retryAssertArrayNotHasKey($key, $array, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertArrayNotHasKey', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a class has a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassHasAttribute()
-     */
-    public function assertClassHasAttribute(string $attributeName, string $className, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a class has a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassHasAttribute()
-     */
-    public function tryToAssertClassHasAttribute(string $attributeName, string $className, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertClassHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertClassHasAttribute and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertClassHasAttribute()
-     */
-    public function retryAssertClassHasAttribute(string $attributeName, string $className, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertClassHasAttribute', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a class has a specified static attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassHasStaticAttribute()
-     */
-    public function assertClassHasStaticAttribute(string $attributeName, string $className, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassHasStaticAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a class has a specified static attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassHasStaticAttribute()
-     */
-    public function tryToAssertClassHasStaticAttribute(string $attributeName, string $className, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertClassHasStaticAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertClassHasStaticAttribute and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertClassHasStaticAttribute()
-     */
-    public function retryAssertClassHasStaticAttribute(string $attributeName, string $className, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertClassHasStaticAttribute', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a class does not have a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasAttribute()
-     */
-    public function assertClassNotHasAttribute(string $attributeName, string $className, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassNotHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a class does not have a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasAttribute()
-     */
-    public function tryToAssertClassNotHasAttribute(string $attributeName, string $className, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertClassNotHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertClassNotHasAttribute and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasAttribute()
-     */
-    public function retryAssertClassNotHasAttribute(string $attributeName, string $className, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertClassNotHasAttribute', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a class does not have a specified static attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasStaticAttribute()
-     */
-    public function assertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertClassNotHasStaticAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a class does not have a specified static attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasStaticAttribute()
-     */
-    public function tryToAssertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertClassNotHasStaticAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertClassNotHasStaticAttribute and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertClassNotHasStaticAttribute()
-     */
-    public function retryAssertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertClassNotHasStaticAttribute', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a haystack contains a needle.
-     *
-     * @param mixed $needle
-     * @see \Codeception\Module\AbstractAsserts::assertContains()
-     */
-    public function assertContains($needle, iterable $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContains', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a haystack contains a needle.
-     *
-     * @param mixed $needle
-     * @see \Codeception\Module\AbstractAsserts::assertContains()
-     */
-    public function tryToAssertContains($needle, iterable $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertContains', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertContains and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertContains()
-     */
-    public function retryAssertContains($needle, iterable $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertContains', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * @param mixed $needle
-     * @see \Codeception\Module\AbstractAsserts::assertContainsEquals()
-     */
-    public function assertContainsEquals($needle, iterable $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContainsEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * @param mixed $needle
-     * @see \Codeception\Module\AbstractAsserts::assertContainsEquals()
-     */
-    public function tryToAssertContainsEquals($needle, iterable $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertContainsEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertContainsEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertContainsEquals()
-     */
-    public function retryAssertContainsEquals($needle, iterable $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertContainsEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a haystack contains only values of a given type.
-     * @see \Codeception\Module\AbstractAsserts::assertContainsOnly()
-     */
-    public function assertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContainsOnly', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a haystack contains only values of a given type.
-     * @see \Codeception\Module\AbstractAsserts::assertContainsOnly()
-     */
-    public function tryToAssertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertContainsOnly', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertContainsOnly and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertContainsOnly()
-     */
-    public function retryAssertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertContainsOnly', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a haystack contains only instances of a given class name.
-     * @see \Codeception\Module\AbstractAsserts::assertContainsOnlyInstancesOf()
-     */
-    public function assertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertContainsOnlyInstancesOf', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a haystack contains only instances of a given class name.
-     * @see \Codeception\Module\AbstractAsserts::assertContainsOnlyInstancesOf()
-     */
-    public function tryToAssertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertContainsOnlyInstancesOf', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertContainsOnlyInstancesOf and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertContainsOnlyInstancesOf()
-     */
-    public function retryAssertContainsOnlyInstancesOf(string $className, iterable $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertContainsOnlyInstancesOf', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts the number of elements of an array, Countable or Traversable.
-     *
-     * @param \Countable|iterable $haystack
-     * @see \Codeception\Module\AbstractAsserts::assertCount()
-     */
-    public function assertCount(int $expectedCount, $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertCount', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts the number of elements of an array, Countable or Traversable.
-     *
-     * @param \Countable|iterable $haystack
-     * @see \Codeception\Module\AbstractAsserts::assertCount()
-     */
-    public function tryToAssertCount(int $expectedCount, $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertCount', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertCount and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertCount()
-     */
-    public function retryAssertCount(int $expectedCount, $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertCount', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a directory does not exist.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryDoesNotExist()
-     */
-    public function assertDirectoryDoesNotExist(string $directory, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryDoesNotExist', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a directory does not exist.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryDoesNotExist()
-     */
-    public function tryToAssertDirectoryDoesNotExist(string $directory, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDirectoryDoesNotExist', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDirectoryDoesNotExist and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryDoesNotExist()
-     */
-    public function retryAssertDirectoryDoesNotExist(string $directory, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDirectoryDoesNotExist', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a directory exists.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryExists()
-     */
-    public function assertDirectoryExists(string $directory, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryExists', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a directory exists.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryExists()
-     */
-    public function tryToAssertDirectoryExists(string $directory, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDirectoryExists', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDirectoryExists and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryExists()
-     */
-    public function retryAssertDirectoryExists(string $directory, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDirectoryExists', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a directory exists and is not readable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotReadable()
-     */
-    public function assertDirectoryIsNotReadable(string $directory, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsNotReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a directory exists and is not readable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotReadable()
-     */
-    public function tryToAssertDirectoryIsNotReadable(string $directory, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDirectoryIsNotReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDirectoryIsNotReadable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotReadable()
-     */
-    public function retryAssertDirectoryIsNotReadable(string $directory, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDirectoryIsNotReadable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a directory exists and is not writable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotWritable()
-     */
-    public function assertDirectoryIsNotWritable(string $directory, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsNotWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a directory exists and is not writable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotWritable()
-     */
-    public function tryToAssertDirectoryIsNotWritable(string $directory, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDirectoryIsNotWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDirectoryIsNotWritable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsNotWritable()
-     */
-    public function retryAssertDirectoryIsNotWritable(string $directory, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDirectoryIsNotWritable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a directory exists and is readable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsReadable()
-     */
-    public function assertDirectoryIsReadable(string $directory, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a directory exists and is readable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsReadable()
-     */
-    public function tryToAssertDirectoryIsReadable(string $directory, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDirectoryIsReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDirectoryIsReadable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsReadable()
-     */
-    public function retryAssertDirectoryIsReadable(string $directory, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDirectoryIsReadable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a directory exists and is writable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsWritable()
-     */
-    public function assertDirectoryIsWritable(string $directory, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDirectoryIsWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a directory exists and is writable.
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsWritable()
-     */
-    public function tryToAssertDirectoryIsWritable(string $directory, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDirectoryIsWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDirectoryIsWritable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDirectoryIsWritable()
-     */
-    public function retryAssertDirectoryIsWritable(string $directory, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDirectoryIsWritable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string does not match a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertDoesNotMatchRegularExpression()
-     */
-    public function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertDoesNotMatchRegularExpression', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string does not match a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertDoesNotMatchRegularExpression()
-     */
-    public function tryToAssertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertDoesNotMatchRegularExpression', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertDoesNotMatchRegularExpression and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertDoesNotMatchRegularExpression()
-     */
-    public function retryAssertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertDoesNotMatchRegularExpression', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is empty.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert empty $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEmpty()
-     */
-    public function assertEmpty($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEmpty', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is empty.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert empty $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEmpty()
-     */
-    public function tryToAssertEmpty($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertEmpty', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertEmpty and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertEmpty()
-     */
-    public function retryAssertEmpty($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertEmpty', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are equal.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEquals()
-     */
-    public function assertEquals($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are equal.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEquals()
-     */
-    public function tryToAssertEquals($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertEquals()
-     */
-    public function retryAssertEquals($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are equal (canonicalizing).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsCanonicalizing()
-     */
-    public function assertEqualsCanonicalizing($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are equal (canonicalizing).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsCanonicalizing()
-     */
-    public function tryToAssertEqualsCanonicalizing($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertEqualsCanonicalizing and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsCanonicalizing()
-     */
-    public function retryAssertEqualsCanonicalizing($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertEqualsCanonicalizing', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are equal (ignoring case).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsIgnoringCase()
-     */
-    public function assertEqualsIgnoringCase($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are equal (ignoring case).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsIgnoringCase()
-     */
-    public function tryToAssertEqualsIgnoringCase($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertEqualsIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsIgnoringCase()
-     */
-    public function retryAssertEqualsIgnoringCase($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertEqualsIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are equal (with delta).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsWithDelta()
-     */
-    public function assertEqualsWithDelta($expected, $actual, float $delta, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertEqualsWithDelta', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are equal (with delta).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsWithDelta()
-     */
-    public function tryToAssertEqualsWithDelta($expected, $actual, float $delta, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertEqualsWithDelta', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertEqualsWithDelta and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertEqualsWithDelta()
-     */
-    public function retryAssertEqualsWithDelta($expected, $actual, float $delta, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertEqualsWithDelta', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a condition is false.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert false $condition
-     * @see \Codeception\Module\AbstractAsserts::assertFalse()
-     */
-    public function assertFalse($condition, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFalse', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a condition is false.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert false $condition
-     * @see \Codeception\Module\AbstractAsserts::assertFalse()
-     */
-    public function tryToAssertFalse($condition, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFalse', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFalse and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFalse()
-     */
-    public function retryAssertFalse($condition, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFalse', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file does not exist.
-     * @see \Codeception\Module\AbstractAsserts::assertFileDoesNotExist()
-     */
-    public function assertFileDoesNotExist(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileDoesNotExist', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file does not exist.
-     * @see \Codeception\Module\AbstractAsserts::assertFileDoesNotExist()
-     */
-    public function tryToAssertFileDoesNotExist(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileDoesNotExist', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileDoesNotExist and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileDoesNotExist()
-     */
-    public function retryAssertFileDoesNotExist(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileDoesNotExist', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of one file is equal to the contents of another file.
-     * @see \Codeception\Module\AbstractAsserts::assertFileEquals()
-     */
-    public function assertFileEquals(string $expected, string $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of one file is equal to the contents of another file.
-     * @see \Codeception\Module\AbstractAsserts::assertFileEquals()
-     */
-    public function tryToAssertFileEquals(string $expected, string $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileEquals()
-     */
-    public function retryAssertFileEquals(string $expected, string $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of one file is equal to the contents of another file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsCanonicalizing()
-     */
-    public function assertFileEqualsCanonicalizing(string $expected, string $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of one file is equal to the contents of another file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsCanonicalizing()
-     */
-    public function tryToAssertFileEqualsCanonicalizing(string $expected, string $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileEqualsCanonicalizing and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsCanonicalizing()
-     */
-    public function retryAssertFileEqualsCanonicalizing(string $expected, string $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileEqualsCanonicalizing', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of one file is equal to the contents of another file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsIgnoringCase()
-     */
-    public function assertFileEqualsIgnoringCase(string $expected, string $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of one file is equal to the contents of another file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsIgnoringCase()
-     */
-    public function tryToAssertFileEqualsIgnoringCase(string $expected, string $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileEqualsIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileEqualsIgnoringCase()
-     */
-    public function retryAssertFileEqualsIgnoringCase(string $expected, string $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileEqualsIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file exists.
-     * @see \Codeception\Module\AbstractAsserts::assertFileExists()
-     */
-    public function assertFileExists(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileExists', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file exists.
-     * @see \Codeception\Module\AbstractAsserts::assertFileExists()
-     */
-    public function tryToAssertFileExists(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileExists', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileExists and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileExists()
-     */
-    public function retryAssertFileExists(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileExists', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file exists and is not readable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotReadable()
-     */
-    public function assertFileIsNotReadable(string $file, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsNotReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file exists and is not readable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotReadable()
-     */
-    public function tryToAssertFileIsNotReadable(string $file, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileIsNotReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileIsNotReadable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotReadable()
-     */
-    public function retryAssertFileIsNotReadable(string $file, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileIsNotReadable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file exists and is not writable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotWritable()
-     */
-    public function assertFileIsNotWritable(string $file, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsNotWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file exists and is not writable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotWritable()
-     */
-    public function tryToAssertFileIsNotWritable(string $file, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileIsNotWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileIsNotWritable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsNotWritable()
-     */
-    public function retryAssertFileIsNotWritable(string $file, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileIsNotWritable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file exists and is readable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsReadable()
-     */
-    public function assertFileIsReadable(string $file, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file exists and is readable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsReadable()
-     */
-    public function tryToAssertFileIsReadable(string $file, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileIsReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileIsReadable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsReadable()
-     */
-    public function retryAssertFileIsReadable(string $file, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileIsReadable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file exists and is writable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsWritable()
-     */
-    public function assertFileIsWritable(string $file, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileIsWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file exists and is writable.
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsWritable()
-     */
-    public function tryToAssertFileIsWritable(string $file, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileIsWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileIsWritable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileIsWritable()
-     */
-    public function retryAssertFileIsWritable(string $file, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileIsWritable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of one file is not equal to the contents of another file.
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEquals()
-     */
-    public function assertFileNotEquals(string $expected, string $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of one file is not equal to the contents of another file.
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEquals()
-     */
-    public function tryToAssertFileNotEquals(string $expected, string $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileNotEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileNotEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEquals()
-     */
-    public function retryAssertFileNotEquals(string $expected, string $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileNotEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of one file is not equal to the contents of another file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsCanonicalizing()
-     */
-    public function assertFileNotEqualsCanonicalizing(string $expected, string $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of one file is not equal to the contents of another file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsCanonicalizing()
-     */
-    public function tryToAssertFileNotEqualsCanonicalizing(string $expected, string $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileNotEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileNotEqualsCanonicalizing and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsCanonicalizing()
-     */
-    public function retryAssertFileNotEqualsCanonicalizing(string $expected, string $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileNotEqualsCanonicalizing', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of one file is not equal to the contents of another file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsIgnoringCase()
-     */
-    public function assertFileNotEqualsIgnoringCase(string $expected, string $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFileNotEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of one file is not equal to the contents of another file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsIgnoringCase()
-     */
-    public function tryToAssertFileNotEqualsIgnoringCase(string $expected, string $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFileNotEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFileNotEqualsIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFileNotEqualsIgnoringCase()
-     */
-    public function retryAssertFileNotEqualsIgnoringCase(string $expected, string $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFileNotEqualsIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is finite.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertFinite()
-     */
-    public function assertFinite($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertFinite', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is finite.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertFinite()
-     */
-    public function tryToAssertFinite($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertFinite', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertFinite and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertFinite()
-     */
-    public function retryAssertFinite($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertFinite', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a value is greater than another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterThan()
-     */
-    public function assertGreaterThan($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertGreaterThan', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a value is greater than another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterThan()
-     */
-    public function tryToAssertGreaterThan($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertGreaterThan', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertGreaterThan and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterThan()
-     */
-    public function retryAssertGreaterThan($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertGreaterThan', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a value is greater than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterThanOrEqual()
-     */
-    public function assertGreaterThanOrEqual($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertGreaterThanOrEqual', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a value is greater than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterThanOrEqual()
-     */
-    public function tryToAssertGreaterThanOrEqual($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertGreaterThanOrEqual', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertGreaterThanOrEqual and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertGreaterThanOrEqual()
-     */
-    public function retryAssertGreaterThanOrEqual($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertGreaterThanOrEqual', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is infinite.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertInfinite()
-     */
-    public function assertInfinite($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertInfinite', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is infinite.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertInfinite()
-     */
-    public function tryToAssertInfinite($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertInfinite', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertInfinite and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertInfinite()
-     */
-    public function retryAssertInfinite($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertInfinite', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of a given type.
-     *
-     * @template ExpectedType of object
-     *
-     * @param mixed $actual
-     * @param class-string<ExpectedType> $expected
-     *
-     * @phpstan-assert =ExpectedType $actual
-     * @see \Codeception\Module\AbstractAsserts::assertInstanceOf()
-     */
-    public function assertInstanceOf(string $expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertInstanceOf', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of a given type.
-     *
-     * @template ExpectedType of object
-     *
-     * @param mixed $actual
-     * @param class-string<ExpectedType> $expected
-     *
-     * @phpstan-assert =ExpectedType $actual
-     * @see \Codeception\Module\AbstractAsserts::assertInstanceOf()
-     */
-    public function tryToAssertInstanceOf(string $expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertInstanceOf', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertInstanceOf and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertInstanceOf()
-     */
-    public function retryAssertInstanceOf(string $expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertInstanceOf', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type array.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert array $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsArray()
-     */
-    public function assertIsArray($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsArray', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type array.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert array $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsArray()
-     */
-    public function tryToAssertIsArray($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsArray', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsArray and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsArray()
-     */
-    public function retryAssertIsArray($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsArray', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type bool.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert bool $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsBool()
-     */
-    public function assertIsBool($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsBool', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type bool.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert bool $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsBool()
-     */
-    public function tryToAssertIsBool($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsBool', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsBool and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsBool()
-     */
-    public function retryAssertIsBool($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsBool', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type callable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert callable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsCallable()
-     */
-    public function assertIsCallable($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsCallable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type callable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert callable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsCallable()
-     */
-    public function tryToAssertIsCallable($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsCallable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsCallable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsCallable()
-     */
-    public function retryAssertIsCallable($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsCallable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type resource and is closed.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsClosedResource()
-     */
-    public function assertIsClosedResource($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsClosedResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type resource and is closed.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsClosedResource()
-     */
-    public function tryToAssertIsClosedResource($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsClosedResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsClosedResource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsClosedResource()
-     */
-    public function retryAssertIsClosedResource($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsClosedResource', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type float.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert float $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsFloat()
-     */
-    public function assertIsFloat($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsFloat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type float.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert float $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsFloat()
-     */
-    public function tryToAssertIsFloat($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsFloat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsFloat and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsFloat()
-     */
-    public function retryAssertIsFloat($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsFloat', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type int.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert int $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsInt()
-     */
-    public function assertIsInt($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsInt', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type int.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert int $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsInt()
-     */
-    public function tryToAssertIsInt($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsInt', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsInt and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsInt()
-     */
-    public function retryAssertIsInt($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsInt', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type iterable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsIterable()
-     */
-    public function assertIsIterable($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsIterable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type iterable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsIterable()
-     */
-    public function tryToAssertIsIterable($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsIterable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsIterable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsIterable()
-     */
-    public function retryAssertIsIterable($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsIterable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type array.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !array $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotArray()
-     */
-    public function assertIsNotArray($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotArray', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type array.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !array $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotArray()
-     */
-    public function tryToAssertIsNotArray($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotArray', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotArray and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotArray()
-     */
-    public function retryAssertIsNotArray($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotArray', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type bool.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !bool $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotBool()
-     */
-    public function assertIsNotBool($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotBool', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type bool.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !bool $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotBool()
-     */
-    public function tryToAssertIsNotBool($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotBool', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotBool and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotBool()
-     */
-    public function retryAssertIsNotBool($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotBool', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type callable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !callable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotCallable()
-     */
-    public function assertIsNotCallable($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotCallable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type callable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !callable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotCallable()
-     */
-    public function tryToAssertIsNotCallable($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotCallable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotCallable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotCallable()
-     */
-    public function retryAssertIsNotCallable($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotCallable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type resource.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotClosedResource()
-     */
-    public function assertIsNotClosedResource($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotClosedResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type resource.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotClosedResource()
-     */
-    public function tryToAssertIsNotClosedResource($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotClosedResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotClosedResource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotClosedResource()
-     */
-    public function retryAssertIsNotClosedResource($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotClosedResource', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type float.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !float $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotFloat()
-     */
-    public function assertIsNotFloat($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotFloat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type float.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !float $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotFloat()
-     */
-    public function tryToAssertIsNotFloat($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotFloat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotFloat and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotFloat()
-     */
-    public function retryAssertIsNotFloat($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotFloat', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type int.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !int $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotInt()
-     */
-    public function assertIsNotInt($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotInt', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type int.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !int $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotInt()
-     */
-    public function tryToAssertIsNotInt($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotInt', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotInt and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotInt()
-     */
-    public function retryAssertIsNotInt($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotInt', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type iterable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotIterable()
-     */
-    public function assertIsNotIterable($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotIterable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type iterable.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotIterable()
-     */
-    public function tryToAssertIsNotIterable($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotIterable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotIterable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotIterable()
-     */
-    public function retryAssertIsNotIterable($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotIterable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type numeric.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !numeric $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotNumeric()
-     */
-    public function assertIsNotNumeric($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotNumeric', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type numeric.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !numeric $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotNumeric()
-     */
-    public function tryToAssertIsNotNumeric($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotNumeric', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotNumeric and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotNumeric()
-     */
-    public function retryAssertIsNotNumeric($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotNumeric', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type object.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !object $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotObject()
-     */
-    public function assertIsNotObject($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotObject', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type object.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !object $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotObject()
-     */
-    public function tryToAssertIsNotObject($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotObject', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotObject and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotObject()
-     */
-    public function retryAssertIsNotObject($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotObject', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file/dir exists and is not readable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotReadable()
-     */
-    public function assertIsNotReadable(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file/dir exists and is not readable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotReadable()
-     */
-    public function tryToAssertIsNotReadable(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotReadable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotReadable()
-     */
-    public function retryAssertIsNotReadable(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotReadable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type resource.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotResource()
-     */
-    public function assertIsNotResource($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type resource.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotResource()
-     */
-    public function tryToAssertIsNotResource($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotResource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotResource()
-     */
-    public function retryAssertIsNotResource($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotResource', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type scalar.
-     *
-     * @param mixed $actual
-     *
-     * @psalm-assert !scalar $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotScalar()
-     */
-    public function assertIsNotScalar($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotScalar', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type scalar.
-     *
-     * @param mixed $actual
-     *
-     * @psalm-assert !scalar $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotScalar()
-     */
-    public function tryToAssertIsNotScalar($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotScalar', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotScalar and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotScalar()
-     */
-    public function retryAssertIsNotScalar($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotScalar', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of type string.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !string $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotString()
-     */
-    public function assertIsNotString($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of type string.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !string $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotString()
-     */
-    public function tryToAssertIsNotString($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotString()
-     */
-    public function retryAssertIsNotString($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file/dir exists and is not writable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotWritable()
-     */
-    public function assertIsNotWritable(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNotWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file/dir exists and is not writable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotWritable()
-     */
-    public function tryToAssertIsNotWritable(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNotWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNotWritable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNotWritable()
-     */
-    public function retryAssertIsNotWritable(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNotWritable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type numeric.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert numeric $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNumeric()
-     */
-    public function assertIsNumeric($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsNumeric', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type numeric.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert numeric $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsNumeric()
-     */
-    public function tryToAssertIsNumeric($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsNumeric', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsNumeric and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsNumeric()
-     */
-    public function retryAssertIsNumeric($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsNumeric', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type object.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert object $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsObject()
-     */
-    public function assertIsObject($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsObject', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type object.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert object $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsObject()
-     */
-    public function tryToAssertIsObject($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsObject', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsObject and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsObject()
-     */
-    public function retryAssertIsObject($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsObject', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file/dir is readable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsReadable()
-     */
-    public function assertIsReadable(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file/dir is readable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsReadable()
-     */
-    public function tryToAssertIsReadable(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsReadable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsReadable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsReadable()
-     */
-    public function retryAssertIsReadable(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsReadable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type resource.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsResource()
-     */
-    public function assertIsResource($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type resource.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert resource $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsResource()
-     */
-    public function tryToAssertIsResource($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsResource', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsResource and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsResource()
-     */
-    public function retryAssertIsResource($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsResource', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type scalar.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert scalar $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsScalar()
-     */
-    public function assertIsScalar($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsScalar', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type scalar.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert scalar $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsScalar()
-     */
-    public function tryToAssertIsScalar($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsScalar', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsScalar and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsScalar()
-     */
-    public function retryAssertIsScalar($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsScalar', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is of type string.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert string $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsString()
-     */
-    public function assertIsString($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is of type string.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert string $actual
-     * @see \Codeception\Module\AbstractAsserts::assertIsString()
-     */
-    public function tryToAssertIsString($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsString()
-     */
-    public function retryAssertIsString($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a file/dir exists and is writable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsWritable()
-     */
-    public function assertIsWritable(string $filename, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertIsWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a file/dir exists and is writable.
-     * @see \Codeception\Module\AbstractAsserts::assertIsWritable()
-     */
-    public function tryToAssertIsWritable(string $filename, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertIsWritable', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertIsWritable and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertIsWritable()
-     */
-    public function retryAssertIsWritable(string $filename, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertIsWritable', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string is a valid JSON string.
-     * @see \Codeception\Module\AbstractAsserts::assertJson()
-     */
-    public function assertJson(string $actualJson, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJson', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string is a valid JSON string.
-     * @see \Codeception\Module\AbstractAsserts::assertJson()
-     */
-    public function tryToAssertJson(string $actualJson, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJson', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJson and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJson()
-     */
-    public function retryAssertJson(string $actualJson, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJson', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two JSON files are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonFileEqualsJsonFile()
-     */
-    public function assertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonFileEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two JSON files are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonFileEqualsJsonFile()
-     */
-    public function tryToAssertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJsonFileEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJsonFileEqualsJsonFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJsonFileEqualsJsonFile()
-     */
-    public function retryAssertJsonFileEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJsonFileEqualsJsonFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two JSON files are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonFileNotEqualsJsonFile()
-     */
-    public function assertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonFileNotEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two JSON files are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonFileNotEqualsJsonFile()
-     */
-    public function tryToAssertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJsonFileNotEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJsonFileNotEqualsJsonFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJsonFileNotEqualsJsonFile()
-     */
-    public function retryAssertJsonFileNotEqualsJsonFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJsonFileNotEqualsJsonFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the generated JSON encoded object and the content of the given file are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonFile()
-     */
-    public function assertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the generated JSON encoded object and the content of the given file are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonFile()
-     */
-    public function tryToAssertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJsonStringEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJsonStringEqualsJsonFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonFile()
-     */
-    public function retryAssertJsonStringEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJsonStringEqualsJsonFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two given JSON encoded objects or arrays are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonString()
-     */
-    public function assertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringEqualsJsonString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two given JSON encoded objects or arrays are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonString()
-     */
-    public function tryToAssertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJsonStringEqualsJsonString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJsonStringEqualsJsonString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringEqualsJsonString()
-     */
-    public function retryAssertJsonStringEqualsJsonString(string $expectedJson, string $actualJson, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJsonStringEqualsJsonString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the generated JSON encoded object and the content of the given file are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonFile()
-     */
-    public function assertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringNotEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the generated JSON encoded object and the content of the given file are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonFile()
-     */
-    public function tryToAssertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJsonStringNotEqualsJsonFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJsonStringNotEqualsJsonFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonFile()
-     */
-    public function retryAssertJsonStringNotEqualsJsonFile(string $expectedFile, string $actualJson, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJsonStringNotEqualsJsonFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two given JSON encoded objects or arrays are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonString()
-     */
-    public function assertJsonStringNotEqualsJsonString(string $expectedJson, string $actualJson, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertJsonStringNotEqualsJsonString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two given JSON encoded objects or arrays are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonString()
-     */
-    public function tryToAssertJsonStringNotEqualsJsonString(string $expectedJson, string $actualJson, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertJsonStringNotEqualsJsonString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertJsonStringNotEqualsJsonString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertJsonStringNotEqualsJsonString()
-     */
-    public function retryAssertJsonStringNotEqualsJsonString(string $expectedJson, string $actualJson, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertJsonStringNotEqualsJsonString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a value is smaller than another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertLessThan()
-     */
-    public function assertLessThan($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertLessThan', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a value is smaller than another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertLessThan()
-     */
-    public function tryToAssertLessThan($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertLessThan', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertLessThan and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertLessThan()
-     */
-    public function retryAssertLessThan($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertLessThan', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a value is smaller than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertLessThanOrEqual()
-     */
-    public function assertLessThanOrEqual($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertLessThanOrEqual', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a value is smaller than or equal to another value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertLessThanOrEqual()
-     */
-    public function tryToAssertLessThanOrEqual($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertLessThanOrEqual', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertLessThanOrEqual and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertLessThanOrEqual()
-     */
-    public function retryAssertLessThanOrEqual($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertLessThanOrEqual', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string matches a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertMatchesRegularExpression()
-     */
-    public function assertMatchesRegularExpression(string $pattern, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertMatchesRegularExpression', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string matches a given regular expression.
-     * @see \Codeception\Module\AbstractAsserts::assertMatchesRegularExpression()
-     */
-    public function tryToAssertMatchesRegularExpression(string $pattern, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertMatchesRegularExpression', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertMatchesRegularExpression and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertMatchesRegularExpression()
-     */
-    public function retryAssertMatchesRegularExpression(string $pattern, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertMatchesRegularExpression', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is nan.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNan()
-     */
-    public function assertNan($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNan', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is nan.
-     *
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNan()
-     */
-    public function tryToAssertNan($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNan', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNan and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNan()
-     */
-    public function retryAssertNan($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNan', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a haystack does not contain a needle.
-     *
-     * @param mixed $needle
-     * @see \Codeception\Module\AbstractAsserts::assertNotContains()
-     */
-    public function assertNotContains($needle, iterable $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotContains', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a haystack does not contain a needle.
-     *
-     * @param mixed $needle
-     * @see \Codeception\Module\AbstractAsserts::assertNotContains()
-     */
-    public function tryToAssertNotContains($needle, iterable $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotContains', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotContains and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotContains()
-     */
-    public function retryAssertNotContains($needle, iterable $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotContains', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotContainsEquals()
-     */
-    public function assertNotContainsEquals($needle, iterable $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotContainsEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotContainsEquals()
-     */
-    public function tryToAssertNotContainsEquals($needle, iterable $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotContainsEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotContainsEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotContainsEquals()
-     */
-    public function retryAssertNotContainsEquals($needle, iterable $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotContainsEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a haystack does not contain only values of a given type.
-     * @see \Codeception\Module\AbstractAsserts::assertNotContainsOnly()
-     */
-    public function assertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotContainsOnly', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a haystack does not contain only values of a given type.
-     * @see \Codeception\Module\AbstractAsserts::assertNotContainsOnly()
-     */
-    public function tryToAssertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotContainsOnly', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotContainsOnly and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotContainsOnly()
-     */
-    public function retryAssertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotContainsOnly', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts the number of elements of an array, Countable or Traversable.
-     *
-     * @param \Countable|iterable $haystack
-     * @see \Codeception\Module\AbstractAsserts::assertNotCount()
-     */
-    public function assertNotCount(int $expectedCount, $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotCount', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts the number of elements of an array, Countable or Traversable.
-     *
-     * @param \Countable|iterable $haystack
-     * @see \Codeception\Module\AbstractAsserts::assertNotCount()
-     */
-    public function tryToAssertNotCount(int $expectedCount, $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotCount', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotCount and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotCount()
-     */
-    public function retryAssertNotCount(int $expectedCount, $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotCount', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not empty.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !empty $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEmpty()
-     */
-    public function assertNotEmpty($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEmpty', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not empty.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !empty $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEmpty()
-     */
-    public function tryToAssertNotEmpty($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotEmpty', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotEmpty and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotEmpty()
-     */
-    public function retryAssertNotEmpty($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotEmpty', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are not equal.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEquals()
-     */
-    public function assertNotEquals($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are not equal.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEquals()
-     */
-    public function tryToAssertNotEquals($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotEquals', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotEquals and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotEquals()
-     */
-    public function retryAssertNotEquals($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotEquals', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are not equal (canonicalizing).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsCanonicalizing()
-     */
-    public function assertNotEqualsCanonicalizing($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are not equal (canonicalizing).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsCanonicalizing()
-     */
-    public function tryToAssertNotEqualsCanonicalizing($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotEqualsCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotEqualsCanonicalizing and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsCanonicalizing()
-     */
-    public function retryAssertNotEqualsCanonicalizing($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotEqualsCanonicalizing', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are not equal (ignoring case).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsIgnoringCase()
-     */
-    public function assertNotEqualsIgnoringCase($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are not equal (ignoring case).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsIgnoringCase()
-     */
-    public function tryToAssertNotEqualsIgnoringCase($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotEqualsIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotEqualsIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsIgnoringCase()
-     */
-    public function retryAssertNotEqualsIgnoringCase($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotEqualsIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables are not equal (with delta).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsWithDelta()
-     */
-    public function assertNotEqualsWithDelta($expected, $actual, float $delta, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotEqualsWithDelta', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables are not equal (with delta).
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsWithDelta()
-     */
-    public function tryToAssertNotEqualsWithDelta($expected, $actual, float $delta, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotEqualsWithDelta', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotEqualsWithDelta and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotEqualsWithDelta()
-     */
-    public function retryAssertNotEqualsWithDelta($expected, $actual, float $delta, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotEqualsWithDelta', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a condition is not false.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert !false $condition
-     * @see \Codeception\Module\AbstractAsserts::assertNotFalse()
-     */
-    public function assertNotFalse($condition, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotFalse', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a condition is not false.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert !false $condition
-     * @see \Codeception\Module\AbstractAsserts::assertNotFalse()
-     */
-    public function tryToAssertNotFalse($condition, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotFalse', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotFalse and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotFalse()
-     */
-    public function retryAssertNotFalse($condition, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotFalse', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not of a given type.
-     *
-     * @template ExpectedType of object
-     *
-     * @param mixed $actual
-     * @param class-string<ExpectedType> $expected
-     *
-     * @phpstan-assert !ExpectedType $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotInstanceOf()
-     */
-    public function assertNotInstanceOf(string $expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotInstanceOf', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not of a given type.
-     *
-     * @template ExpectedType of object
-     *
-     * @param mixed $actual
-     * @param class-string<ExpectedType> $expected
-     *
-     * @phpstan-assert !ExpectedType $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotInstanceOf()
-     */
-    public function tryToAssertNotInstanceOf(string $expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotInstanceOf', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotInstanceOf and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotInstanceOf()
-     */
-    public function retryAssertNotInstanceOf(string $expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotInstanceOf', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is not null.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !null $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotNull()
-     */
-    public function assertNotNull($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotNull', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is not null.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert !null $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotNull()
-     */
-    public function tryToAssertNotNull($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotNull', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotNull and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotNull()
-     */
-    public function retryAssertNotNull($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotNull', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables do not have the same type and value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotSame()
-     */
-    public function assertNotSame($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotSame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables do not have the same type and value.
-     *
-     * @param mixed $expected
-     * @param mixed $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotSame()
-     */
-    public function tryToAssertNotSame($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotSame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotSame and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotSame()
-     */
-    public function retryAssertNotSame($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotSame', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Assert that the size of two arrays (or `Countable` or `Traversable` objects) is not the same.
-     *
-     * @param \Countable|iterable $expected
-     * @param \Countable|iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotSameSize()
-     */
-    public function assertNotSameSize($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotSameSize', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Assert that the size of two arrays (or `Countable` or `Traversable` objects) is not the same.
-     *
-     * @param \Countable|iterable $expected
-     * @param \Countable|iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNotSameSize()
-     */
-    public function tryToAssertNotSameSize($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotSameSize', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotSameSize and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotSameSize()
-     */
-    public function retryAssertNotSameSize($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotSameSize', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a condition is not true.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert !true $condition
-     * @see \Codeception\Module\AbstractAsserts::assertNotTrue()
-     */
-    public function assertNotTrue($condition, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNotTrue', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a condition is not true.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert !true $condition
-     * @see \Codeception\Module\AbstractAsserts::assertNotTrue()
-     */
-    public function tryToAssertNotTrue($condition, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNotTrue', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNotTrue and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNotTrue()
-     */
-    public function retryAssertNotTrue($condition, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNotTrue', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a variable is null.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert null $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNull()
-     */
-    public function assertNull($actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertNull', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a variable is null.
-     *
-     * @param mixed $actual
-     *
-     * @phpstan-assert null $actual
-     * @see \Codeception\Module\AbstractAsserts::assertNull()
-     */
-    public function tryToAssertNull($actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertNull', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertNull and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertNull()
-     */
-    public function retryAssertNull($actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertNull', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that an object has a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertObjectHasAttribute()
-     */
-    public function assertObjectHasAttribute(string $attributeName, object $object, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertObjectHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that an object has a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertObjectHasAttribute()
-     */
-    public function tryToAssertObjectHasAttribute(string $attributeName, object $object, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertObjectHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertObjectHasAttribute and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertObjectHasAttribute()
-     */
-    public function retryAssertObjectHasAttribute(string $attributeName, object $object, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertObjectHasAttribute', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that an object does not have a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertObjectNotHasAttribute()
-     */
-    public function assertObjectNotHasAttribute(string $attributeName, object $object, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertObjectNotHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that an object does not have a specified attribute.
-     * @see \Codeception\Module\AbstractAsserts::assertObjectNotHasAttribute()
-     */
-    public function tryToAssertObjectNotHasAttribute(string $attributeName, object $object, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertObjectNotHasAttribute', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertObjectNotHasAttribute and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertObjectNotHasAttribute()
-     */
-    public function retryAssertObjectNotHasAttribute(string $attributeName, object $object, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertObjectNotHasAttribute', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two variables have the same type and value.
-     * Used on objects, it asserts that two variables reference
-     * the same object.
-     *
-     * @template ExpectedType
-     *
-     * @param ExpectedType $expected
-     * @param mixed $actual
-     *
-     * @phpstan-assert =ExpectedType $actual
-     * @see \Codeception\Module\AbstractAsserts::assertSame()
-     */
-    public function assertSame($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertSame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two variables have the same type and value.
-     * Used on objects, it asserts that two variables reference
-     * the same object.
-     *
-     * @template ExpectedType
-     *
-     * @param ExpectedType $expected
-     * @param mixed $actual
-     *
-     * @phpstan-assert =ExpectedType $actual
-     * @see \Codeception\Module\AbstractAsserts::assertSame()
-     */
-    public function tryToAssertSame($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertSame', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertSame and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertSame()
-     */
-    public function retryAssertSame($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertSame', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Assert that the size of two arrays (or `Countable` or `Traversable` objects) is the same.
-     *
-     * @param \Countable|iterable $expected
-     * @param \Countable|iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertSameSize()
-     */
-    public function assertSameSize($expected, $actual, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertSameSize', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Assert that the size of two arrays (or `Countable` or `Traversable` objects) is the same.
-     *
-     * @param \Countable|iterable $expected
-     * @param \Countable|iterable $actual
-     * @see \Codeception\Module\AbstractAsserts::assertSameSize()
-     */
-    public function tryToAssertSameSize($expected, $actual, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertSameSize', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertSameSize and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertSameSize()
-     */
-    public function retryAssertSameSize($expected, $actual, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertSameSize', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringContainsString()
-     */
-    public function assertStringContainsString(string $needle, string $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringContainsString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringContainsString()
-     */
-    public function tryToAssertStringContainsString(string $needle, string $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringContainsString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringContainsString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringContainsString()
-     */
-    public function retryAssertStringContainsString(string $needle, string $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringContainsString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringContainsStringIgnoringCase()
-     */
-    public function assertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringContainsStringIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringContainsStringIgnoringCase()
-     */
-    public function tryToAssertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringContainsStringIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringContainsStringIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringContainsStringIgnoringCase()
-     */
-    public function retryAssertStringContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringContainsStringIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string ends not with a given suffix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringEndsNotWith()
-     */
-    public function assertStringEndsNotWith(string $suffix, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEndsNotWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string ends not with a given suffix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringEndsNotWith()
-     */
-    public function tryToAssertStringEndsNotWith(string $suffix, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringEndsNotWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringEndsNotWith and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringEndsNotWith()
-     */
-    public function retryAssertStringEndsNotWith(string $suffix, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringEndsNotWith', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string ends with a given suffix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringEndsWith()
-     */
-    public function assertStringEndsWith(string $suffix, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEndsWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string ends with a given suffix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringEndsWith()
-     */
-    public function tryToAssertStringEndsWith(string $suffix, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringEndsWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringEndsWith and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringEndsWith()
-     */
-    public function retryAssertStringEndsWith(string $suffix, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringEndsWith', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of a string is equal to the contents of a file.
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFile()
-     */
-    public function assertStringEqualsFile(string $expectedFile, string $actualString, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEqualsFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of a string is equal to the contents of a file.
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFile()
-     */
-    public function tryToAssertStringEqualsFile(string $expectedFile, string $actualString, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringEqualsFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringEqualsFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFile()
-     */
-    public function retryAssertStringEqualsFile(string $expectedFile, string $actualString, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringEqualsFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of a string is equal to the contents of a file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileCanonicalizing()
-     */
-    public function assertStringEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEqualsFileCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of a string is equal to the contents of a file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileCanonicalizing()
-     */
-    public function tryToAssertStringEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringEqualsFileCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringEqualsFileCanonicalizing and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileCanonicalizing()
-     */
-    public function retryAssertStringEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringEqualsFileCanonicalizing', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of a string is equal to the contents of a file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileIgnoringCase()
-     */
-    public function assertStringEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringEqualsFileIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of a string is equal to the contents of a file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileIgnoringCase()
-     */
-    public function tryToAssertStringEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringEqualsFileIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringEqualsFileIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringEqualsFileIgnoringCase()
-     */
-    public function retryAssertStringEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringEqualsFileIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string matches a given format string.
-     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormat()
-     */
-    public function assertStringMatchesFormat(string $format, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringMatchesFormat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string matches a given format string.
-     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormat()
-     */
-    public function tryToAssertStringMatchesFormat(string $format, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringMatchesFormat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringMatchesFormat and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormat()
-     */
-    public function retryAssertStringMatchesFormat(string $format, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringMatchesFormat', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string matches a given format file.
-     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormatFile()
-     */
-    public function assertStringMatchesFormatFile(string $formatFile, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringMatchesFormatFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string matches a given format file.
-     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormatFile()
-     */
-    public function tryToAssertStringMatchesFormatFile(string $formatFile, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringMatchesFormatFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringMatchesFormatFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringMatchesFormatFile()
-     */
-    public function retryAssertStringMatchesFormatFile(string $formatFile, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringMatchesFormatFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsString()
-     */
-    public function assertStringNotContainsString(string $needle, string $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotContainsString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsString()
-     */
-    public function tryToAssertStringNotContainsString(string $needle, string $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotContainsString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotContainsString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsString()
-     */
-    public function retryAssertStringNotContainsString(string $needle, string $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotContainsString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsStringIgnoringCase()
-     */
-    public function assertStringNotContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotContainsStringIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsStringIgnoringCase()
-     */
-    public function tryToAssertStringNotContainsStringIgnoringCase(string $needle, string $haystack, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotContainsStringIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotContainsStringIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotContainsStringIgnoringCase()
-     */
-    public function retryAssertStringNotContainsStringIgnoringCase(string $needle, string $haystack, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotContainsStringIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of a string is not equal to the contents of a file.
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFile()
-     */
-    public function assertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotEqualsFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of a string is not equal to the contents of a file.
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFile()
-     */
-    public function tryToAssertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotEqualsFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotEqualsFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFile()
-     */
-    public function retryAssertStringNotEqualsFile(string $expectedFile, string $actualString, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotEqualsFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of a string is not equal to the contents of a file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileCanonicalizing()
-     */
-    public function assertStringNotEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotEqualsFileCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of a string is not equal to the contents of a file (canonicalizing).
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileCanonicalizing()
-     */
-    public function tryToAssertStringNotEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotEqualsFileCanonicalizing', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotEqualsFileCanonicalizing and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileCanonicalizing()
-     */
-    public function retryAssertStringNotEqualsFileCanonicalizing(string $expectedFile, string $actualString, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotEqualsFileCanonicalizing', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that the contents of a string is not equal to the contents of a file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileIgnoringCase()
-     */
-    public function assertStringNotEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotEqualsFileIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the contents of a string is not equal to the contents of a file (ignoring case).
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileIgnoringCase()
-     */
-    public function tryToAssertStringNotEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotEqualsFileIgnoringCase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotEqualsFileIgnoringCase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotEqualsFileIgnoringCase()
-     */
-    public function retryAssertStringNotEqualsFileIgnoringCase(string $expectedFile, string $actualString, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotEqualsFileIgnoringCase', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string does not match a given format string.
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormat()
-     */
-    public function assertStringNotMatchesFormat(string $format, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotMatchesFormat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string does not match a given format string.
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormat()
-     */
-    public function tryToAssertStringNotMatchesFormat(string $format, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotMatchesFormat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotMatchesFormat and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormat()
-     */
-    public function retryAssertStringNotMatchesFormat(string $format, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotMatchesFormat', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string does not match a given format string.
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormatFile()
-     */
-    public function assertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringNotMatchesFormatFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string does not match a given format string.
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormatFile()
-     */
-    public function tryToAssertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringNotMatchesFormatFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringNotMatchesFormatFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringNotMatchesFormatFile()
-     */
-    public function retryAssertStringNotMatchesFormatFile(string $formatFile, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringNotMatchesFormatFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string starts not with a given prefix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringStartsNotWith()
-     */
-    public function assertStringStartsNotWith(string $prefix, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringStartsNotWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string starts not with a given prefix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringStartsNotWith()
-     */
-    public function tryToAssertStringStartsNotWith(string $prefix, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringStartsNotWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringStartsNotWith and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringStartsNotWith()
-     */
-    public function retryAssertStringStartsNotWith(string $prefix, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringStartsNotWith', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a string starts with a given prefix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringStartsWith()
-     */
-    public function assertStringStartsWith(string $prefix, string $string, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertStringStartsWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a string starts with a given prefix.
-     * @see \Codeception\Module\AbstractAsserts::assertStringStartsWith()
-     */
-    public function tryToAssertStringStartsWith(string $prefix, string $string, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertStringStartsWith', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertStringStartsWith and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertStringStartsWith()
-     */
-    public function retryAssertStringStartsWith(string $prefix, string $string, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertStringStartsWith', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Evaluates a PHPUnit\Framework\Constraint matcher object.
-     *
-     * @param mixed $value
-     * @see \Codeception\Module\AbstractAsserts::assertThat()
-     */
-    public function assertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertThat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Evaluates a PHPUnit\Framework\Constraint matcher object.
-     *
-     * @param mixed $value
-     * @see \Codeception\Module\AbstractAsserts::assertThat()
-     */
-    public function tryToAssertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertThat', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertThat and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertThat()
-     */
-    public function retryAssertThat($value, \PHPUnit\Framework\Constraint\Constraint $constraint, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertThat', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that a condition is true.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert true $condition
-     * @see \Codeception\Module\AbstractAsserts::assertTrue()
-     */
-    public function assertTrue($condition, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertTrue', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a condition is true.
-     *
-     * @param mixed $condition
-     *
-     * @phpstan-assert true $condition
-     * @see \Codeception\Module\AbstractAsserts::assertTrue()
-     */
-    public function tryToAssertTrue($condition, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertTrue', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertTrue and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertTrue()
-     */
-    public function retryAssertTrue($condition, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertTrue', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two XML files are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertXmlFileEqualsXmlFile()
-     */
-    public function assertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlFileEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two XML files are equal.
-     * @see \Codeception\Module\AbstractAsserts::assertXmlFileEqualsXmlFile()
-     */
-    public function tryToAssertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertXmlFileEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertXmlFileEqualsXmlFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertXmlFileEqualsXmlFile()
-     */
-    public function retryAssertXmlFileEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertXmlFileEqualsXmlFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two XML files are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertXmlFileNotEqualsXmlFile()
-     */
-    public function assertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlFileNotEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two XML files are not equal.
-     * @see \Codeception\Module\AbstractAsserts::assertXmlFileNotEqualsXmlFile()
-     */
-    public function tryToAssertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertXmlFileNotEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertXmlFileNotEqualsXmlFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertXmlFileNotEqualsXmlFile()
-     */
-    public function retryAssertXmlFileNotEqualsXmlFile(string $expectedFile, string $actualFile, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertXmlFileNotEqualsXmlFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two XML documents are equal.
-     *
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlFile()
-     */
-    public function assertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two XML documents are equal.
-     *
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlFile()
-     */
-    public function tryToAssertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertXmlStringEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertXmlStringEqualsXmlFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlFile()
-     */
-    public function retryAssertXmlStringEqualsXmlFile(string $expectedFile, $actualXml, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertXmlStringEqualsXmlFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two XML documents are equal.
-     *
-     * @param \DOMDocument|string $expectedXml
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlString()
-     */
-    public function assertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringEqualsXmlString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two XML documents are equal.
-     *
-     * @param \DOMDocument|string $expectedXml
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlString()
-     */
-    public function tryToAssertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertXmlStringEqualsXmlString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertXmlStringEqualsXmlString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringEqualsXmlString()
-     */
-    public function retryAssertXmlStringEqualsXmlString($expectedXml, $actualXml, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertXmlStringEqualsXmlString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two XML documents are not equal.
-     *
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlFile()
-     */
-    public function assertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringNotEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two XML documents are not equal.
-     *
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlFile()
-     */
-    public function tryToAssertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertXmlStringNotEqualsXmlFile', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertXmlStringNotEqualsXmlFile and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlFile()
-     */
-    public function retryAssertXmlStringNotEqualsXmlFile(string $expectedFile, $actualXml, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertXmlStringNotEqualsXmlFile', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Asserts that two XML documents are not equal.
-     *
-     * @param \DOMDocument|string $expectedXml
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlString()
-     */
-    public function assertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('assertXmlStringNotEqualsXmlString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that two XML documents are not equal.
-     *
-     * @param \DOMDocument|string $expectedXml
-     * @param \DOMDocument|string $actualXml
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlString()
-     */
-    public function tryToAssertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('assertXmlStringNotEqualsXmlString', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes assertXmlStringNotEqualsXmlString and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::assertXmlStringNotEqualsXmlString()
-     */
-    public function retryAssertXmlStringNotEqualsXmlString($expectedXml, $actualXml, string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('assertXmlStringNotEqualsXmlString', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Fails a test with the given message.
-     * @see \Codeception\Module\AbstractAsserts::fail()
-     */
-    public function fail(string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('fail', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Fails a test with the given message.
-     * @see \Codeception\Module\AbstractAsserts::fail()
-     */
-    public function tryToFail(string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('fail', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes fail and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::fail()
-     */
-    public function retryFail(string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('fail', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Mark the test as incomplete.
-     * @see \Codeception\Module\AbstractAsserts::markTestIncomplete()
-     */
-    public function markTestIncomplete(string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('markTestIncomplete', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Mark the test as incomplete.
-     * @see \Codeception\Module\AbstractAsserts::markTestIncomplete()
-     */
-    public function tryToMarkTestIncomplete(string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('markTestIncomplete', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes markTestIncomplete and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::markTestIncomplete()
-     */
-    public function retryMarkTestIncomplete(string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('markTestIncomplete', func_get_args(), $retryNum, $retryInterval));
-    }
-
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * Mark the test as skipped.
-     * @see \Codeception\Module\AbstractAsserts::markTestSkipped()
-     */
-    public function markTestSkipped(string $message = '')
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\Action('markTestSkipped', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Mark the test as skipped.
-     * @see \Codeception\Module\AbstractAsserts::markTestSkipped()
-     */
-    public function tryToMarkTestSkipped(string $message = ''): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('markTestSkipped', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes markTestSkipped and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\AbstractAsserts::markTestSkipped()
-     */
-    public function retryMarkTestSkipped(string $message = '')
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('markTestSkipped', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -11700,63 +4738,6 @@ trait AcceptanceTesterActions
     public function performInDatabase($databaseKey, $actions): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('performInDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Can be used with a callback if you don't want to change the current database in your test.
-     *
-     * ```php
-     * <?php
-     * $I->seeNumRecords(2, 'users');   //executed on default database
-     * $I->performInDatabase('db_books', function($I) {
-     *     $I->seeNumRecords(30, 'books');  //executed on db_books database
-     * });
-     * $I->seeNumRecords(2, 'users');  //executed on default database
-     * ```
-     * List of actions can be pragmatically built using `Codeception\Util\ActionSequence`:
-     *
-     * ```php
-     * <?php
-     * $I->performInDatabase('db_books', ActionSequence::build()
-     *     ->seeNumRecords(30, 'books')
-     * );
-     * ```
-     * Alternatively an array can be used:
-     *
-     * ```php
-     * $I->performInDatabase('db_books', ['seeNumRecords' => [30, 'books']]);
-     * ```
-     *
-     * Choose the syntax you like the most and use it,
-     *
-     * Actions executed from array or ActionSequence will print debug output for actions, and adds an action name to
-     * exception on failure.
-     *
-     * @param $databaseKey
-     * @param ActionSequence|array|callable $actions
-     * @throws ModuleConfigException
-     * @see \Codeception\Module\Db::performInDatabase()
-     */
-    public function tryToPerformInDatabase($databaseKey, $actions): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('performInDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes performInDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::performInDatabase()
-     */
-    public function retryPerformInDatabase($databaseKey, $actions)
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('performInDatabase', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -11831,49 +4812,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeInDatabase', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that a row with the given column values exists.
-     * Provide table name and column values.
-     *
-     * ```php
-     * <?php
-     * $I->seeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
-     * ```
-     * Fails if no such user found.
-     *
-     * Comparison expressions can be used as well:
-     *
-     * ```php
-     * <?php
-     * $I->seeInDatabase('posts', ['num_comments >=' => '0']);
-     * $I->seeInDatabase('users', ['email like' => 'miles@davis.com']);
-     * ```
-     *
-     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
-     * @see \Codeception\Module\Db::seeInDatabase()
-     */
-    public function tryToSeeInDatabase(string $table, array $criteria = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeInDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeInDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::seeInDatabase()
-     */
-    public function retrySeeInDatabase(string $table, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeInDatabase', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -11913,41 +4851,6 @@ trait AcceptanceTesterActions
     public function canSeeNumRecords(int $expectedNumber, string $table, array $criteria = []): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('seeNumRecords', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Asserts that the given number of records were found in the database.
-     *
-     * ```php
-     * <?php
-     * $I->seeNumRecords(1, 'users', ['name' => 'davert'])
-     * ```
-     *
-     * @param int $expectedNumber Expected number
-     * @param string $table Table name
-     * @param array $criteria Search criteria [Optional]
-     * @see \Codeception\Module\Db::seeNumRecords()
-     */
-    public function tryToSeeNumRecords(int $expectedNumber, string $table, array $criteria = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('seeNumRecords', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes seeNumRecords and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::seeNumRecords()
-     */
-    public function retrySeeNumRecords(int $expectedNumber, string $table, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('seeNumRecords', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -12009,51 +4912,6 @@ trait AcceptanceTesterActions
     {
         $this->getScenario()->runStep(new \Codeception\Step\ConditionalAssertion('dontSeeInDatabase', func_get_args()));
     }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Effect is opposite to ->seeInDatabase
-     *
-     * Asserts that there is no record with the given column values in a database.
-     * Provide table name and column values.
-     *
-     * ``` php
-     * <?php
-     * $I->dontSeeInDatabase('users', ['name' => 'Davert', 'email' => 'davert@mail.com']);
-     * ```
-     * Fails if such user was found.
-     *
-     * Comparison expressions can be used as well:
-     *
-     * ```php
-     * <?php
-     * $I->dontSeeInDatabase('posts', ['num_comments >=' => '0']);
-     * $I->dontSeeInDatabase('users', ['email like' => 'miles%']);
-     * ```
-     *
-     * Supported operators: `<`, `>`, `>=`, `<=`, `!=`, `like`.
-     * @see \Codeception\Module\Db::dontSeeInDatabase()
-     */
-    public function tryToDontSeeInDatabase(string $table, array $criteria = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('dontSeeInDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes dontSeeInDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::dontSeeInDatabase()
-     */
-    public function retryDontSeeInDatabase(string $table, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('dontSeeInDatabase', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -12070,21 +4928,6 @@ trait AcceptanceTesterActions
     public function grabColumnFromDatabase(string $table, string $column, array $criteria = []): array
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabColumnFromDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabColumnFromDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::grabColumnFromDatabase()
-     */
-    public function retryGrabColumnFromDatabase(string $table, string $column, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabColumnFromDatabase', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -12113,21 +4956,6 @@ trait AcceptanceTesterActions
     public function grabFromDatabase(string $table, string $column, array $criteria = [])
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabFromDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabFromDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::grabFromDatabase()
-     */
-    public function retryGrabFromDatabase(string $table, string $column, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabFromDatabase', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -12159,21 +4987,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabEntryFromDatabase', func_get_args()));
     }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabEntryFromDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::grabEntryFromDatabase()
-     */
-    public function retryGrabEntryFromDatabase(string $table, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabEntryFromDatabase', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -12203,21 +5016,6 @@ trait AcceptanceTesterActions
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabEntriesFromDatabase', func_get_args()));
     }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabEntriesFromDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::grabEntriesFromDatabase()
-     */
-    public function retryGrabEntriesFromDatabase(string $table, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabEntriesFromDatabase', func_get_args(), $retryNum, $retryInterval));
-    }
 
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
@@ -12232,21 +5030,6 @@ trait AcceptanceTesterActions
     public function grabNumRecords(string $table, array $criteria = []): int
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('grabNumRecords', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes grabNumRecords and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::grabNumRecords()
-     */
-    public function retryGrabNumRecords(string $table, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('grabNumRecords', func_get_args(), $retryNum, $retryInterval));
     }
 
     /**
@@ -12263,36 +5046,5 @@ trait AcceptanceTesterActions
     public function updateInDatabase(string $table, array $data, array $criteria = []): void
     {
         $this->getScenario()->runStep(new \Codeception\Step\Action('updateInDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated. Documentation taken from corresponding module.
-     *
-     * [!] Test won't be stopped on fail. Error won't be logged
-     * Update an SQL record into a database.
-     *
-     * ```php
-     * <?php
-     * $I->updateInDatabase('users', ['isAdmin' => true], ['email' => 'miles@davis.com']);
-     * ```
-     * @see \Codeception\Module\Db::updateInDatabase()
-     */
-    public function tryToUpdateInDatabase(string $table, array $data, array $criteria = []): bool
-    {
-        return $this->getScenario()->runStep(new \Codeception\Step\TryTo('updateInDatabase', func_get_args()));
-    }
-    /**
-     * [!] Method is generated.
-     *
-     * * Executes updateInDatabase and retries on failure.
-     *
-     * Retry number and interval set by $I->retry();
-     *
-     * @see \Codeception\Module\Db::updateInDatabase()
-     */
-    public function retryUpdateInDatabase(string $table, array $data, array $criteria = [])
-    {
-        $retryNum      = $this->retryNum ?? 1;
-        $retryInterval = $this->retryInterval ?? 200;
-        return $this->getScenario()->runStep(new \Codeception\Step\Retry('updateInDatabase', func_get_args(), $retryNum, $retryInterval));
     }
 }

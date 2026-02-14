@@ -6,6 +6,7 @@ namespace Blueways\BwIconsTest\Acceptance\Support;
 
 use Blueways\BwIconsTest\Acceptance\Support\_generated\AcceptanceTesterActions;
 use Codeception\Actor;
+use TYPO3\TestingFramework\Core\Acceptance\Step\FrameSteps;
 
 /**
  * Inherited Methods
@@ -25,6 +26,8 @@ class AcceptanceTester extends Actor
 {
     use AcceptanceTesterActions;
 
+    use FrameSteps;
+
     /**
      * Define custom actions here
      */
@@ -37,5 +40,13 @@ class AcceptanceTester extends Actor
         $I->fillField('#t3-password', 'Passw0rd!');
         $I->click('#t3-login-submit-section > button');
         $I->waitForElement('.scaffold-header', 10);
+    }
+
+    public function openModule(string $moduleIdentifier): void
+    {
+        $I = $this;
+        $I->click('//a[@data-modulemenu-identifier="' . $moduleIdentifier . '"]');
+        $I->wait(1);
+        $I->switchToContentFrame();
     }
 }

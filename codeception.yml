@@ -16,20 +16,33 @@ extensions:
   config:
     Codeception\Extension\RunFailed:
       file: var/log/codeception/_output/_failed
-modules:
-  config:
-    Asserts: ~
-    WebDriver:
-      url: 'https://bw-icons.ddev.site'
-      browser: chrome
-      host: selenium-chrome
-      port: 4444
-      window_size: 1920x1080
-      wait: 2
-      capabilities:
-        acceptInsecureCerts: true
-        goog:chromeOptions:
-          args:
-            - "--disable-gpu"
-            - "--no-sandbox"
-            - "--disable-dev-shm-usage"
+
+suites:
+  Acceptance:
+    actor: AcceptanceTester
+    modules:
+      enabled:
+        - Asserts
+        - WebDriver
+        - Db
+      config:
+        Asserts: ~
+        WebDriver:
+          url: 'https://bw-icons.ddev.site'
+          browser: chrome
+          host: selenium-chrome
+          port: 4444
+          window_size: 1920x1080
+          wait: 2
+          capabilities:
+            acceptInsecureCerts: true
+            goog:chromeOptions:
+              args: ['--disable-dev-shm-usage']
+
+        Db:
+          dsn: 'mysql:host=db;dbname=db'
+          user: 'db'
+          password: 'db'
+          populate: true
+          cleanup: true
+          populator: 'bash .ddev/commands/web/init-typo3'
