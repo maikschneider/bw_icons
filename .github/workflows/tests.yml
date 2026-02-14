@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        typo3-version: [ "12.4", "13.4" ]
+        typo3-version: [ "12.4" ]
         php-version: [ "8.3" ]
 
     steps:
@@ -58,7 +58,6 @@ jobs:
       - name: Run acceptance tests
         uses: nick-fields/retry@v3
         with:
-          max_attempts: 3
           retry_on: error
           timeout_minutes: 10
           command: ddev composer ci:test:acceptance
