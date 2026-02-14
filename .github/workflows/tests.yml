@@ -62,7 +62,7 @@ jobs:
           retry_on: error
           timeout_minutes: 10
           command: ddev composer ci:test:acceptance
-          new_command_on_retry: ddev composer test:acceptance -- -g failed
+          new_command_on_retry: ddev composer ci:test:acceptance -- -g failed
 
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
@@ -72,8 +72,8 @@ jobs:
         if: failure()
 
       # Report coverage
-#      - name: Upload coverage reports to Codecov
-#        uses: codecov/codecov-action@v4.5.0
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          files: ./coverage/clover-unit.xml,./coverage/clover-functional.xml,./Tests/Acceptance/_output/Xima.XmFormcycle.Tests.Acceptance.Acceptance.remote.coverage.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.5.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/clover-unit.xml,./coverage/clover-functional.xml,./Tests/Acceptance/_output/Xima.XmFormcycle.Tests.Acceptance.Acceptance.remote.coverage.xml

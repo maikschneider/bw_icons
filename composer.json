@@ -31,6 +31,7 @@
 		"armin/editorconfig-cli": "^2.0",
 		"bk2k/bootstrap-package": "^15.0",
 		"clue/phar-composer": "dev-symfony7-support",
+		"codeception/c3": "^2.9",
 		"codeception/codeception": "^5.1",
 		"codeception/module-asserts": "^3.0",
 		"codeception/module-db": "^3.2",
@@ -95,7 +96,8 @@
 			"helhum/typo3-console-plugin": true,
 			"move-elevator/composer-translation-validator": true,
 			"typo3/class-alias-loader": true,
-			"typo3/cms-composer-installers": true
+			"typo3/cms-composer-installers": true,
+			"codeception/c3": true
 		},
 		"lock": false,
 		"sort-packages": true,

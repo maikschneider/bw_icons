@@ -42,7 +42,7 @@ final class FormElementCest
         $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
         $I->switchToContentFrame();
         $I->waitForElementVisible('bw-icon-element', 10);
-        $I->seeElement('bw-icon-element img.img-thumbnail[alt="actions-brand-apple"][src="/_assets/1ee1d3e909b58d32e30dcea666dd3224/Icons/T3Icons/svgs/actions/actions-brand-apple.svg"]');
+        $I->seeElement('bw-icon-element img.img-thumbnail[alt="actions-brand-apple"][src$="actions/actions-brand-apple.svg"]');
         $I->dontSeeElement('bw-icon-element .close.hidden');
     }
 
@@ -58,7 +58,6 @@ final class FormElementCest
         $I->switchToContentFrame();
         $I->waitForElementVisible('bw-icon-element', 10);
         $I->seeElement('bw-icon-element .fontIcon.fa-solid.fa-apple-whole');
-        $I->wait(10);
         $I->dontSeeElement('bw-icon-element img');
         $I->dontSeeElement('bw-icon-element .close.hidden');
     }

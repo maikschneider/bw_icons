@@ -2,7 +2,7 @@ namespace: Blueways\BwIconsTest\Acceptance\Support
 actor: AcceptanceTester
 paths:
   tests: Tests
-  output: var/log/codeception/_output
+  output: Tests/Acceptance/_output
   data: Tests/Acceptance/Fixtures
   support: Tests/Acceptance/Support
 settings:
@@ -15,7 +15,7 @@ extensions:
     - Codeception\Extension\RunFailed
   config:
     Codeception\Extension\RunFailed:
-      file: var/log/codeception/_output/_failed
+      file: Tests/Acceptance/_output/_failed
 
 suites:
   Acceptance:
@@ -46,3 +46,8 @@ suites:
           populate: true
           cleanup: false
           populator: 'bash .ddev/commands/web/init-typo3'
+
+coverage:
+  enabled: true
+  include:
+    - Classes/*
