@@ -17,9 +17,13 @@ if (isset($bwiconsConf['sys_category']) && (int)$bwiconsConf['sys_category'] ===
         'tx_bwicons_icon' => [
             'exclude' => 0,
             'label' => 'LLL:EXT:bw_icons/Resources/Private/Language/locallang.xlf:icon',
+            'l10n_display' => 'defaultAsReadonly',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'iconSelection',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
     ];

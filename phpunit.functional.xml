@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        bootstrap="vendor/autoload.php"
+        colors="true"
+>
+    <coverage>
+        <report>
+            <php outputFile=".Build/coverage/php/functional.cov"/>
+            <html outputDirectory=".Build/coverage/html/functional/"/>
+            <text outputFile="php://stdout" showUncoveredFiles="true"/>
+        </report>
+    </coverage>
+    <testsuites>
+        <testsuite name="functional">
+            <directory>Tests/Functional</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <junit outputFile=".Build/coverage/junit/functional.xml"/>
+    </logging>
+    <source>
+        <include>
+            <directory>Classes</directory>
+        </include>
+    </source>
+    <php>
+        <env name="TYPO3_CONTEXT" value="Testing"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+</phpunit>

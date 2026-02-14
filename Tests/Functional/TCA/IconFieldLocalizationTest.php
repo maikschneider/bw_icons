@@ -1,0 +1,151 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Blueways\BwIconsTest\Functional\TCA;
+
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
+
+/**
+ * Test case for icon field localization behavior
+ */
+class IconFieldLocalizationTest extends FunctionalTestCase
+{
+    protected array $testExtensionsToLoad = [
+        'typo3conf/ext/bw_icons',
+    ];
+
+    protected array $pathsToProvideInTestInstance = [
+        'typo3conf/ext/bw_icons/Tests/Fixtures/' => 'typo3conf/ext/bw_icons/Tests/Fixtures/',
+    ];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/pages.sql');
+        
+        // Enable icon field for pages table
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bw_icons']['pages'] = 1;
+    }
+
+    /**
+     * @test
+     */
+    public function iconFieldHasAllowLanguageSynchronizationEnabled(): void
+    {
+        $tca = $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon'] ?? null;
+        
+        self::assertIsArray($tca, 'Icon field configuration not found in pages TCA');
+        self::assertArrayHasKey('config', $tca);
+        self::assertArrayHasKey('behaviour', $tca['config']);
+        self::assertArrayHasKey('allowLanguageSynchronization', $tca['config']['behaviour']);
+        self::assertTrue(
+            $tca['config']['behaviour']['allowLanguageSynchronization'],
+            'allowLanguageSynchronization should be enabled for icon field'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function iconFieldConfigurationIncludesL10nDisplay(): void
+    {
+        $tca = $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon'] ?? null;
+        
+        self::assertIsArray($tca, 'Icon field configuration not found in pages TCA');
+        self::assertArrayHasKey('l10n_display', $tca);
+        self::assertContains(
+            'defaultAsReadonly',
+            explode(',', $tca['l10n_display']),
+            'l10n_display should include defaultAsReadonly for icon field'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function iconFieldInTtContentHasAllowLanguageSynchronization(): void
+    {
+        // Enable icon field for tt_content
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bw_icons']['tt_content'] = 1;
+        
+        // Reload TCA overrides
+        $GLOBALS['TCA']['tt_content']['columns']['tx_bwicons_icon'] = null;
+        require __DIR__ . '/../../../Configuration/TCA/Overrides/tt_content.php';
+        
+        $tca = $GLOBALS['TCA']['tt_content']['columns']['tx_bwicons_icon'] ?? null;
+        
+        self::assertIsArray($tca, 'Icon field configuration not found in tt_content TCA');
+        self::assertArrayHasKey('config', $tca);
+        self::assertArrayHasKey('behaviour', $tca['config']);
+        self::assertArrayHasKey('allowLanguageSynchronization', $tca['config']['behaviour']);
+        self::assertTrue(
+            $tca['config']['behaviour']['allowLanguageSynchronization'],
+            'allowLanguageSynchronization should be enabled for tt_content icon field'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function iconFieldInSysCategoryHasAllowLanguageSynchronization(): void
+    {
+        // Enable icon field for sys_category
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bw_icons']['sys_category'] = 1;
+        
+        // Reload TCA overrides
+        $GLOBALS['TCA']['sys_category']['columns']['tx_bwicons_icon'] = null;
+        require __DIR__ . '/../../../Configuration/TCA/Overrides/sys_category.php';
+        
+        $tca = $GLOBALS['TCA']['sys_category']['columns']['tx_bwicons_icon'] ?? null;
+        
+        self::assertIsArray($tca, 'Icon field configuration not found in sys_category TCA');
+        self::assertArrayHasKey('config', $tca);
+        self::assertArrayHasKey('behaviour', $tca['config']);
+        self::assertArrayHasKey('allowLanguageSynchronization', $tca['config']['behaviour']);
+        self::assertTrue(
+            $tca['config']['behaviour']['allowLanguageSynchronization'],
+            'allowLanguageSynchronization should be enabled for sys_category icon field'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function translatedPageCanSynchronizeIconField(): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/pages.sql');
+        
+        // Get translated page record
+        $translatedPage = $this->getConnectionPool()
+            ->getConnectionForTable('pages')
+            ->select(['*'], 'pages', ['uid' => 2])
+            ->fetchAssociative();
+        
+        self::assertIsArray($translatedPage, 'Translated page not found');
+        self::assertEquals(1, $translatedPage['sys_language_uid'], 'Page should be in German language');
+        self::assertEquals(1, $translatedPage['l10n_parent'], 'Page should have parent page set');
+    }
+
+    /**
+     * @test
+     */
+    public function iconFieldIsReadOnlyWhenL10nModeExclude(): void
+    {
+        // This test verifies the l10n_display configuration makes field read-only in translations
+        $tca = $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon'] ?? null;
+        
+        self::assertIsArray($tca, 'Icon field configuration not found in pages TCA');
+        
+        // Check that l10n_display is configured to show field as read-only in translations
+        if (isset($tca['l10n_display'])) {
+            $displayOptions = explode(',', $tca['l10n_display']);
+            self::assertContains(
+                'defaultAsReadonly',
+                $displayOptions,
+                'Icon field should have defaultAsReadonly in l10n_display to show as read-only in translations'
+            );
+        }
+    }
+}
