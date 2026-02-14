@@ -92,12 +92,12 @@
 	},
 	"config": {
 		"allow-plugins": {
+			"codeception/c3": true,
 			"ergebnis/composer-normalize": true,
 			"helhum/typo3-console-plugin": true,
 			"move-elevator/composer-translation-validator": true,
 			"typo3/class-alias-loader": true,
-			"typo3/cms-composer-installers": true,
-			"codeception/c3": true
+			"typo3/cms-composer-installers": true
 		},
 		"lock": false,
 		"sort-packages": true,

@@ -76,4 +76,4 @@ jobs:
         uses: codecov/codecov-action@v4.5.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/clover-unit.xml,./coverage/clover-functional.xml,./Tests/Acceptance/_output/Xima.XmFormcycle.Tests.Acceptance.Acceptance.remote.coverage.xml
+          files: ./Tests/Acceptance/_output/coverage.xml
