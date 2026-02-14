@@ -61,4 +61,37 @@ final class FormElementCest
         $I->dontSeeElement('bw-icon-element img');
         $I->dontSeeElement('bw-icon-element .close.hidden');
     }
+
+    public function canSeeRemoveButtonDeletesIcon(AcceptanceTester $I): void
+    {
+        $I->updateInDatabase(
+            'pages',
+            ['tx_bwicons_icon' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/actions/actions-brand-apple.svg'],
+            ['uid' => 1]
+        );
+
+        $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
+        $I->switchToContentFrame();
+        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->seeElement('bw-icon-element img');
+
+        // click remove button
+        $I->click('bw-icon-element button.close');
+        $I->dontSeeElement('bw-icon-element img');
+
+        // trigger save to persist changes
+        $I->click('button[name="_savedok"]');
+        $I->wait(1);
+        $I->waitForElement('bw-icon-element', 10);
+
+        // verify in database
+        $I->canSeeInDatabase(
+            'pages',
+            ['uid' => 1, 'tx_bwicons_icon' => '']
+        );
+
+        // verify in UI
+        $I->dontSeeElement('bw-icon-element img');
+        $I->dontSeeElement('bw-icon-element .fontIcon');
+    }
 }
