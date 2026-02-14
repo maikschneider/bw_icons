@@ -64,7 +64,6 @@ _progress "Setting up configuration"
   "$typo3Binary" configuration:set EXTENSIONS/bw_icons/pages 1 --no-interaction --quiet
   "$typo3Binary" configuration:set EXTENSIONS/bw_icons/sys_category 1 --no-interaction --quiet
   "$typo3Binary" configuration:set EXTENSIONS/bw_icons/tt_content 1 --no-interaction --quiet
-  "$typo3Binary" cache:flush --no-interaction --quiet
 _done
 
 # Import DB fixtures
