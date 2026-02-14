@@ -112,6 +112,9 @@
 		}
 	},
 	"scripts": {
+		"post-autoload-dump": [
+			"@environment:prepare"
+		],
 		"ci:composer:normalize": "@composer normalize --no-check-lock --dry-run",
 		"ci:editorconfig:lint": "ec --strict --git-only -n",
 		"ci:language:lint": "@composer validate-translations ./Resources/Private/Language",
@@ -141,6 +144,9 @@
 			"chmod -x Libraries/*"
 		],
 		"editorconfig:lint": "ec --strict --fix --git-only -n",
+		"environment:prepare": [
+			"codecept build"
+		],
 		"language:lint": "@composer validate-translations ./Resources/Private/Language",
 		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",

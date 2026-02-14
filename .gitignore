@@ -11,6 +11,7 @@ public/index.php
 c3.php
 !Resources/Public
 Tests/Acceptance/_output
+Tests/Acceptance/Support/_generated
 vendor
 var
 Documentation-*
