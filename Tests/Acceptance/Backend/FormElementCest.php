@@ -77,6 +77,7 @@ final class FormElementCest
 
         // click remove button
         $I->click('bw-icon-element button.close');
+        $I->waitForElementNotVisible('bw-icon-element img', 5);
         $I->dontSeeElement('bw-icon-element img');
 
         // trigger save to persist changes
