@@ -9,7 +9,9 @@ public/typo3
 public/typo3conf
 public/typo3temp
 public/index.php
+c3.php
 !Resources/Public
+Tests/Acceptance/_output
 vendor
 var
 Documentation-*

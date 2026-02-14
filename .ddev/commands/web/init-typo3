@@ -48,6 +48,24 @@ _progress "Setting up TYPO3 installation"
   "$typo3Binary" setup --no-interaction --force --quiet
 _done
 
+# Patch entry points to include c3.php for code coverage
+_progress "Patching entry points for code coverage"
+  if ! grep -q 'c3.php' /var/www/html/public/index.php; then
+    sed -i '1,/^<?php/s/^<?php/<?php\n\nif (file_exists(dirname(__DIR__) . "\/c3.php")) {\n    include dirname(__DIR__) . "\/c3.php";\n}\n/' /var/www/html/public/index.php
+  fi
+  if ! grep -q 'c3.php' /var/www/html/public/typo3/index.php; then
+    sed -i '1,/^<?php/s/^<?php/<?php\n\nif (file_exists(dirname(dirname(__DIR__)) . "\/c3.php")) {\n    include dirname(dirname(__DIR__)) . "\/c3.php";\n}\n/' /var/www/html/public/typo3/index.php
+  fi
+_done
+
+# Set extension configuration
+_progress "Setting up extension configuration"
+  "$typo3Binary" configuration:set EXTENSIONS/bw_icons/pages 1 --no-interaction --quiet
+  "$typo3Binary" configuration:set EXTENSIONS/bw_icons/sys_category 1 --no-interaction --quiet
+  "$typo3Binary" configuration:set EXTENSIONS/bw_icons/tt_content 1 --no-interaction --quiet
+  "$typo3Binary" cache:flush --no-interaction --quiet
+_done
+
 # Import DB fixtures
 for file in "$fixturePath"/*.sql; do
     _progress "Importing DB fixture \"$(basename "$file")\""
