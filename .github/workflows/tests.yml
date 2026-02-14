@@ -58,7 +58,7 @@ jobs:
       - name: Run acceptance tests
         uses: nick-fields/retry@v3
         with:
-          max_attempts: 1
+          max_attempts: 3
           retry_on: error
           timeout_minutes: 10
           command: ddev composer ci:test:acceptance
