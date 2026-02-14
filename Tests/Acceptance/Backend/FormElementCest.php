@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Blueways\BwIconsTest\Acceptance\Backend;
 
 use Blueways\BwIconsTest\Acceptance\Support\AcceptanceTester;
+use Blueways\BwIconsTest\Acceptance\Support\Helper\ExtensionConfiguration;
 
 final class FormElementCest
 {
-    public function _before(AcceptanceTester $I): void
+    public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $I->loginAsAdmin();
+        $configuration->write('pages', 1);
     }
 
     public function canSeeSearchButtonOfElement(AcceptanceTester $I): void

@@ -38,6 +38,7 @@ class AcceptanceTester extends Actor
         $I->waitForElement('#t3-username', 10);
         $I->fillField('#t3-username', 'admin');
         $I->fillField('#t3-password', 'Passw0rd!');
+        $I->wait(1);
         $I->click('#t3-login-submit-section > button');
         $I->waitForElement('.scaffold-header', 10);
     }

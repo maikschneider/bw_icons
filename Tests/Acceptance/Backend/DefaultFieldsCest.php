@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Blueways\BwIconsTest\Acceptance\Backend;
 
 use Blueways\BwIconsTest\Acceptance\Support\AcceptanceTester;
+use Blueways\BwIconsTest\Acceptance\Support\Helper\ExtensionConfiguration;
+use Codeception\Attribute\Examples;
+use Codeception\Example;
 
 final class DefaultFieldsCest
 {
@@ -13,24 +16,31 @@ final class DefaultFieldsCest
         $I->loginAsAdmin();
     }
 
-    public function canSeeDefaultFieldInPageProperties(AcceptanceTester $I): void
+    #[Examples(table: 'pages')]
+    #[Examples(table: 'tt_content')]
+    #[Examples(table: 'sys_category')]
+    public function canNotSeeDefaultFields(AcceptanceTester $I, Example $example, ExtensionConfiguration $configuration): void
     {
-        $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
+        $table = $example['table'];
+        $configuration->write($table, 0);
+        $I->amOnPage('/typo3/record/edit?edit[' . $table . '][1]=edit');
+
         $I->switchToContentFrame();
-        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->waitForElementVisible('form[name="editform"]', 10);
+        $I->dontSeeElement('bw-icon-element');
     }
 
-    public function canSeeDefaultFieldInContentElementProperties(AcceptanceTester $I): void
+    #[Examples(table: 'pages')]
+    #[Examples(table: 'tt_content')]
+    #[Examples(table: 'sys_category')]
+    public function canSeeDefaultFieldInPageProperties(AcceptanceTester $I, Example $example, ExtensionConfiguration $configuration): void
     {
-        $I->amOnPage('/typo3/record/edit?edit[tt_content][1]=edit');
-        $I->switchToContentFrame();
-        $I->waitForElementVisible('bw-icon-element', 10);
-    }
+        $table = $example['table'];
+        $configuration->write($table, 1);
+        $I->amOnPage('/typo3/record/edit?edit[' . $table . '][1]=edit');
 
-    public function canSeeDefaultFieldInCategoryProperties(AcceptanceTester $I): void
-    {
-        $I->amOnPage('/typo3/record/edit?edit[sys_category][1]=edit');
         $I->switchToContentFrame();
-        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->waitForElementVisible('form[name="editform"]', 10);
+        $I->seeElement('bw-icon-element');
     }
 }
