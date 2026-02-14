@@ -11,8 +11,8 @@ final class FormElementCest
 {
     public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
-        $I->loginAsAdmin();
         $configuration->write('pages', 1);
+        $I->loginAsAdmin();
     }
 
     public function canSeeSearchButtonOfElement(AcceptanceTester $I): void
