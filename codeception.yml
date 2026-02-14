@@ -44,5 +44,5 @@ suites:
           user: 'db'
           password: 'db'
           populate: true
-          cleanup: true
+          cleanup: false
           populator: 'bash .ddev/commands/web/init-typo3'

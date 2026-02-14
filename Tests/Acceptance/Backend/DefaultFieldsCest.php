@@ -19,4 +19,18 @@ final class DefaultFieldsCest
         $I->switchToContentFrame();
         $I->waitForElementVisible('bw-icon-element', 10);
     }
+
+    public function canSeeDefaultFieldInContentElementProperties(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/typo3/record/edit?edit[tt_content][1]=edit');
+        $I->switchToContentFrame();
+        $I->waitForElementVisible('bw-icon-element', 10);
+    }
+
+    public function canSeeDefaultFieldInCategoryProperties(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/typo3/record/edit?edit[sys_category][1]=edit');
+        $I->switchToContentFrame();
+        $I->waitForElementVisible('bw-icon-element', 10);
+    }
 }

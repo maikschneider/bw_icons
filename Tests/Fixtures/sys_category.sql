@@ -1,0 +1,1 @@
+insert into `sys_category` (`uid`, `pid`, `title`) values (1, 0, 'Test Category');
