@@ -3,11 +3,11 @@ name: Tests
 on:
   push:
     branches:
-      - master
+      - main
       - 'renovate/**'
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   tests:
