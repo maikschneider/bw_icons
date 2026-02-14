@@ -1,6 +1,5 @@
 .idea
 .Build
-config
 composer.lock
 public/.htaccess
 public/_assets
