@@ -18,7 +18,7 @@ $extensionConfiguration = GeneralUtility::makeInstance(
 $bwiconsConf = $extensionConfiguration->get('bw_icons');
 
 // Add new field if enabled
-if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 1) {
+if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] >= 1) {
     // Create new field
     $temporaryColumns = [
         'tx_bwicons_icon' => [

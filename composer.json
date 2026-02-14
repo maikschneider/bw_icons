@@ -31,6 +31,12 @@
 		"armin/editorconfig-cli": "^2.0",
 		"bk2k/bootstrap-package": "^15.0",
 		"clue/phar-composer": "dev-symfony7-support",
+		"codeception/c3": "^2.9",
+		"codeception/codeception": "^5.1",
+		"codeception/module-asserts": "^3.0",
+		"codeception/module-cli": "^2.0",
+		"codeception/module-db": "^3.2",
+		"codeception/module-webdriver": "^4.0",
 		"ergebnis/composer-normalize": "^2.45",
 		"friendsofphp/php-cs-fixer": "^3.6.0",
 		"helhum/typo3-console": "^8.2",
@@ -87,6 +93,7 @@
 	},
 	"config": {
 		"allow-plugins": {
+			"codeception/c3": true,
 			"ergebnis/composer-normalize": true,
 			"helhum/typo3-console-plugin": true,
 			"move-elevator/composer-translation-validator": true,
@@ -105,6 +112,9 @@
 		}
 	},
 	"scripts": {
+		"post-autoload-dump": [
+			"@environment:prepare"
+		],
 		"ci:composer:normalize": "@composer normalize --no-check-lock --dry-run",
 		"ci:editorconfig:lint": "ec --strict --git-only -n",
 		"ci:language:lint": "@composer validate-translations ./Resources/Private/Language",
@@ -123,6 +133,7 @@
 			"@ci:typoscript:lint",
 			"@ci:yaml:lint"
 		],
+		"ci:test:acceptance": "codecept run Acceptance --coverage --coverage-xml",
 		"ci:typoscript:lint": "typoscript-lint --fail-on-warnings",
 		"ci:yaml:lint": "find ./ ! -path './vendor/*' ! -path '*/node_modules/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint",
 		"composer:normalize": "@composer normalize --no-check-lock",
@@ -133,6 +144,9 @@
 			"chmod -x Libraries/*"
 		],
 		"editorconfig:lint": "ec --strict --fix --git-only -n",
+		"environment:prepare": [
+			"codecept build"
+		],
 		"language:lint": "@composer validate-translations ./Resources/Private/Language",
 		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
@@ -150,6 +164,7 @@
 			"@typoscript:lint",
 			"@yaml:lint"
 		],
+		"test:acceptance": "vendor/bin/codecept run Acceptance",
 		"typoscript:lint": "typoscript-lint",
 		"yaml:lint": "find ./ ! -path './vendor/*' ! -path '*/node_modules/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
 	}

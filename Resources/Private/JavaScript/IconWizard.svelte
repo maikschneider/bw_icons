@@ -144,8 +144,7 @@
                         bind:value={filterQuery}
                         placeholder="Filter..."
                         class="form-control form-control-clearable input"
-                        type="text"
-                        oninput={e => {}} />
+                        type="search" />
                     <button class="close" onclick={() => {filterQuery = ''}}>
                         {@html $iconStore['actions-close']}
                     </button>
