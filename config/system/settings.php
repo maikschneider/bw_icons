@@ -2,7 +2,7 @@
 return [
     'BE' => [
         'debug' => false,
-        'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$MFMwVTRqaUVTbGZzMjVMcw$qCPiRiYsBav6YhmOeBeR65cn9rW+IT7p8Oj8ft5vfAE',
+        'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$Z1o0S2d0WG1WVnBkc1NBLg$edmC2qJGMBhr/IHpW9PKfRiBvvrYkvq976BL0cy4/UM',
         'passwordHashing' => [
             'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
             'options' => [],
@@ -23,60 +23,6 @@ return [
                 ],
                 'user' => 'db',
             ],
-        ],
-    ],
-    'EXTENSIONS' => [
-        'backend' => [
-            'backendFavicon' => '',
-            'backendLogo' => '',
-            'loginBackgroundImage' => '',
-            'loginFootnote' => '',
-            'loginHighlightColor' => '',
-            'loginLogo' => '',
-            'loginLogoAlt' => '',
-        ],
-        'bootstrap_package' => [
-            'disableCssProcessing' => '0',
-            'disableGoogleFontCaching' => '0',
-            'disablePageTsBackendLayouts' => '0',
-            'disablePageTsContentElements' => '0',
-            'disablePageTsRTE' => '0',
-            'disablePageTsTCADefaults' => '0',
-            'disablePageTsTCEFORM' => '0',
-            'disablePageTsTCEMAIN' => '0',
-        ],
-        'bw_icons' => [
-            'pages' => '1',
-            'sys_category' => '1',
-            'tt_content' => '1',
-        ],
-        'extensionmanager' => [
-            'automaticInstallation' => '1',
-            'offlineMode' => '0',
-        ],
-        'indexed_search' => [
-            'catdoc' => '/usr/bin/',
-            'debugMode' => '0',
-            'deleteFromIndexAfterEditing' => '1',
-            'disableFrontendIndexing' => '0',
-            'enableMetaphoneSearch' => '1',
-            'flagBitMask' => '192',
-            'fullTextDataLength' => '0',
-            'ignoreExtensions' => '',
-            'indexExternalURLs' => '0',
-            'maxAge' => '0',
-            'maxExternalFiles' => '5',
-            'minAge' => '24',
-            'pdf_mode' => '20',
-            'pdftools' => '/usr/bin/',
-            'ppthtml' => '/usr/bin/',
-            'unrtf' => '/usr/bin/',
-            'unzip' => '/usr/bin/',
-            'useMysqlFulltext' => '0',
-            'xlhtml' => '/usr/bin/',
-        ],
-        'scheduler' => [
-            'maxLifetime' => '1440',
         ],
     ],
     'FE' => [
@@ -150,7 +96,7 @@ return [
         ],
         'devIPmask' => '',
         'displayErrors' => 0,
-        'encryptionKey' => 'b575bbedd7f0ba97fbe3c8ab664155e5473e3077858b87c64cc792286e45ac1fc75258d26074840cbe5151ea0401ea81',
+        'encryptionKey' => '136ecb3d924e59b1c9add7cc045b3b2dc7d8caf20cb53469654e9ad1c926ba992dac2dae1a66fde9b15d32ef26451762',
         'exceptionalErrors' => 4096,
         'features' => [
             'security.backend.enforceContentSecurityPolicy' => true,
@@ -161,6 +107,5 @@ return [
         'systemMaintainers' => [
             1,
         ],
-        'trustedHostsPattern' => '.*.*',
     ],
 ];
