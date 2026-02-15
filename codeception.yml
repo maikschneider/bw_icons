@@ -1,0 +1,55 @@
+namespace: Blueways\BwIconsTest\Acceptance\Support
+actor: AcceptanceTester
+paths:
+  tests: Tests
+  output: Tests/Acceptance/_output
+  data: Tests/Acceptance/Fixtures
+  support: Tests/Acceptance/Support
+settings:
+  shuffle: false
+  lint: true
+  colors: true
+  memory_limit: 2048M
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
+    - Blueways\BwIconsTest\Acceptance\Support\Extension\EnvironmentExtension
+  config:
+    Codeception\Extension\RunFailed:
+      file: Tests/Acceptance/_output/_failed
+
+suites:
+  Acceptance:
+    actor: AcceptanceTester
+    modules:
+      enabled:
+        - Asserts
+        - Cli
+        - WebDriver
+        - Db
+      config:
+        Asserts: ~
+        WebDriver:
+          url: 'https://bw-icons.ddev.site'
+          browser: chrome
+          host: selenium-chrome
+          port: 4444
+          window_size: 1920x1080
+          wait: 2
+          capabilities:
+            acceptInsecureCerts: true
+            goog:chromeOptions:
+              args: ['--disable-dev-shm-usage']
+
+        Db:
+          dsn: 'mysql:host=db;dbname=db'
+          user: 'db'
+          password: 'db'
+          populate: true
+          cleanup: false
+          populator: 'bash .ddev/commands/web/init-typo3'
+
+coverage:
+  enabled: true
+  include:
+    - Classes/*

@@ -20,12 +20,14 @@
     }))
     let filterQuery = $state('')
     let selectedIcon = $state(null)
+    let hasError = $state(false)
 
     onMount(() => {
         window.parent.frames.list_frame.window.SELECTED_ICON = null;
         getIcon('actions-close');
         getIcon('spinner-circle', 'large');
         getIcon('actions-filter');
+        getIcon('actions-book');
         fetchIcons().then(() => {
             includeStylesheets();
         })
@@ -45,7 +47,11 @@
             .post(body)
             .then(async function (response) {
                 const resolved = await response.resolve();
-                tabs = resolved.tabs;
+                if (resolved.error) {
+                    hasError = true;
+                } else {
+                    tabs = resolved.tabs;
+                }
             });
     }
 </script>
@@ -144,8 +150,7 @@
                         bind:value={filterQuery}
                         placeholder="Filter..."
                         class="form-control form-control-clearable input"
-                        type="text"
-                        oninput={e => {}} />
+                        type="search" />
                     <button class="close" onclick={() => {filterQuery = ''}}>
                         {@html $iconStore['actions-close']}
                     </button>
@@ -198,8 +203,20 @@
             </div>
 
         </div>
+    {:else if hasError}
+        <div class="d-flex justify-content-center align-items-center w-100 h-100 loading-spinner">
+            <div class="callout callout-warning flex-column gap-0 w-75">
+                <div class="callout-title">{TYPO3.lang['callout.no-provider.title']}</div>
+                <div class="callout-body mb-2">{TYPO3.lang['callout.no-provider.description']}</div>
+                <div class="callout-actions">
+                    <a href="https://github.com/maikschneider/bw_icons?tab=readme-ov-file#configuration" target="_blank" class="btn btn-default">
+                        {@html $iconStore['actions-book']} {TYPO3.lang['callout.no-provider.button']}
+                    </a>
+                </div>
+            </div>
+        </div>
     {:else}
-        <div class="d-flex justify-content-center align-items-center w-90 h-90 loading-spinner">
+        <div class="d-flex justify-content-center align-items-center w-100 h-100 loading-spinner">
             {@html $iconStore['spinner-circle']}
         </div>
     {/if}
