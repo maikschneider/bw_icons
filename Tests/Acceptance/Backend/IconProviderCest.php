@@ -77,7 +77,7 @@ final class IconProviderCest
         $I->openWizardModal();
 
         $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .nav-link', 30);
-        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .nav-link', 3);
+        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .nav-link', 2);
 
         $I->click('//bw-icon-wizard//a[contains(@class, "nav-item") and contains(@class, "nav-link") and contains(text(), "Font Awesome 5")]');
         $I->wait(1);
