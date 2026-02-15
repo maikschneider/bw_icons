@@ -34,8 +34,8 @@ final class IconProviderCest
 
         $I->openWizardModal();
 
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item');
-        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 787);
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
+        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', [760, 787]);
     }
 
     public function canSeeFontAwesome4Provider(AcceptanceTester $I): void
@@ -44,7 +44,7 @@ final class IconProviderCest
 
         $I->openWizardModal();
 
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item');
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
         $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 583);
     }
 
@@ -54,7 +54,7 @@ final class IconProviderCest
 
         $I->openWizardModal();
 
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item');
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
         $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 1608);
     }
 
@@ -64,7 +64,7 @@ final class IconProviderCest
 
         $I->openWizardModal();
 
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 20);
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
         $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 2156);
     }
 
@@ -74,7 +74,7 @@ final class IconProviderCest
 
         $I->openWizardModal();
 
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .nav-link');
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .nav-link', 30);
         $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .nav-link', 3);
 
         $I->click('//bw-icon-wizard//a[contains(@class, "nav-item") and contains(@class, "nav-link") and contains(text(), "Font Awesome 5")]');

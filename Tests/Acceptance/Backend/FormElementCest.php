@@ -35,6 +35,7 @@ final class FormElementCest
 
     public function canSeeFilledStateWithSvgOfElement(AcceptanceTester $I): void
     {
+        $I->enableIconSets(['Typo3Icons']);
         $I->updateInDatabase(
             'pages',
             ['tx_bwicons_icon' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/actions/actions-brand-apple.svg'],
@@ -50,6 +51,7 @@ final class FormElementCest
 
     public function canSeeFilledStateWithFontIconOfElement(AcceptanceTester $I): void
     {
+        $I->enableIconSets(['font-awesome-4.7.0']);
         $I->updateInDatabase(
             'pages',
             ['tx_bwicons_icon' => 'fa-solid fa-apple-whole'],
@@ -66,6 +68,7 @@ final class FormElementCest
 
     public function canSeeRemoveButtonDeletesIcon(AcceptanceTester $I): void
     {
+        $I->enableIconSets(['Typo3Icons']);
         $I->updateInDatabase(
             'pages',
             ['tx_bwicons_icon' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/actions/actions-brand-apple.svg'],
