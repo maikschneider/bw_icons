@@ -61,6 +61,7 @@ _done
 # Set extension configuration
 _progress "Setting up configuration"
   "$typo3Binary" configuration:set SYS/trustedHostsPattern '.*.*' --no-interaction --quiet
+  "$typo3Binary" cache:flush
 _done
 
 # Import DB fixtures

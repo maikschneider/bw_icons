@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Blueways\BwIconsTest\Acceptance\Support;
 
 use Blueways\BwIconsTest\Acceptance\Support\_generated\AcceptanceTesterActions;
+use Blueways\BwIconsTest\Acceptance\Support\Helper\ModalDialog;
 use Codeception\Actor;
 use TYPO3\TestingFramework\Core\Acceptance\Step\FrameSteps;
 
@@ -41,6 +42,35 @@ class AcceptanceTester extends Actor
         $I->wait(1);
         $I->click('#t3-login-submit-section > button');
         $I->waitForElement('.scaffold-header', 10);
+    }
+
+    public function enableIconSets(array $iconSets): void
+    {
+        $I = $this;
+        $pageTsInclude = array_map(static function (string $iconSet) {
+            if ($iconSet === 'Typo3Icons') {
+                return '@import "EXT:bw_icons/Configuration/TSconfig/Page/' . $iconSet . '.tsconfig"';
+            }
+            return '@import "EXT:bw_icons/Tests/Fixtures/' . $iconSet . '/page.tsconfig"';
+        }, $iconSets);
+        $pageTsIncludeString = implode("\n", $pageTsInclude);
+        $I->updateInDatabase(
+            'pages',
+            ['TSconfig' => $pageTsIncludeString],
+            ['uid' => 1]
+        );
+        $I->runShellCommand('typo3 cache:flush');
+    }
+
+    public function openWizardModal(string $table = 'pages'): void
+    {
+        $I = $this;
+        $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
+        $I->switchToContentFrame();
+        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->click('bw-icon-element .btn.btn-default');
+        $I->switchToMainFrame();
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard', 10);
     }
 
     public function openModule(string $moduleIdentifier): void
