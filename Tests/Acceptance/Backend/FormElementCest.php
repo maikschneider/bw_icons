@@ -59,14 +59,14 @@ final class FormElementCest
         $I->enableIconSets(['font-awesome-4.7.0']);
         $I->updateInDatabase(
             'pages',
-            ['tx_bwicons_icon' => 'fa-solid fa-apple-whole'],
+            ['tx_bwicons_icon' => 'fa fa-apple'],
             ['uid' => 1]
         );
 
         $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
         $I->switchToContentFrame();
         $I->waitForElementVisible('bw-icon-element', 10);
-        $I->seeElement('bw-icon-element .fontIcon.fa-solid.fa-apple-whole');
+        $I->seeElement('bw-icon-element .fontIcon.fa.fa-apple');
         $I->dontSeeElement('bw-icon-element img');
         $I->dontSeeElement('bw-icon-element .close.hidden');
     }
