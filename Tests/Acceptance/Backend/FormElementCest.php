@@ -15,6 +15,11 @@ final class FormElementCest
         $I->loginAsAdmin();
     }
 
+    public function _after(AcceptanceTester $I): void
+    {
+        $I->enableIconSets(['']);
+    }
+
     public function canSeeSearchButtonOfElement(AcceptanceTester $I): void
     {
         $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');

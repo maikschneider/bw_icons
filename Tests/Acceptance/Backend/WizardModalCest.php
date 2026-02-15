@@ -6,17 +6,22 @@ namespace Blueways\BwIconsTest\Acceptance\Backend;
 
 use Blueways\BwIconsTest\Acceptance\Support\AcceptanceTester;
 use Blueways\BwIconsTest\Acceptance\Support\Helper\ExtensionConfiguration;
-use Blueways\BwIconsTest\Acceptance\Support\Helper\ModalDialog;
 
 final class WizardModalCest
 {
     public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 2);
+        $I->enableIconSets(['typo3icons']);
         $I->loginAsAdmin();
     }
 
-    public function canSeeWizardModalOpensAndSelectionIsWorking(AcceptanceTester $I, ModalDialog $modalDialog): void
+    public function _after(AcceptanceTester $I): void
+    {
+        $I->enableIconSets(['']);
+    }
+
+    public function canSeeWizardModalOpensAndSelectionIsWorking(AcceptanceTester $I): void
     {
         $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
         $I->switchToContentFrame();
@@ -44,7 +49,7 @@ final class WizardModalCest
         );
     }
 
-    public function canSeeWizardSearchFilterIsWorking(AcceptanceTester $I, ModalDialog $modalDialog): void
+    public function canSeeWizardSearchFilterIsWorking(AcceptanceTester $I): void
     {
         $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
         $I->switchToContentFrame();
