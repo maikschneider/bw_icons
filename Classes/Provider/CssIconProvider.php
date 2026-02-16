@@ -525,7 +525,7 @@ class CssIconProvider extends AbstractIconProvider
             $atomicSelectors = array_map(fn ($selector) => str_replace(['.'], [''], $selector), $atomicSelectors);
 
             $atomicSelectors = array_unique($atomicSelectors);
-            $value = implode(' ', array_map(static fn ($selector) => trim($selector), $atomicSelectors));
+            $value = implode(' ', array_map(trim(...), $atomicSelectors));
 
             return new WizardIcon($value, true);
         }, $availableGlyphs);
