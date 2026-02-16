@@ -13,7 +13,7 @@
     let readOnly = $state(false)
 
     onMount(() => {
-        readOnly = JSON.parse(wizardConfig).isReadOnly
+        readOnly = !!JSON.parse(wizardConfig).isReadOnly
         currentIcon = currentIconJson ? JSON.parse(currentIconJson) : null
         getIcon('actions-search');
         getIcon('actions-close');
