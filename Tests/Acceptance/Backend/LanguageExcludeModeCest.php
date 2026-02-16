@@ -20,7 +20,7 @@ final class LanguageExcludeModeCest
         $I->enableIconSets(['']);
     }
 
-    public function canSeeNoElementInExludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
+    public function canSeeNoElementInExcludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 3);
         $I->amOnPage('/typo3/record/edit?edit[pages][2]=edit');
