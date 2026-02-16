@@ -115,7 +115,11 @@
         background: var(--bs-body-bg);
     }
 
-    .disabled {
+    .disabled-bg {
+        background: var(--typo3-state-default-disabled-bg);
+    }
+
+    .disabled-border {
         border-color: color-mix(in srgb, var(--typo3-form-section-bg), var(--typo3-form-section-color) var(--typo3-border-mix));
     }
 
@@ -129,10 +133,18 @@
         max-height: 34px;
     }
 
+    img.readOnly {
+        filter: grayscale(100%) opacity(var(--typo3-input-disabled-opacity));
+    }
+
     .fontIcon {
         font-size: 24px;
         line-height: 32px;
         color: light-dark(var(--bs-body-color), var(--typo3-input-color));
+    }
+
+    .fontIcon.readOnly {
+        color: color-mix(in srgb,var(--typo3-form-control-disabled-color),transparent calc((1 - var(--typo3-input-disabled-opacity))*100%));
     }
 
     .typo3-v12 img {
@@ -154,12 +166,13 @@
         <span
             class="form-control form-control-clearable input text-center"
             class:white-bg={currentIcon && !currentIcon.isFontIcon}
-            class:disabled={readOnly}>
+            class:disabled-bg={readOnly && (!currentIcon || currentIcon.isFontIcon)}
+            class:disabled-border={readOnly}>
             {#if currentIcon}
                 {#if currentIcon.imgSrc}
-                    <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
+                    <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" class:readOnly={readOnly} />
                 {:else}
-                    <span class="{currentIcon.value} fontIcon"></span>
+                    <span class="{currentIcon.value} fontIcon" class:readOnly={readOnly}></span>
                 {/if}
             {/if}
         </span>
