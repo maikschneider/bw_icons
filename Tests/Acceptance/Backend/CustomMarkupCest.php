@@ -13,56 +13,48 @@ final class CustomMarkupCest
     public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 1);
+        $I->enableIconSets(['font-awesome-4.7.0-custom-markup']);
         $I->loginAsAdmin();
     }
 
-    public function _after(AcceptanceTester $I): void
+    public function _after(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
+        $configuration->write('pages', 0);
         $I->enableIconSets(['']);
     }
 
-    public function canSeeCustomMarkupInWizard(AcceptanceTester $I): void
+    public function canSeeCustomMarkupInWizardAndSavedSelection(AcceptanceTester $I): void
     {
-        $I->enableIconSets(['font-awesome-4.7.0-custom-markup']);
-
         $I->openWizardModal();
 
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
-        $I->seeElement(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item span.custom-icon-wrapper');
+        // validate markup in wizard
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item span.custom-icon-wrapper', 30);
         $I->dontSeeElement(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item i');
+
+        // select first icon and save
+        $I->click(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item span.custom-icon-wrapper.fa-glass');
+        $I->wait(1);
+        $I->click(ModalDialog::$openedModalSelector . ' .btn-primary');
+        $I->wait(1);
+
+        // validate markup in content frame after selection
+        $I->switchToContentFrame();
+        $I->seeElement('bw-icon-element span.custom-icon-wrapper.fa-glass');
+        $I->dontSeeElement('bw-icon-element i');
     }
 
-    public function canSeeDefaultMarkupWithoutCustomSetting(AcceptanceTester $I): void
+    public function canSeeCustomMarkupInLoadedSelection(AcceptanceTester $I): void
     {
-        $I->enableIconSets(['font-awesome-4.7.0']);
-
-        $I->openWizardModal();
-
-        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
-        $I->seeElement(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item i');
-        $I->dontSeeElement(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item span.custom-icon-wrapper');
-    }
-
-    public function canSeeCustomMarkupInFormElementAfterSelection(AcceptanceTester $I): void
-    {
-        $I->enableIconSets(['font-awesome-4.7.0-custom-markup']);
+        $I->updateInDatabase(
+            'pages',
+            ['tx_bwicons_icon' => 'fa fa-glass'],
+            ['uid' => 1]
+        );
 
         $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
         $I->switchToContentFrame();
-        $I->waitForElementVisible('bw-icon-element', 10);
-        $I->click('bw-icon-element .btn.btn-default');
-        $I->wait(1);
-
-        $I->switchToIFrame();
-        $I->waitForElement('.modal.show');
-        $I->waitForElementVisible('.modal.show bw-icon-wizard .icon-grid-item', 30);
-
-        $I->click('.modal.show bw-icon-wizard .icon-grid-item:first-child');
-        $I->wait(1);
-        $I->click('.modal.show .btn-primary');
-        $I->wait(1);
-
-        $I->switchToContentFrame();
-        $I->seeElement('bw-icon-element span.custom-icon-wrapper');
+        $I->waitForElementVisible('form[name="editform"]', 10);
+        $I->seeElement('bw-icon-element span.custom-icon-wrapper.fa-glass');
+        $I->dontSeeElement('bw-icon-element i');
     }
 }
