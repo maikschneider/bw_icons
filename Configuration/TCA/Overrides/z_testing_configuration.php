@@ -10,3 +10,12 @@ $bwiconsConf = $extensionConfiguration->get('bw_icons');
 if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 2) {
     $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon']['config']['behaviour']['allowLanguageSynchronization'] = 1;
 }
+
+if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 3) {
+    $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon']['l10n_mode'] = 'exclude';
+}
+
+if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 4) {
+    $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon']['l10n_mode'] = 'exclude';
+    $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon']['l10n_display'] = 'defaultAsReadonly';
+}

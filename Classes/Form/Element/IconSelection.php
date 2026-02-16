@@ -56,12 +56,13 @@ class IconSelection extends AbstractFormElement
         $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
         $html .= ' />';
         $html .= '</div>';
-        $html .= '</div>';
+        $html .= $wizardConfig->typo3Version > 12 ? '</div>' : '';
         if (!empty($fieldWizardHtml)) {
             $html .= '<div class="form-wizards-item-bottom">';
             $html .= $fieldWizardHtml;
             $html .= '</div>';
         }
+        $html .= $wizardConfig->typo3Version < 13 ? '</div>' : '';
         $html .= '</div>';
         $html .= '</div>';
 
