@@ -42,6 +42,9 @@ class IconSelection extends AbstractFormElement
         $description = $parameterArray['fieldConf']['description'] ?? '';
 
         $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
+        if ($currentIcon && $currentIcon->isFontIcon) {
+            $currentIcon->markup = $helperUtil->getMarkupForIconValue($currentIcon->value);
+        }
 
         $html = $wizardConfig->typo3Version > 12 ? $this->renderLabel($fieldId) : '';
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';

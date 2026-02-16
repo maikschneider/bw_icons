@@ -10,6 +10,8 @@ class WizardIcon
 
     public string $title = '';
 
+    public ?string $markup = null;
+
     public function __construct(public string $value, public ?bool $isFontIcon = null)
     {
         $this->setImgSrcFromValue();

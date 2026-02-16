@@ -41,6 +41,12 @@
         document.querySelector('bw-icon-wizard').insertAdjacentHTML('beforeend', stylesheets)
     }
 
+    function renderFontIcon(markup, value, extraClasses = '') {
+        const template = markup || '<i class="###ICON###"></i>';
+        const classes = [value, ...extraClasses.split(' ').filter(Boolean)].join(' ');
+        return template.replace('###ICON###', classes);
+    }
+
     async function fetchIcons() {
         const body = JSON.parse(wizardConfig)
         return new AjaxRequest(TYPO3.settings.ajaxUrls.icon_selection)
@@ -108,7 +114,7 @@
         transition: box-shadow 0.1s ease, border-radius 0.1s ease;
     }
 
-    .fontIcon {
+    :global(.fontIcon) {
         font-size: 36px;
     }
 
@@ -187,11 +193,11 @@
                                 onclick={(e) => {
                             e.preventDefault();
                             selectedIcon = icon;
-                            window.parent.frames.list_frame.window.SELECTED_ICON = icon;
+                            window.parent.frames.list_frame.window.SELECTED_ICON = {...icon, markup: tabs[activeTab]?.markup ?? null};
                         }}>
                                 {#if icon.isFontIcon}
                                     <span class="img-thumbnail">
-                                        <i class="{icon.value} fontIcon"></i>
+                                        {@html renderFontIcon(tabs[activeTab]?.markup, icon.value, 'fontIcon')}
                                     </span>
                                 {:else}
                                     <img src={icon.imgSrc} alt={icon.title} class="img-thumbnail" loading="lazy" />
