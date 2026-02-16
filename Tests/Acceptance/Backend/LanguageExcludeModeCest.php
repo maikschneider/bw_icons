@@ -15,9 +15,10 @@ final class LanguageExcludeModeCest
         $I->loginAsAdmin();
     }
 
-    public function _after(AcceptanceTester $I): void
+    public function _after(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $I->enableIconSets(['']);
+        $configuration->write('pages', 0);
     }
 
     public function canSeeNoElementInExcludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
