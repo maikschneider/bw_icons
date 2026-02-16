@@ -37,10 +37,10 @@ class WizardConfig
         $fieldName = $data['fieldName'];
         $l10nMode = $data['processedTca']['columns'][$fieldName]['l10n_mode'] ?? '';
         $l10nDisplay = $data['processedTca']['columns'][$fieldName]['l10n_display'] ?? '';
-        $isReadonly = str_contains((string)$l10nMode, 'exclude') && str_contains((string)$l10nDisplay, 'defaultAsReadonly');
+        $isReadOnly = str_contains((string)$l10nMode, 'exclude') && str_contains((string)$l10nDisplay, 'defaultAsReadonly');
 
         $icon = new self($pid, $iconProvidersString);
-        $icon->isReadOnly = $isReadonly;
+        $icon->isReadOnly = $isReadOnly;
 
         return $icon;
     }
