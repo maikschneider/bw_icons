@@ -19,6 +19,7 @@ final class LanguageSynchronizationCest
     public function _after(AcceptanceTester $I): void
     {
         $I->enableIconSets(['']);
+        $I->updateInDatabase('pages', ['tx_bwicons_icon' => ''], ['uid' => 2]);
     }
 
     public function canSeeLanguageSynchronizationTogglesReadOnly(AcceptanceTester $I): void
@@ -41,14 +42,12 @@ final class LanguageSynchronizationCest
 
         // Select "parent" — field becomes read-only
         $I->click($l10nSelector . '[value="parent"]');
-        $I->wait(1);
-        $I->seeElement('bw-icon-element .btn.btn-default[disabled]');
+        $I->waitForElement('bw-icon-element .btn.btn-default[disabled]');
         $I->canSeeElementInDOM('bw-icon-element button.close.hidden');
 
         // Switch to "custom" — field becomes editable again
         $I->click($l10nSelector . '[value="custom"]');
-        $I->wait(1);
-        $I->dontSeeElement('bw-icon-element .btn.btn-default[disabled]');
+        $I->waitForElementNotVisible('bw-icon-element .btn.btn-default[disabled]');
         $I->canSeeElementInDOM('bw-icon-element button.close:not(.hidden)');
     }
 }
