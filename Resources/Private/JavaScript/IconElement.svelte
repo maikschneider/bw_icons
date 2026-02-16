@@ -20,6 +20,12 @@
         observeLanguageState()
     });
 
+    function renderFontIcon(markup, value, extraClasses = '') {
+        const template = markup || '<i class="###ICON###"></i>';
+        const classes = [value, ...extraClasses.split(' ').filter(Boolean)].join(' ');
+        return template.replace('###ICON###', classes);
+    }
+
     function observeLanguageState() {
         // Extract the last field segment (e.g. tx_bwicons_icon)
         const lastBracketIndex = itemFormElName.lastIndexOf('[')
@@ -177,7 +183,7 @@
                 {#if currentIcon.imgSrc}
                     <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" class:readOnly={readOnly} />
                 {:else}
-                    <span class="{currentIcon.value} fontIcon" class:readOnly={readOnly}></span>
+                    {@html renderFontIcon(currentIcon.markup, currentIcon.value, 'fontIcon' + (readOnly ? ' readOnly' : ''))}
                 {/if}
             {/if}
         </span>

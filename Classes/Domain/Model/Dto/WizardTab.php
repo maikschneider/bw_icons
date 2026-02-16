@@ -14,4 +14,6 @@ class WizardTab
     public array $folders = [];
 
     public ?string $stylesheet = null;
+
+    public ?string $markup = null;
 }

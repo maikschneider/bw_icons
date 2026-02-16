@@ -62,4 +62,9 @@ abstract class AbstractIconProvider
     {
         return null;
     }
+
+    public function getMarkup(): ?string
+    {
+        return $this->options['markup'] ?? null;
+    }
 }
