@@ -144,13 +144,13 @@
         filter: grayscale(100%) opacity(var(--typo3-input-disabled-opacity, 0.65));
     }
 
-    .fontIcon {
+    :global(.fontIcon) {
         font-size: 24px;
         line-height: 32px;
         color: light-dark(var(--bs-body-color), var(--typo3-input-color));
     }
 
-    .fontIcon.readOnly {
+    :global(.fontIcon.readOnly) {
         color: color-mix(in srgb,var(--typo3-form-control-disabled-color),transparent calc((1 - var(--typo3-input-disabled-opacity))*100%));
     }
 

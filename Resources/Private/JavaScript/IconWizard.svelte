@@ -114,7 +114,7 @@
         transition: box-shadow 0.1s ease, border-radius 0.1s ease;
     }
 
-    .fontIcon {
+    :global(.fontIcon) {
         font-size: 36px;
     }
 
