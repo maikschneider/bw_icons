@@ -48,8 +48,11 @@ class AcceptanceTester extends Actor
     {
         $I = $this;
         $pageTsInclude = array_map(static function (string $iconSet) {
+            if ($iconSet === '') {
+                return '';
+            }
             if ($iconSet === 'Typo3Icons') {
-                return '@import "EXT:bw_icons/Configuration/TSconfig/Page/' . $iconSet . '.tsconfig"';
+                return '@import "EXT:bw_icons/Configuration/TSconfig/Page/Typo3Icons.tsconfig"';
             }
             return '@import "EXT:bw_icons/Tests/Fixtures/' . $iconSet . '/page.tsconfig"';
         }, $iconSets);

@@ -13,12 +13,19 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class IconSelection extends AbstractFormElement
 {
+    protected $defaultFieldWizard = [
+        'localizationStateSelector' => [
+            'renderType' => 'localizationStateSelector',
+        ],
+    ];
+
     public function render(): array
     {
         $resultArray = $this->initializeResultArray();
         $fieldId = StringUtility::getUniqueId('formengine-input-');
 
         $fieldWizardResult = $this->renderFieldWizard();
+        $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
@@ -50,6 +57,11 @@ class IconSelection extends AbstractFormElement
         $html .= ' />';
         $html .= '</div>';
         $html .= '</div>';
+        if (!empty($fieldWizardHtml)) {
+            $html .= '<div class="form-wizards-item-bottom">';
+            $html .= $fieldWizardHtml;
+            $html .= '</div>';
+        }
         $html .= '</div>';
         $html .= '</div>';
 
