@@ -11,7 +11,7 @@ final class WizardModalCest
 {
     public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
-        $configuration->write('pages', 2);
+        $configuration->write('pages', 1);
         $I->enableIconSets(['Typo3Icons']);
         $I->loginAsAdmin();
     }

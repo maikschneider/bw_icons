@@ -10,12 +10,43 @@
     let currentIcon = $state(null)
     let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
     let typo3Version = $derived(JSON.parse(wizardConfig).typo3Version)
+    let readOnly = $state(false)
 
     onMount(() => {
         currentIcon = currentIconJson ? JSON.parse(currentIconJson) : null
         getIcon('actions-search');
         getIcon('actions-close');
+        observeLanguageState()
     });
+
+    function observeLanguageState() {
+        // Extract the last field segment (e.g. tx_bwicons_icon)
+        const lastBracketIndex = itemFormElName.lastIndexOf('[')
+        const basePath = itemFormElName.substring(0, lastBracketIndex)
+        const lastField = itemFormElName.substring(lastBracketIndex)
+        // Insert [l10n_state] before the last field
+        const targetName = `${basePath}[l10n_state]${lastField}`
+
+        // Check if the checkbox exists in the parent document
+        const radioCustom = document.querySelector(`input[name="${targetName}"][value="custom"]`)
+        if (radioCustom) {
+            radioCustom.addEventListener('change', () => {
+                if (radioCustom.checked) {
+                    readOnly = false
+                }
+            })
+        }
+
+        const radioParent = document.querySelector(`input[name="${targetName}"][value="parent"]`)
+        if (radioParent) {
+            readOnly = !!radioParent.checked;
+            radioParent.addEventListener('change', () => {
+                if (radioParent.checked) {
+                    readOnly = true
+                }
+            })
+        }
+    }
 
     function onModalSave() {
         currentIcon = window.parent.frames.list_frame.window.SELECTED_ICON ?? null
@@ -46,9 +77,7 @@
             ],
             content: html`
                 <bw-icon-wizard
-                    class="w-100"
-                    itemFormElName="${itemFormElName}"
-                    wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
+                    class="w-100" itemFormElName="${itemFormElName}" wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
             size: Modal.sizes.large,
             title: TYPO3.lang['icon_wizard_title'],
             staticBackdrop: true
@@ -86,6 +115,10 @@
         background: var(--bs-body-bg);
     }
 
+    .disabled {
+        border-color: color-mix(in srgb, var(--typo3-form-section-bg), var(--typo3-form-section-color) var(--typo3-border-mix));
+    }
+
     .form-control-clearable-wrapper .white-bg + .close {
         color: #000;
     }
@@ -118,7 +151,10 @@
 <div class="input-group" class:has-change={hasChange} class:typo3-v12={typo3Version === 12}>
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
     <div class="form-control-clearable-wrapper">
-        <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon && !currentIcon.isFontIcon}>
+        <span
+            class="form-control form-control-clearable input text-center"
+            class:white-bg={currentIcon && !currentIcon.isFontIcon}
+            class:disabled={readOnly}>
             {#if currentIcon}
                 {#if currentIcon.imgSrc}
                     <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
@@ -127,11 +163,11 @@
                 {/if}
             {/if}
         </span>
-        <button class="close" class:hidden={!currentIcon} onclick={onResetButtonClick}>
+        <button class="close" class:hidden={!currentIcon || readOnly} onclick={onResetButtonClick}>
             {@html $iconStore['actions-close']}
         </button>
     </div>
-    <button onclick={(e) => onButtonClick(e)} class="btn btn-default">
+    <button onclick={(e) => onButtonClick(e)} class="btn btn-default" disabled={readOnly}>
         {@html $iconStore['actions-search']}
         {TYPO3.lang['wizard.button']}
     </button>

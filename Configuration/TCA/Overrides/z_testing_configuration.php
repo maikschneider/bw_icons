@@ -8,5 +8,5 @@ $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::c
 $bwiconsConf = $extensionConfiguration->get('bw_icons');
 
 if (isset($bwiconsConf['pages']) && (int)$bwiconsConf['pages'] === 2) {
-    $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon']['config']['iconProviders'] = 'typo3icons';
+    $GLOBALS['TCA']['pages']['columns']['tx_bwicons_icon']['config']['behaviour']['allowLanguageSynchronization'] = 1;
 }
