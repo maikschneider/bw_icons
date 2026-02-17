@@ -640,7 +640,8 @@ class CssIconProvider extends AbstractIconProvider
             return false;
         }
 
-        GeneralUtility::writeFileToTypo3tempDir($tempFile, $fontFileContent);
+        GeneralUtility::mkdir_deep(dirname($tempFile));
+        file_put_contents($tempFile, $fontFileContent);
         return $fontFileName;
     }
 
@@ -810,7 +811,8 @@ class CssIconProvider extends AbstractIconProvider
     {
         $tempCssFile = $this->getCssTempFilePath();
         $cssContent = $cssDocument->render(OutputFormat::createCompact());
-        GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
+        GeneralUtility::mkdir_deep(dirname($tempCssFile));
+        file_put_contents($tempCssFile, $cssContent);
     }
 
     /**
