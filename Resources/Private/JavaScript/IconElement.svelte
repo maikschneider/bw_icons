@@ -11,6 +11,7 @@
     let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
     let typo3Version = $derived(JSON.parse(wizardConfig).typo3Version)
     let readOnly = $state(false)
+    let hiddenInput = null
 
     onMount(() => {
         readOnly = !!JSON.parse(wizardConfig).isReadOnly
@@ -19,6 +20,13 @@
         getIcon('actions-close');
         observeLanguageState()
     });
+
+    $effect(() => {
+        const label = hiddenInput.closest('.form-group')?.querySelector('label')
+        if (label) {
+            label.classList.toggle('has-change', hasChange)
+        }
+    })
 
     function renderFontIcon(markup, value, extraClasses = '') {
         const template = markup || '<i class="###ICON###"></i>';
@@ -172,7 +180,7 @@
 </style>
 
 <div class="input-group" class:has-change={hasChange} class:typo3-v12={typo3Version === 12}>
-    <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
+    <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} bind:this={hiddenInput} />
     <div class="form-control-clearable-wrapper">
         <span
             class="form-control form-control-clearable input text-center"
