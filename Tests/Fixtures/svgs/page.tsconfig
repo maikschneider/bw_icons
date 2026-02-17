@@ -1,0 +1,9 @@
+mod.tx_bwicons {
+
+   fontawesome6 = Blueways\BwIcons\Provider\FileIconProvider
+   fontawesome6 {
+      title = SVG Icons
+      folder = EXT:bw_icons/Resources/Public/Fixtures/svgs/files
+   }
+
+}
