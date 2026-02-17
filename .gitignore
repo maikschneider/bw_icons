@@ -9,7 +9,7 @@ public/typo3conf
 public/typo3temp
 public/index.php
 c3.php
-!Resources/Public
+Resources/Public/Fixtures
 Tests/Acceptance/_output
 Tests/Acceptance/Support/_generated
 vendor
