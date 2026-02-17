@@ -69,7 +69,7 @@
     }
 
     .topbar {
-        background: var(--bw-modal-bg, #FFF);
+        background: var(--typo3-modal-bg, var(--bw-modal-bg, #FFF));
         position: sticky;
         top: 0;
         z-index: 1;
@@ -100,22 +100,31 @@
         border-radius: 2px;
         padding: 2px;
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: box-shadow 0.1s ease;
     }
 
     .icon-grid-item:hover {
-        box-shadow: 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color));
+        box-shadow: 0 0 0 2px var(--typo3-state-primary-bg, var(--bw-hover-color, var(--typo3-light-primary-color)));
         text-decoration: none;
     }
 
     .icon-grid-item.active {
         cursor: pointer;
-        box-shadow: 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color)), inset 0 0 0 2px var(--bw-hover-color, var(--typo3-light-primary-color));
+        box-shadow: 0 0 0 2px var(--typo3-state-primary-bg, var(--bw-hover-color, var(--typo3-light-primary-color))), inset 0 0 0 2px var(--typo3-state-primary-bg, var(--bw-hover-color, var(--typo3-light-primary-color)));
         border-radius: 4px;
         transition: box-shadow 0.1s ease, border-radius 0.1s ease;
     }
 
     :global(.fontIcon) {
         font-size: 36px;
+    }
+
+    img.img-thumbnail {
+        width: 100%;
+        height: auto;
     }
 
     span.img-thumbnail {
