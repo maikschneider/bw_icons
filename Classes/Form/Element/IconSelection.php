@@ -34,9 +34,7 @@ class IconSelection extends AbstractFormElement
         $validationRules = $this->getValidationDataAsJsonString($parameterArray['fieldConf']['config']);
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $styleSheets = $this->helperUtility->getStyleSheets($wizardConfig);
-        $styleSheetPaths = array_map(static fn ($styleSheet) => Environment::getPublicPath() . $styleSheet, $styleSheets);
-        $resultArray['stylesheetFiles'] = $styleSheetPaths;
+        $resultArray['stylesheetFiles'] = $this->helperUtility->getStyleSheets($wizardConfig);;
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
