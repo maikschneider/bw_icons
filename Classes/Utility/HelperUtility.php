@@ -4,18 +4,20 @@ namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
+use Blueways\BwIcons\Factory\IconProviderFactory;
 use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HelperUtility
 {
     /** @var array<string, array<AbstractIconProvider>> */
     protected array $providerCache = [];
 
-    public function __construct(private readonly FrontendInterface $cache)
-    {
+    public function __construct(
+        private readonly FrontendInterface $cache,
+        private readonly IconProviderFactory $providerFactory
+    ) {
     }
 
     public function getWizardTabs(WizardConfig $wizardConfig): array
@@ -76,7 +78,7 @@ class HelperUtility
 
         foreach ($extensionSettings as $key => $options) {
             /** @var AbstractIconProvider $prov */
-            $prov = GeneralUtility::makeInstance($options['_typoScriptNodeValue'], $options);
+            $prov = $this->providerFactory->create($options['_typoScriptNodeValue'], $options);
             $prov->setCacheIdentifier($cacheIdentifier);
             $prov->setId($key);
             $prov->setTitle($options['title']);
