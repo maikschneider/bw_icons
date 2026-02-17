@@ -6,9 +6,10 @@
     import {html} from "lit";
     import Modal from '@typo3/backend/modal.js'
 
-    let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson} = $props()
+    let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson, validationRules = '[]'} = $props()
     let currentIcon = $state(null)
     let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
+    let hasError = $derived(validationRules.includes('required') && !currentIcon)
     let typo3Version = $derived(JSON.parse(wizardConfig).typo3Version)
     let readOnly = $state(false)
     let hiddenInput = null
@@ -22,9 +23,8 @@
     });
 
     $effect(() => {
-        const label = hiddenInput.closest('.form-group')?.querySelector('label')
-        if (label) {
-            label.classList.toggle('has-change', hasChange)
+        if (hasError || hasChange) {
+            hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
         }
     })
 
@@ -159,7 +159,7 @@
     }
 
     :global(.fontIcon.readOnly) {
-        color: color-mix(in srgb,var(--typo3-form-control-disabled-color),transparent calc((1 - var(--typo3-input-disabled-opacity))*100%));
+        color: color-mix(in srgb, var(--typo3-form-control-disabled-color), transparent calc((1 - var(--typo3-input-disabled-opacity)) * 100%));
     }
 
     .typo3-v12 .disabled-border {
@@ -179,8 +179,8 @@
     }
 </style>
 
-<div class="input-group" class:has-change={hasChange} class:typo3-v12={typo3Version === 12}>
-    <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} bind:this={hiddenInput} />
+<div class="input-group" class:has-change={hasChange} class:is-invalid={hasError} class:typo3-v12={typo3Version === 12}>
+    <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} bind:this={hiddenInput} data-formengine-validation-rules={validationRules} />
     <div class="form-control-clearable-wrapper">
         <span
             class="form-control form-control-clearable input text-center"
