@@ -6,7 +6,6 @@ use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Domain\Model\Dto\WizardIcon;
 use Blueways\BwIcons\Service\IconService;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
@@ -34,7 +33,7 @@ class IconSelection extends AbstractFormElement
         $validationRules = $this->getValidationDataAsJsonString($parameterArray['fieldConf']['config']);
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $resultArray['stylesheetFiles'] = $this->iconService->getStyleSheets($wizardConfig);;
+        $resultArray['stylesheetFiles'] = $this->iconService->getStyleSheets($wizardConfig);
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
@@ -47,7 +46,7 @@ class IconSelection extends AbstractFormElement
             $currentIcon->markup = $this->iconService->getMarkupForIconValue($currentIcon->value, $wizardConfig);
         }
 
-        $html = $wizardConfig->typo3Version > 12 ? $this->renderLabel($fieldId) : '';
+        $html = $this->renderLabel($fieldId);
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
         $html .= '<div class="form-wizards-wrap">';
         $html .= '<div class="form-wizards-element">';
@@ -61,13 +60,12 @@ class IconSelection extends AbstractFormElement
         $html .= 'validationRules="' . htmlspecialchars($validationRules) . '"';
         $html .= ' />';
         $html .= '</div>';
-        $html .= $wizardConfig->typo3Version > 12 ? '</div>' : '';
+        $html .= '</div>';
         if (!empty($fieldWizardHtml)) {
             $html .= '<div class="form-wizards-item-bottom">';
             $html .= $fieldWizardHtml;
             $html .= '</div>';
         }
-        $html .= $wizardConfig->typo3Version < 13 ? '</div>' : '';
         $html .= '</div>';
         $html .= '</div>';
 

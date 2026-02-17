@@ -5,7 +5,6 @@ namespace Blueways\BwIcons\Domain\Model\Dto;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class WizardConfig
 {
@@ -14,15 +13,7 @@ class WizardConfig
     /** @var string[] */
     public array $iconProviders = [];
 
-    public int $typo3Version = 0;
-
     public bool $isReadOnly = false;
-
-    public function __construct()
-    {
-        $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
-        $this->typo3Version = $version['version_main'];
-    }
 
     public static function createFromFormElementData(array $data): self
     {
@@ -59,13 +50,7 @@ class WizardConfig
     public static function createFromFrontendRequest(ServerRequestInterface $request): self
     {
         $pageInformation = $request->getAttribute('frontend.page.information');
-        if ($pageInformation !== null) {
-            $pid = (int)$pageInformation->getId();
-        } else {
-            // TYPO3 v12 fallback
-            $controller = $request->getAttribute('frontend.controller');
-            $pid = (int)($controller?->page['uid'] ?? 0);
-        }
+        $pid = (int)$pageInformation->getId();
 
         $config = new WizardConfig();
         $config->pid = $pid;

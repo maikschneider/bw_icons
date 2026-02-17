@@ -10,7 +10,6 @@
     let currentIcon = $state(null)
     let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
     let hasError = $derived(validationRules.includes('required') && !currentIcon)
-    let typo3Version = $derived(JSON.parse(wizardConfig).typo3Version)
     let readOnly = $state(false)
     let hiddenInput = null
 
@@ -170,16 +169,9 @@
         max-height: 30px;
     }
 
-    .typo3-v12 .form-control {
-        min-height: 32px;
-    }
-
-    .typo3-v12.has-change .form-control {
-        --typo3-input-border-color: #6daae0;
-    }
 </style>
 
-<div class="input-group" class:has-change={hasChange} class:is-invalid={hasError} class:typo3-v12={typo3Version === 12}>
+<div class="input-group" class:has-change={hasChange} class:is-invalid={hasError}>
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} bind:this={hiddenInput} data-formengine-validation-rules={validationRules} />
     <div class="form-control-clearable-wrapper">
         <span
