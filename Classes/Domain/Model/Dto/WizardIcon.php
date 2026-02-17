@@ -10,6 +10,8 @@ class WizardIcon
 
     public string $title = '';
 
+    public ?string $markup = null;
+
     public function __construct(public string $value, public ?bool $isFontIcon = null)
     {
         $this->setImgSrcFromValue();
@@ -19,7 +21,8 @@ class WizardIcon
 
     public function setImgSrcFromValue(): void
     {
-        if (str_starts_with($this->value, 'fileadmin/')) {
+        $fileadminDir = $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] ?? 'fileadmin/';
+        if (str_starts_with($this->value, (string)$fileadminDir)) {
             $this->imgSrc = '/' . $this->value;
         }
         if (str_starts_with($this->value, 'EXT:')) {
@@ -29,7 +32,12 @@ class WizardIcon
 
     public function setTitleFromValue(): void
     {
-        $this->title = pathinfo($this->imgSrc, PATHINFO_FILENAME);
+        if ($this->imgSrc) {
+            $this->title = pathinfo($this->imgSrc, PATHINFO_FILENAME);
+            return;
+        }
+
+        $this->title = $this->value;
     }
 
     private function guessIsFontIcon(): void

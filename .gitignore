@@ -1,6 +1,5 @@
 .idea
 .Build
-config
 composer.lock
 public/.htaccess
 public/_assets
@@ -9,7 +8,10 @@ public/typo3
 public/typo3conf
 public/typo3temp
 public/index.php
-!Resources/Public
+c3.php
+Resources/Public/Fixtures
+Tests/Acceptance/_output
+Tests/Acceptance/Support/_generated
 vendor
 var
 Documentation-*

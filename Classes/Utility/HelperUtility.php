@@ -34,6 +34,7 @@ class HelperUtility
                 $tab->title = $provider->getTitle();
                 $tab->folders = $provider->getWizardFolders();
                 $tab->stylesheet = $provider->getStyleSheet();
+                $tab->markup = $provider->getMarkup();
 
                 $tabs[] = $tab;
             }
@@ -86,6 +87,24 @@ class HelperUtility
         $this->providerCache[$cacheIdentifier] = $providers;
 
         return $providers;
+    }
+
+    public function getMarkupForIconValue(string $value): ?string
+    {
+        $tabs = $this->getWizardTabs();
+        foreach ($tabs as $tab) {
+            if ($tab->markup === null) {
+                continue;
+            }
+            foreach ($tab->folders as $folder) {
+                foreach ($folder->icons as $icon) {
+                    if ($icon->value === $value) {
+                        return $tab->markup;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public function getStyleSheets(WizardConfig $wizardConfig): array

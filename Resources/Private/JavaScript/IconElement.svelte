@@ -6,16 +6,62 @@
     import {html} from "lit";
     import Modal from '@typo3/backend/modal.js'
 
-    let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson} = $props()
+    let {itemFormElName, itemFormElValue, wizardConfig, currentIconJson, validationRules = '[]'} = $props()
     let currentIcon = $state(null)
     let hasChange = $derived(JSON.stringify(currentIcon) !== currentIconJson.replace(/\\\//g, '/'))
+    let hasError = $derived(validationRules.includes('required') && !currentIcon)
     let typo3Version = $derived(JSON.parse(wizardConfig).typo3Version)
+    let readOnly = $state(false)
+    let hiddenInput = null
 
     onMount(() => {
+        readOnly = !!JSON.parse(wizardConfig).isReadOnly
         currentIcon = currentIconJson ? JSON.parse(currentIconJson) : null
         getIcon('actions-search');
         getIcon('actions-close');
+        observeLanguageState()
     });
+
+    $effect(() => {
+        if (hasError || hasChange) {
+            hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
+        }
+    })
+
+    function renderFontIcon(markup, value, extraClasses = '') {
+        const template = markup || '<i class="###ICON###"></i>';
+        const classes = [value, ...extraClasses.split(' ').filter(Boolean)].join(' ');
+        return template.replace('###ICON###', classes);
+    }
+
+    function observeLanguageState() {
+        // Extract the last field segment (e.g. tx_bwicons_icon)
+        const lastBracketIndex = itemFormElName.lastIndexOf('[')
+        const basePath = itemFormElName.substring(0, lastBracketIndex)
+        const lastField = itemFormElName.substring(lastBracketIndex)
+        // Insert [l10n_state] before the last field
+        const targetName = `${basePath}[l10n_state]${lastField}`
+
+        // Check if the checkbox exists in the parent document
+        const radioCustom = document.querySelector(`input[name="${targetName}"][value="custom"]`)
+        if (radioCustom) {
+            radioCustom.addEventListener('change', () => {
+                if (radioCustom.checked) {
+                    readOnly = false
+                }
+            })
+        }
+
+        const radioParent = document.querySelector(`input[name="${targetName}"][value="parent"]`)
+        if (radioParent) {
+            readOnly = !!radioParent.checked;
+            radioParent.addEventListener('change', () => {
+                if (radioParent.checked) {
+                    readOnly = true
+                }
+            })
+        }
+    }
 
     function onModalSave() {
         currentIcon = window.parent.frames.list_frame.window.SELECTED_ICON ?? null
@@ -46,9 +92,7 @@
             ],
             content: html`
                 <bw-icon-wizard
-                    class="w-100"
-                    itemFormElName="${itemFormElName}"
-                    wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
+                    class="w-100" itemFormElName="${itemFormElName}" wizardConfig="${wizardConfig}"></bw-icon-wizard>`,
             size: Modal.sizes.large,
             title: TYPO3.lang['icon_wizard_title'],
             staticBackdrop: true
@@ -86,6 +130,14 @@
         background: var(--bs-body-bg);
     }
 
+    .disabled-bg {
+        background: var(--typo3-state-default-disabled-bg);
+    }
+
+    .disabled-border {
+        border-color: color-mix(in srgb, var(--typo3-form-section-bg), var(--typo3-form-section-color) var(--typo3-border-mix));
+    }
+
     .form-control-clearable-wrapper .white-bg + .close {
         color: #000;
     }
@@ -96,17 +148,29 @@
         max-height: 34px;
     }
 
-    .fontIcon {
+    img.readOnly {
+        filter: grayscale(100%) opacity(var(--typo3-input-disabled-opacity, 0.65));
+    }
+
+    :global(.fontIcon) {
         font-size: 24px;
         line-height: 32px;
         color: light-dark(var(--bs-body-color), var(--typo3-input-color));
     }
 
-    .typo3-v12 img {
-        max-height: 32px;
+    :global(.fontIcon.readOnly) {
+        color: color-mix(in srgb, var(--typo3-form-control-disabled-color), transparent calc((1 - var(--typo3-input-disabled-opacity)) * 100%));
     }
 
-    .typo3-v12.has-change .form-control {
+    .typo3-v12 .disabled-border {
+        border-color: #d2d2d2;
+    }
+
+    .typo3-v12 img {
+        max-height: 30px;
+    }
+
+    .typo3-v12 .form-control {
         min-height: 32px;
     }
 
@@ -115,23 +179,27 @@
     }
 </style>
 
-<div class="input-group" class:has-change={hasChange} class:typo3-v12={typo3Version === 12}>
-    <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} />
+<div class="input-group" class:has-change={hasChange} class:is-invalid={hasError} class:typo3-v12={typo3Version === 12}>
+    <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} bind:this={hiddenInput} data-formengine-validation-rules={validationRules} />
     <div class="form-control-clearable-wrapper">
-        <span class="form-control form-control-clearable input text-center" class:white-bg={currentIcon && !currentIcon.isFontIcon}>
+        <span
+            class="form-control form-control-clearable input text-center"
+            class:white-bg={currentIcon && !currentIcon.isFontIcon}
+            class:disabled-bg={readOnly && (!currentIcon || currentIcon.isFontIcon)}
+            class:disabled-border={readOnly}>
             {#if currentIcon}
                 {#if currentIcon.imgSrc}
-                    <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" />
+                    <img src={currentIcon.imgSrc} alt={currentIcon.title} class="img-thumbnail" loading="lazy" class:readOnly={readOnly} />
                 {:else}
-                    <span class="{currentIcon.value} fontIcon"></span>
+                    {@html renderFontIcon(currentIcon.markup, currentIcon.value, 'fontIcon' + (readOnly ? ' readOnly' : ''))}
                 {/if}
             {/if}
         </span>
-        <button class="close" class:hidden={!currentIcon} onclick={onResetButtonClick}>
+        <button class="close" class:hidden={!currentIcon || readOnly} onclick={onResetButtonClick}>
             {@html $iconStore['actions-close']}
         </button>
     </div>
-    <button onclick={(e) => onButtonClick(e)} class="btn btn-default">
+    <button onclick={(e) => onButtonClick(e)} class="btn btn-default" disabled={readOnly}>
         {@html $iconStore['actions-search']}
         {TYPO3.lang['wizard.button']}
     </button>

@@ -12,6 +12,12 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 class IconSelection extends AbstractFormElement
 {
+    protected $defaultFieldWizard = [
+        'localizationStateSelector' => [
+            'renderType' => 'localizationStateSelector',
+        ],
+    ];
+
     public function __construct(protected HelperUtility $helperUtility)
     {
     }
@@ -22,8 +28,10 @@ class IconSelection extends AbstractFormElement
         $fieldId = StringUtility::getUniqueId('formengine-input-');
 
         $fieldWizardResult = $this->renderFieldWizard();
+        $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
+        $validationRules = $this->getValidationDataAsJsonString($parameterArray['fieldConf']['config']);
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
         $styleSheets = $this->helperUtility->getStyleSheets($wizardConfig);
@@ -37,6 +45,9 @@ class IconSelection extends AbstractFormElement
         $description = $parameterArray['fieldConf']['description'] ?? '';
 
         $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
+        if ($currentIcon && $currentIcon->isFontIcon) {
+            $currentIcon->markup = $helperUtil->getMarkupForIconValue($currentIcon->value);
+        }
 
         $html = $wizardConfig->typo3Version > 12 ? $this->renderLabel($fieldId) : '';
         $html .= '<div class="formengine-field-item t3js-formengine-field-item">';
@@ -49,9 +60,16 @@ class IconSelection extends AbstractFormElement
         $html .= 'itemFormElName="' . $itemFormElName . '"';
         $html .= 'currentIconJson="' . htmlspecialchars(json_encode($currentIcon, JSON_THROW_ON_ERROR)) . '"';
         $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
+        $html .= 'validationRules="' . htmlspecialchars($validationRules) . '"';
         $html .= ' />';
         $html .= '</div>';
-        $html .= '</div>';
+        $html .= $wizardConfig->typo3Version > 12 ? '</div>' : '';
+        if (!empty($fieldWizardHtml)) {
+            $html .= '<div class="form-wizards-item-bottom">';
+            $html .= $fieldWizardHtml;
+            $html .= '</div>';
+        }
+        $html .= $wizardConfig->typo3Version < 13 ? '</div>' : '';
         $html .= '</div>';
         $html .= '</div>';
 

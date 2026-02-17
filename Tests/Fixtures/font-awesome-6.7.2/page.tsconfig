@@ -1,0 +1,9 @@
+mod.tx_bwicons {
+
+  fontawesome6 = Blueways\BwIcons\Provider\CssIconProvider
+  fontawesome6 {
+    title = Font Awesome 6
+    file = EXT:bw_icons/Tests/Fixtures/font-awesome-6.7.2/css/all.css
+  }
+
+}

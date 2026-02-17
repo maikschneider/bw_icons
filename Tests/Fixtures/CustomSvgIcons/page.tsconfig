@@ -1,0 +1,9 @@
+mod.tx_bwicons {
+
+   customSvgIcons = Blueways\BwIcons\Provider\FileIconProvider
+   customSvgIcons {
+      title = SVG Icons
+      folder = EXT:bw_icons/Resources/Public/Fixtures/CustomSvgIcons/files
+   }
+
+}

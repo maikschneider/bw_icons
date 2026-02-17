@@ -18,6 +18,8 @@ class WizardConfig
 
     public int $typo3Version = 0;
 
+    public bool $isReadOnly = false;
+
     public function __construct()
     {
         $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
@@ -31,9 +33,15 @@ class WizardConfig
         $iconProviders = $data['parameterArray']['fieldConf']['config']['iconProviders'] ?? '';
         $iconProviders = GeneralUtility::trimExplode(',', $iconProviders, true);
 
+        $fieldName = $data['fieldName'];
+        $l10nMode = $data['processedTca']['columns'][$fieldName]['l10n_mode'] ?? '';
+        $l10nDisplay = $data['processedTca']['columns'][$fieldName]['l10n_display'] ?? '';
+        $isReadOnly = str_contains((string)$l10nMode, 'exclude') && str_contains((string)$l10nDisplay, 'defaultAsReadonly');
+
         $config = new WizardConfig();
         $config->pid = $pid;
         $config->iconProviders = $iconProviders;
+        $config->isReadOnly = $isReadOnly;
 
         return $config;
     }
@@ -41,7 +49,7 @@ class WizardConfig
     public static function createFromFormPostBody(object|array|null $body): self
     {
         $pid = (int)($body['pid'] ?? 0);
-        $iconProviders = $body['iconProviders'] ?? [];
+        $iconProviders = $body['iconProvidersString'] ?? [];
 
         $config = new WizardConfig();
         $config->pid = $pid;

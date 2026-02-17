@@ -24,11 +24,12 @@ class IconSelectionController
         $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
         $tabs = $this->helperUtility->getWizardTabs($wizardConfig);
+        $responseData = count($tabs) ? ['tabs' => $tabs] : ['error' => 'No icon providers found. Please check your configuration.'];
 
         $response = $this->responseFactory->createResponse()
             ->withHeader('Content-Type', 'application/json; charset=utf-8');
         $response->getBody()->write(
-            json_encode(['tabs' => $tabs], JSON_THROW_ON_ERROR),
+            json_encode($responseData, JSON_THROW_ON_ERROR),
         );
         return $response;
     }

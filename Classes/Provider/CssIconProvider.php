@@ -525,7 +525,7 @@ class CssIconProvider extends AbstractIconProvider
             $atomicSelectors = array_map(fn ($selector) => str_replace(['.'], [''], $selector), $atomicSelectors);
 
             $atomicSelectors = array_unique($atomicSelectors);
-            $value = implode(' ', $atomicSelectors);
+            $value = implode(' ', array_map(trim(...), $atomicSelectors));
 
             return new WizardIcon($value, true);
         }, $availableGlyphs);
@@ -536,8 +536,9 @@ class CssIconProvider extends AbstractIconProvider
      */
     protected function getStyleSheetContent(): string
     {
-        $path = $this->options['file'] ?? '';
-        if (str_starts_with($path, 'EXT:') || str_starts_with($path, 'fileadmin/')) {
+        $path = (string)($this->options['file'] ?? '');
+        $fileadminDir = $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'] ?? 'fileadmin/';
+        if (str_starts_with($path, 'EXT:') || str_starts_with($path, (string)$fileadminDir)) {
             $path = GeneralUtility::getFileAbsFileName($path);
         }
         return GeneralUtility::getUrl($path);

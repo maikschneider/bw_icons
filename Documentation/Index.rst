@@ -226,9 +226,7 @@ If you want to add other icon sources (e.g. from API), you can create your own I
 Help & Contribution
 -------------------
 
-This extension was made by Maik Schneider. Use the `issue tracker <https://github.com/maikschneider/bw_icons/issues>`__ for bugs and feature requests. If you have any questions, you can `hit me up <https://slack.com/app_redirect?channel=C02KWTE8JRE>`__ at the TYPO3 Slack.
-
-Feel free to contribute!
+This extension was made by Maik Schneider. Feel free to contribute!
 
 * `Github-Repository <https://github.com/maikschneider/bw_icons/>`__
 
