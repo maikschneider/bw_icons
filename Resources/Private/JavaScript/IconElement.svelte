@@ -179,7 +179,7 @@
     }
 </style>
 
-<div class="input-group" class:has-change={hasChange} class:has-error={hasError} class:typo3-v12={typo3Version === 12}>
+<div class="input-group" class:has-change={hasChange} class:is-invalid={hasError} class:typo3-v12={typo3Version === 12}>
     <input type="hidden" name={itemFormElName} bind:value={itemFormElValue} bind:this={hiddenInput} data-formengine-validation-rules={validationRules} />
     <div class="form-control-clearable-wrapper">
         <span
