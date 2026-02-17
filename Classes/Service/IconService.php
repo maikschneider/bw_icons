@@ -1,6 +1,6 @@
 <?php
 
-namespace Blueways\BwIcons\Utility;
+namespace Blueways\BwIcons\Service;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
@@ -9,7 +9,7 @@ use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 
-class HelperUtility
+class IconService
 {
     /** @var array<string, array<AbstractIconProvider>> */
     protected array $providerCache = [];

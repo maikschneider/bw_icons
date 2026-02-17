@@ -4,7 +4,7 @@ namespace Blueways\BwIcons\Form\Element;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Domain\Model\Dto\WizardIcon;
-use Blueways\BwIcons\Utility\HelperUtility;
+use Blueways\BwIcons\Service\IconService;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
@@ -18,7 +18,7 @@ class IconSelection extends AbstractFormElement
         ],
     ];
 
-    public function __construct(protected HelperUtility $helperUtility)
+    public function __construct(protected IconService $iconService)
     {
     }
 
@@ -34,7 +34,7 @@ class IconSelection extends AbstractFormElement
         $validationRules = $this->getValidationDataAsJsonString($parameterArray['fieldConf']['config']);
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $resultArray['stylesheetFiles'] = $this->helperUtility->getStyleSheets($wizardConfig);;
+        $resultArray['stylesheetFiles'] = $this->iconService->getStyleSheets($wizardConfig);;
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
@@ -44,7 +44,7 @@ class IconSelection extends AbstractFormElement
 
         $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
         if ($currentIcon && $currentIcon->isFontIcon) {
-            $currentIcon->markup = $this->helperUtility->getMarkupForIconValue($currentIcon->value, $wizardConfig);
+            $currentIcon->markup = $this->iconService->getMarkupForIconValue($currentIcon->value, $wizardConfig);
         }
 
         $html = $wizardConfig->typo3Version > 12 ? $this->renderLabel($fieldId) : '';

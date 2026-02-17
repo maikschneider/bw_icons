@@ -3,11 +3,12 @@
 namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
+use Blueways\BwIcons\Service\IconService;
 use Psr\Http\Message\ServerRequestInterface;
 
 class CssUtility
 {
-    public function __construct(private readonly HelperUtility $helperUtility)
+    public function __construct(private readonly IconService $iconService)
     {
     }
 
@@ -16,7 +17,7 @@ class CssUtility
         $cssFiles = '';
         $wizardConfig = WizardConfig::createFromFrontendRequest($request);
 
-        foreach ($this->helperUtility->getStyleSheets($wizardConfig) as $sheet) {
+        foreach ($this->iconService->getStyleSheets($wizardConfig) as $sheet) {
             $cssFiles .= '<link rel="stylesheet" href="' . $sheet . '" />';
         }
 

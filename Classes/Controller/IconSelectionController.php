@@ -3,7 +3,7 @@
 namespace Blueways\BwIcons\Controller;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
-use Blueways\BwIcons\Utility\HelperUtility;
+use Blueways\BwIcons\Service\IconService;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,7 +14,7 @@ class IconSelectionController
 {
     public function __construct(
         private readonly ResponseFactoryInterface $responseFactory,
-        private readonly HelperUtility $helperUtility
+        private readonly IconService $iconService
     ) {
     }
 
@@ -23,7 +23,7 @@ class IconSelectionController
         $body = $request->getParsedBody();
         $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
-        $tabs = $this->helperUtility->getWizardTabs($wizardConfig);
+        $tabs = $this->iconService->getWizardTabs($wizardConfig);
         $responseData = count($tabs) ? ['tabs' => $tabs] : ['error' => 'No icon providers found. Please check your configuration.'];
 
         $response = $this->responseFactory->createResponse()
@@ -39,7 +39,7 @@ class IconSelectionController
         $body = $request->getParsedBody();
         $wizardConfig = WizardConfig::createFromFormPostBody($body);
 
-        $styleSheets = $this->helperUtility->getStyleSheets($wizardConfig);
+        $styleSheets = $this->iconService->getStyleSheets($wizardConfig);
 
         return new JsonResponse($styleSheets);
     }

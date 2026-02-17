@@ -21,6 +21,6 @@ services:
     factory: [ '@TYPO3\CMS\Core\Cache\CacheManager', 'getCache' ]
     arguments: [ 'bwicons_conf' ]
 
-  Blueways\BwIcons\Utility\HelperUtility:
+  Blueways\BwIcons\Service\IconService:
     arguments:
       $cache: '@cache.bwicons_conf'
