@@ -71,6 +71,57 @@ final class FormElementCest
         $I->dontSeeElement('bw-icon-element .close.hidden');
     }
 
+    public function canSeeRequiredValidationErrorOnLoad(AcceptanceTester $I, ExtensionConfiguration $configuration): void
+    {
+        $I->enableIconSets(['Typo3Icons']);
+        $I->updateInDatabase('pages', ['tx_bwicons_icon' => ''], ['uid' => 1]);
+        $configuration->write('pages', 5);
+        $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
+        $I->switchToContentFrame();
+
+        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->dontSeeElement('bw-icon-element img');
+        $I->dontSeeElement('bw-icon-element .fontIcon');
+
+        // see error
+        $I->seeElement('bw-icon-element .is-invalid');
+    }
+
+    public function canSeeErrorIfRequiredIconIsRemoved(AcceptanceTester $I, ExtensionConfiguration $configuration): void
+    {
+        $configuration->write('pages', 5);
+        $I->enableIconSets(['Typo3Icons']);
+        $I->updateInDatabase(
+            'pages',
+            ['tx_bwicons_icon' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/actions/actions-brand-apple.svg'],
+            ['uid' => 1]
+        );
+
+        $I->amOnPage('/typo3/record/edit?edit[pages][1]=edit');
+        $I->switchToContentFrame();
+        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->seeElement('bw-icon-element img');
+
+        // click remove button
+        $I->click('bw-icon-element button.close');
+        $I->waitForElementNotVisible('bw-icon-element img', 5);
+        $I->dontSeeElement('bw-icon-element img');
+
+        // see error
+        $I->seeElement('bw-icon-element .is-invalid');
+
+        // try to save record
+        $I->click('button[name="_savedok"]');
+        $I->wait(1);
+
+        // see that error is still there and record is not saved
+        $I->seeElement('bw-icon-element .is-invalid');
+        $I->canSeeInDatabase(
+            'pages',
+            ['uid' => 1, 'tx_bwicons_icon' => 'EXT:core/Resources/Public/Icons/T3Icons/svgs/actions/actions-brand-apple.svg']
+        );
+    }
+
     public function canSeeRemoveButtonDeletesIcon(AcceptanceTester $I): void
     {
         $I->enableIconSets(['Typo3Icons']);
