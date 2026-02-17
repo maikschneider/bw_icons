@@ -21,14 +21,14 @@ final class LanguageExcludeModeCest
         $configuration->write('pages', 0);
     }
 
-    public function canSeeNoElementInExcludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
+    public function canSeeDisabledElementInExcludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 3);
         $I->amOnPage('/typo3/record/edit?edit[pages][2]=edit');
 
         $I->switchToContentFrame();
-        $I->waitForElementVisible('form[name="editform"]', 10);
-        $I->dontSeeElement('bw-icon-element');
+        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->seeElement('bw-icon-element .btn.btn-default[disabled]');
     }
 
     public function canSeeDisabledElementInExcludeModeWithReadOnly(AcceptanceTester $I, ExtensionConfiguration $configuration): void
