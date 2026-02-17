@@ -39,6 +39,16 @@ final class IconProviderCest
         $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', [760, 787]);
     }
 
+    public function canSeeCustomSvgIconProvider(AcceptanceTester $I): void
+    {
+        $I->enableIconSets(['CustomSvgIcons']);
+
+        $I->openWizardModal();
+
+        $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
+        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 57);
+    }
+
     public function canSeeFontAwesome4Provider(AcceptanceTester $I): void
     {
         $I->enableIconSets(['font-awesome-4.7.0']);
