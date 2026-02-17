@@ -12,6 +12,7 @@ final class FormElementCest
     public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 1);
+        $I->updateInDatabase('pages', ['tx_bwicons_icon' => ''], ['uid' => 1]);
         $I->loginAsAdmin();
     }
 
