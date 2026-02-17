@@ -89,9 +89,9 @@ class HelperUtility
         return $providers;
     }
 
-    public function getMarkupForIconValue(string $value): ?string
+    public function getMarkupForIconValue(string $value, WizardConfig $wizardConfig): ?string
     {
-        $tabs = $this->getWizardTabs();
+        $tabs = $this->getWizardTabs($wizardConfig);
         foreach ($tabs as $tab) {
             if ($tab->markup === null) {
                 continue;

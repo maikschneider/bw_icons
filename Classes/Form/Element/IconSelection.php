@@ -46,7 +46,7 @@ class IconSelection extends AbstractFormElement
 
         $currentIcon = $itemFormElValue ? new WizardIcon($itemFormElValue) : null;
         if ($currentIcon && $currentIcon->isFontIcon) {
-            $currentIcon->markup = $helperUtil->getMarkupForIconValue($currentIcon->value);
+            $currentIcon->markup = $this->helperUtility->getMarkupForIconValue($currentIcon->value, $wizardConfig);
         }
 
         $html = $wizardConfig->typo3Version > 12 ? $this->renderLabel($fieldId) : '';
