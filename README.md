@@ -4,7 +4,12 @@
 
 # TYPO3 extension `bw_icons`
 
+![Latest version](https://typo3-badges.dev/badge/bw_icons/version/shields.svg)
 [![Supported TYPO3 versions](https://typo3-badges.dev/badge/bw_icons/typo3/shields.svg)](https://extensions.typo3.org/extension/bw_icons)
+![Total downloads](https://typo3-badges.dev/badge/bw_icons/downloads/shields.svg)
+[![TYPO3 extension](https://typo3-badges.dev/badge/bw_icons/extension/shields.svg)](https://extensions.typo3.org/extension/bw_icons)
+[![Composer](https://typo3-badges.dev/badge/bw_icons/composer/shields.svg)](https://packagist.org/packages/blueways/bw-icons)
+[![codecov](https://codecov.io/gh/maikschneider/bw_icons/branch/main/graph/badge.svg?token=CLA8122NBJ)](https://codecov.io/gh/maikschneider/bw_icons)
 
 </div>
 
@@ -36,29 +41,39 @@ Pro tip: Use your Icomoon development file. Your Icon Picker is always up to
 date, and you can serve the font files from your own remote without manually
 downloading and adjusting paths!
 
-## Installation
+## Install
 
-1. Install via composer
-``` {.bash}
+### Composer
+
+```bash
 composer require blueways/bw-icons
 ```
 
-2. Update database schema
+### TER
 
-3. Include PageTS
+[![TER version](https://typo3-badges.dev/badge/bw_icons/version/shields.svg)](https://extensions.typo3.org/extension/bw_icons)
+
+Download the zip file from
+[TYPO3 extension repository (TER)](https://extensions.typo3.org/extension/bw_icons).
+
+## Setup
+
+1. Update database schema
+
+2. Include PageTS
 
 Enable the extension in the Extension Manager and include the **static
 PageTS** for TYPO3 core icons or set up your own icons. See *Configuration*
 section.
 
-4. Enable icons for tt_content, pages and/or sys_category
+3. Enable icons for tt_content, pages and/or sys_category
 
 In the extension
 settings (`Admin Tools → Extension Configuration → bw_icons`), you can enable
 the icon fields. If you want to use it for other tables, see *For developers*
 section.
 
-5. Include RTE configuration (optional)
+4. Include RTE configuration (optional)
 ```yaml
 imports:
     - { resource: EXT:bw_icons/Configuration/RTE/IconPicker.yaml }
@@ -217,6 +232,10 @@ Optional: you may restrict which icon providers are available:
 If you want to add other icon sources (e.g. from API), you can create your own
 IconProvider. Just make sure to extend
 from `Blueways\BwIcons\Provider\AbstractIconProvider`.
+
+## License
+
+This project is licensed under [GNU General Public License 2.0 (or later)](LICENSE.md).
 
 ## Contribute
 

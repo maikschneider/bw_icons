@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 'maik.schneider@xima.de',
     'author_company' => 'XIMA Media GmbH',
     'state' => 'stable',
-    'version' => '4.0.0',
+    'version' => '4.3.0',
     'autoload' => [
         'psr-4' => ['Blueways\\BwIcons\\' => 'Classes'],
     ],
