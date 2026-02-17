@@ -75,12 +75,4 @@ class AcceptanceTester extends Actor
         $I->switchToMainFrame();
         $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard', 10);
     }
-
-    public function openModule(string $moduleIdentifier): void
-    {
-        $I = $this;
-        $I->click('//a[@data-modulemenu-identifier="' . $moduleIdentifier . '"]');
-        $I->wait(1);
-        $I->switchToContentFrame();
-    }
 }
