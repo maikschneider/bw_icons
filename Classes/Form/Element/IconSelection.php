@@ -28,6 +28,7 @@ class IconSelection extends AbstractFormElement
         $fieldWizardHtml = $fieldWizardResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldWizardResult, false);
         $parameterArray = $this->data['parameterArray'];
+        $validationRules = $this->getValidationDataAsJsonString($parameterArray['fieldConf']['config']);
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
         $helperUtil = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
@@ -57,6 +58,7 @@ class IconSelection extends AbstractFormElement
         $html .= 'itemFormElName="' . $itemFormElName . '"';
         $html .= 'currentIconJson="' . htmlspecialchars(json_encode($currentIcon, JSON_THROW_ON_ERROR)) . '"';
         $html .= 'wizardConfig="' . htmlspecialchars(json_encode($wizardConfig, JSON_THROW_ON_ERROR)) . '"';
+        $html .= 'validationRules="' . htmlspecialchars($validationRules) . '"';
         $html .= ' />';
         $html .= '</div>';
         $html .= $wizardConfig->typo3Version > 12 ? '</div>' : '';
