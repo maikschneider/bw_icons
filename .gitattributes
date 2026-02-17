@@ -1,4 +1,7 @@
 *                                      text=auto
+Tests/Fixtures/**                      linguist-vendored
+Resources/Public/Fixtures/**           linguist-vendored
+Resources/Public/JavaScript/*.js       linguist-generated
 /.ddev                                 export-ignore
 /.github                               export-ignore
 /config                                export-ignore
