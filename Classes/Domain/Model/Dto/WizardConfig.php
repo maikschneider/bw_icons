@@ -52,8 +52,14 @@ class WizardConfig
 
     public static function createFromFrontendRequest(ServerRequestInterface $request): self
     {
-        $controller = $request->getAttribute('frontend.controller');
-        $pid = (int)($controller?->page['uid'] ?? 0);
+        $pageInformation = $request->getAttribute('frontend.page.information');
+        if ($pageInformation !== null) {
+            $pid = (int)$pageInformation->getId();
+        } else {
+            // TYPO3 v12 fallback
+            $controller = $request->getAttribute('frontend.controller');
+            $pid = (int)($controller?->page['uid'] ?? 0);
+        }
 
         $config = new WizardConfig();
         $config->pid = $pid;
