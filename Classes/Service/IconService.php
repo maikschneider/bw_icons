@@ -7,7 +7,9 @@ use Blueways\BwIcons\Domain\Model\Dto\WizardTab;
 use Blueways\BwIcons\Factory\IconProviderFactory;
 use Blueways\BwIcons\Provider\AbstractIconProvider;
 use Blueways\BwIcons\Provider\CssIconProvider;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 
 class IconService
 {
@@ -16,13 +18,26 @@ class IconService
 
     public function __construct(
         private readonly FrontendInterface $cache,
-        private readonly IconProviderFactory $providerFactory
+        private readonly IconProviderFactory $providerFactory,
+        private readonly TypoScriptService $typoScriptService
     ) {
+    }
+
+    public function getPageTsSettings(int $pid): array
+    {
+        $pageTsConfig = BackendUtility::getPagesTSconfig($pid);
+        return $this->typoScriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
+    }
+
+    public function getCacheIdentifier(WizardConfig $wizardConfig): string
+    {
+        $extensionSettings = $this->getPageTsSettings($wizardConfig->pid);
+        return md5(serialize($extensionSettings) . '-' . implode('-', $wizardConfig->iconProviders));
     }
 
     public function getWizardTabs(WizardConfig $wizardConfig): array
     {
-        $cacheIdentifier = $wizardConfig->getCacheIdentifier();
+        $cacheIdentifier = $this->getCacheIdentifier($wizardConfig);
 
         if (($tabs = $this->cache->get($cacheIdentifier)) !== false && $this->isValidTempFiles($wizardConfig)) {
             return $tabs;
@@ -67,13 +82,13 @@ class IconService
      */
     protected function getAllProvider(WizardConfig $wizardConfig): array
     {
-        $cacheIdentifier = $wizardConfig->getCacheIdentifier();
+        $cacheIdentifier = $this->getCacheIdentifier($wizardConfig);
 
         if (isset($this->providerCache[$cacheIdentifier])) {
             return $this->providerCache[$cacheIdentifier];
         }
 
-        $extensionSettings = $wizardConfig->getPageTsSettings();
+        $extensionSettings = $this->getPageTsSettings($wizardConfig->pid);
         $providers = [];
 
         foreach ($extensionSettings as $key => $options) {

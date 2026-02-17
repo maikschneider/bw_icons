@@ -3,8 +3,6 @@
 namespace Blueways\BwIcons\Domain\Model\Dto;
 
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -73,19 +71,5 @@ class WizardConfig
         $config->pid = $pid;
 
         return $config;
-    }
-
-    public function getCacheIdentifier(): string
-    {
-        $extensionSettings = $this->getPageTsSettings();
-        return md5(serialize($extensionSettings) . '-' . implode('-', $this->iconProviders));
-    }
-
-    public function getPageTsSettings(): array
-    {
-        $pageTsConfig = BackendUtility::getPagesTSconfig($this->pid);
-        /** @var TypoScriptService $typoscriptService */
-        $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-        return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
     }
 }
