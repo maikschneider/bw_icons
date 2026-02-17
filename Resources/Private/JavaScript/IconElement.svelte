@@ -160,15 +160,6 @@
     :global(.fontIcon.readOnly) {
         color: color-mix(in srgb, var(--typo3-form-control-disabled-color), transparent calc((1 - var(--typo3-input-disabled-opacity)) * 100%));
     }
-
-    .typo3-v12 .disabled-border {
-        border-color: #d2d2d2;
-    }
-
-    .typo3-v12 img {
-        max-height: 30px;
-    }
-
 </style>
 
 <div class="input-group" class:has-change={hasChange} class:is-invalid={hasError}>
