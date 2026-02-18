@@ -9,8 +9,9 @@ use Blueways\BwIconsTest\Acceptance\Support\Helper\ExtensionConfiguration;
 
 final class LanguageExcludeModeCest
 {
-    public function _before(AcceptanceTester $I): void
+    public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
+        $configuration->write('pages', 1);
         $I->enableIconSets(['Typo3Icons']);
         $I->loginAsAdmin();
     }
@@ -21,14 +22,14 @@ final class LanguageExcludeModeCest
         $configuration->write('pages', 0);
     }
 
-    public function canSeeDisabledElementInExcludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
+    public function canSeeNoElementInExcludeMode(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 3);
         $I->amOnPage('/typo3/record/edit?edit[pages][2]=edit');
 
         $I->switchToContentFrame();
-        $I->waitForElementVisible('bw-icon-element', 10);
-        $I->seeElement('bw-icon-element .btn.btn-default[disabled]');
+        $I->waitForElementVisible('form[name="editform"]', 10);
+        $I->dontSeeElement('bw-icon-element');
     }
 
     public function canSeeDisabledElementInExcludeModeWithReadOnly(AcceptanceTester $I, ExtensionConfiguration $configuration): void

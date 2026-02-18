@@ -13,6 +13,7 @@ final class DefaultFieldsCest
 {
     public function _before(AcceptanceTester $I): void
     {
+        $I->updateInDatabase('pages', ['tx_bwicons_icon' => ''], ['uid' => 1]);
         $I->loginAsAdmin();
     }
 
