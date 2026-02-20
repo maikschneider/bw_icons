@@ -5,18 +5,15 @@ namespace Blueways\BwIcons\ViewHelpers;
 use DOMDocument;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IconViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
+    public function render(): string
+    {
+        $arguments = $this->arguments;
         $attributes = [];
         $attributes['data-icon-name'] = $arguments['icon'];
         $attributes['data-icon-base-name'] = $arguments['icon'];
@@ -40,7 +37,7 @@ class IconViewHelper extends AbstractViewHelper
             $attributes['alt'] = '';
             $attributes['role'] = 'presentation';
 
-            $attrString = static::concatAttributes($attributes);
+            $attrString = self::concatAttributes($attributes);
             return '<img ' . $attrString . ' />';
         }
 

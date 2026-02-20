@@ -16,8 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        typo3-version: [ "12.4", "13.4" ]
-        php-version: [ "8.3" ]
+        typo3-version: [ "13.4", "14.1" ]
+        php-version: [ "8.3", "8.4" ]
 
     steps:
       - uses: actions/checkout@v6
@@ -41,7 +41,7 @@ jobs:
           autostart: false
       - name: Configure and start DDEV
         run: |
-          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }}
+          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --webimage-extra-packages=php${{ matrix.php-version }}-pcov
           ddev start
 
       # Install dependencies

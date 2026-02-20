@@ -15,10 +15,10 @@ class FileIconProvider extends AbstractIconProvider
         $typo3Path = $this->options['folder'];
         $fileExtensionList = $this->options['fileExtensionList'] ?? '';
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
-        $folders = GeneralUtility::get_dirs($path);
+        $folders = self::getDirectories($path);
 
         // icons in root dir
-        $icons[] = GeneralUtility::getFilesInDir($path, $fileExtensionList);
+        $icons[] = self::getFiles($path, $fileExtensionList);
         $icons[0] = array_map(static function ($icon) use ($typo3Path) {
             $typo3Path = str_starts_with((string)$typo3Path, '/') ? $typo3Path : '/' . $typo3Path;
             return $typo3Path . '/' . $icon;
@@ -27,7 +27,7 @@ class FileIconProvider extends AbstractIconProvider
 
         // icons in sub dirs
         foreach ($folders as $folder) {
-            $folderIcons = GeneralUtility::getFilesInDir($path . '/' . $folder, $fileExtensionList);
+            $folderIcons = self::getFiles($path . '/' . $folder, $fileExtensionList);
             $folderIcons = array_map(static function ($icon) use ($folder, $typo3Path) {
                 $extPath = $typo3Path . '/' . $folder . '/' . $icon;
                 return PathUtility::getPublicResourceWebPath($extPath);
@@ -45,9 +45,9 @@ class FileIconProvider extends AbstractIconProvider
         $typo3Path = $this->options['folder'];
         $fileExtensionList = $this->options['fileExtensionList'] ?? '';
         $path = GeneralUtility::getFileAbsFileName($typo3Path);
-        $folders = GeneralUtility::get_dirs($path) ?? [];
+        $folders = self::getDirectories($path);
 
-        $folderIcons = GeneralUtility::getFilesInDir($path, $fileExtensionList);
+        $folderIcons = self::getFiles($path, $fileExtensionList);
         if (!empty($folderIcons)) {
             $wIcons = array_map(static function ($icon) use ($typo3Path) {
                 $value = $typo3Path . '/' . $icon;
@@ -62,7 +62,7 @@ class FileIconProvider extends AbstractIconProvider
 
         // icons in sub dirs
         foreach ($folders as $folder) {
-            $folderIcons = GeneralUtility::getFilesInDir($path . '/' . $folder, $fileExtensionList);
+            $folderIcons = self::getFiles($path . '/' . $folder, $fileExtensionList);
             if (empty($folderIcons)) {
                 continue;
             }
@@ -80,5 +80,38 @@ class FileIconProvider extends AbstractIconProvider
         }
 
         return $wizardFolders;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected static function getDirectories(string $path): array
+    {
+        if (!is_dir($path)) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            scandir($path) ?: [],
+            static fn(string $item): bool => $item !== '.' && $item !== '..' && is_dir($path . '/' . $item)
+        ));
+    }
+
+    /**
+     * @return string[]
+     */
+    protected static function getFiles(string $path, string $fileExtensionList = ''): array
+    {
+        if (!is_dir($path)) {
+            return [];
+        }
+
+        $extensions = GeneralUtility::trimExplode(',', $fileExtensionList, true);
+
+        return array_values(array_filter(
+            scandir($path) ?: [],
+            static fn(string $item): bool => is_file($path . '/' . $item)
+                && ($extensions === [] || in_array(pathinfo($item, PATHINFO_EXTENSION), $extensions, true))
+        ));
     }
 }

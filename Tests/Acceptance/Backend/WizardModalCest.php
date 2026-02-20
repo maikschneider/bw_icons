@@ -48,15 +48,15 @@ final class WizardModalCest
         $I->wait(1);
 
         $I->switchToIFrame();
-        $I->waitForElement('.modal.show');
-        $I->seeElement('.modal.show bw-icon-wizard');
+        $I->waitForElement('.modal');
+        $I->seeElement('.modal bw-icon-wizard');
 
-        $I->seeNumberOfElements('.modal.show bw-icon-wizard .icon-grid-item', [50, 999]);
+        $I->seeNumberOfElements('.modal bw-icon-wizard .icon-grid-item', [50, 999]);
 
-        $I->click('.modal.show bw-icon-wizard .icon-grid-item img[alt="actions-brand-apple"]');
+        $I->click('.modal bw-icon-wizard .icon-grid-item img[alt="actions-brand-apple"]');
         $I->wait(1);
-        $I->seeNumberOfElements('.modal.show bw-icon-wizard .icon-grid-item.active', 1);
-        $I->click('.modal.show .btn-primary');
+        $I->seeNumberOfElements('.modal bw-icon-wizard .icon-grid-item.active', 1);
+        $I->click('.modal .btn-primary');
         $I->wait(1);
 
         $I->switchToContentFrame();
@@ -76,11 +76,11 @@ final class WizardModalCest
         $I->wait(1);
 
         $I->switchToIFrame();
-        $I->waitForElement('.modal.show');
-        $I->seeElement('.modal.show bw-icon-wizard');
+        $I->waitForElement('.modal');
+        $I->seeElement('.modal bw-icon-wizard');
 
-        $I->fillField('.modal.show bw-icon-wizard input[type="search"]', 'apple');
+        $I->fillField('.modal bw-icon-wizard input[type="search"]', 'apple');
         $I->wait(1);
-        $I->seeNumberOfElements('.modal.show bw-icon-wizard .icon-grid-item', [1, 1]);
+        $I->seeNumberOfElements('.modal bw-icon-wizard .icon-grid-item', [1, 1]);
     }
 }
