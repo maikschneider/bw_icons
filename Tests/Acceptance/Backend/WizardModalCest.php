@@ -12,13 +12,31 @@ final class WizardModalCest
     public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $configuration->write('pages', 1);
+        $configuration->write('tt_content', 1);
         $I->enableIconSets(['Typo3Icons']);
         $I->loginAsAdmin();
     }
 
-    public function _after(AcceptanceTester $I): void
+    public function _after(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
         $I->enableIconSets(['']);
+        $configuration->write('pages', 0);
+        $configuration->write('tt_content', 0);
+    }
+
+    public function canSeeWizardModalIsWorkingForNewElement(AcceptanceTester $I): void
+    {
+        $I->amOnPage('/typo3/record/edit?edit[tt_content][-1]=new');
+        $I->switchToContentFrame();
+        $I->waitForElementVisible('bw-icon-element', 10);
+        $I->click('bw-icon-element .btn.btn-default');
+        $I->wait(1);
+
+        $I->switchToIFrame();
+        $I->waitForElement('.modal');
+        $I->seeElement('.modal bw-icon-wizard');
+
+        $I->seeNumberOfElements('.modal bw-icon-wizard .icon-grid-item', [50, 999]);
     }
 
     public function canSeeWizardModalOpensAndSelectionIsWorking(AcceptanceTester $I): void
