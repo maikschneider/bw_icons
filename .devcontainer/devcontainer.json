@@ -1,0 +1,15 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/ddev/ddev/install_ddev:1.25.0": {}
+	},
+	"postCreateCommand": "ddev start && ddev composer install && ddev npm install && ddev init-typo3",
+	"forwardPorts": [8080],
+	"portsAttributes": {
+		"8080": {
+			"label": "TYPO3 bw_icons",
+			"onAutoForward": "notify"
+		}
+	}
+}
