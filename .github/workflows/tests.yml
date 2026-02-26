@@ -65,7 +65,7 @@ jobs:
           new_command_on_retry: ddev composer ci:test:acceptance -- -g failed
 
       # Save acceptance reports
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}
           path: Tests/Acceptance/_output
