@@ -24,7 +24,7 @@
 		"ext-libxml": "*",
 		"ext-simplexml": "*",
 		"phenx/php-font-lib": "^1.0",
-		"sabberworm/php-css-parser": "^8.4.0",
+		"sabberworm/php-css-parser": "^8.4.0 || ^9.0.0",
 		"typo3/cms-core": "^12.4 || ^13.4"
 	},
 	"require-dev": {
