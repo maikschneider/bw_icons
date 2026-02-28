@@ -2,68 +2,59 @@
 
 namespace Blueways\BwIcons\Domain\Model\Dto;
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 class WizardConfig
 {
-    /**
-     * @var array<int, class-string>
-     */
-    public array $iconProviderClasses = [];
+    public int $pid = 0;
 
-    public int $typo3Version = 0;
+    /** @var string[] */
+    public array $iconProviders = [];
 
     public bool $isReadOnly = false;
-
-    public function __construct(public int $pid = 0, public string $iconProvidersString = '')
-    {
-        $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
-        $this->typo3Version = $version['version_main'];
-
-        $iconProviders = GeneralUtility::trimExplode(',', $this->iconProvidersString, true);
-        $this->iconProviderClasses = $iconProviders;
-    }
 
     public static function createFromFormElementData(array $data): self
     {
         $pid = $data['effectivePid'] ?? 0;
         $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
-        $iconProvidersString = $data['parameterArray']['fieldConf']['config']['iconProviders'] ?? '';
+        $iconProviders = $data['parameterArray']['fieldConf']['config']['iconProviders'] ?? '';
+        $iconProviders = GeneralUtility::trimExplode(',', $iconProviders, true);
 
         $fieldName = $data['fieldName'];
         $l10nMode = $data['processedTca']['columns'][$fieldName]['l10n_mode'] ?? '';
         $l10nDisplay = $data['processedTca']['columns'][$fieldName]['l10n_display'] ?? '';
         $isReadOnly = str_contains((string)$l10nMode, 'exclude') && str_contains((string)$l10nDisplay, 'defaultAsReadonly');
 
-        $icon = new self($pid, $iconProvidersString);
-        $icon->isReadOnly = $isReadOnly;
+        $config = new WizardConfig();
+        $config->pid = $pid;
+        $config->iconProviders = $iconProviders;
+        $config->isReadOnly = $isReadOnly;
 
-        return $icon;
+        return $config;
     }
 
     public static function createFromFormPostBody(object|array|null $body): self
     {
         $pid = (int)($body['pid'] ?? 0);
-        $iconProvidersString = $body['iconProvidersString'] ?? '';
+        $iconProviders = $body['iconProvidersString'] ?? [];
 
-        return new self($pid, $iconProvidersString);
+        $config = new WizardConfig();
+        $config->pid = $pid;
+        $config->iconProviders = is_array($iconProviders) ? $iconProviders : [];
+
+        return $config;
     }
 
-    public function getCacheIdentifier(): string
+    public static function createFromFrontendRequest(ServerRequestInterface $request): self
     {
-        $extensionSettings = $this->getPageTsSettings();
-        return md5(serialize($extensionSettings) . '-' . $this->iconProvidersString);
-    }
+        $pageInformation = $request->getAttribute('frontend.page.information');
+        $pid = (int)$pageInformation->getId();
 
-    public function getPageTsSettings(): array
-    {
-        $pageTsConfig = BackendUtility::getPagesTSconfig($this->pid);
-        /** @var TypoScriptService $typoscriptService */
-        $typoscriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-        return $typoscriptService->convertTypoScriptArrayToPlainArray($pageTsConfig['mod.']['tx_bwicons.'] ?? []);
+        $config = new WizardConfig();
+        $config->pid = $pid;
+
+        return $config;
     }
 }

@@ -53,7 +53,7 @@ _progress "Patching entry points for code coverage"
   if ! grep -q 'c3.php' /var/www/html/public/index.php; then
     sed -i '1,/^<?php/s/^<?php/<?php\n\nif (file_exists(dirname(__DIR__) . "\/c3.php")) {\n    include dirname(__DIR__) . "\/c3.php";\n}\n/' /var/www/html/public/index.php
   fi
-  if ! grep -q 'c3.php' /var/www/html/public/typo3/index.php; then
+  if [ -f /var/www/html/public/typo3/index.php ] && ! grep -q 'c3.php' /var/www/html/public/typo3/index.php; then
     sed -i '1,/^<?php/s/^<?php/<?php\n\nif (file_exists(dirname(dirname(__DIR__)) . "\/c3.php")) {\n    include dirname(dirname(__DIR__)) . "\/c3.php";\n}\n/' /var/www/html/public/typo3/index.php
   fi
 _done

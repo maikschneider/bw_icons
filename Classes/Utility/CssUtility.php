@@ -3,19 +3,21 @@
 namespace Blueways\BwIcons\Utility;
 
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
+use Blueways\BwIcons\Service\IconService;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class CssUtility
 {
+    public function __construct(private readonly IconService $iconService)
+    {
+    }
+
     public function includeStyleSheets(string $content, array $conf, ServerRequestInterface $request): string
     {
         $cssFiles = '';
-        $pid = $request->getAttribute('frontend.controller')->page['uid'] ?? 0;
-        $wizardConfig = GeneralUtility::makeInstance(WizardConfig::class, $pid);
-        $helperUtility = GeneralUtility::makeInstance(HelperUtility::class, $wizardConfig);
+        $wizardConfig = WizardConfig::createFromFrontendRequest($request);
 
-        foreach ($helperUtility->getStyleSheets() as $sheet) {
+        foreach ($this->iconService->getStyleSheets($wizardConfig) as $sheet) {
             $cssFiles .= '<link rel="stylesheet" href="' . $sheet . '" />';
         }
 
