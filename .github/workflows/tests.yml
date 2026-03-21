@@ -56,7 +56,7 @@ jobs:
 
       # Run tests
       - name: Run acceptance tests
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           max_attempts: 3
           retry_on: error
