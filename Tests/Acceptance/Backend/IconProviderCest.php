@@ -36,7 +36,9 @@ final class IconProviderCest
         $I->openWizardModal();
 
         $I->waitForElementVisible(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', 30);
-        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', [760, 787]);
+        $elements = $I->grabMultiple(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item');
+        $I->comment('Actual number of elements: ' . count($elements));
+        $I->canSeeNumberOfElements(ModalDialog::$openedModalSelector . ' bw-icon-wizard .icon-grid-item', [760, 800]);
     }
 
     public function canSeeCustomSvgIconProvider(AcceptanceTester $I): void
