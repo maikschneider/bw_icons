@@ -8,10 +8,10 @@ use Rector\Set\ValueObject\LevelSetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 use Rector\ValueObject\PhpVersion;
 use Ssch\TYPO3Rector\CodeQuality\General\ExtEmConfRector;
-use Ssch\TYPO3Rector\CodeQuality\General\GeneralUtilityMakeInstanceToConstructorPropertyRector;
 use Ssch\TYPO3Rector\Configuration\Typo3Option;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 use Ssch\TYPO3Rector\Set\Typo3SetList;
+use Ssch\TYPO3Rector\TYPO314\v0\MigratePathUtilityGetPublicResourceWebPathRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -29,6 +29,7 @@ return RectorConfig::configure()
 
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
+        Typo3LevelSetList::UP_TO_TYPO3_13,
         Typo3LevelSetList::UP_TO_TYPO3_14,
     ])
     // To have a better analysis from PHPStan, we teach it here some more things
@@ -46,7 +47,7 @@ return RectorConfig::configure()
         // @see https://github.com/sabbelasichon/typo3-rector/issues/2536
         __DIR__ . '/**/Configuration/ExtensionBuilder/*',
         __DIR__ . '/Tests/Acceptance/Support/_generated/*',
-        GeneralUtilityMakeInstanceToConstructorPropertyRector::class,
+        MigratePathUtilityGetPublicResourceWebPathRector::class,
         NameImportingPostRector::class => [
             'ClassAliasMap.php',
         ],

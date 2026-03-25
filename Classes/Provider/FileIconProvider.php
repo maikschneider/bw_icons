@@ -93,7 +93,7 @@ class FileIconProvider extends AbstractIconProvider
 
         return array_values(array_filter(
             scandir($path) ?: [],
-            static fn(string $item): bool => $item !== '.' && $item !== '..' && is_dir($path . '/' . $item)
+            static fn (string $item): bool => $item !== '.' && $item !== '..' && is_dir($path . '/' . $item)
         ));
     }
 
@@ -110,7 +110,7 @@ class FileIconProvider extends AbstractIconProvider
 
         return array_values(array_filter(
             scandir($path) ?: [],
-            static fn(string $item): bool => is_file($path . '/' . $item)
+            static fn (string $item): bool => is_file($path . '/' . $item)
                 && ($extensions === [] || in_array(pathinfo($item, PATHINFO_EXTENSION), $extensions, true))
         ));
     }
