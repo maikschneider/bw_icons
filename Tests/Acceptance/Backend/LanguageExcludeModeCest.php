@@ -9,8 +9,9 @@ use Blueways\BwIconsTest\Acceptance\Support\Helper\ExtensionConfiguration;
 
 final class LanguageExcludeModeCest
 {
-    public function _before(AcceptanceTester $I): void
+    public function _before(AcceptanceTester $I, ExtensionConfiguration $configuration): void
     {
+        $configuration->write('pages', 1);
         $I->enableIconSets(['Typo3Icons']);
         $I->loginAsAdmin();
     }
