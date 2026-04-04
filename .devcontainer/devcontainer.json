@@ -1,0 +1,24 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/base:debian-12",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest"
+		},
+		"ghcr.io/ddev/ddev/install-ddev:latest": {}
+	},
+	"portsAttributes": {
+		"3306": {
+			"label": "database"
+		},
+		"8027": {
+			"label": "mailpit"
+		},
+		"8080": {
+			"label": "web http"
+		},
+		"8443": {
+			"label": "web https"
+		}
+	},
+	"postCreateCommand": "bash .devcontainer/setup_project.sh"
+}
