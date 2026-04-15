@@ -1,5 +1,6 @@
 import * as Core from '@ckeditor/ckeditor5-core';
 import * as UI from '@ckeditor/ckeditor5-ui';
+import {toWidget} from '@ckeditor/ckeditor5-widget';
 import Modal from '@typo3/backend/modal.js'
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 import {html} from "lit";
@@ -188,7 +189,7 @@ class IconPicker extends Core.Plugin {
         }
       });
     editor.conversion
-      .for('downcast')
+      .for('dataDowncast')
       .elementToElement({
         model: {
           name: 'typo3fonticon',
@@ -197,11 +198,29 @@ class IconPicker extends Core.Plugin {
           ]
         },
         view: (modelElement, {writer}) => {
-          return writer.createEmptyElement('i', {
+          return writer.createContainerElement('i', {
             'data-icon-name': modelElement.getAttribute('iconName'),
             'data-icon-base-name': modelElement.getAttribute('iconBaseName'),
             'class': modelElement.getAttribute('class'),
           });
+        },
+      });
+    editor.conversion
+      .for('editingDowncast')
+      .elementToElement({
+        model: {
+          name: 'typo3fonticon',
+          attributes: [
+            'class'
+          ]
+        },
+        view: (modelElement, {writer}) => {
+          const element = writer.createContainerElement('i', {
+            'data-icon-name': modelElement.getAttribute('iconName'),
+            'data-icon-base-name': modelElement.getAttribute('iconBaseName'),
+            'class': modelElement.getAttribute('class'),
+          });
+          return toWidget(element, writer, {label: 'font icon'});
         },
       });
   }
