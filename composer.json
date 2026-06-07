@@ -29,7 +29,7 @@
 	},
 	"require-dev": {
 		"armin/editorconfig-cli": "^2.0",
-		"bk2k/bootstrap-package": "^15.0",
+		"bk2k/bootstrap-package": "^15.0 || ^16.0",
 		"clue/phar-composer": "dev-symfony7-support",
 		"codeception/c3": "^2.9",
 		"codeception/codeception": "^5.1",
