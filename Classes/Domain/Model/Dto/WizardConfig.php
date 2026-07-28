@@ -17,7 +17,7 @@ class WizardConfig
 
     public static function createFromFormElementData(array $data): self
     {
-        $pid = $data['tableName'] === 'pages' ? $data['vanillaUid'] : $data['databaseRow']['pid'];
+        $pid = $data['effectivePid'] ?? 0;
         $pid = MathUtility::canBeInterpretedAsInteger($pid) ? (int)$pid : 0;
         $iconProviders = $data['parameterArray']['fieldConf']['config']['iconProviders'] ?? '';
         $iconProviders = GeneralUtility::trimExplode(',', $iconProviders, true);
