@@ -3,6 +3,7 @@
 composer.lock
 public/.htaccess
 public/_assets
+public/_assets_install
 public/fileadmin
 public/typo3
 public/typo3conf

@@ -26,6 +26,55 @@ return [
             ],
         ],
     ],
+    'EXTENSIONS' => [
+        'backend' => [
+            'backendFavicon' => '',
+            'backendLogo' => '',
+            'loginBackgroundImage' => '',
+            'loginFootnote' => '',
+            'loginHighlightColor' => '',
+            'loginLogo' => '',
+            'loginLogoAlt' => '',
+        ],
+        'bootstrap_package' => [
+            'disableCssProcessing' => '0',
+            'disableGoogleFontCaching' => '0',
+        ],
+        'bw_icons' => [
+            'pages' => '0',
+            'sys_category' => '0',
+            'tt_content' => '0',
+        ],
+        'extensionmanager' => [
+            'automaticInstallation' => '1',
+            'offlineMode' => '0',
+        ],
+        'indexed_search' => [
+            'catdoc' => '/usr/bin/',
+            'deleteFromIndexAfterEditing' => '1',
+            'disableFrontendIndexing' => '0',
+            'flagBitMask' => '192',
+            'fullTextDataLength' => '0',
+            'ignoreExtensions' => '',
+            'indexExternalURLs' => '0',
+            'maxExternalFiles' => '5',
+            'minAge' => '24',
+            'pdf_mode' => '20',
+            'pdftools' => '/usr/bin/',
+            'ppthtml' => '/usr/bin/',
+            'unrtf' => '/usr/bin/',
+            'unzip' => '/usr/bin/',
+            'useMysqlFulltext' => '0',
+            'xlhtml' => '/usr/bin/',
+        ],
+        'redirects' => [
+            'showCheckIntegrityInfoInReports' => '1',
+            'showCheckIntegrityInfoInReportsSeconds' => '86400',
+        ],
+        'scheduler' => [
+            'maxLifetime' => '1440',
+        ],
+    ],
     'FE' => [
         'cacheHash' => [
             'enforceValidation' => true,
