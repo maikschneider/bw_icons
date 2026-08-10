@@ -9,14 +9,14 @@ export const FIXTURE_PATH = path.join(PROJECT_ROOT, 'Tests/Fixtures');
 const DB = { host: 'db', user: 'db', password: 'db', name: 'db' };
 
 /**
- * Extension configuration is a PHP-side concern and the Playwright container has
- * no PHP. `.ddev/commands/web/init-typo3` patches additional.php to merge this
- * file into EXTENSIONS/bw_icons, which lets the tests drive it from Node.
- *
- * It has to live on the shared ddev volume: the project directory is mounted
- * straight from the host here but reaches the web container through mutagen, so
- * a write under PROJECT_ROOT is only visible there seconds later.
- */
+* Extension configuration is a PHP-side concern and the Playwright container has
+* no PHP. `.ddev/commands/web/init-typo3` patches additional.php to merge this
+* file into EXTENSIONS/bw_icons, which lets the tests drive it from Node.
+*
+* It has to live on the shared ddev volume: the project directory is mounted
+* straight from the host here but reaches the web container through mutagen, so
+* a write under PROJECT_ROOT is only visible there seconds later.
+*/
 export const TEST_CONFIGURATION_FILE = '/mnt/ddev-global-cache/bw-icons-test-configuration.json';
 
 export const BACKEND_USER = { username: 'admin', password: 'Passw0rd!' };
@@ -70,10 +70,10 @@ export function seeInDatabase(table: string, where: Record<string, string | numb
 }
 
 /**
- * Drops the page TSconfig, the resolved icon providers and everything else TYPO3
- * keeps in the database. The file-based code cache needs no flushing: it is
- * switched off while the test configuration file exists.
- */
+* Drops the page TSconfig, the resolved icon providers and everything else TYPO3
+* keeps in the database. The file-based code cache needs no flushing: it is
+* switched off while the test configuration file exists.
+*/
 export function flushCaches(): void {
   const tables = mysql("SHOW TABLES LIKE 'cache\\_%';").split('\n').filter(Boolean);
   if (tables.length > 0) {
@@ -91,9 +91,9 @@ export function resetExtensionConfiguration(): void {
 }
 
 /**
- * Sets the page TSconfig of the root page so only the given icon sets are
- * registered. An empty list disables every provider.
- */
+* Sets the page TSconfig of the root page so only the given icon sets are
+* registered. An empty list disables every provider.
+*/
 export function enableIconSets(iconSets: string[]): void {
   const tsConfig = iconSets
     .filter((iconSet) => iconSet !== '')

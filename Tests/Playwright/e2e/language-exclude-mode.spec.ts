@@ -9,9 +9,9 @@ import {
 } from '../support/typo3';
 
 /**
- * Page 2 is the translation of page 1 in the fixtures. Extension configuration
- * value 3 sets l10n_mode=exclude, value 4 adds l10n_display=defaultAsReadonly.
- */
+* Page 2 is the translation of page 1 in the fixtures. Extension configuration
+* value 3 sets l10n_mode=exclude, value 4 adds l10n_display=defaultAsReadonly.
+*/
 test.describe('Language exclude mode', () => {
   test.beforeEach(async ({ page }) => {
     enableIconSets(['Typo3Icons']);

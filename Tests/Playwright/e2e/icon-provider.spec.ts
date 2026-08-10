@@ -9,10 +9,10 @@ import {
 } from '../support/typo3';
 
 /**
- * Icon counts are pinned to the fixtures in Tests/Fixtures, so they are exact.
- * The TYPO3 core icon set ships with the CMS and grows between releases, which
- * is why only that one is asserted as a range.
- */
+* Icon counts are pinned to the fixtures in Tests/Fixtures, so they are exact.
+* The TYPO3 core icon set ships with the CMS and grows between releases, which
+* is why only that one is asserted as a range.
+*/
 test.describe('Icon providers', () => {
   test.beforeEach(async ({ page }) => {
     setExtensionConfiguration({ pages: 1 });

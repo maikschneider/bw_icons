@@ -24,15 +24,15 @@ The suite runs inside the Playwright container, which has no PHP. Two indirect
 channels replace what the old Codeception suite did in-process:
 
 - **Extension configuration** — `setExtensionConfiguration()` writes
-  `var/transient/bw-icons-test-configuration.json`. `ddev init-typo3` patches
-  `config/system/additional.php` to merge that file into
-  `EXTENSIONS/bw_icons`. The magic numbers for `pages` (2 = language
-  synchronization, 3 = `l10n_mode=exclude`, 4 = plus `defaultAsReadonly`,
-  5 = required) are defined in
-  `Configuration/TCA/Overrides/z_testing_configuration.php`.
+`var/transient/bw-icons-test-configuration.json`. `ddev init-typo3` patches
+`config/system/additional.php` to merge that file into
+`EXTENSIONS/bw_icons`. The magic numbers for `pages` (2 = language
+synchronization, 3 = `l10n_mode=exclude`, 4 = plus `defaultAsReadonly`,
+5 = required) are defined in
+`Configuration/TCA/Overrides/z_testing_configuration.php`.
 - **Caches** — `flushCaches()` deletes `var/cache` and truncates the `cache_*`
-  tables, which is the `typo3 cache:flush` equivalent available over the shared
-  volume and the database.
+tables, which is the `typo3 cache:flush` equivalent available over the shared
+volume and the database.
 
 Records and assertions against the database go through the `mysql` client via
 the helpers in `support/typo3.ts`.
