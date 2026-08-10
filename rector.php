@@ -46,7 +46,6 @@ return RectorConfig::configure()
     ->withSkip([
         // @see https://github.com/sabbelasichon/typo3-rector/issues/2536
         __DIR__ . '/**/Configuration/ExtensionBuilder/*',
-        __DIR__ . '/Tests/Acceptance/Support/_generated/*',
         MigratePathUtilityGetPublicResourceWebPathRector::class,
         NameImportingPostRector::class => [
             'ClassAliasMap.php',

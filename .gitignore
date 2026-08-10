@@ -9,10 +9,12 @@ public/typo3
 public/typo3conf
 public/typo3temp
 public/index.php
-c3.php
+.ddev/addon-metadata
 Resources/Public/Fixtures
-Tests/Acceptance/_output
-Tests/Acceptance/Support/_generated
+Tests/Playwright/playwright-report
+Tests/Playwright/test-results
+php-cs-fixer.xml
+phpstan.xml
 vendor
 var
 Documentation-*
