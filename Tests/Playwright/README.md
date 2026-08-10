@@ -21,7 +21,7 @@ run, so individual specs may modify records freely.
 ## How the tests drive TYPO3
 
 The suite runs inside the Playwright container, which has no PHP. Two indirect
-channels replace what the old Codeception suite did in-process:
+channels drive TYPO3 from outside the PHP process:
 
 - **Extension configuration** — `setExtensionConfiguration()` writes
 `var/transient/bw-icons-test-configuration.json`. `ddev init-typo3` patches
