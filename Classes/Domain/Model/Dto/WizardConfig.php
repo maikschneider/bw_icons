@@ -43,7 +43,7 @@ class WizardConfig
         $config = new WizardConfig();
         $config->pid = $pid;
         $config->iconProviders = is_array($iconProviders)
-            ? array_values(array_filter(array_map('strval', $iconProviders), static fn (string $id): bool => $id !== ''))
+            ? array_values(array_filter(array_map(strval(...), $iconProviders), static fn (string $id): bool => $id !== ''))
             : GeneralUtility::trimExplode(',', (string)$iconProviders, true);
 
         return $config;

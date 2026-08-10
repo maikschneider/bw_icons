@@ -106,7 +106,7 @@ class FileIconProvider extends AbstractIconProvider
             return [];
         }
 
-        $extensions = array_map('strtolower', GeneralUtility::trimExplode(',', $fileExtensionList, true));
+        $extensions = array_map(strtolower(...), GeneralUtility::trimExplode(',', $fileExtensionList, true));
 
         return array_values(array_filter(
             scandir($path) ?: [],
