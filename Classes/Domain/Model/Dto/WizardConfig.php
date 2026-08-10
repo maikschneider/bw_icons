@@ -38,11 +38,13 @@ class WizardConfig
     public static function createFromFormPostBody(object|array|null $body): self
     {
         $pid = (int)($body['pid'] ?? 0);
-        $iconProviders = $body['iconProvidersString'] ?? [];
+        $iconProviders = $body['iconProviders'] ?? [];
 
         $config = new WizardConfig();
         $config->pid = $pid;
-        $config->iconProviders = is_array($iconProviders) ? $iconProviders : [];
+        $config->iconProviders = is_array($iconProviders)
+            ? array_values(array_filter(array_map('strval', $iconProviders), static fn (string $id): bool => $id !== ''))
+            : GeneralUtility::trimExplode(',', (string)$iconProviders, true);
 
         return $config;
     }
@@ -50,10 +52,9 @@ class WizardConfig
     public static function createFromFrontendRequest(ServerRequestInterface $request): self
     {
         $pageInformation = $request->getAttribute('frontend.page.information');
-        $pid = (int)$pageInformation->getId();
 
         $config = new WizardConfig();
-        $config->pid = $pid;
+        $config->pid = $pageInformation !== null ? (int)$pageInformation->getId() : 0;
 
         return $config;
     }

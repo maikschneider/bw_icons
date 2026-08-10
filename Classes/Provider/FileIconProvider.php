@@ -106,12 +106,12 @@ class FileIconProvider extends AbstractIconProvider
             return [];
         }
 
-        $extensions = GeneralUtility::trimExplode(',', $fileExtensionList, true);
+        $extensions = array_map('strtolower', GeneralUtility::trimExplode(',', $fileExtensionList, true));
 
         return array_values(array_filter(
             scandir($path) ?: [],
             static fn (string $item): bool => is_file($path . '/' . $item)
-                && ($extensions === [] || in_array(pathinfo($item, PATHINFO_EXTENSION), $extensions, true))
+                && ($extensions === [] || in_array(strtolower(pathinfo($item, PATHINFO_EXTENSION)), $extensions, true))
         ));
     }
 }
