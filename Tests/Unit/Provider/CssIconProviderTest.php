@@ -9,21 +9,19 @@ class CssIconProviderTest extends UnitTestCase
 {
     public function testCleanFilePath(): void
     {
-        $provider = new CssIconProvider([]);
-
         self::assertEquals(
             'no-changes',
-            $provider::cleanFilePath('no-changes')
+            CssIconProvider::cleanFilePath('no-changes')
         );
 
         self::assertEquals(
             'https://url.de/fonts/name.ttf',
-            $provider::cleanFilePath('https://url.de/fonts/name.ttf?v=1224323')
+            CssIconProvider::cleanFilePath('https://url.de/fonts/name.ttf?v=1224323')
         );
 
         self::assertEquals(
             'https://url.de/fonts/name.ttf',
-            $provider::cleanFilePath('https://url.de/fonts/name.ttf#fontawesmome')
+            CssIconProvider::cleanFilePath('https://url.de/fonts/name.ttf#fontawesmome')
         );
     }
 }

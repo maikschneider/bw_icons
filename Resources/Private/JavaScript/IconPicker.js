@@ -76,7 +76,6 @@ class IconPicker extends Core.Plugin {
 
 
   openWizardModal() {
-    const typo3Version = 13
     const itemFormElName = 'typo3icon';
     const wizardConfig = JSON.stringify(this.getWizardConfig());
 
@@ -103,7 +102,6 @@ class IconPicker extends Core.Plugin {
           class="w-100" itemFormElName="${itemFormElName}" wizardConfig="${wizardConfig}" itemFormElValue=""></bw-icon-wizard>`,
       size: Modal.sizes.large,
       title: window.parent.TYPO3.lang['icon_wizard_title'],
-      style: typo3Version < 13 ? Modal.styles.dark : null,
       staticBackdrop: true
     })
   }

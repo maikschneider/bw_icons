@@ -48,14 +48,27 @@ _progress "Setting up TYPO3 installation"
   "$typo3Binary" setup --no-interaction --force --quiet
 _done
 
-# Patch entry points to include c3.php for code coverage
-_progress "Patching entry points for code coverage"
-  if ! grep -q 'c3.php' /var/www/html/public/index.php; then
-    sed -i '1,/^<?php/s/^<?php/<?php\n\nif (file_exists(dirname(__DIR__) . "\/c3.php")) {\n    include dirname(__DIR__) . "\/c3.php";\n}\n/' /var/www/html/public/index.php
-  fi
-  if ! grep -q 'c3.php' /var/www/html/public/typo3/index.php; then
-    sed -i '1,/^<?php/s/^<?php/<?php\n\nif (file_exists(dirname(dirname(__DIR__)) . "\/c3.php")) {\n    include dirname(dirname(__DIR__)) . "\/c3.php";\n}\n/' /var/www/html/public/typo3/index.php
-  fi
+# The Playwright container has no PHP, so acceptance tests hand extension
+# configuration to TYPO3 through a JSON file that additional.php merges in.
+_progress "Patching additional.php for acceptance test configuration"
+  # Drop a previously appended block first so the patch always matches this script.
+  sed -i '\|// BW_ICONS_TEST_CONFIGURATION|,$d' /var/www/html/config/system/additional.php
+  cat >> /var/www/html/config/system/additional.php <<'PHP'
+// BW_ICONS_TEST_CONFIGURATION
+// Lives on the shared ddev volume because the project directory reaches the web
+// container through mutagen, which is too laggy to drive a test from.
+$bwIconsTestConfiguration = '/mnt/ddev-global-cache/bw-icons-test-configuration.json';
+if (getenv('IS_DDEV_PROJECT') === 'true' && file_exists($bwIconsTestConfiguration)) {
+    $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bw_icons'] = array_replace(
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['bw_icons'] ?? [],
+        (array)json_decode((string)file_get_contents($bwIconsTestConfiguration), true)
+    );
+    // The tests change TCA-relevant configuration between requests and have no
+    // way to flush the file-based code cache, so it is switched off for them.
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['core']['backend']
+        = \TYPO3\CMS\Core\Cache\Backend\NullBackend::class;
+}
+PHP
 _done
 
 # Set extension configuration

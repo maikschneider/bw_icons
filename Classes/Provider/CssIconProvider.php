@@ -25,26 +25,17 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 class CssIconProvider extends AbstractIconProvider
 {
     /**
-     * @var SvgReaderUtility
-     */
-    protected SvgReaderUtility $svgReaderUtility;
-
-    /**
-     * @var TtfReaderUtility
-     */
-    protected TtfReaderUtility $ttfReaderUtility;
-
-    /**
      * @var array<string>
      */
     protected array $cssVariableNames = [];
 
-    public function __construct($options)
-    {
+    public function __construct(
+        $options,
+        protected readonly SvgReaderUtility $svgReaderUtility,
+        protected readonly TtfReaderUtility $ttfReaderUtility
+    ) {
         parent::__construct($options);
         $this->loadDependencies();
-        $this->svgReaderUtility = GeneralUtility::makeInstance(SvgReaderUtility::class);
-        $this->ttfReaderUtility = GeneralUtility::makeInstance(TtfReaderUtility::class);
     }
 
     /**
@@ -641,7 +632,8 @@ class CssIconProvider extends AbstractIconProvider
             return false;
         }
 
-        GeneralUtility::writeFileToTypo3tempDir($tempFile, $fontFileContent);
+        GeneralUtility::mkdir_deep(dirname($tempFile));
+        file_put_contents($tempFile, $fontFileContent);
         return $fontFileName;
     }
 
@@ -811,7 +803,8 @@ class CssIconProvider extends AbstractIconProvider
     {
         $tempCssFile = $this->getCssTempFilePath();
         $cssContent = $cssDocument->render(OutputFormat::createCompact());
-        GeneralUtility::writeFileToTypo3tempDir($tempCssFile, $cssContent);
+        GeneralUtility::mkdir_deep(dirname($tempCssFile));
+        file_put_contents($tempCssFile, $cssContent);
     }
 
     /**

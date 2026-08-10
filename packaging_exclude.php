@@ -21,7 +21,6 @@ return [
     'files' => [
         'DS_Store',
         'CODE_OF_CONDUCT.md',
-        'codeception.yml',
         'codecov.yml',
         'CODEOWNERS',
         'composer.lock',
@@ -42,6 +41,7 @@ return [
         'phpstan-baseline.neon',
         'phpunit.functional.xml',
         'phpunit.unit.xml',
+        'playwright.config.ts',
         'rector.php',
         'rollup.config.js',
         'renovate.json',
