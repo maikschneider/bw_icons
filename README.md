@@ -43,6 +43,11 @@ downloading and adjusting paths!
 
 ## Install
 
+### Requirements
+
+* TYPO3 13.4.21+ or TYPO3 14.3 LTS
+* PHP 8.2–8.5
+
 ### Composer
 
 ```bash

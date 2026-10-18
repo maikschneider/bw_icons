@@ -38,6 +38,12 @@ Demo
 Installation
 ------------
 
+Requirements
+~~~~~~~~~~~~
+
+* TYPO3 13.4.21+ or TYPO3 14.3 LTS
+* PHP 8.2–8.5
+
 .. rst-class:: bignums-tip
 
 1. Install via composer

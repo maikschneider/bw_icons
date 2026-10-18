@@ -5,6 +5,7 @@ namespace Blueways\BwIcons\Utility;
 use Blueways\BwIcons\Domain\Model\Dto\WizardConfig;
 use Blueways\BwIcons\Service\IconService;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 
 class CssUtility
 {
@@ -12,6 +13,7 @@ class CssUtility
     {
     }
 
+    #[AsAllowedCallable]
     public function includeStyleSheets(string $content, array $conf, ServerRequestInterface $request): string
     {
         $cssFiles = '';
