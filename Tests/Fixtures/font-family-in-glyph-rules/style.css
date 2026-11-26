@@ -1,0 +1,14 @@
+/* Every glyph rule sets the font-family itself, there is no shared prefix class */
+@font-face {
+  font-family: 'glyphfont';
+  src: url('../icomoon/fonts/icomoon.ttf') format('truetype');
+}
+
+.icon-home:before {
+  font-family: 'glyphfont';
+  content: "\e900";
+}
+.icon-star:before {
+  font-family: 'glyphfont';
+  content: "\e901";
+}
