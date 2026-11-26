@@ -2,3 +2,9 @@
     padding: 0;
     scroll-padding-top: 4rem;
 }
+
+.t3-page-ce-body img[data-icon-name] {
+    width: auto;
+    height: 1.25em;
+    vertical-align: text-bottom;
+}
