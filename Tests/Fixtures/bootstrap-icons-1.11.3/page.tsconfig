@@ -1,0 +1,9 @@
+mod.tx_bwicons {
+
+  bootstrapIcons = Blueways\BwIcons\Provider\CssIconProvider
+  bootstrapIcons {
+    title = Bootstrap Icons
+    file = EXT:bw_icons/Tests/Fixtures/bootstrap-icons-1.11.3/font/bootstrap-icons.css
+  }
+
+}

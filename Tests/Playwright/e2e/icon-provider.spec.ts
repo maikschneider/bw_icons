@@ -77,6 +77,15 @@ test.describe('Icon providers', () => {
     await expect(icon).toHaveCSS('font-family', 'icomoon');
   });
 
+  test('Bootstrap Icons with woff font only', async ({ page }) => {
+    enableIconSets(['bootstrap-icons-1.11.3']);
+    await openRecord(page, 'pages', 1);
+    const wizard = await openWizardModal(page);
+
+    await expect(wizard.locator('.icon-grid-item')).toHaveCount(2050, { timeout: 60000 });
+    await expect(wizard.locator('.icon-grid-item i[class="bi bi-alarm fontIcon"]')).toHaveCount(1);
+  });
+
   test.skip('Font Awesome 6', async ({ page }) => {
     // Font Awesome 6 CSS processing takes very long in CI, needs to be
     // optimized before enabling this test.
