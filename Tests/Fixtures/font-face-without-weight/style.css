@@ -1,0 +1,17 @@
+/* @font-face without font-weight, see https://github.com/maikschneider/bw_icons/pull/88 */
+@font-face {
+  font-family: 'noweight';
+  src: url('fonts/noweight.ttf') format('truetype');
+}
+
+.nw {
+  font-family: 'noweight';
+  font-weight: normal;
+}
+
+.nw-home:before {
+  content: "\e900";
+}
+.nw-star:before {
+  content: "\e901";
+}

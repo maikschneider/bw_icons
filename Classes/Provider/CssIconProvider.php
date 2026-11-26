@@ -486,8 +486,9 @@ class CssIconProvider extends AbstractIconProvider
                 $fontFamilyMatches = true;
             }
 
+            // A @font-face without font-weight matches any weight
             $fontWeightOfRule = static::getFontWeightOfRuleSet($blockRule);
-            if (!$fontWeightOfRule || $fontWeightOfRule === $font['weight']) {
+            if ($font['weight'] === '' || !$fontWeightOfRule || $fontWeightOfRule === $font['weight']) {
                 $fontWeightMatches = true;
             }
         }
