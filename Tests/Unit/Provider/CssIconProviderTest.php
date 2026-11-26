@@ -118,6 +118,27 @@ class CssIconProviderTest extends UnitTestCase
     }
 
     /**
+     * An @font-face without font-weight used to crash with a TypeError
+     * (see #88). The prefix class sets "font-weight: normal", which must still
+     * match the font-face, otherwise the prefix is lost and its font-family
+     * rule is missing in the generated stylesheet.
+     */
+    #[Test]
+    public function fontFaceWithoutFontWeightIsParsed(): void
+    {
+        $provider = $this->createProvider('font-face-without-weight/style.css');
+
+        self::assertSame(
+            ['noweight' => ['nw nw-home', 'nw nw-star']],
+            $this->getIconClassesByFolder($provider)
+        );
+        self::assertStringContainsString(
+            '.nw{font-family:"noweight";font-weight:normal;}',
+            (string)file_get_contents($provider->getCssTempFilePath())
+        );
+    }
+
+    /**
      * @return array<string, list<string>>
      */
     private function getIconClassesByFolder(CssIconProvider $provider): array
