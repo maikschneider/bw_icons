@@ -114,7 +114,7 @@
 		"typo3/cms": {
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"extension-key": "bw_icons",
-			"version": "4.3.2",
+			"version": "5.0.0",
 			"web-dir": "public"
 		}
 	},
