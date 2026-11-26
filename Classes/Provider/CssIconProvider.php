@@ -192,16 +192,20 @@ class CssIconProvider extends AbstractIconProvider
         // Extract font files from font-faces
         $svgFonts = $this->extractFontFilesFromFontFaces('svg', $fontFaces);
         $ttfFonts = $this->extractFontFilesFromFontFaces('ttf', $fontFaces);
+        $woffFonts = $this->extractFontFilesFromFontFaces('woff', $fontFaces);
 
         // Get different font-families
         $fontFamilies = $this->extractFontFamilies($fontFaces);
 
         foreach ($fontFamilies as $key => $font) {
-            // Skip if no svg or ttf font found
+            // Skip if no svg, ttf or woff font found (woff2 is not supported)
             if (!empty($svgFonts[$key])) {
                 $fontGlyphs = $this->svgReaderUtility->getGlyphs($svgFonts[$key]);
             } elseif (!empty($ttfFonts[$key])) {
                 $fontGlyphs = $this->ttfReaderUtility->getGlyphs($ttfFonts[$key]);
+            } elseif (!empty($woffFonts[$key])) {
+                // php-font-lib reads WOFF (1.0) like TrueType
+                $fontGlyphs = $this->ttfReaderUtility->getGlyphs($woffFonts[$key]);
             } else {
                 continue;
             }
@@ -482,6 +486,12 @@ class CssIconProvider extends AbstractIconProvider
     protected function collectSelectorBlocks(array $validSelectors, array $allRules): array
     {
         $selectorBlockToCheck = [];
+
+        // Compare without pseudo elements, e.g. ".bi::before" matches ".bi"
+        $validSelectors = array_map(
+            fn ($selector) => preg_replace('/::?[a-zA-Z0-9_-]+$/', '', (string)$selector),
+            $validSelectors
+        );
 
         foreach ($allRules as $block) {
             if (!is_a($block, DeclarationBlock::class)) {
@@ -810,13 +820,13 @@ class CssIconProvider extends AbstractIconProvider
                         if (is_a($part, RuleValueList::class)) {
                             $partValues = $part->getListComponents();
                             foreach ($partValues as $subPart) {
-                                if (is_a($subPart, URL::class) && strpos($subPart->getURL()->getString(), '.' . $fileExtension)) {
+                                if (is_a($subPart, URL::class) && self::fontUrlHasExtension($subPart, $fileExtension)) {
                                     $relativePath = self::cleanFilePath($subPart->getURL()->getString());
                                     return $tempPath . '/' . $relativePath;
                                 }
                             }
                         }
-                        if (is_a($part, URL::class) && strpos($part->getURL()->getString(), '.' . $fileExtension)) {
+                        if (is_a($part, URL::class) && self::fontUrlHasExtension($part, $fileExtension)) {
                             $relativePath = self::cleanFilePath($part->getURL()->getString());
                             return $tempPath . '/' . $relativePath;
                         }
@@ -826,6 +836,15 @@ class CssIconProvider extends AbstractIconProvider
 
             return '';
         }, $fontFaces);
+    }
+
+    /**
+     * Check the file extension of a font url, e.g. "woff" must not match "font.woff2?v=1"
+     */
+    protected static function fontUrlHasExtension(URL $url, string $fileExtension): bool
+    {
+        $path = self::cleanFilePath($url->getURL()->getString());
+        return strtolower(pathinfo($path, PATHINFO_EXTENSION)) === $fileExtension;
     }
 
     /**

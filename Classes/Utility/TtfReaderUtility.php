@@ -21,7 +21,7 @@ class TtfReaderUtility
             $font->parse();
             $chars = $font->getUnicodeCharMap();
             $cleanChars = array_map(fn ($char) => mb_chr($char, 'UTF-8'), array_keys($chars));
-        } catch (\Exception) {
+        } catch (\Throwable) {
             $cleanChars = [];
         }
 

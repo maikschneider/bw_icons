@@ -159,6 +159,28 @@ class CssIconProviderTest extends UnitTestCase
     }
 
     /**
+     * Bootstrap Icons 1.11 only ships woff2 and woff. WOFF (1.0) is read with
+     * php-font-lib, woff2 is skipped (#45).
+     */
+    #[Test]
+    public function woffOnlyFontIsParsed(): void
+    {
+        $provider = $this->createProvider('bootstrap-icons-1.11.3/font/bootstrap-icons.css');
+
+        $iconClasses = $this->getIconClassesByFolder($provider);
+
+        self::assertSame(['bootstrap-icons'], array_keys($iconClasses));
+        self::assertCount(2050, $iconClasses['bootstrap-icons']);
+        self::assertSame('bi bi-123', $iconClasses['bootstrap-icons'][0]);
+        self::assertSame('bi bi-vignette', $iconClasses['bootstrap-icons'][2049]);
+        self::assertFileExists($provider->getTempPath() . '/bootstrap-icons.woff');
+        self::assertStringContainsString(
+            '.bi::before,[class^="bi-"]::before,[class*=" bi-"]::before{display:inline-block;font-family:bootstrap-icons !important;',
+            (string)file_get_contents($provider->getCssTempFilePath())
+        );
+    }
+
+    /**
      * @return array<string, list<string>>
      */
     private function getIconClassesByFolder(CssIconProvider $provider): array
