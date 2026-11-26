@@ -2,4 +2,4 @@ editor:
   config:
     contentsCss: 'EXT:bw_icons/Resources/Public/Css/Rte.css'
     importModules:
-      - '@blueways/bw-icons/IconPicker.js'
+      - { module: '@blueways/bw-icons/IconPicker.js', exports: ['default'] }

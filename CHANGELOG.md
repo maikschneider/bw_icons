@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **RTE preset `IconPicker.yaml` declares its CKEditor module with its exports** (`{ module: …, exports: ['default'] }`), the documented form. Consumers that read every `importModules` entry as array, like the TYPO3 14 visual editor, failed on the plain string.
+
 ## [5.0.0] - 2026-11-26
 
 TYPO3 14 release. See the [upgrade guide](https://docs.typo3.org/p/blueways/bw-icons/main/en-us/Upgrade/Index.html) if your code uses the PHP classes of the extension; integrators who only use page TSconfig, TCA, Fluid and the TypoScript include just need TYPO3 13.4.21 or 14.3.

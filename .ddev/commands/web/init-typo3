@@ -68,6 +68,7 @@ if (getenv('IS_DDEV_PROJECT') === 'true' && file_exists($bwIconsTestConfiguratio
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['core']['backend']
         = \TYPO3\CMS\Core\Cache\Backend\NullBackend::class;
 }
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['bw_icons_test'] = 'EXT:bw_icons/Tests/Fixtures/Rte/IconPicker.yaml';
 PHP
 _done
 
