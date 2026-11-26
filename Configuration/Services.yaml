@@ -11,6 +11,10 @@ services:
   Blueways\BwIcons\Controller\IconSelectionController:
     public: true
 
+  # Instantiated via makeInstance() as TypoScript userFunc
+  Blueways\BwIcons\Utility\CssUtility:
+    public: true
+
   Blueways\BwIcons\EventListener\AfterBackendPageRendererEventListener:
     tags:
       - name: 'event.listener'
