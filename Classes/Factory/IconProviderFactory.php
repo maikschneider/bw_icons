@@ -17,8 +17,8 @@ class IconProviderFactory
 
     public function create(string $className, array $options): AbstractIconProvider
     {
-        if ($className === CssIconProvider::class) {
-            return new CssIconProvider($options, $this->svgReaderUtility, $this->ttfReaderUtility);
+        if (is_a($className, CssIconProvider::class, true)) {
+            return new $className($options, $this->svgReaderUtility, $this->ttfReaderUtility);
         }
 
         return new $className($options);
