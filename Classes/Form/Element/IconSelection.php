@@ -36,7 +36,7 @@ class IconSelection extends AbstractFormElement
         // The PageRenderer resolves these as resources: a leading slash makes TYPO3 probe the path
         // as absolute file path, which triggers open_basedir warnings. Pass them relative to the public path.
         $resultArray['stylesheetFiles'] = array_map(
-            static fn(string $styleSheet): string => ltrim($styleSheet, '/'),
+            static fn (string $styleSheet): string => ltrim($styleSheet, '/'),
             $this->iconService->getStyleSheets($wizardConfig)
         );
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
