@@ -75,7 +75,8 @@ need one in the backend.
     Providers are created by ``Blueways\BwIcons\Factory\IconProviderFactory``
     with ``new $className($options)``. They are not fetched from the
     dependency injection container, so the constructor receives the options
-    array as its only argument.
+    array as its only argument. Subclasses of ``CssIconProvider`` also receive
+    the ``SvgReaderUtility`` and ``TtfReaderUtility``.
 
 ..  _developer-icon-service:
 

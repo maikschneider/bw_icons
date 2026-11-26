@@ -18,7 +18,8 @@ below.
 TYPO3 12 support dropped
 ------------------------
 
-Version 5 requires TYPO3 13.4 or 14.3. Stay on version 4 for TYPO3 12.
+Version 5 requires TYPO3 13.4.21 or 14.3, and PHP 8.2 or newer. Stay on version
+4 for TYPO3 12.
 
 HelperUtility replaced by IconService
 -------------------------------------
@@ -69,7 +70,8 @@ if their constructor accepts the options array as only argument, see
 :ref:`developer-custom-provider`.
 
 The constructor of ``CssIconProvider`` now requires the
-``SvgReaderUtility`` and ``TtfReaderUtility`` in addition to the options.
+``SvgReaderUtility`` and ``TtfReaderUtility`` in addition to the options. The
+factory passes them to subclasses of ``CssIconProvider`` as well.
 
 IconViewHelper::renderStatic() removed
 --------------------------------------

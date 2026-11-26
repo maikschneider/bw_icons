@@ -6,29 +6,29 @@ Known problems
 
 ..  _known-problems-woff:
 
-Fonts without SVG or TTF file are not read
-==========================================
+Fonts with a WOFF2 file only are not read
+=========================================
 
-The ``CssIconProvider`` reads the glyphs from the font file. It supports SVG
-and TTF fonts only. If the ``@font-face`` rules of a stylesheet only
-reference WOFF or WOFF2 files, the tab stays empty. Bootstrap Icons is an
-example: its stylesheet ships ``.woff`` and ``.woff2`` files only
-(`#45 <https://github.com/maikschneider/bw_icons/issues/45>`__).
+The ``CssIconProvider`` reads the glyphs from the font file. It supports SVG,
+TTF and WOFF fonts and uses the first of them that the ``@font-face`` rule
+references. WOFF2 needs Brotli decompression and is not supported, so a
+stylesheet whose ``@font-face`` rules only reference ``.woff2`` files shows an
+empty tab. Bootstrap Icons works because it ships a ``.woff`` file next to the
+``.woff2`` file (`#45 <https://github.com/maikschneider/bw_icons/issues/45>`__).
 
-Workaround: convert the font to TTF, for example with
+Workaround for WOFF2-only fonts: convert the font to TTF, for example with
 `fontTools <https://github.com/fonttools/fonttools>`__
-(``fonttools ttLib.woff2 decompress bootstrap-icons.woff2``), and use a
-copy of the stylesheet that lists the TTF file in its ``@font-face``:
+(``fonttools ttLib.woff2 decompress my-icons.woff2``), and use a copy of the
+stylesheet that lists the TTF file in its ``@font-face``:
 
 ..  code-block:: css
-    :caption: fileadmin/bootstrap-icons/font/bootstrap-icons.css
+    :caption: fileadmin/my-icons/my-icons.css
 
     @font-face {
         font-display: block;
-        font-family: "bootstrap-icons";
-        src: url("./fonts/bootstrap-icons.woff2") format("woff2"),
-             url("./fonts/bootstrap-icons.woff") format("woff"),
-             url("./fonts/bootstrap-icons.ttf") format("truetype");
+        font-family: "my-icons";
+        src: url("./fonts/my-icons.woff2") format("woff2"),
+             url("./fonts/my-icons.ttf") format("truetype");
     }
 
 Icons need a CSS class

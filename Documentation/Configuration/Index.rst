@@ -116,9 +116,8 @@ class of the font if the stylesheet defines one, for example
 ``fas fa-arrow-right``.
 
 ..  note::
-    The font face must reference an SVG or TTF font file. Fonts that only
-    ship WOFF or WOFF2 files cannot be read, see
-    :ref:`known-problems-woff`.
+    The font face must reference an SVG, TTF or WOFF font file. Fonts that
+    only ship WOFF2 files cannot be read, see :ref:`known-problems-woff`.
 
 ..  confval:: title
     :name: css-title
