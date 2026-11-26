@@ -1,0 +1,9 @@
+mod.tx_bwicons {
+
+  icomoon = Blueways\BwIcons\Provider\CssIconProvider
+  icomoon {
+    title = Icomoon
+    file = EXT:bw_icons/Tests/Fixtures/icomoon/style.css
+  }
+
+}

@@ -66,6 +66,17 @@ test.describe('Icon providers', () => {
     await expect(wizard.locator('.icon-grid-item')).toHaveCount(1608, { timeout: 60000 });
   });
 
+  test('Icomoon without prefix class', async ({ page }) => {
+    enableIconSets(['icomoon']);
+    await openRecord(page, 'pages', 1);
+    const wizard = await openWizardModal(page);
+
+    await expect(wizard.locator('.icon-grid-item')).toHaveCount(2, { timeout: 30000 });
+    const icon = wizard.locator('.icon-grid-item i[class="icon-home fontIcon"]');
+    await expect(icon).toHaveCount(1);
+    await expect(icon).toHaveCSS('font-family', 'icomoon');
+  });
+
   test.skip('Font Awesome 6', async ({ page }) => {
     // Font Awesome 6 CSS processing takes very long in CI, needs to be
     // optimized before enabling this test.
