@@ -33,7 +33,12 @@ class IconSelection extends AbstractFormElement
         $validationRules = $this->getValidationDataAsJsonString($parameterArray['fieldConf']['config']);
         $wizardConfig = WizardConfig::createFromFormElementData($this->data);
 
-        $resultArray['stylesheetFiles'] = $this->iconService->getStyleSheets($wizardConfig);
+        // The PageRenderer resolves these as resources: a leading slash makes TYPO3 probe the path
+        // as absolute file path, which triggers open_basedir warnings. Pass them relative to the public path.
+        $resultArray['stylesheetFiles'] = array_map(
+            static fn (string $styleSheet): string => ltrim($styleSheet, '/'),
+            $this->iconService->getStyleSheets($wizardConfig)
+        );
         $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create('@blueways/bw-icons/IconElement.js');
         $resultArray['additionalInlineLanguageLabelFiles'][] = 'EXT:bw_icons/Resources/Private/Language/locallang.xlf';
 
