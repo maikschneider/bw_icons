@@ -1,0 +1,7 @@
+# DDEV v1.25.6+ no longer mounts the shared ddev-global-cache volume in web.
+# The acceptance tests hand extension configuration from the Playwright
+# container to TYPO3 through a file on that volume, so web needs it back.
+services:
+  web:
+    volumes:
+      - ddev-global-cache:/mnt/ddev-global-cache
