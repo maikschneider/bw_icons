@@ -384,6 +384,7 @@ class CssIconProvider extends AbstractIconProvider
         Document $tempFile
     ): string {
         $fontFamilyPrefix = '';
+        $appendedBlocks = [];
 
         foreach ($rulesUsingFontFamily as $block) {
             if (static::getFontFamilyNameOfRuleSet($block) !== $font['font-family']) {
@@ -403,21 +404,51 @@ class CssIconProvider extends AbstractIconProvider
 
             // Check each selector for matching font family and weight
             foreach ($selectorBlockToCheck as $selectorName => $blocks) {
-                if ($this->selectorMatchesFontFamily($blocks, $font)) {
-                    $fontFamilyPrefix = substr((string)$selectorName, 1) . ' ';
+                if (!$this->selectorMatchesFontFamily($blocks, $font)) {
+                    continue;
+                }
 
-                    // Add all matching blocks to the temp file
-                    foreach ($blocks as $blockRule) {
+                // Add all matching blocks to the temp file
+                foreach ($blocks as $blockRule) {
+                    if (!isset($appendedBlocks[spl_object_id($blockRule)])) {
+                        $appendedBlocks[spl_object_id($blockRule)] = true;
                         $tempFile->append($blockRule);
                     }
-
-                    // Once found, we can break the loop
-                    break;
                 }
+
+                // Attribute selectors like [class^="icon-"] apply the font
+                // without an extra class, so they are no prefix (#136)
+                $prefixClass = static::getPrefixClassOfSelector((string)$selectorName);
+                if ($prefixClass === '') {
+                    continue;
+                }
+
+                $fontFamilyPrefix = $prefixClass . ' ';
+
+                // Once found, we can break the loop
+                break;
             }
         }
 
         return $fontFamilyPrefix;
+    }
+
+    /**
+     * Get the class name of a prefix selector (e.g. "fa" for ".fa" or
+     * "bi" for ".bi::before"), empty if the selector is no class selector
+     */
+    protected static function getPrefixClassOfSelector(string $selector): string
+    {
+        if (!str_starts_with($selector, '.')) {
+            return '';
+        }
+
+        $atomicSelectors = static::splitCssSelector($selector);
+        if (!isset($atomicSelectors[0]) || !str_starts_with((string)$atomicSelectors[0], '.')) {
+            return '';
+        }
+
+        return substr((string)$atomicSelectors[0], 1);
     }
 
     /**
@@ -514,10 +545,10 @@ class CssIconProvider extends AbstractIconProvider
         return array_map(function ($declarationBlock) use ($fontFamilyPrefix) {
             $atomicSelectors = [$fontFamilyPrefix, ...static::splitCssSelector($declarationBlock->getSelectors()[0]->getSelector())];
 
-            $atomicSelectors = array_map(fn ($selector) => str_replace(['.'], [''], $selector), $atomicSelectors);
+            $atomicSelectors = array_map(fn ($selector) => trim(str_replace(['.'], [''], $selector)), $atomicSelectors);
 
-            $atomicSelectors = array_unique($atomicSelectors);
-            $value = implode(' ', array_map(trim(...), $atomicSelectors));
+            $atomicSelectors = array_unique(array_filter($atomicSelectors, fn ($selector) => $selector !== ''));
+            $value = implode(' ', $atomicSelectors);
 
             return new WizardIcon($value, true);
         }, $availableGlyphs);

@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Minimal test font mirroring the IcoMoon export format</metadata>
+<defs>
+<font id="icomoon" horiz-adv-x="1024">
+<font-face units-per-em="1024" ascent="960" descent="-64" />
+<missing-glyph horiz-adv-x="1024" />
+<glyph unicode="&#x20;" horiz-adv-x="512" d="" />
+<glyph unicode="&#xe900;" glyph-name="home" d="M64 448 L512 896 L960 448 L832 448 L832 64 L192 64 L192 448z" />
+<glyph unicode="&#xe901;" glyph-name="star" d="M512 960 L640 640 L960 640 L704 416 L800 64 L512 288 L224 64 L320 416 L64 640 L384 640z" />
+</font></defs></svg>

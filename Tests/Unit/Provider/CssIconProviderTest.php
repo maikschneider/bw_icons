@@ -139,6 +139,26 @@ class CssIconProviderTest extends UnitTestCase
     }
 
     /**
+     * Icomoon applies the font with "[class^="icon-"], [class*=" icon-"]".
+     * That attribute selector must not end up as prefix in the icon classes,
+     * but its font-family block is needed in the generated stylesheet (#136).
+     */
+    #[Test]
+    public function icomoonAttributeSelectorIsNoIconClassPrefix(): void
+    {
+        $provider = $this->createProvider('icomoon/style.css');
+
+        self::assertSame(
+            ['icomoon' => ['icon-home', 'icon-star']],
+            $this->getIconClassesByFolder($provider)
+        );
+        $css = (string)file_get_contents($provider->getCssTempFilePath());
+        self::assertStringContainsString('[class^="icon-"],[class*=" icon-"]{font-family:"icomoon" !important;', $css);
+        self::assertStringContainsString(".icon-home:before{content:\"\u{e900}\";}", $css);
+        self::assertSame(1, substr_count($css, '[class^="icon-"]'));
+    }
+
+    /**
      * @return array<string, list<string>>
      */
     private function getIconClassesByFolder(CssIconProvider $provider): array
