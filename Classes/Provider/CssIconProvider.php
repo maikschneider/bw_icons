@@ -395,6 +395,11 @@ class CssIconProvider extends AbstractIconProvider
                 continue;
             }
 
+            // Glyph rules that set the font-family themselves are no prefix
+            if ($this->isGlyphRule($block)) {
+                continue;
+            }
+
             // Skip if checking all glyphs
             if (count($block->getSelectors()) === count($this->countGlyphsInFont($font))) {
                 continue;

@@ -159,6 +159,18 @@ class CssIconProviderTest extends UnitTestCase
     }
 
     /**
+     * Glyph rules that set the font-family themselves are no prefix candidates
+     */
+    #[Test]
+    public function glyphRulesWithFontFamilyAreNoIconClassPrefix(): void
+    {
+        self::assertSame(
+            ['glyphfont' => ['icon-home', 'icon-star']],
+            $this->getIconClassesByFolder($this->createProvider('font-family-in-glyph-rules/style.css'))
+        );
+    }
+
+    /**
      * Bootstrap Icons 1.11 only ships woff2 and woff. WOFF (1.0) is read with
      * php-font-lib, woff2 is skipped (#45).
      */
