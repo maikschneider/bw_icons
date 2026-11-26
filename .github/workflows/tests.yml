@@ -9,15 +9,50 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
-  tests:
-    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
+  unit-tests:
+    name: Unit (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        typo3-version: [ "13.4", "14.1" ]
-        php-version: [ "8.3", "8.4" ]
+        typo3-version: [ "13.4", "14.3" ]
+        php-version: [ "8.2", "8.3", "8.4", "8.5" ]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          extensions: mbstring, xml, ctype, iconv, intl
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@4.0.0
+        with:
+          composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
+
+      - name: Show TYPO3 version
+        run: composer show typo3/cms-core | grep '^versions'
+
+      - name: Run unit tests
+        run: composer ci:test:unit
+
+  acceptance-tests:
+    name: Acceptance (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        typo3-version: [ "13.4", "14.3" ]
+        php-version: [ "8.2", "8.5" ]
 
     steps:
       - uses: actions/checkout@v7
@@ -50,13 +85,12 @@ jobs:
         with:
           composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
 
+      - name: Show TYPO3 version
+        run: composer show typo3/cms-core | grep '^versions'
+
       # Init TYPO3
       - name: Init TYPO3
         run: ddev init-typo3
-
-      # Run tests
-      - name: Run unit tests
-        run: ddev composer ci:test:unit
 
       - name: Run acceptance tests
         uses: nick-fields/retry@v4
@@ -74,3 +108,36 @@ jobs:
             Tests/Playwright/test-results
             Tests/Playwright/playwright-report
         if: failure()
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          php-version: "8.4"
+          coverage: pcov
+          extensions: mbstring, xml, ctype, iconv, intl
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@4.0.0
+        with:
+          composer-options: --with=typo3/cms-core:"^14.3"
+
+      - name: Run unit tests with coverage
+        run: vendor/bin/phpunit --testsuite Unit --coverage-clover coverage.unit.xml
+
+      - name: Upload unit coverage to Codecov
+        uses: codecov/codecov-action@v6.0.2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.unit.xml
+          flags: unit
+          disable_search: true
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
