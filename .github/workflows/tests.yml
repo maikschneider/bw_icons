@@ -134,7 +134,7 @@ jobs:
         run: vendor/bin/phpunit --testsuite Unit --coverage-clover coverage.unit.xml
 
       - name: Upload unit coverage to Codecov
-        uses: codecov/codecov-action@v6.0.2
+        uses: codecov/codecov-action@v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.unit.xml
