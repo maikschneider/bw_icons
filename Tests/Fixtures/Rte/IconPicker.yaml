@@ -1,0 +1,12 @@
+# RTE preset of the acceptance tests: the core default preset plus the icon picker
+imports:
+  - { resource: 'EXT:rte_ckeditor/Configuration/RTE/Default.yaml' }
+  - { resource: 'EXT:bw_icons/Configuration/RTE/IconPicker.yaml' }
+
+editor:
+  config:
+    toolbar:
+      items:
+        - IconPicker
+        - bold
+        - italic
